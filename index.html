@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.04-12">
+<meta name="amnet-build" content="2026.11.04-15">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -92,9 +92,11 @@ main{min-width:0;padding-block:22px 40px;padding-left:max(16px,env(safe-area-ins
   .mtop .sp{flex:1}
   .mtop .mclock{font-family:var(--f-mono);font-size:13px;color:var(--dim);direction:ltr}
   main{padding-bottom:calc(var(--bnav) + 28px + env(safe-area-inset-bottom,0px));padding-top:16px}
-  .bnav{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;inset:auto 0 0;z-index:25;height:calc(var(--bnav) + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);background:rgba(12,12,16,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line2)}
+  .bnav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 70px repeat(3,minmax(0,1fr));position:fixed;inset:auto 0 0;z-index:25;height:calc(var(--bnav) + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);background:rgba(12,12,16,.97);backdrop-filter:blur(12px);border-top:1px solid var(--line2)}
   .bnav a,.bnav button{display:grid;justify-items:center;align-content:center;gap:2px;font-size:11px;font-weight:600;color:var(--dim);text-decoration:none;background:none;border:0;position:relative;cursor:pointer}
   .bnav svg{width:22px;height:22px}
+  .bnav a,.bnav button{min-width:0;white-space:nowrap;padding:0}
+  @media (max-width:370px){.bnav a,.bnav button{font-size:10px}.bnav svg{width:20px;height:20px}}
   .bnav [aria-current="page"]{color:var(--accent)}
   .bnav .mid{color:#fff}
   .bnav .mid span.c{width:58px;height:58px;margin-top:-26px;border-radius:16px;background:linear-gradient(135deg,var(--accent2),var(--accent));display:grid;place-items:center;box-shadow:0 0 22px var(--accent-glow);border:3px solid var(--void);transform:rotate(45deg)}
@@ -102,6 +104,14 @@ main{min-width:0;padding-block:22px 40px;padding-left:max(16px,env(safe-area-ins
   .bnav .badge{position:absolute;top:6px;left:calc(50% - 22px)}
 }
 
+@media (max-width:900px){
+  .bnav .bl{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;padding-inline:2px}
+  .bnav a,.bnav button{font-size:10.5px;overflow:visible}
+  .bnav .mid span.c{width:54px;height:54px}
+  html{scroll-padding-top:calc(70px + env(safe-area-inset-top,0px))}
+  main{min-height:calc(100vh - 60px)}
+}
+@media (max-width:370px){.bnav a,.bnav button{font-size:9.5px}.bnav{grid-template-columns:repeat(3,minmax(0,1fr)) 62px repeat(3,minmax(0,1fr))}.bnav .mid span.c{width:50px;height:50px}}
 /* ---------- common ---------- */
 .view{display:grid;gap:18px}
 .card{background:linear-gradient(180deg,var(--panel),rgba(16,16,21,.92));border:1px solid var(--line);border-radius:4px;padding:18px;position:relative;min-width:0}
@@ -127,7 +137,7 @@ h3{font-size:15px;margin:0;font-weight:700}
 .btn.danger{background:transparent;border-color:var(--bad);color:var(--bad);box-shadow:none}
 .btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
 .btn svg{width:17px;height:17px}
-input[type=text],input[type=number],input[type=tel],input[type=search],input[type=date],input[type=datetime-local],select{width:100%;background:var(--panel2);color:var(--ink);border:1px solid var(--line2);border-radius:6px;padding:10px 12px;font-family:var(--f-body);font-size:15px}
+input[type=text],input[type=number],input[type=tel],input[type=search],input[type=date],input[type=datetime-local],input[type=password],input[type=url],input[type=email],select{width:100%;background:var(--panel2);color:var(--ink);border:1px solid var(--line2);border-radius:6px;padding:10px 12px;font-family:var(--f-body);font-size:15px}
 input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
 .field{display:grid;gap:5px}
 .field label{font-size:13px;font-weight:600;color:var(--dim)}
@@ -313,7 +323,8 @@ table.t{border-collapse:collapse;width:100%;font-size:13.5px}
 html,body{margin:0;height:100%}
 img{max-width:100%}
 [hidden]{display:none!important}
-:root{padding-top:env(safe-area-inset-top,0px)}
+:root{padding-top:0!important}
+body{margin:0;padding-top:env(safe-area-inset-top,0px)}
 /* gate */
 #gate{position:fixed;inset:0;z-index:200;background:var(--void);background-image:radial-gradient(700px 420px at 50% 0%,rgba(var(--acc-rgb),.16),transparent 65%),var(--bgpat);background-size:auto,140px 140px;display:grid;place-items:center;overflow:auto;padding:max(20px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .gwrap{width:min(420px,100%);display:grid;gap:22px;justify-items:center}
@@ -571,11 +582,30 @@ html,body{overflow-x:hidden;max-width:100%}
 .lfil{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 @media (max-width:640px){.lfil{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.lfil .wide{grid-column:1/-1}}
 .multi .li{flex-wrap:wrap}
-.mg-top{display:flex;gap:14px;align-items:center}
+.mg-top{display:flex;gap:12px;align-items:center}
+.mg-bar{display:grid;gap:12px;padding:14px}
+.mg-h{margin:0;font-size:22px}
+.mg-tools{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:8px}
+.mg-tools .btn{min-width:0;padding-inline:8px;justify-content:center;white-space:nowrap;font-size:13.5px}
+.mg-tools .btn svg{width:17px;height:17px;flex:none}
+@media (max-width:420px){.mg-tools{grid-template-columns:1fr 1fr}.mg-tools #mgLogin{grid-column:1/-1}}
+.mg-find{display:flex;gap:8px}.mg-find input{flex:1;min-width:0}.mg-find .btn{flex:none}
+.mg-st{flex:none;font-size:12px;font-weight:700;padding:5px 9px;border-radius:999px;border:1px solid var(--line2);color:var(--dim);white-space:nowrap}
+.mg-st.ok{color:var(--ok);border-color:currentColor}.mg-st.wait{color:var(--warn);border-color:currentColor}
+.mg-frame{position:relative;border:1px solid var(--line2);border-radius:10px;overflow:hidden;background:#fff;height:calc(100vh - 290px);min-height:420px}
+.mg-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.mg-ph{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;background:var(--panel);color:var(--dim);text-align:center;padding:20px}
+.mg-ph svg{width:44px;height:44px;color:var(--accent)}
+.mg-ph[hidden]{display:none}
+.mg-note{margin:0;font-size:12.5px}
+@media (max-width:900px){
+  #v-mgmt{gap:10px}
+  .mg-ic{width:42px;height:42px;border-radius:12px}.mg-ic svg{width:22px;height:22px}
+  .mg-frame{height:calc(100dvh - var(--bnav) - env(safe-area-inset-bottom,0px) - env(safe-area-inset-top,0px) - 300px);min-height:380px;margin-inline:-6px}
+}
 .mg-ic{width:52px;height:52px;flex:none;border-radius:14px;display:grid;place-items:center;background:var(--accent-soft);border:1px solid rgba(var(--acc-rgb),.35);color:var(--accent);box-shadow:0 0 22px var(--accent-glow)}
 .mg-ic svg{width:28px;height:28px}
 .mg-host{font-size:12.5px;overflow-wrap:anywhere}
-.pwrow{display:flex;gap:6px}.pwrow input{flex:1;min-width:0}
 .credbox{display:grid;gap:10px;margin:6px 0 4px}
 .cred{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line2);border-radius:10px;background:var(--panel2)}
 .cred .k{font-size:12px;color:var(--dim);min-width:58px}.cred .v{flex:1;min-width:0;font-weight:700;overflow-wrap:anywhere;direction:ltr;text-align:left}
@@ -589,6 +619,16 @@ html,body{overflow-x:hidden;max-width:100%}
 footer.cr{color:var(--faint);font-size:12px;text-align:center;padding-top:10px}
 footer.cr b{color:var(--dim)}
 @media (prefers-reduced-motion:reduce){.scan,.radar::after,.dots i,.view{animation:none!important}*{transition:none!important}}
+
+/* ---- mobile sizing guards ---- */
+.prof-acts [data-mgfind]{grid-column:1/-1}
+.modal .box,#sheetPanel{grid-template-columns:minmax(0,1fr)}
+.modal .box>*,#sheetPanel>*{min-width:0;max-width:100%}
+.field,.card,.grid2>*,.pcards>*,.fgrid>*,.field>*,.who>*{min-width:0}
+.who .row>b{white-space:normal!important;flex:1 1 auto;overflow:visible!important}
+input,select,textarea{min-width:0;max-width:100%}
+.who b,.who .row>b,.prof-hd .nm,.scard .nm{overflow-wrap:anywhere;word-break:break-word}
+.scard .num,.info dd,.cred .v,.sub .num,.who .num{overflow-wrap:anywhere;word-break:break-all}
 </style>
 </head>
 <body>
@@ -612,6 +652,8 @@ footer.cr b{color:var(--dim)}
   <symbol id="i-log" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></g></symbol>
   <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.8 3.9 5.8 3.9 9s-1.3 6.2-3.9 9c-2.6-2.8-3.9-5.8-3.9-9S9.4 5.8 12 3Z"/></g></symbol>
   <symbol id="i-key" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M15 8l2 2"/></g></symbol>
+  <symbol id="i-reload" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></g></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></g></symbol>
   <symbol id="i-cog" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4 5.3 5.3"/></g></symbol>
   <symbol id="i-more" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></g></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></g></symbol>
@@ -943,17 +985,20 @@ footer.cr b{color:var(--dim)}
 
 <!-- ================= COMPANY MANAGEMENT ================= -->
 <section class="view" id="v-mgmt" hidden>
-  <div><div class="eyebrow"><span>12 · COMPANY PORTAL</span><b>AM-NET</b></div><h1 class="pg">المنجمنت</h1><div class="muted">موقع الشركة حتى تدوّر على المشتركين</div></div>
-  <div class="card br mg-hero">
-    <div class="mg-top"><span class="mg-ic"><svg><use href="#i-globe"/></svg></span><div style="min-width:0"><h2 style="margin:0">موقع الشركة</h2><div class="muted num mg-host" id="mgHost"></div></div></div>
-    <div class="field" style="margin-top:14px"><label for="mgQ">يوزر المشترك (اختياري)</label><input type="text" id="mgQ" dir="ltr" list="ntUsers" autocomplete="off" placeholder="اكتب اليوزر حتى ينتسخ وتلصقه بالبحث"></div>
-    <button class="btn go" id="mgOpen" style="margin-top:12px;width:100%"><svg><use href="#i-search"/></svg>افتح المنجمنت</button>
-    <p class="muted" style="margin:10px 0 0;font-size:13px">ينفتح بصفحة جديدة. إذا كتبت يوزر، ينتسخ تلقائياً وإنت بس الصقه ببحث موقع الشركة.</p>
+  <div class="card br mg-bar">
+    <div class="mg-top"><span class="mg-ic"><svg><use href="#i-globe"/></svg></span><div style="min-width:0;flex:1"><h1 class="pg mg-h">المنجمنت</h1><div class="muted num mg-host" id="mgHost"></div></div><span class="mg-st" id="mgSt" hidden></span></div>
+    <div class="mg-tools">
+      <button class="btn" id="mgLogin"><svg><use href="#i-key"/></svg><span id="mgLoginLbl">تسجيل الدخول</span></button>
+      <button class="btn ghost" id="mgReload"><svg><use href="#i-reload"/></svg>تحديث</button>
+      <button class="btn ghost" id="mgOut"><svg><use href="#i-ext"/></svg>صفحة كاملة</button>
+    </div>
+    <div class="mg-find"><input type="text" id="mgQ" dir="ltr" list="ntUsers" autocomplete="off" placeholder="يوزر المشترك" aria-label="يوزر المشترك"><button class="btn ghost" id="mgCopy"><svg><use href="#i-copy"/></svg>نسخ</button></div>
   </div>
-  <div class="card br">
-    <div class="chead"><div class="t"><h2>الدخول على هذا الجهاز</h2><div class="muted" id="mgLoginTxt"></div></div></div>
-    <div class="row"><button class="btn ghost" id="mgLogin"><svg><use href="#i-key"/></svg><span id="mgLoginLbl">المسوق يدخل هنا</span></button></div>
+  <div class="mg-frame" id="mgBox">
+    <iframe id="mgFrame" name="mgframe" title="موقع المنجمنت" referrerpolicy="no-referrer"></iframe>
+    <div class="mg-ph" id="mgPh"><svg><use href="#i-globe"/></svg><b>دا يفتح موقع الشركة…</b></div>
   </div>
+  <p class="muted mg-note" id="mgNote"></p>
 </section>
 
 <!-- ================= ACTIVITY LOG ================= -->
@@ -1028,11 +1073,11 @@ footer.cr b{color:var(--dim)}
     <div class="row" style="margin-top:14px"><button class="btn ghost" id="myPw">تغيير كلمة سر حسابي</button><button class="btn ghost" data-logout>تسجيل خروج</button></div>
   </div>
   <div class="card br owneronly">
-    <div class="chead"><div class="t"><h2>حساب المنجمنت (موقع الشركة)</h2><div class="muted">اليوزر والباسورد اللي تنطيك ياها الشركة. ينحفظن مخفيات وبس إنت تگدر تشوفهن، والموظفين يشوفون تبويب المنجمنت بدون ما يعرفوهن.</div></div></div>
+    <div class="chead"><div class="t"><h2>حساب المنجمنت (موقع الشركة)</h2><div class="muted">اليوزر والباسورد اللي تنطيك ياها الشركة. الموقع يسجل دخول بيهن تلقائياً. ما ينعرضن لأحد غيرك، والموظف يدخل تلقائياً بس إذا فعّلتله صلاحية "المنجمنت".</div></div></div>
     <div class="fgrid">
       <div class="field" style="grid-column:1/-1"><label for="mgUrl">رابط موقع الشركة</label><input type="url" id="mgUrl" dir="ltr" placeholder="https://..."></div>
       <div class="field"><label for="mgUser">يوزر المنجمنت</label><input type="text" id="mgUser" dir="ltr" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
-      <div class="field"><label for="mgPass">باسورد المنجمنت</label><div class="pwrow"><input type="password" id="mgPass" dir="ltr" autocomplete="new-password"><button type="button" class="btn ghost sm" id="mgEye">عرض</button></div></div>
+      <div class="field"><label for="mgPass">باسورد المنجمنت</label><div class="pwrow"><input type="password" id="mgPass" dir="ltr" autocomplete="new-password"><button type="button" id="mgEye">عرض</button></div></div>
     </div>
     <div class="row" style="margin-top:14px"><button class="btn" id="mgSave">حفظ حساب المنجمنت</button><span class="muted" id="mgSaved" style="font-size:13px"></span></div>
   </div>
@@ -1048,11 +1093,13 @@ footer.cr b{color:var(--dim)}
 </div>
 
 <nav class="bnav" aria-label="التنقل">
-  <a href="#home" data-v="home" class="mk"><svg><use href="#i-home"/></svg>الرئيسية</a>
-  <a href="#subs" data-v="subs" class="mk"><svg><use href="#i-users"/></svg>المشتركين</a>
+  <a href="#home" data-v="home" class="mk"><svg><use href="#i-home"/></svg><span class="bl">الرئيسية</span></a>
+  <a href="#subs" data-v="subs" class="mk"><svg><use href="#i-users"/></svg><span class="bl">المشتركين</span></a>
+  <a href="#debts" data-v="debts" class="mk"><svg><use href="#i-debt"/></svg><span class="bl">الديون</span><span class="badge" id="debtBadgeM" hidden></span></a>
   <a href="#activate" data-v="activate" class="mid" aria-label="تفعيل"><span class="c"><svg><use href="#i-bolt"/></svg></span></a>
-  <a href="#debts" data-v="debts" class="mk"><svg><use href="#i-debt"/></svg>الديون<span class="badge" id="debtBadgeM" hidden></span></a>
-  <button type="button" id="moreNav" data-v="more"><svg><use href="#i-more"/></svg>المزيد</button>
+  <a href="#mgmt" data-v="mgmt" class="mk"><svg><use href="#i-globe"/></svg><span class="bl">المنجمنت</span></a>
+  <a href="#notices" data-v="notices" class="mk"><svg><use href="#i-mega"/></svg><span class="bl">التبليغات</span></a>
+  <button type="button" id="moreNav" data-v="more"><svg><use href="#i-more"/></svg><span class="bl">المزيد</span></button>
 </nav>
 
 <div class="modal" id="modal" hidden><div class="box" id="mbox" role="dialog" aria-modal="true"></div></div>
@@ -1207,15 +1254,16 @@ function show(v){
   if(v==="match"&&ROLE&&(!matchOn()||!can("import")))v="home";
   VIEW=v;
   ALLV.forEach(x=>$("v-"+x).hidden=x!==v);
-  document.querySelectorAll("[data-v]").forEach(a=>{const on=a.dataset.v===v||(a.dataset.v==="more"&&(v==="import"||v==="config"||v==="match"||v==="mgmt"||v==="notices"));a.setAttribute("aria-current",on?"page":"false")});
+  document.querySelectorAll("[data-v]").forEach(a=>{const on=a.dataset.v===v||(a.dataset.v==="more"&&(v==="import"||v==="config"||v==="match"||v==="log"||v==="balance"||v==="reports"));a.setAttribute("aria-current",on?"page":"false")});
   window.scrollTo(0,0);
-  if((v==="config"||v==="mgmt")&&typeof loadMgSec==="function")loadMgSec();
+  if(v==="config"&&typeof loadMgSec==="function"&&ROLE==="marketer")loadMgSec();
+  if(v==="mgmt"&&typeof mgEnter==="function"&&ROLE)mgEnter();
   if(v==="activate")setTimeout(()=>{if(!ASEL&&matchMedia("(min-width:901px)").matches)$("aq").focus()},50);
 }
 window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
 show(location.hash.slice(1));
 $("moreNav").onclick=()=>modal(`<div class="mhd"><div class="t"><h2>المزيد</h2></div><button class="x" data-close aria-label="إغلاق">×</button></div>
-  <div class="sheetmenu"><a href="#mgmt" data-close><svg><use href="#i-globe"/></svg>المنجمنت (موقع الشركة)</a><a href="#notices" data-close><svg><use href="#i-mega"/></svg>التبليغات والتنبيهات</a>${can("log")?`<a href="#log" data-close><svg><use href="#i-log"/></svg>سجل العمليات</a>`:""}${can("finance")||can("balance")?`<a href="#balance" data-close><svg><use href="#i-wallet"/></svg>الرصيد</a>`:""}${can("reports")?`<a href="#reports" data-close><svg><use href="#i-chart"/></svg>تقرير الموظفين</a>`:""}${matchOn()&&can("import")?`<a href="#match" data-close><svg><use href="#i-match"/></svg>المطابقة</a>`:""}${can("import")?`<a href="#import" data-close><svg><use href="#i-pdf"/></svg>استيراد تفعيلات</a>`:""}${can("plans")?`<a href="#config" data-close><svg><use href="#i-cog"/></svg>${ROLE==="staff"?"الباقات والإعدادات":"الباقات والإعدادات والموظفين"}</a>`:""}</div>
+  <div class="sheetmenu">${can("log")?`<a href="#log" data-close><svg><use href="#i-log"/></svg>سجل العمليات</a>`:""}${can("finance")||can("balance")?`<a href="#balance" data-close><svg><use href="#i-wallet"/></svg>الرصيد</a>`:""}${can("reports")?`<a href="#reports" data-close><svg><use href="#i-chart"/></svg>تقرير الموظفين</a>`:""}${matchOn()&&can("import")?`<a href="#match" data-close><svg><use href="#i-match"/></svg>المطابقة</a>`:""}${can("import")?`<a href="#import" data-close><svg><use href="#i-pdf"/></svg>استيراد تفعيلات</a>`:""}${can("plans")?`<a href="#config" data-close><svg><use href="#i-cog"/></svg>${ROLE==="staff"?"الباقات والإعدادات":"الباقات والإعدادات والموظفين"}</a>`:""}</div>
   <div class="sheetmenu">${VIEWAS?`<a href="#admin" data-backadmin><svg><use href="#i-home"/></svg>رجوع للإدارة</a>`:""}<a href="#" data-snd><svg><use href="#${SND.on?"i-snd":"i-mute"}"/></svg>${SND.on?"الأصوات شغّالة · دوس حتى تطفيها":"الأصوات مطفية · دوس حتى تشغلها"}</a><a href="#" data-logout><svg><use href="#i-more"/></svg>تسجيل خروج</a></div>
   <div class="muted">${esc(displayName())}${MEMBER()&&ACCOUNT?" · الاشتراك لغاية "+fdate(tsMs(ACCOUNT.expiresAt)):""}</div>`);
 document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(!g)return;F.st=g.dataset.go;F.lim=150;location.hash="subs";renderSubs()});
@@ -1244,6 +1292,7 @@ function renderAll(){
   $("dropSub").textContent=empty?"ملف هذا الشهر + ملف الشهر السابق":"PDF أو Excel · ينضاف الناقص فقط";
   $("plansBox").open=ROLE==="staff"||$("plansBox").open;
   renderHome();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();
+  if(VIEW==="mgmt"&&MGF.uid!==Store.uid)mgEnter();
 }
 
 /* ================= HOME ================= */
@@ -1349,61 +1398,66 @@ document.addEventListener("click",e=>{
 
 /* ================= COMPANY MANAGEMENT ================= */
 var MG_DEF="https://amjedmanagement.alufeqnet.com/Default.aspx?ReturnUrl=%2fuser_report_ftth";
+var MG_VS="TsH3uRuBKl+c63C1jjYy1AtYftX5ePrOc2whNih8MMbEQD2lD/UoDd4xTXA+6UqMQD79RnngalM4bRpKt0e3LQBN+pgSfJocwdrT/iTakLs=";
 var MGSEC={uid:null,u:"",p:"",ok:false};
+var MGF={uid:null,started:false,loads:0,state:""};
 const mgUrl=()=>{const u=String(SET.mgUrl||"").trim();return /^https?:\/\//i.test(u)?u:MG_DEF};
-function copyPlain(txt,msg){try{const p=navigator.clipboard&&navigator.clipboard.writeText(txt);if(p&&p.then){p.then(()=>{if(msg)toast(msg)},()=>{});return}}catch(e){}}
-function mgGo(user){
-  const u=String(user||"").trim();
-  if(u)copyPlain(u,"انتسخ اليوزر "+u+"، الصقه ببحث المنجمنت");
-  const w=window.open(mgUrl(),"amnet_mgmt");if(!w)location.href=mgUrl();
-}
+function copyPlain(txt,msg){try{const p=navigator.clipboard&&navigator.clipboard.writeText(txt);if(p&&p.then){p.then(()=>{if(msg)toast(msg)},()=>{if(msg)toast("ما گدرت أنسخ")});return}}catch(e){}}
+function mgAuto(){return ROLE==="marketer"||(ROLE==="admin"&&!!VIEWAS)||(ROLE==="staff"&&can("mgmt"))}
 function secRef(f){return (f||fs).collection("accounts").doc(Store.uid).collection("secret").doc("mgmt")}
-async function loadMgSec(){
-  if(ROLE!=="marketer"||!Store.uid)return;
-  if(MGSEC.uid===Store.uid&&MGSEC.ok)return;
+async function loadMgSec(force){
+  if(!Store.uid||!mgAuto())return false;
+  if(!force&&MGSEC.uid===Store.uid&&MGSEC.ok)return !!(MGSEC.u&&MGSEC.p);
   try{const d=await secRef().get();const x=d.exists?d.data():{};MGSEC={uid:Store.uid,u:x.u||"",p:x.p||"",ok:true}}catch(e){MGSEC={uid:Store.uid,u:"",p:"",ok:false}}
-  fillMgCfg();renderMgmt();
+  fillMgCfg();
+  return !!(MGSEC.u&&MGSEC.p);
 }
 function fillMgCfg(){
   if(!$("mgUser"))return;
   if(document.activeElement!==$("mgUrl"))$("mgUrl").value=SET.mgUrl||MG_DEF;
-  if(MGSEC.uid===Store.uid){if(document.activeElement!==$("mgUser"))$("mgUser").value=MGSEC.u;if(document.activeElement!==$("mgPass"))$("mgPass").value=MGSEC.p}
-  $("mgSaved").textContent=MGSEC.u&&MGSEC.p?"محفوظ ✓":"";
+  const mine=ROLE==="marketer"&&MGSEC.uid===Store.uid;
+  if(document.activeElement!==$("mgUser"))$("mgUser").value=mine?MGSEC.u:"";
+  if(document.activeElement!==$("mgPass"))$("mgPass").value=mine?MGSEC.p:"";
+  $("mgSaved").textContent=mine&&MGSEC.u&&MGSEC.p?"محفوظ ✓":"";
 }
+function mgState(t,cls){const e=$("mgSt");if(!e)return;MGF.state=t;e.hidden=!t;e.textContent=t;e.className="mg-st"+(cls?" "+cls:"")}
+function mgPost(u,p,target){
+  const f=document.createElement("form");f.method="post";f.action=mgUrl();f.target=target;f.style.display="none";
+  const add=(n,v)=>{const i=document.createElement("input");i.type="hidden";i.name=n;i.value=v;f.appendChild(i)};
+  if(/amjedmanagement\.alufeqnet\.com/i.test(mgUrl())){add("__VIEWSTATE",MG_VS);add("__VIEWSTATEGENERATOR","CA0B0334")}
+  add("login",u);add("pass",p);add("action","login");
+  document.body.appendChild(f);f.submit();f.remove();
+}
+function mgFrameLogin(u,p){$("mgPh").hidden=false;$("mgPh").querySelector("b").textContent="دا يسجل دخول…";mgState("دا يدخل…","wait");MGF.expect="login";mgPost(u,p,"mgframe")}
+function mgFramePlain(){$("mgPh").hidden=false;$("mgPh").querySelector("b").textContent="دا يفتح موقع الشركة…";mgState("");MGF.expect="plain";$("mgFrame").src=mgUrl()}
+async function mgEnter(){
+  if(!$("mgFrame"))return;
+  renderMgmt();
+  if(MGF.uid===Store.uid&&MGF.started)return;
+  MGF.uid=Store.uid;MGF.started=true;
+  if(await loadMgSec())mgFrameLogin(MGSEC.u,MGSEC.p);else mgFramePlain();
+}
+$("mgFrame").addEventListener("load",()=>{
+  if(!MGF.started)return;
+  $("mgPh").hidden=true;
+  if(MGF.expect==="login")mgState("سجّل دخول","ok");
+  MGF.expect="";
+});
+function mgReset(){MGSEC={uid:null,u:"",p:"",ok:false};MGF={uid:null,started:false,loads:0,state:""};try{$("mgFrame").src="about:blank"}catch(e){}mgState("")}
 function renderMgmt(){
   if(!$("mgHost"))return;
   let host=mgUrl();try{host=new URL(host).host}catch(e){}
   $("mgHost").textContent=host;
-  const own=ROLE==="marketer";
-  $("mgLoginLbl").textContent=own?"عرض اليوزر والباسورد":"المسوق يدخل هنا";
-  $("mgLoginTxt").innerHTML=own
-    ?"إذا موقع الشركة طلب تسجيل دخول على جهاز موظف: افتح AM NET بجهازه، روح للمنجمنت، دوس <b>المسوق يدخل هنا</b> واكتب كلمة سر حسابك. يطلعلك اليوزر والباسورد إلك بس، وموقع الشركة يتذكر الدخول بعدها."
-    :"إذا موقع الشركة طلب يوزر وباسورد، خلّي المسوق يدوس هنا ويكتب كلمة سر حسابه. الموظف ما يشوف اليوزر والباسورد.";
+  const auto=mgAuto();
+  $("mgLoginLbl").textContent=auto?"تسجيل الدخول":"المسوق يدخل";
+  $("mgNote").innerHTML=auto
+    ?"الموقع يسجل دخول بحساب الشركة تلقائياً. إذا الصفحة رجعت لشاشة الدخول (يصير بالآيفون لأن المتصفح يمنع الدخول جوّه موقع ثاني)، دوس <b>صفحة كاملة</b> ويفتح مسجّل دخول."
+    :"إذا موقع الشركة طلب دخول، خلّي المسوق يدوس <b>المسوق يدخل</b> ويكتب كلمة سر حسابه، أو يفعّلك صلاحية المنجمنت.";
 }
-function showCreds(u,p,after){
-  modal(`<div class="mhd"><div class="t"><h2>دخول المنجمنت</h2><div class="muted">انسخ وألصق بموقع الشركة. لا تخلي المتصفح يحفظ الباسورد إذا الجهاز مال موظف.</div></div><button class="x" data-close aria-label="سدّها">×</button></div>
-  <div class="credbox">
-    <div class="cred"><span class="k">اليوزر</span><span class="v num">${esc(u)}</span><button class="btn ghost sm" id="cpU"><svg><use href="#i-copy"/></svg>نسخ</button></div>
-    <div class="cred"><span class="k">الباسورد</span><span class="v num" id="cpPv">••••••••</span><button class="btn ghost sm" id="cpEye">عرض</button><button class="btn ghost sm" id="cpP"><svg><use href="#i-copy"/></svg>نسخ</button></div>
-  </div>
-  <div class="row" style="margin-top:12px"><button class="btn" id="cpOpen"><svg><use href="#i-globe"/></svg>افتح موقع الشركة</button><span style="flex:1"></span><button class="btn ghost" id="cpDone">خلصت · امسح النسخ</button></div>`);
-  let shown=false;
-  $("cpU").onclick=()=>copyPlain(u,"انتسخ اليوزر");
-  $("cpP").onclick=()=>copyPlain(p,"انتسخ الباسورد");
-  $("cpEye").onclick=()=>{shown=!shown;$("cpPv").textContent=shown?p:"••••••••";$("cpEye").textContent=shown?"إخفاء":"عرض"};
-  $("cpOpen").onclick=()=>{const w=window.open(mgUrl(),"amnet_mgmt");if(!w)toast("المتصفح منع فتح الصفحة")};
-  $("cpDone").onclick=()=>{copyPlain(" ","");closeModal();if(after)after();toast("انمسح النسخ")};
-}
-async function mgLogin(){
-  if(ROLE==="admin"&&!VIEWAS){toast("هذا للمسوق");return}
-  if(ROLE==="marketer"){
-    await loadMgSec();
-    if(!MGSEC.u||!MGSEC.p){toast("ضيف يوزر وباسورد المنجمنت من الإعدادات أول");if(can("plans"))location.hash="config";return}
-    showCreds(MGSEC.u,MGSEC.p);return;
-  }
-  modal(`<div class="mhd"><div class="t"><h2>دخول المسوق</h2><div class="muted">المسوق يكتب كلمة سر حسابه بـ AM NET حتى يطلع يوزر وباسورد المنجمنت. ما تنحفظ على هذا الجهاز.</div></div><button class="x" data-close aria-label="سدّها">×</button></div>
+function mgOwnerPw(then){
+  modal(`<div class="mhd"><div class="t"><h2>دخول المسوق</h2><div class="muted">المسوق يكتب كلمة سر حسابه بـ AM NET، والموقع يسجل دخول بالمنجمنت بدون ما يطلع اليوزر والباسورد.</div></div><button class="x" data-close aria-label="سدّها">×</button></div>
   <div class="field"><label for="mgOwPw">كلمة سر المسوق</label><input type="password" id="mgOwPw" autocomplete="off" dir="ltr"></div>
-  <button class="btn go" id="mgOwGo" style="margin-top:12px">تأكيد</button>`);
+  <button class="btn go" id="mgOwGo" style="margin-top:12px">دخول</button>`);
   setTimeout(()=>$("mgOwPw")&&$("mgOwPw").focus(),60);
   $("mgOwPw").onkeydown=e=>{if(e.key==="Enter")$("mgOwGo").click()};
   $("mgOwGo").onclick=async()=>{
@@ -1418,14 +1472,32 @@ async function mgLogin(){
       x=d.exists?d.data():null;if(!x||!x.u||!x.p)err="المسوق بعده ما ضاف حساب المنجمنت بالإعدادات";
     }catch(e){err=(e&&e.code==="permission-denied")?"هاي مو كلمة سر المسوق":"كلمة السر غلط"}
     try{await sa.signOut()}catch(e){}
-    if(err){b.disabled=false;b.textContent="تأكيد";toast(err);$("mgOwPw").select();return}
-    logEv("login","المسوق دخل على المنجمنت من جهاز "+displayName());
-    showCreds(x.u,x.p);x=null;
+    if(err){b.disabled=false;b.textContent="دخول";toast(err);$("mgOwPw").select();return}
+    closeModal();logEv("login","المسوق دخّل المنجمنت على جهاز "+displayName());
+    then(x.u,x.p);x=null;
   };
 }
-$("mgOpen").onclick=()=>mgGo($("mgQ").value);
-$("mgQ").onkeydown=e=>{if(e.key==="Enter")mgGo($("mgQ").value)};
+async function mgLogin(){
+  if(mgAuto()){
+    if(await loadMgSec(true)){MGF.uid=Store.uid;MGF.started=true;mgFrameLogin(MGSEC.u,MGSEC.p);return}
+    if(ROLE==="marketer"){toast("ضيف يوزر وباسورد المنجمنت من الإعدادات أول");location.hash="config";setTimeout(()=>{const e=$("mgUser");if(e){e.scrollIntoView({block:"center"});e.focus()}},250);return}
+    if(MGSEC.ok){toast("المسوق بعده ما ضاف حساب المنجمنت");return}
+  }
+  mgOwnerPw((u,p)=>{MGF.uid=Store.uid;MGF.started=true;mgFrameLogin(u,p)});
+}
+function mgGo(user){
+  const u=String(user||"").trim();
+  if(u)copyPlain(u,"انتسخ اليوزر "+u+"، الصقه ببحث المنجمنت");
+  if(VIEW!=="mgmt")location.hash="mgmt";
+}
 $("mgLogin").onclick=()=>mgLogin();
+$("mgReload").onclick=()=>{MGF.started=false;MGF.uid=null;mgEnter()};
+$("mgOut").onclick=()=>{
+  if(mgAuto()&&MGSEC.uid===Store.uid&&MGSEC.u&&MGSEC.p){mgPost(MGSEC.u,MGSEC.p,"_blank");return}
+  const w=window.open(mgUrl(),"_blank");if(!w)location.href=mgUrl();
+};
+$("mgCopy").onclick=()=>{const u=$("mgQ").value.trim();if(!u){$("mgQ").focus();return}copyPlain(u,"انتسخ "+u+"، الصقه ببحث الموقع")};
+$("mgQ").onkeydown=e=>{if(e.key==="Enter")$("mgCopy").click()};
 $("mgEye").onclick=()=>{const i=$("mgPass");const sh=i.type==="password";i.type=sh?"text":"password";$("mgEye").textContent=sh?"إخفاء":"عرض"};
 $("mgSave").onclick=async()=>{
   if(ROLE!=="marketer")return;
@@ -1438,9 +1510,18 @@ $("mgSave").onclick=async()=>{
     MGSEC={uid:Store.uid,u,p,ok:true};
     logEv("settings","غيّر حساب المنجمنت");
   },"انحفظ حساب المنجمنت");
-  if(ok){fillMgCfg();renderMgmt()}
+  if(ok){fillMgCfg();renderMgmt();MGF.started=false}
 };
-document.addEventListener("click",e=>{const b=e.target.closest("[data-mgfind]");if(!b)return;e.preventDefault();mgGo(b.dataset.mgfind)});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-mgfind]");if(!b)return;e.preventDefault();closeModal();mgGo(b.dataset.mgfind)});
+
+/* iOS: after the keyboard closes, snap the page back so the sticky header and content line up */
+(function(){
+  const isField=el=>el&&/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName);
+  let t=null;
+  const snap=()=>{clearTimeout(t);t=setTimeout(()=>{if(isField(document.activeElement))return;const max=Math.max(0,document.documentElement.scrollHeight-window.innerHeight);window.scrollTo(0,Math.min(window.scrollY,max))},120)};
+  document.addEventListener("focusout",snap);
+  if(window.visualViewport)visualViewport.addEventListener("resize",snap);
+})();
 /* ================= THEME ================= */
 const THEMES=[["#ec1c32","أحمر"],["#ff6a00","برتقالي"],["#f5a524","ذهبي"],["#22c55e","أخضر"],["#00b8d4","سماوي"],["#2f7bff","أزرق"],["#8b5cf6","بنفسجي"],["#ec4899","وردي"]];
 let THEME="#ec1c32";
@@ -2408,7 +2489,7 @@ function tsMs(t){return t?(typeof t.toMillis==="function"?t.toMillis():+t):0}
 const TS=ms=>firebase.firestore.Timestamp.fromMillis(ms);
 const SVT=()=>firebase.firestore.FieldValue.serverTimestamp();
 function MEMBER(){return ROLE==="marketer"||ROLE==="staff"}
-const PERMS=[["balance","يشحن ويعدّل الرصيد"],["log","يشوف سجل العمليات"],["finance","يشوف الأرباح والحسابات والمقارنات والديون الكلية"],["reports","يشوف تقرير الموظفين"],["edit","يعدّل ويحذف التفعيلات والتسديدات"],["import","يستورد تفعيلات من Excel/PDF والمطابقة"],["notices","يضيف تبليغات وتنبيهات"],["plans","يعدّل الباقات والإعدادات"],["delsub","يحذف مشتركين"]];
+const PERMS=[["balance","يشحن ويعدّل الرصيد"],["log","يشوف سجل العمليات"],["finance","يشوف الأرباح والحسابات والمقارنات والديون الكلية"],["reports","يشوف تقرير الموظفين"],["edit","يعدّل ويحذف التفعيلات والتسديدات"],["import","يستورد تفعيلات من Excel/PDF والمطابقة"],["notices","يضيف تبليغات وتنبيهات"],["plans","يعدّل الباقات والإعدادات"],["delsub","يحذف مشتركين"],["mgmt","يدخل المنجمنت تلقائياً (بدون ما يشوف الباسورد)"]];
 function can(p){if(ROLE==="admin"||ROLE==="marketer")return true;if(ROLE==="staff")return !!(LOGIN&&LOGIN.perms&&LOGIN.perms[p]);return false}
 function mySid(){return ROLE==="staff"?((LOGIN&&LOGIN.sid)||(ME&&ME.uid)||"staff"):ROLE==="marketer"?"owner":ROLE==="admin"?"admin":""}
 const isAdminUser=u=>!!u&&(u.email||"").toLowerCase()===String(CONFIG.adminEmail).trim().toLowerCase();
@@ -2519,7 +2600,7 @@ $("gLogin").addEventListener("submit",async e=>{
 });
 $("lgShow").onclick=()=>{const i=$("lgPass");i.type=i.type==="password"?"text":"password";$("lgShow").textContent=i.type==="password"?"إظهار":"إخفاء"};
 function logout(){closeModal();auth.signOut()}
-document.addEventListener("click",e=>{if(e.target.closest("[data-logout]")){e.preventDefault();logout()}});
+document.addEventListener("click",e=>{if(e.target.closest("[data-logout]")){e.preventDefault();try{mgReset()}catch(x){}logout()}});
 
 /* إنشاء مستخدم دخول بكلمة سر فقط (بدون ما يطلع المستخدم الحالي) */
 async function createLogin(pw){
