@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.04-31">
+<meta name="amnet-build" content="2026.11.04-32">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1106,6 +1106,17 @@ html[data-theme="light"] .bcast{box-shadow:none}
 .wa-grid{grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))!important}
 .wa-grid textarea{width:100%;background:var(--panel2);color:var(--ink);border:1px solid var(--line2);border-radius:10px;padding:10px 12px;font:inherit;font-size:14px;line-height:1.6;resize:vertical;min-height:110px}
 .done .btn.wa{width:100%;border-radius:12px}
+
+/* compact account subscription chip */
+.acctchip{--c:var(--ok);display:inline-flex;align-items:center;gap:6px;padding:3px 10px 3px 8px;border-radius:99px;border:1px solid color-mix(in srgb,var(--c) 40%,var(--line2));background:color-mix(in srgb,var(--c) 9%,transparent);color:var(--ink);font-size:12.5px;font-weight:600;white-space:nowrap}
+.acctchip.warn{--c:var(--warn)}.acctchip.bad{--c:var(--bad)}
+.acctchip b{color:var(--c)}
+.ac-ring{--p:50;width:14px;height:14px;border-radius:50%;flex:none;background:conic-gradient(var(--c) calc(var(--p)*1%),color-mix(in srgb,var(--c) 18%,transparent) 0);-webkit-mask:radial-gradient(circle,transparent 3px,#000 3.5px);mask:radial-gradient(circle,transparent 3px,#000 3.5px)}
+.ac-sep{color:var(--faint)}
+.ac-renew{margin-inline-start:2px;padding:1px 8px;border-radius:99px;background:#1fa855;color:#fff;text-decoration:none;font-weight:700;font-size:11.5px}
+.acctchip.life{--c:#1d9bf0;border-color:rgba(29,155,240,.4);background:linear-gradient(90deg,rgba(29,155,240,.12),rgba(124,92,255,.08))}
+.acctchip .ac-ic{width:16px;height:16px;color:#1d9bf0}
+.acctchip .vbadge{width:14px;height:14px;min-width:14px;min-height:14px;margin-inline-start:2px}
 </style>
 </head>
 <body>
@@ -1267,8 +1278,7 @@ html[data-theme="light"] .bcast{box-shadow:none}
         <div><div class="clock" id="clockH">--:--:--</div><div class="date" id="dateH"></div></div>
       </div>
       <h1 id="greet">أهلاً، <em>علي مالك</em></h1>
-      <div class="tags"><span class="tag on" id="syncTag">متصل ومحفوظ</span><span class="tag" id="netTag">شبكة الإنترنت</span><span class="tag p-finance" id="periodTag"></span></div>
-      <div class="acctbox" id="acctBox" hidden></div>
+      <div class="tags"><span class="tag on" id="syncTag">متصل ومحفوظ</span><span class="tag" id="netTag">شبكة الإنترنت</span><span class="tag p-finance" id="periodTag"></span><span class="acctchip" id="acctBox" hidden></span></div>
       <div class="minis">
         <button class="mini" data-go="all"><b id="kAll">0</b><span>كل المشتركين</span></button>
         <button class="mini g" data-go="act"><b id="kAct">0</b><span>شغّال</span></button>
@@ -1578,6 +1588,11 @@ html[data-theme="light"] .bcast{box-shadow:none}
     <div class="row" style="margin-top:14px"><button class="btn" id="waSave">حفظ الرسائل</button><button class="btn ghost" id="waReset">رجّع الرسائل الأصلية</button></div>
   </div>
   <div class="card br owneronly">
+    <div class="chead"><div class="t"><h2>ألوان موقعك</h2><div class="muted">اختار لون موقعك، ويطلع عندك وعند كل موظفينك.</div></div></div>
+    <div class="swatches" id="mcSw"></div>
+    <div class="row" style="margin-top:12px"><label class="row" style="gap:8px;font-size:14px">لون مخصص <input type="color" id="mcPick" style="width:52px;height:38px;padding:2px;border-radius:8px;border:1px solid var(--line2);background:var(--panel2)"></label><span style="flex:1"></span><button class="btn ghost" id="mcReset">رجّع لون الإدارة</button><button class="btn" id="mcSave">حفظ اللون</button></div>
+  </div>
+  <div class="card br owneronly">
     <div class="chead"><div class="t"><h2>الموظفين</h2><div class="muted">حسابات فرعية لموظفينك، كل واحد يدخل بكلمة سر خاصة بيه.</div></div><button class="btn sm" id="addStaff"><svg><use href="#i-plus"/></svg>إضافة موظف</button></div>
     <div class="list" id="staffList" style="margin-top:0"></div>
     <div class="row" style="margin-top:14px"><button class="btn ghost" id="myPw">تغيير كلمة سر حسابي</button><button class="btn ghost" data-logout>تسجيل خروج</button></div>
@@ -1804,7 +1819,7 @@ function renderAll(){
   $("impIntro").innerHTML=empty?'الموقع فارغ هسه. ارفع تقرير الشركة لهذا الشهر، <b style="color:var(--ink)">وارفع وياه تقرير الشهر السابق</b> حتى تطلع مقارنة الأشهر والمشتركين المفقودين من أول يوم. يقبل PDF وExcel.':"ارفع تقرير الشركة (PDF أو Excel)، وينضاف بس اللي مو مسجّل بالموقع. التفعيلات المكررة تنترك تلقائياً.";
   $("dropSub").textContent=empty?"ملف هذا الشهر + ملف الشهر السابق":"PDF أو Excel · ينضاف الناقص فقط";
   $("plansBox").open=ROLE==="staff"||$("plansBox").open;
-  renderHome();renderHomeStaff();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();renderWaHome();fillWaCfg();if(WA_REDRAW&&$("waList"))WA_REDRAW();
+  renderHome();renderHomeStaff();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();renderMcUI();renderWaHome();fillWaCfg();if(WA_REDRAW&&$("waList"))WA_REDRAW();
   if(VIEW==="mgmt"&&MGF.uid!==Store.uid)mgEnter();
 }
 
@@ -2101,7 +2116,18 @@ document.addEventListener("click",e=>{
 });
 applyMode();
 /* per-marketer colour: the account's own colour wins over the global one */
-function effAccent(){const a=(VIEWAS?VIEWAS.acc:(ROLE&&ROLE!=="admin"?ACCOUNT:null))||{};return a.accent||APPMETA.accent||"#ec1c32"}
+function effAccent(){const a=(VIEWAS?VIEWAS.acc:(ROLE&&ROLE!=="admin"?ACCOUNT:null))||{};return (a.settings&&a.settings.accent)||a.accent||APPMETA.accent||"#ec1c32"}
+function renderMcUI(){
+  if(!$("mcSw")||ROLE!=="marketer")return;
+  const cur=String(effAccent()).toLowerCase();
+  $("mcSw").innerHTML=THEMES.map(([c,n])=>`<button type="button" style="--c:${c}" data-mc2="${c}" aria-pressed="${c===cur}" aria-label="${n}" title="${n}"></button>`).join("");
+  if(document.activeElement!==$("mcPick"))$("mcPick").value=cur;
+}
+let MC_PREV=null;
+$("mcSw").onclick=e=>{const b=e.target.closest("[data-mc2]");if(!b)return;$("mcSw").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));$("mcPick").value=b.dataset.mc2;applyTheme(b.dataset.mc2)};
+$("mcPick").oninput=e=>{$("mcSw").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.mc2===e.target.value));applyTheme(e.target.value)};
+$("mcSave").onclick=()=>{const c=$("mcPick").value;SET={...SET,accent:c};guard(async()=>{await saveSettings();logEv("settings","غيّر لون الموقع")},"انحفظ لون موقعك").then(()=>{try{localStorage.setItem("amnet_theme",c)}catch(e){}})};
+$("mcReset").onclick=()=>{const x={...SET};delete x.accent;SET=x;guard(async()=>{await saveSettings();logEv("settings","رجّع لون الإدارة")},"رجع لون الإدارة").then(()=>{if(ACCOUNT&&ACCOUNT.settings)delete ACCOUNT.settings.accent;refreshAccent();renderMcUI()})};
 function refreshAccent(){const c=effAccent();applyTheme(c);try{localStorage.setItem("amnet_theme",c)}catch(e){}}
 function renderThemeUI(){
   if(!$("thSw"))return;
@@ -3380,15 +3406,11 @@ function renderAcctBox(){
   const A=VIEWAS?VIEWAS.acc:ACCOUNT;
   if(!A||(ROLE==="admin"&&!VIEWAS)){box.hidden=true;return}
   box.hidden=false;
-  if(isLife(A)){
-    box.className="acctbox life";
-    box.innerHTML=`<span class="ab-ring life"><svg><use href="#i-inf"/></svg></span><div class="ab-tx"><small>اشتراك الحساب</small><b>مدى الحياة ${VBADGE}</b><span>حساب موثّق · ما ينتهي</span></div>`;
-    return;
-  }
+  if(isLife(A)){box.className="acctchip life";box.title="اشتراك الحساب مدى الحياة";box.innerHTML=`<svg class="ac-ic"><use href="#i-inf"/></svg>مدى الحياة${VBADGE}`;return}
   const exp=tsMs(A.expiresAt),d=Math.max(0,Math.ceil((exp-Date.now())/DAY));
-  const cls=d<=2?"bad":d<=7?"warn":"ok";const pct=Math.max(3,Math.min(100,Math.round(d/30*100)));
-  box.className="acctbox "+cls;
-  box.innerHTML=`<span class="ab-ring" style="--p:${pct}"><b class="num">${d}</b><small>يوم</small></span><div class="ab-tx"><small>اشتراك الحساب</small><b>${d?"باقي "+d+" يوم":"خلص اليوم"}</b><span>ينتهي بتاريخ <b class="num">${fdate(exp)}</b></span></div>${d<=7&&APPMETA.phone?`<a class="btn wa sm ab-renew" target="_blank" rel="noopener" href="${esc(waLink("هلا، أريد أجدد اشتراك حساب "+(A.name||"")+" بنظام AM NET"))}"><svg><use href="#i-wa"/></svg>جدد</a>`:""}`;
+  const cls=d<=2?"bad":d<=7?"warn":"ok";const pct=Math.max(4,Math.min(100,Math.round(d/30*100)));
+  box.className="acctchip "+cls;box.title="اشتراك الحساب ينتهي "+fdate(exp);
+  box.innerHTML=`<span class="ac-ring" style="--p:${pct}"></span>${d?"باقي <b class='num'>"+d+"</b> يوم":"خلص اليوم"}<span class="ac-sep">·</span><span class="num">${fdate(exp)}</span>${d<=7&&APPMETA.phone?`<a class="ac-renew" target="_blank" rel="noopener" href="${esc(waLink("هلا، أريد أجدد اشتراك حساب "+(A.name||"")+" بنظام AM NET"))}">جدد</a>`:""}`;
 }
 function renderUserCard(){
   const n=ROLE==="admin"?(APPMETA.adminName||"المدير"):displayName();
