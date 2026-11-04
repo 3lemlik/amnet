@@ -1,0 +1,75 @@
+rules_version = '2';
+// AM NET — قواعد الأمان (نسخة الدخول بكلمة السر + الموظفين)
+// إيميل المدير: admin@amnet.app (نفسه اللي بملف index.html)
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && request.auth.token.email == 'admin@amnet.app';
+    }
+    // كل مستخدم (صاحب حساب أو موظف) عنده سجل دخول يربطه بحساب
+    function hasLogin() {
+      return signedIn() && exists(/databases/$(database)/documents/logins/$(request.auth.uid));
+    }
+    function myLogin() {
+      return get(/databases/$(database)/documents/logins/$(request.auth.uid)).data;
+    }
+    function acc(a) {
+      return get(/databases/$(database)/documents/accounts/$(a)).data;
+    }
+    // الحساب شغّال: مفعّل من المدير ومدته ما خلصت
+    function accOk(a) {
+      return exists(/databases/$(database)/documents/accounts/$(a))
+        && acc(a).active == true
+        && acc(a).expiresAt > request.time;
+    }
+    function member(a) {
+      return hasLogin() && myLogin().acct == a && myLogin().active == true && accOk(a);
+    }
+    function owner(a) {
+      return member(a) && myLogin().role == 'owner';
+    }
+
+    // بيانات التواصل اللي تظهر إذا توقف الحساب
+    match /meta/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    // حسابات المسوقين: الحالة والمدة والخصائص يغيرها المدير فقط
+    match /accounts/{a} {
+      allow read: if isAdmin() || (hasLogin() && myLogin().acct == a);
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin()
+        || (member(a) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['settings', 'stats']));
+
+      // المشتركين والتفعيلات والتسديدات
+      match /data/{docId} {
+        allow read, write: if isAdmin() || member(a);
+      }
+    }
+
+    // سجلات الدخول (كلمة سر = سجل)
+    match /logins/{uid} {
+      allow read: if isAdmin()
+        || (signedIn() && request.auth.uid == uid)
+        || (hasLogin() && myLogin().role == 'owner' && resource.data.acct == myLogin().acct);
+      allow create: if isAdmin()
+        || (owner(request.resource.data.acct)
+            && request.resource.data.role in ['staff', 'owner']
+            && request.resource.data.active == true);
+      allow update: if isAdmin()
+        || (owner(resource.data.acct) && resource.data.role == 'staff'
+            && request.resource.data.role == 'staff'
+            && request.resource.data.acct == resource.data.acct);
+      allow delete: if isAdmin()
+        || (owner(resource.data.acct) && (resource.data.role == 'staff' || uid == request.auth.uid));
+    }
+
+    // سجل الرسوم: للمدير فقط
+    match /billing/{id} {
+      allow read, write: if isAdmin();
+    }
+  }
+}
