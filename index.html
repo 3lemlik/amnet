@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.04-2">
+<meta name="amnet-build" content="2026.11.04-4">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -337,6 +337,8 @@ img{max-width:100%}
 #app:not([data-viewas]) .vb{display:none!important}
 #app:not([data-owner]) .owneronly{display:none!important}
 #app[data-staff] .ownonly{display:none!important}
+#app:not([data-staff]) .staffonly{display:none!important}
+#app[data-no-finance] .p-finance,#app[data-no-reports] .p-reports,#app[data-no-edit] .p-edit,#app[data-no-import] .p-import,#app[data-no-notices] .p-notices,#app[data-no-plans] .p-plans,#app[data-no-delsub] .p-delsub{display:none!important}
 #app[data-nomatch] .matchf{display:none!important}
 #app[data-mode="admin"] .bnav{display:none!important}
 @media (max-width:900px){#app[data-mode="admin"] main{padding-bottom:30px}}
@@ -379,6 +381,69 @@ input,select,textarea{font-size:16px!important}
 .sc-bot .btn{padding:8px 16px}
 .sc-acts{display:flex;flex-wrap:wrap;gap:6px;border-top:1px dashed var(--line2);padding-top:9px}
 @media (max-width:560px){#subFilters{grid-template-columns:minmax(0,1fr)!important}}
+.info{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:10px 0 0}
+.info div{background:var(--panel2);padding:8px 10px;min-width:0}
+.info dt{font-size:11.5px;color:var(--dim)}
+.info dd{margin:0;font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis}
+.needph{border:1px solid rgba(255,176,32,.55);background:var(--warn-soft);border-radius:8px;padding:12px;margin-bottom:14px}
+.needph label{color:var(--warn)!important}
+.actbar{margin-top:14px}
+#sheetPanel .who{border-bottom:0;padding-bottom:0}
+#sheetPanel .actbar{position:sticky;bottom:calc(-1 * max(20px,env(safe-area-inset-bottom,0px)));margin-inline:-18px;padding:12px 18px max(12px,env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,rgba(16,16,21,0),var(--panel) 30%)}
+#sheetPanel .plans{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
+.sheetgrab{display:none;width:44px;height:5px;border-radius:5px;background:var(--line2);margin:-6px auto 2px}
+@media (max-width:640px){.sheetgrab{display:block}.modal .box{animation:sheetUp .22s ease-out}}
+@keyframes sheetUp{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
+/* broadcasts & alerts */
+.bcast{position:relative;display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-radius:10px;background:linear-gradient(135deg,rgba(236,28,50,.22),rgba(236,28,50,.06) 60%),var(--panel);border:1px solid rgba(236,28,50,.6);box-shadow:0 0 26px rgba(236,28,50,.18)}
+.bcast .ic{width:42px;height:42px;border-radius:10px;background:var(--accent);display:grid;place-items:center;flex:none;box-shadow:0 0 18px var(--accent-glow)}
+.bcast .ic svg{width:22px;height:22px;color:#fff}
+.bcast b{display:block;font-family:var(--f-display);font-size:13px;color:var(--accent2);letter-spacing:.5px}
+.bcast p{margin:2px 0 0;font-size:16px;font-weight:600;line-height:1.6;white-space:pre-wrap}
+.bcast small{color:var(--dim);font-size:11.5px}
+.bcast .dot{position:absolute;top:12px;left:12px;width:9px;height:9px;border-radius:50%;background:var(--accent);animation:blink 1.2s infinite}
+.alertbox{display:flex;gap:10px;align-items:flex-start;border:1px solid rgba(255,176,32,.6);background:var(--warn-soft);color:var(--ink);border-radius:8px;padding:11px 13px;margin-bottom:10px}
+.alertbox svg{width:20px;height:20px;color:var(--warn);flex:none;margin-top:2px}
+.alertbox p{margin:0;font-weight:600;white-space:pre-wrap}
+.alertbox small{display:block;color:var(--warn);font-size:11.5px;font-weight:700}
+textarea{width:100%;background:var(--panel2);color:var(--ink);border:1px solid var(--line2);border-radius:6px;padding:10px 12px;font-family:var(--f-body);min-height:90px;resize:vertical}
+textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.note{display:grid;gap:6px;border:1px solid var(--line);background:var(--panel2);border-radius:8px;padding:12px 14px}
+.note.off{opacity:.55}
+.note .row{justify-content:space-between}
+/* plans */
+.plangrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:12px}
+@media (max-width:560px){.plangrid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:72%;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-inline:-4px;padding-inline:4px}.plangrid>*{scroll-snap-align:start}}
+.plancard{--pc:var(--accent);position:relative;border-radius:12px;padding:16px;background:linear-gradient(160deg,color-mix(in srgb,var(--pc) 22%,transparent),transparent 65%),var(--panel2);border:1px solid color-mix(in srgb,var(--pc) 55%,transparent);box-shadow:0 0 22px color-mix(in srgb,var(--pc) 16%,transparent);display:grid;gap:6px;overflow:hidden;min-width:0}
+.plancard::after{content:"";position:absolute;top:0;inset-inline:0;height:3px;background:var(--pc);box-shadow:0 0 12px var(--pc)}
+.plancard .pn{font-family:var(--f-tech);font-weight:800;font-size:15px;letter-spacing:1px;color:var(--pc);direction:ltr;text-align:right}
+.plancard .sp{font-family:var(--f-display);font-weight:900;font-size:26px;line-height:1.1}
+.plancard .sp small{font-size:13px;color:var(--dim);font-weight:600}
+.plancard .pr{font-family:var(--f-mono);font-weight:700;font-size:20px;direction:ltr;text-align:right}
+.plancard .pr small{font-family:var(--f-body);font-size:12px;color:var(--dim)}
+.plancard .inf{font-size:12.5px;color:var(--dim);white-space:pre-wrap}
+.plancard .tag2{position:absolute;top:10px;left:10px;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:4px;background:var(--pc);color:#08080b}
+details.plansbox>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px}
+details.plansbox>summary::-webkit-details-marker{display:none}
+details.plansbox>summary .chev{margin-inline-start:auto;transition:transform .15s;color:var(--dim)}
+details.plansbox[open]>summary .chev{transform:rotate(180deg)}
+details.plansbox[open]>summary{margin-bottom:14px}
+.pbtn{--pc:var(--line2);border-top:3px solid var(--pc)!important}
+.pbtn small{font-size:11px;color:var(--dim)}
+.planed{display:grid;gap:12px}
+.planed .plancard{gap:10px}
+.planed-list .fgrid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px}
+.planed-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+/* my stats */
+.mystats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mystat{border:1px solid var(--line2);background:var(--panel2);border-radius:10px;padding:14px 16px;display:grid;gap:2px}
+.mystat .h{font-size:13px;color:var(--dim);font-weight:600}
+.mystat .n{font-family:var(--f-mono);font-size:32px;font-weight:700;line-height:1.1;direction:ltr;text-align:right}
+.mystat .a{font-family:var(--f-mono);font-size:14px;color:var(--ok);direction:ltr;text-align:right}
+.mystat .c{font-size:12px;color:var(--dim)}
+.perms{display:grid;gap:8px}
+.perms .tgl{font-weight:500;font-size:14px}
+@media (max-width:560px){.chead>.field{min-width:0!important;flex:1 1 100%}.chead>.t{flex:1 1 100%}}
 .impfile{display:grid;gap:8px;border:1px solid var(--line2);background:var(--panel2);border-radius:6px;padding:12px}
 .impfile .row{justify-content:space-between}
 footer.cr{color:var(--faint);font-size:12px;text-align:center;padding-top:10px}
@@ -396,6 +461,10 @@ footer.cr b{color:var(--dim)}
   <symbol id="i-pdf" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8Z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></g></symbol>
   <symbol id="i-match" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H5a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h4M15 5h4a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-4M12 3v18"/><path d="m6.5 12 1.5 1.5L10 11"/></g></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></g></symbol>
+  <symbol id="i-mega" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v4a1 1 0 0 0 1 1h3l6 4V5L7 9H4a1 1 0 0 0-1 1Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 6a8.5 8.5 0 0 1 0 12"/></g></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20Z"/><path d="M12 10v4M12 17.5v.01"/></g></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></g></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m6 9 6 6 6-6"/></symbol>
   <symbol id="i-cog" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4 5.3 5.3"/></g></symbol>
   <symbol id="i-more" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></g></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></g></symbol>
@@ -454,13 +523,15 @@ footer.cr b{color:var(--dim)}
     <a href="#activate" data-v="activate" class="mk"><svg><use href="#i-bolt"/></svg>تفعيل سريع<span class="ix">02</span></a>
     <a href="#subs" data-v="subs" class="mk"><svg><use href="#i-users"/></svg>المشتركين<span class="ix">03</span></a>
     <a href="#debts" data-v="debts" class="mk"><svg><use href="#i-debt"/></svg>الديون<span class="badge" id="debtBadge" hidden></span><span class="ix">04</span></a>
-    <a href="#match" data-v="match" class="mk matchf"><svg><use href="#i-match"/></svg>المطابقة<span class="ix">05</span></a>
-    <a href="#import" data-v="import" id="navImport" class="mk ownonly"><svg><use href="#i-pdf"/></svg>استيراد أولي<span class="ix">07</span></a>
-    <a href="#config" data-v="config" class="mk ownonly"><svg><use href="#i-cog"/></svg>الباقات والإعدادات<span class="ix">06</span></a>
+    <a href="#notices" data-v="notices" class="mk"><svg><use href="#i-mega"/></svg>التبليغات والتنبيهات<span class="ix">08</span></a>
+    <a href="#reports" data-v="reports" class="mk p-reports"><svg><use href="#i-chart"/></svg>تقرير الموظفين<span class="ix">09</span></a>
+    <a href="#match" data-v="match" class="mk matchf p-import"><svg><use href="#i-match"/></svg>المطابقة<span class="ix">05</span></a>
+    <a href="#import" data-v="import" id="navImport" class="mk p-import"><svg><use href="#i-pdf"/></svg>استيراد تفعيلات<span class="ix">07</span></a>
+    <a href="#config" data-v="config" class="mk p-plans"><svg><use href="#i-cog"/></svg>الباقات والإعدادات<span class="ix">06</span></a>
   </nav>
   <div class="side-foot">
     <div class="clockcard"><b id="clockS">--:--:--</b><span>SYS · UTC+3</span></div>
-    <div class="sync" id="sync"><i></i><span>جارِ التحميل</span></div>
+    <div class="sync" id="sync"><i></i><span>دا يحمّل</span></div>
     <div class="usercard"><div class="av" id="avS">ع</div><div style="min-width:0"><b id="ownerS">—</b><small id="ownerSub"></small></div><div class="ucard-actions"><button type="button" data-logout>خروج</button></div></div>
   </div>
 </aside>
@@ -514,34 +585,45 @@ footer.cr b{color:var(--dim)}
         <div><div class="clock" id="clockH">--:--:--</div><div class="date" id="dateH"></div></div>
       </div>
       <h1 id="greet">أهلاً، <em>علي مالك</em></h1>
-      <div class="tags"><span class="tag on" id="syncTag">متصل ومحفوظ</span><span class="tag" id="netTag">شبكة الإنترنت</span><span class="tag" id="periodTag"></span></div>
+      <div class="tags"><span class="tag on" id="syncTag">متصل ومحفوظ</span><span class="tag" id="netTag">شبكة الإنترنت</span><span class="tag p-finance" id="periodTag"></span></div>
       <div class="minis">
         <button class="mini" data-go="all"><b id="kAll">0</b><span>كل المشتركين</span></button>
         <button class="mini g" data-go="act"><b id="kAct">0</b><span>فعّال</span></button>
         <button class="mini y" data-go="near"><b id="kNear">0</b><span>قريب الانتهاء</span></button>
         <button class="mini r" data-go="exp"><b id="kExp">0</b><span>منتهي</span></button>
-        <a class="mini d" href="#debts" style="text-decoration:none;color:inherit"><b id="kDebt">0</b><span>مجموع الديون</span></a>
+        <a class="mini d p-finance" href="#debts" style="text-decoration:none;color:inherit"><b id="kDebt">0</b><span>مجموع الديون</span></a>
       </div>
       <div class="meter" id="meter" aria-hidden="true"></div>
-      <div class="row" style="margin-top:16px"><a class="btn" href="#activate"><svg><use href="#i-bolt"/></svg>تفعيل مشترك</a><a class="btn ghost ownonly" href="#import" id="heroImport">استيراد تقرير PDF</a><a class="btn ghost matchf" href="#match">مطابقة تقرير</a></div>
+      <div class="row" style="margin-top:16px"><a class="btn" href="#activate"><svg><use href="#i-bolt"/></svg>تفعيل مشترك</a><a class="btn ghost p-import" href="#import" id="heroImport">استيراد تقرير PDF</a><a class="btn ghost matchf p-import" href="#match">مطابقة تقرير</a></div>
     </div>
     <div class="radar" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#i-logo"/></svg></div>
   </div>
+  <div id="bcasts" style="display:grid;gap:10px"></div>
   <div class="warnbox" id="expWarn" hidden></div>
-  <div id="planWarn" hidden></div>
+  <div id="planWarn" class="p-plans" hidden></div>
 
-  <div class="row" style="justify-content:space-between">
+  <div class="card br staffonly">
+    <div class="chead"><div class="t"><h2>إحصائياتي</h2><div class="muted">التفعيلات اللي سويتها انت</div></div></div>
+    <div class="mystats" id="myStats"></div>
+  </div>
+
+  <details class="card br plansbox" id="plansBox">
+    <summary><h2>الباقات وأسعارها</h2><span class="muted" id="plansCount"></span><svg class="chev" width="20" height="20"><use href="#i-chev"/></svg></summary>
+    <div class="plangrid" id="planCards"></div>
+  </details>
+
+  <div class="row p-finance" style="justify-content:space-between">
     <div class="seg" id="ptabs" role="group" aria-label="الفترة"></div>
     <div class="custom" id="customBox" hidden><input type="date" id="cFrom" aria-label="من"><span class="muted">إلى</span><input type="date" id="cTo" aria-label="إلى"></div>
   </div>
-  <div class="pcards">
+  <div class="pcards p-finance">
     <div class="card br pc hot"><div class="lb">المبيعات</div><div class="v" id="pRev">0</div><div class="s" id="pRevS"></div></div>
-    <div class="card br pc g ownonly"><div class="lb">صافي الربح</div><div class="v" id="pProf">0</div><div class="s" id="pProfS"></div></div>
+    <div class="card br pc g"><div class="lb">صافي الربح</div><div class="v" id="pProf">0</div><div class="s" id="pProfS"></div></div>
     <div class="card br pc"><div class="lb">المقبوض نقداً</div><div class="v" id="pCash">0</div><div class="s" id="pCashS"></div></div>
     <div class="card br pc r"><div class="lb">ديون جديدة (آجل)</div><div class="v" id="pCred">0</div><div class="s" id="pCredS"></div></div>
   </div>
 
-  <div class="card br">
+  <div class="card br p-finance">
     <div class="chead">
       <div class="t"><h2>المشتركين المفقودين</h2><div class="muted" id="lostSub"></div></div>
       <div class="field" style="min-width:170px"><label for="refMonth">الشهر</label><select id="refMonth"></select></div>
@@ -551,17 +633,17 @@ footer.cr b{color:var(--dim)}
     <div class="list" id="lostList"></div>
   </div>
 
-  <div class="card br">
+  <div class="card br p-finance">
     <div class="chead"><div class="t"><h2>مقارنة آخر ثلاث أشهر</h2></div></div>
     <div class="cmp" id="cmp"></div>
   </div>
 
   <div class="grid2">
     <div class="card br">
-      <div class="chead"><div class="t"><h2>قريب الانتهاء</h2></div><button class="btn ghost sm" data-go="near">عرض الكل</button></div>
+      <div class="chead"><div class="t"><h2>قريب الانتهاء</h2></div><button class="btn ghost sm" data-go="near">شوف الكل</button></div>
       <div class="list" id="nearList" style="margin-top:0"></div>
     </div>
-    <div class="card br">
+    <div class="card br p-finance">
       <div class="chead"><div class="t"><h2>أكبر الديون</h2></div><a class="btn ghost sm" href="#debts">كل الديون</a></div>
       <div class="list" id="debtTop" style="margin-top:0"></div>
     </div>
@@ -585,7 +667,7 @@ footer.cr b{color:var(--dim)}
 <section class="view" id="v-subs" hidden>
   <div class="row" style="justify-content:space-between">
     <div><div class="eyebrow"><span>03 · SUBSCRIBERS</span><b>AM-NET</b></div><h1 class="pg">المشتركين</h1></div>
-    <div class="row"><button class="btn" id="addBtn"><svg><use href="#i-plus"/></svg>إضافة مشترك</button><button class="btn ghost ownonly" id="xlsBtn">تصدير Excel</button></div>
+    <div class="row"><button class="btn" id="addBtn"><svg><use href="#i-plus"/></svg>إضافة مشترك</button><button class="btn ghost p-finance" id="xlsBtn">تصدير Excel</button></div>
   </div>
   <div class="card br">
     <div class="fgrid" id="subFilters" style="grid-template-columns:minmax(0,2fr) minmax(0,1fr)">
@@ -595,14 +677,14 @@ footer.cr b{color:var(--dim)}
     <div class="chips" id="stChips" style="margin-top:12px"></div>
     <div class="tbox" id="subTblBox" style="margin-top:12px;max-height:640px"><table class="t" id="subTbl"></table></div>
     <div class="scards" id="subCards" hidden></div>
-    <div class="row" id="moreBox" hidden style="justify-content:center;margin-top:12px"><button class="btn ghost sm" id="moreBtn">عرض المزيد</button></div>
+    <div class="row" id="moreBox" hidden style="justify-content:center;margin-top:12px"><button class="btn ghost sm" id="moreBtn">طلّع بعد</button></div>
   </div>
 </section>
 
 <!-- ================= DEBTS ================= -->
 <section class="view" id="v-debts" hidden>
   <div><div class="eyebrow"><span>04 · DEBTS</span><b>AM-NET</b></div><h1 class="pg">الديون</h1></div>
-  <div class="dtop">
+  <div class="dtop p-finance">
     <div class="card br pc hot r"><div class="lb">مجموع الديون</div><div class="v" id="dTotal">0</div><div class="s">دينار عراقي</div></div>
     <div class="card br pc"><div class="lb">عدد المدينين</div><div class="v" id="dCount">0</div><div class="s">مشترك عليه دين</div></div>
     <div class="card br pc g"><div class="lb">تسديدات هذا الشهر</div><div class="v" id="dPaid">0</div><div class="s" id="dPaidS"></div></div>
@@ -619,17 +701,17 @@ footer.cr b{color:var(--dim)}
 
 <!-- ================= IMPORT ================= -->
 <section class="view" id="v-import" hidden>
-  <div><div class="eyebrow"><span>05 · IMPORT</span><b>PDF</b></div><h1 class="pg">استيراد تقرير التفعيلات</h1></div>
+  <div><div class="eyebrow"><span>05 · IMPORT</span><b>PDF</b></div><h1 class="pg">استيراد تفعيلات</h1></div>
   <div class="card br" id="impLocked" hidden>
-    <div class="empty"><b>الاستيراد متاح فقط والموقع فارغ</b>عندك مشتركين بالنظام هسه. حتى تقارن تقرير الشركة مع اللي مسجل عندك وتضيف الناقص، استخدم المطابقة.<div class="row" style="justify-content:center;margin-top:12px"><a class="btn" href="#match">فتح المطابقة</a></div></div>
+    <div class="empty"><b>ما عندك صلاحية الاستيراد</b>اطلب من صاحب الحساب يفعّلها إلك.<div class="row" style="justify-content:center;margin-top:12px"><a class="btn" href="#match">فتح المطابقة</a></div></div>
   </div>
   <div class="card br" id="impOpen">
-    <p class="muted" style="margin-top:0">هذا الاستيراد لبداية العمل فقط، يشتغل والموقع فارغ. ارفع تقرير الشركة لهذا الشهر، <b style="color:var(--ink)">وارفع وياه تقرير الشهر السابق</b> حتى تطلع مقارنة الأشهر والمشتركين المفقودين من أول يوم. تكدر تختار الملفين سوة.</p>
+    <p class="muted" style="margin-top:0" id="impIntro"></p>
     <div class="drop" id="drop" tabindex="0" role="button" aria-label="اختر ملف PDF">
       <div class="scan"></div>
-      <div class="big">اسحب ملفات PDF هنا أو اضغط للاختيار</div>
-      <div class="muted">ملف هذا الشهر + ملف الشهر السابق</div>
-      <input type="file" id="file" accept="application/pdf,.pdf" multiple hidden>
+      <div class="big">اسحب ملفات PDF أو Excel هنا أو دوس حتى تختار</div>
+      <div class="muted" id="dropSub">ملف هذا الشهر + ملف الشهر السابق</div>
+      <input type="file" id="file" accept="application/pdf,.pdf,.xlsx,.xls,.csv" multiple hidden>
     </div>
     <div class="prog" style="margin-top:12px"><i id="prog"></i></div>
     <div id="impMsg" class="muted" style="margin-top:8px"></div>
@@ -655,12 +737,12 @@ footer.cr b{color:var(--dim)}
 <section class="view" id="v-match" hidden>
   <div><div class="eyebrow"><span>05 · RECONCILE</span><b>PDF</b></div><h1 class="pg">المطابقة</h1></div>
   <div class="card br">
-    <p class="muted" style="margin-top:0">ارفع تقرير الشركة والموقع يقارن كل سطر بالتفعيلات المسجلة عندك بنفس الفترة (بفرق لحد يومين بالتاريخ). يطلعلك المسجل، وغير المسجل، والمسجل عندك وما موجود بالتقرير.</p>
+    <p class="muted" style="margin-top:0">ارفع تقرير الشركة والموقع يقارن كل سطر بالتفعيلات المسجلة عندك بنفس الفترة (بفرق لحد يومين بالتاريخ). يطلعلك المسجل، واللي مو مسجل، والمسجل عندك وما موجود بالتقرير.</p>
     <div class="drop" id="mDrop" tabindex="0" role="button" aria-label="اختر تقرير PDF للمطابقة">
       <div class="scan"></div>
-      <div class="big">ارفع تقرير PDF للمطابقة</div>
-      <div class="muted">ما يتغير أي شي بالموقع إلا إذا انت أكدت</div>
-      <input type="file" id="mFile" accept="application/pdf,.pdf" hidden>
+      <div class="big">ارفع تقرير PDF أو Excel للمطابقة</div>
+      <div class="muted">ما يتغير شي بالموقع إلا إذا انت أكدت</div>
+      <input type="file" id="mFile" accept="application/pdf,.pdf,.xlsx,.xls,.csv" hidden>
     </div>
     <div class="prog" style="margin-top:12px"><i id="mProg"></i></div>
     <div id="mMsg" class="muted" style="margin-top:8px"></div>
@@ -677,12 +759,41 @@ footer.cr b{color:var(--dim)}
   </div>
 </section>
 
+<!-- ================= NOTICES ================= -->
+<section class="view" id="v-notices" hidden>
+  <div><div class="eyebrow"><span>08 · NOTICES</span><b>AM-NET</b></div><h1 class="pg">التبليغات والتنبيهات</h1></div>
+  <div class="card br p-notices">
+    <div class="chead"><div class="t"><h2>إضافة جديد</h2><div class="muted"><b>التبليغ</b> يطلع بالصفحة الرئيسية للكل. <b>التنبيه</b> يطلع للموظف لما يدوس تجديد، لكل المشتركين أو لمشترك واحد.</div></div></div>
+    <div class="seg" id="ntType"><button data-t="b" aria-pressed="true">تبليغ</button><button data-t="a" aria-pressed="false">تنبيه عند التجديد</button></div>
+    <div class="field" style="margin-top:12px"><label for="ntText">النص</label><textarea id="ntText" placeholder="مثلاً: من يوم السبت سعر باقة PLUS يصير 45 ألف"></textarea></div>
+    <div class="field" id="ntUserBox" hidden style="margin-top:10px"><label for="ntUser">يوزر المشترك (اتركه فارغ حتى يطلع ويا كل تجديد)</label><input type="text" id="ntUser" dir="ltr" list="ntUsers" autocomplete="off"><datalist id="ntUsers"></datalist></div>
+    <div class="row" style="margin-top:12px"><button class="btn" id="ntAdd"><svg><use href="#i-plus"/></svg>إضافة</button></div>
+  </div>
+  <div class="card br">
+    <div class="chead"><div class="t"><h2>الموجود</h2></div></div>
+    <div style="display:grid;gap:10px" id="noteList"></div>
+  </div>
+</section>
+
+<!-- ================= REPORTS ================= -->
+<section class="view" id="v-reports" hidden>
+  <div><div class="eyebrow"><span>09 · STAFF REPORT</span><b>AM-NET</b></div><h1 class="pg">تقرير الموظفين</h1></div>
+  <div class="row" style="justify-content:space-between">
+    <div class="seg" id="rtabs" role="group" aria-label="الفترة"></div>
+    <div class="custom" id="rCustom" hidden><input type="date" id="rFrom" aria-label="من"><span class="muted">إلى</span><input type="date" id="rTo" aria-label="إلى"></div>
+  </div>
+  <div class="card br">
+    <div class="tbox" id="repTblBox"><table class="t" id="repTbl"></table></div>
+    <div class="scards" id="repCards" hidden></div>
+  </div>
+</section>
+
 <!-- ================= CONFIG ================= -->
 <section class="view" id="v-config" hidden>
   <div><div class="eyebrow"><span>06 · SETTINGS</span><b>AM-NET</b></div><h1 class="pg">الباقات والإعدادات</h1></div>
   <div class="card br">
     <div class="chead"><div class="t"><h2>الباقات والأسعار</h2><div class="muted">الربح = سعر البيع − سعر الشركة، على كل تفعيل.</div></div><button class="btn ghost sm" id="addPlan">إضافة باقة</button></div>
-    <div class="tbox"><table class="t" id="plansTbl"></table></div>
+    <div class="planed-list" id="plansTbl"></div>
   </div>
   <div class="card br">
     <div class="chead"><div class="t"><h2>إعدادات النظام</h2></div></div>
@@ -698,7 +809,7 @@ footer.cr b{color:var(--dim)}
     <div class="list" id="staffList" style="margin-top:0"></div>
     <div class="row" style="margin-top:14px"><button class="btn ghost" id="myPw">تغيير كلمة سر حسابي</button><button class="btn ghost" data-logout>تسجيل خروج</button></div>
   </div>
-  <div class="card br">
+  <div class="card br owneronly">
     <div class="chead"><div class="t"><h2>البيانات</h2></div></div>
     <p class="muted" id="dataInfo" style="margin-top:0"></p>
     <div class="row"><button class="btn ghost" id="xlsBtn2">تصدير كل البيانات Excel</button><button class="btn danger" id="wipeBtn">حذف كل البيانات</button></div>
@@ -772,7 +883,7 @@ const DEF_SET={plans:{},period:30,near:3,name:""};
 const docId=p=>p.replace("/","__"),pathOf=id=>id.replace("__","/");
 const Store={uid:null,docs:{},unsubs:[],
   attach(uid){
-    this.detach();this.uid=uid;this.docs={};setSync("جارِ التحميل");
+    this.detach();this.uid=uid;this.docs={};setSync("دا يحمّل");
     const uref=fs.collection("accounts").doc(uid);
     let pending=2;const t=setTimeout(()=>{if(pending>0)setSync("الاتصال بطيء")},10000);
     const done=()=>{if(--pending===0){clearTimeout(t);setSync()}};
@@ -816,14 +927,16 @@ const subPath=k=>"subs/c"+pad(hash(k)%SUB_CHUNKS);
 const chunkPath=(col,k,ms)=>col+"/"+mkey(ms)+"_"+(hash(k)%ACT_CHUNKS);
 
 /* ================= STATE ================= */
+let NOTES=[];
 let SUBS=new Map(),ACTS=[],PAYS=[],SET={...DEF_SET},LAST={},DEBT={};
 function loaded(){
   SET=Object.assign({},DEF_SET,Store.docs["meta/settings"]||{});SET.plans=Object.assign({},SET.plans||{});
-  SUBS=new Map();ACTS=[];PAYS=[];LAST={};DEBT={};
+  SUBS=new Map();ACTS=[];PAYS=[];NOTES=[];LAST={};DEBT={};
   for(const [p,doc] of Object.entries(Store.docs)){
     if(p.startsWith("subs/"))for(const [k,s] of Object.entries(doc.items||{}))SUBS.set(k,s);
-    else if(p.startsWith("act/"))for(const [k,a] of Object.entries(doc.items||{}))ACTS.push({k,u:a[0],d:a[1],pl:a[2],c:a[3],s:a[4],by:a[5],pay:a[6]==="a"?"a":"c",pd:+a[7]||0});
-    else if(p.startsWith("pay/"))for(const [k,a] of Object.entries(doc.items||{}))PAYS.push({k,u:a[0],d:a[1],amt:+a[2]||0,note:a[3]||""});
+    else if(p.startsWith("act/"))for(const [k,a] of Object.entries(doc.items||{}))ACTS.push({k,u:a[0],d:a[1],pl:a[2],c:a[3],s:a[4],by:a[5],pay:a[6]==="a"?"a":"c",pd:+a[7]||0,sid:a[8]||""});
+    else if(p.startsWith("pay/"))for(const [k,a] of Object.entries(doc.items||{}))PAYS.push({k,u:a[0],d:a[1],amt:+a[2]||0,note:a[3]||"",sid:a[4]||"",byn:a[5]||""});
+    else if(p==="notes/all")NOTES=Object.entries(doc.items||{}).map(([id,n])=>({id,...n})).sort((a,b)=>(b.at||0)-(a.at||0));
   }
   ACTS.sort((a,b)=>a.d-b.d);PAYS.sort((a,b)=>a.d-b.d);
   for(const a of ACTS){LAST[a.u]=a;if(a.pay==="a")DEBT[a.u]=(DEBT[a.u]||0)+actSell(a)-a.pd}
@@ -845,14 +958,14 @@ const ST_LBL={act:"فعّال",near:"قريب الانتهاء",exp:"منتهي"
 const pill=(st,days)=>`<span class="pill ${st}">${ST_LBL[st]}${st==="near"?" · "+days+" يوم":""}${st==="act"&&days!=null?" · "+days+" يوم":""}${st==="exp"&&days!=null?" · منذ "+Math.abs(days)+" يوم":""}</span>`;
 
 /* ================= ROUTING ================= */
-const VIEWS=["home","activate","subs","debts","match","import","config"];
+const VIEWS=["home","activate","subs","debts","match","import","config","notices","reports"];
 const ALLV=VIEWS.concat(["admin"]);
 let VIEW="home";
 function show(v){
   if(ROLE==="admin"&&!VIEWAS)v="admin";
   else if(!VIEWS.includes(v))v="home";
-  if(ROLE==="staff"&&(v==="config"||v==="import"))v="home";
-  if(v==="match"&&ROLE&&!matchOn())v="home";
+  if(ROLE&&((v==="config"&&!can("plans"))||(v==="import"&&!can("import"))||(v==="reports"&&!can("reports"))))v="home";
+  if(v==="match"&&ROLE&&(!matchOn()||!can("import")))v="home";
   VIEW=v;
   ALLV.forEach(x=>$("v-"+x).hidden=x!==v);
   document.querySelectorAll("[data-v]").forEach(a=>{const on=a.dataset.v===v||(a.dataset.v==="more"&&(v==="import"||v==="config"||v==="match"));a.setAttribute("aria-current",on?"page":"false")});
@@ -862,7 +975,7 @@ function show(v){
 window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
 show(location.hash.slice(1));
 $("moreNav").onclick=()=>modal(`<div class="mhd"><div class="t"><h2>المزيد</h2></div><button class="x" data-close aria-label="إغلاق">×</button></div>
-  <div class="sheetmenu">${matchOn()?`<a href="#match" data-close><svg><use href="#i-match"/></svg>المطابقة</a>`:""}${SUBS.size||ROLE==="staff"?"":`<a href="#import" data-close><svg><use href="#i-pdf"/></svg>استيراد أولي</a>`}${ROLE==="staff"?"":`<a href="#config" data-close><svg><use href="#i-cog"/></svg>الباقات والإعدادات والموظفين</a>`}</div>
+  <div class="sheetmenu"><a href="#notices" data-close><svg><use href="#i-mega"/></svg>التبليغات والتنبيهات</a>${can("reports")?`<a href="#reports" data-close><svg><use href="#i-chart"/></svg>تقرير الموظفين</a>`:""}${matchOn()&&can("import")?`<a href="#match" data-close><svg><use href="#i-match"/></svg>المطابقة</a>`:""}${can("import")?`<a href="#import" data-close><svg><use href="#i-pdf"/></svg>استيراد تفعيلات</a>`:""}${can("plans")?`<a href="#config" data-close><svg><use href="#i-cog"/></svg>${ROLE==="staff"?"الباقات والإعدادات":"الباقات والإعدادات والموظفين"}</a>`:""}</div>
   <div class="sheetmenu">${VIEWAS?`<a href="#admin" data-backadmin><svg><use href="#i-home"/></svg>رجوع للإدارة</a>`:""}<a href="#" data-logout><svg><use href="#i-more"/></svg>تسجيل خروج</a></div>
   <div class="muted">${esc(displayName())}${MEMBER()&&ACCOUNT?" · الاشتراك لغاية "+fdate(tsMs(ACCOUNT.expiresAt)):""}</div>`);
 document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(!g)return;F.st=g.dataset.go;F.lim=150;location.hash="subs";renderSubs()});
@@ -886,8 +999,11 @@ function renderAll(){
   const dc=Object.keys(DEBT).filter(k=>debtOf(k)>0).length;
   for(const id of ["debtBadge","debtBadgeM"]){const b=$(id);b.hidden=!dc;b.textContent=dc}
   const empty=!SUBS.size;
-  $("navImport").hidden=!empty;$("heroImport").hidden=!empty;$("impLocked").hidden=empty;$("impOpen").hidden=!empty;if(!empty&&!IMP)$("impRes").hidden=true;
-  renderHome();renderSubs();renderDebts();renderConfig();renderActivate(true);
+  $("heroImport").hidden=!empty;$("impLocked").hidden=can("import");$("impOpen").hidden=!can("import");
+  $("impIntro").innerHTML=empty?'الموقع فارغ هسه. ارفع تقرير الشركة لهذا الشهر، <b style="color:var(--ink)">وارفع وياه تقرير الشهر السابق</b> حتى تطلع مقارنة الأشهر والمشتركين المفقودين من أول يوم. يقبل PDF وExcel.':"ارفع تقرير الشركة (PDF أو Excel)، وينضاف بس اللي مو مسجّل بالموقع. التفعيلات المكررة تنترك تلقائياً.";
+  $("dropSub").textContent=empty?"ملف هذا الشهر + ملف الشهر السابق":"PDF أو Excel · ينضاف الناقص فقط";
+  $("plansBox").open=ROLE==="staff"||$("plansBox").open;
+  renderHome();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();
 }
 
 /* ================= HOME ================= */
@@ -954,13 +1070,13 @@ function renderHome(){
   const groups={
     lost:{cls:"r",big:lostNow.length,h:isCur?"مفقودين هذا الشهر":"مفقودين بـ "+mname(m0),s:`جددوا بـ ${mname(m1)} وما جددوا بـ ${mname(m0)}${isCur?" واشتراكهم انتهى":""} · نسبة الفقد ${rate(lostNow.length,S1.size)}`,items:lostNow},
     prev:{cls:"r",big:lostPrev.length,h:"مفقودين بـ "+mname(m1),s:`جددوا بـ ${mname(m2)} وما جددوا بـ ${mname(m1)} · نسبة الفقد ${rate(lostPrev.length,S2.size)}`,items:lostPrev},
-    wait:isCur?{cls:"y",big:waiting.length,h:"لسه ما وصل موعدهم",s:`جددوا بـ ${mname(m1)} واشتراكهم بعده شغّال`,items:waiting}:{cls:"g",big:fresh.length+back.length,h:"جدد ورجعوا",s:`${fresh.length} جديد · ${back.length} رجعوا بعد انقطاع`,items:fresh.concat(back)}
+    wait:isCur?{cls:"y",big:waiting.length,h:"بعده ما وصل موعدهم",s:`جددوا بـ ${mname(m1)} واشتراكهم بعده شغّال`,items:waiting}:{cls:"g",big:fresh.length+back.length,h:"جدد ورجعوا",s:`${fresh.length} جديد · ${back.length} رجعوا بعد انقطاع`,items:fresh.concat(back)}
   };
   if(!groups[LOSTTAB])LOSTTAB="lost";
   $("lostSub").textContent=`مقارنة ${mname(m0)} مع ${mname(m1)} و${mname(m2)}`;
   $("lostBoxes").innerHTML=Object.entries(groups).map(([k,g])=>`<button class="lbox ${g.cls}" data-lt="${k}" aria-pressed="${k===LOSTTAB}"><span class="h">${g.h}</span><span class="big">${fmt(g.big)}</span><span class="s">${esc(g.s)}</span></button>`).join("");
-  $("lostHint").textContent=groups[LOSTTAB].items.length?"اضغط على أي مشترك حتى تفتح بياناته أو تجدد له.":"";
-  $("lostList").innerHTML=listHtml(groups[LOSTTAB].items,now)||`<div class="empty">ما في أحد بهذي القائمة.</div>`;
+  $("lostHint").textContent=groups[LOSTTAB].items.length?"دوس على أي مشترك حتى تفتح بياناته أو تجدد له.":"";
+  $("lostList").innerHTML=listHtml(groups[LOSTTAB].items,now)||`<div class="empty">ماكو أحد بهذي القائمة.</div>`;
 
   const cols=[{k:m2,S:S2,P:S3,M:monthMoney(m2),l:"قبل السابق"},{k:m1,S:S1,P:S2,M:monthMoney(m1),l:"السابق"},{k:m0,S:S0,P:S1,M:monthMoney(m0),l:isCur?"الحالي":"المختار",cur:true}];
   const dl=(x,y)=>{if(!y)return "";const p=(x-y)/y*100;return `<span class="delta ${p>=0?"up":"down"}">${p>=0?"▲":"▼"}${Math.abs(p).toFixed(0)}%</span>`};
@@ -970,12 +1086,12 @@ function renderHome(){
       <dt>المفقودين</dt><dd class="lostv">−${fmt(lostN)}</dd>
       <dt>جداد عن الشهر اللي قبله</dt><dd style="color:var(--ok)">+${fmt(nw)}</dd>
       <dt>التفعيلات</dt><dd>${fmt(col.M.n)}</dd>
-      <dt class="ownonly">صافي الربح</dt><dd class="ownonly" style="color:var(--ok)">${fmt(col.M.profit)}${pv?dl(col.M.profit,pv.M.profit):""}</dd></dl></div>`}).join("");
+      <dt class="p-finance">صافي الربح</dt><dd class="p-finance" style="color:var(--ok)">${fmt(col.M.profit)}${pv?dl(col.M.profit,pv.M.profit):""}</dd></dl></div>`}).join("");
 
   const near=[...SUBS.keys()].map(k=>({k,s:status(k,now)})).filter(x=>x.s.st==="near").sort((a,b)=>a.s.exp-b.s.exp);
-  $("nearList").innerHTML=listHtml(near.map(x=>x.k),now,true)||`<div class="empty">ما في مشترك ينتهي خلال ${SET.near} أيام.</div>`;
+  $("nearList").innerHTML=listHtml(near.map(x=>x.k),now,true)||`<div class="empty">ماكو مشترك ينتهي خلال ${SET.near} أيام.</div>`;
   const dt=Object.keys(DEBT).filter(k=>debtOf(k)>0).sort((a,b)=>debtOf(b)-debtOf(a)).slice(0,30);
-  $("debtTop").innerHTML=dt.map(k=>{const s=SUBS.get(k)||{};return `<div class="li" data-open="${esc(k)}"><span class="nm">${esc(s.n||s.u||k)}</span><span class="u">${esc(s.u||k)}</span><span class="debt">${fmt(debtOf(k))}</span><button class="btn ok sm" data-pay="${esc(k)}">تسديد</button></div>`}).join("")||`<div class="empty">ما في ديون. كل المشتركين مسددين.</div>`;
+  $("debtTop").innerHTML=dt.map(k=>{const s=SUBS.get(k)||{};return `<div class="li" data-open="${esc(k)}"><span class="nm">${esc(s.n||s.u||k)}</span><span class="u">${esc(s.u||k)}</span><span class="debt">${fmt(debtOf(k))}</span><button class="btn ok sm" data-pay="${esc(k)}">تسديد</button></div>`}).join("")||`<div class="empty">ماكو ديون. كل المشتركين مسددين.</div>`;
 }
 function listHtml(keys,now,renew){
   return keys.slice(0,400).map(k=>{const s=SUBS.get(k)||{};const st=status(k,now);const d=debtOf(k);
@@ -986,10 +1102,23 @@ $("cFrom").onchange=renderHome;$("cTo").onchange=renderHome;
 $("refMonth").onchange=e=>{REF=e.target.value;renderHome()};
 $("lostBoxes").onclick=e=>{const b=e.target.closest("[data-lt]");if(b){LOSTTAB=b.dataset.lt;renderHome()}};
 document.addEventListener("click",e=>{
-  const r=e.target.closest("[data-renew]");if(r){e.preventDefault();e.stopPropagation();closeModal();selectForActivate(r.dataset.renew);return}
+  const r=e.target.closest("[data-renew]");if(r){e.preventDefault();e.stopPropagation();const rk=r.dataset.renew;closeModal();selectForActivate(rk);return}
   const p=e.target.closest("[data-pay]");if(p){e.preventDefault();e.stopPropagation();openPay(p.dataset.pay)}
 },true);
 
+/* ================= PLANS ================= */
+const PCOL=["#2fd2c4","#4fb6ff","#8b7bff","#c46bff","#ff9f2f","#ff3b4f"];
+function planList(){return Object.entries(SET.plans).sort((a,b)=>(+a[1].s||0)-(+b[1].s||0)||a[0].localeCompare(b[0]))}
+function planColor(n){const l=planList();const i=l.findIndex(x=>x[0]===n);if(i<0)return "var(--line2)";if(l.length<2)return PCOL[2];return PCOL[Math.round(i/(l.length-1)*(PCOL.length-1))]}
+function planCardHtml(n,p,i,len){const sp=String(p.speed||"").trim();const m=sp.match(/^(\d+(?:\.\d+)?)\s*(.*)$/);
+  return `<div class="plancard" style="--pc:${planColor(n)}">${len>1&&i===len-1?'<span class="tag2">الأقوى</span>':len>1&&i===0?'<span class="tag2">الأوفر</span>':""}<div class="pn">${esc(n)}</div>
+  <div class="sp">${sp?(m?`${esc(m[1])} <small>${esc(m[2]||"ميگا")}</small>`:esc(sp)):'<small>السرعة ما محددة</small>'}</div>
+  <div class="pr">${fmt(+p.s||0)} <small>د.ع</small></div>${p.info?`<div class="inf">${esc(p.info)}</div>`:""}</div>`}
+function renderPlansHome(){
+  const l=planList();$("plansBox").hidden=!l.length;
+  $("plansCount").textContent=l.length?l.length+" باقة":"";
+  $("planCards").innerHTML=l.map(([n,p],i)=>planCardHtml(n,p,i,l.length)).join("");
+}
 /* ================= ACTIVATE ================= */
 function twoName(n){const t=String(n||"").trim().split(/\s+/).filter(Boolean);const out=[];for(let i=0;i<t.length&&out.length<2;i++){let w=t[i];if(/^(عبد|ابو|أبو|ابن|ام|أم)$/.test(w)&&t[i+1])w+=" "+t[++i];out.push(w)}return out.join(" ")}
 function actMsg(k,pl){const s=SUBS.get(k)||{};return [s.u||k,twoName(s.n),pl||s.pl||""].filter(Boolean).join("\n")}
@@ -998,10 +1127,27 @@ function copyText(txt,box){
   try{const p=navigator.clipboard&&navigator.clipboard.writeText(txt);if(p&&p.then)p.then(()=>toast("انتسخت رسالة التفعيل"),fallback);else fallback()}catch(e){fallback()}
 }
 let ASEL=null,AST={pl:"",pay:"c",pd:"",sell:"",when:null,done:null};
-function selectForActivate(k){
+let SHEET=false;
+const isPhone=()=>matchMedia("(max-width:900px)").matches;
+const APT=()=>SHEET&&$("sheetPanel")?$("sheetPanel"):$("apanel");
+const normPhone=v=>normD(String(v||"")).replace(/[\s\-()]/g,"").replace(/^\+?964/,"0").replace(/^00964/,"0");
+const phoneOk=v=>/^07\d{9}$/.test(normPhone(v));
+function startAct(k){
   ASEL=k;const s=SUBS.get(k)||{};
   const pl=s.pl&&SET.plans[s.pl]?s.pl:(Object.keys(SET.plans)[0]||"");
-  AST={pl,pay:"c",pd:"",sell:String(planSell(pl)||""),when:null,done:null};
+  AST={pl,pay:"c",pd:"",sell:String(planSell(pl)||""),when:null,done:null,phone:""};
+}
+function openRenewSheet(k){
+  if(!SUBS.has(k))return;
+  startAct(k);
+  $("apanel").innerHTML="";
+  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><div class="eyebrow"><span>RENEW</span></div><h2>تجديد اشتراك</h2></div><button class="x" data-close aria-label="سكّر">×</button></div><div id="sheetPanel"></div>`);
+  SHEET=true;renderAPanel();
+  if(NOTES.some(n=>n.t==="a"&&n.on!==false&&(!n.u||n.u===k))&&navigator.vibrate)try{navigator.vibrate(120)}catch(e){}
+}
+function selectForActivate(k){
+  if(isPhone())return openRenewSheet(k);
+  startAct(k);
   if(location.hash!=="#activate")location.hash="activate";
   renderActivate();
   if(matchMedia("(max-width:1050px)").matches)setTimeout(()=>$("apanel").scrollIntoView({behavior:"smooth",block:"start"}),60);
@@ -1028,19 +1174,19 @@ function renderActivate(fromData){
   $("ares").innerHTML=keys.map(k=>{const s=SUBS.get(k)||{};const st=status(k,now);const d=debtOf(k);
     return `<button class="rc${k===ASEL?" sel":""}" data-asel="${esc(k)}"><span class="n">${esc(s.n||"بدون اسم")}</span>${pill(st.st,st.days)}<span class="m"><span class="num">${esc(s.u)}</span>${s.pl?`<span class="plan">${esc(s.pl)}</span>`:""}${s.p?`<span class="num">${esc(s.p)}</span>`:""}${d?`<span>دين: <span class="debt">${fmt(d)}</span></span>`:""}</span></button>`}).join("")
     ||(q.trim()?`<div class="empty"><b>ما لكينا "${esc(q)}"</b>تريد تضيفه مشترك جديد؟<div class="row" style="justify-content:center;margin-top:12px"><button class="btn" id="quickAdd"><svg><use href="#i-plus"/></svg>إضافة "${esc(q.trim())}"</button></div></div>`
-      :(SUBS.size?`<div class="empty">ما في أحد يحتاج تجديد هسه.</div>`:`<div class="empty"><b>ما في مشتركين بعد</b>ابدأ باستيراد تقرير PDF.<div class="row" style="justify-content:center;margin-top:12px"><a class="btn" href="#import">استيراد PDF</a></div></div>`));
+      :(SUBS.size?`<div class="empty">ماكو أحد يحتاج تجديد هسه.</div>`:`<div class="empty"><b>ماكو مشتركين بعد</b>ابدي باستيراد تقرير PDF.<div class="row" style="justify-content:center;margin-top:12px"><a class="btn" href="#import">استيراد PDF</a></div></div>`));
   const qa=$("quickAdd");if(qa)qa.onclick=()=>openAdd(q.trim());
-  if(fromData&&document.activeElement&&$("apanel").contains(document.activeElement))return;
+  if(fromData&&document.activeElement&&APT().contains(document.activeElement))return;
   renderAPanel();
 }
 function renderAPanel(){
-  const P=$("apanel");
-  if(!ASEL||!SUBS.has(ASEL)){ASEL=null;P.innerHTML=`<div class="empty"><b>اختار مشترك</b>ابحث عنه واضغط عليه حتى تفعّله.</div>`;return}
+  const P=APT();
+  if(!ASEL||!SUBS.has(ASEL)){if(SHEET){closeModal();return}ASEL=null;P.innerHTML=`<div class="empty"><b>اختار مشترك</b>دوّره ودوس عليه حتى تفعّله.</div>`;return}
   const k=ASEL,s=SUBS.get(k),now=Date.now(),st=status(k,now),d=debtOf(k);
   if(AST.done){
-    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تم التفعيل</h2><div>${esc(s.n||s.u)}</div><div class="muted">فعّال لغاية <span class="num">${fdate(AST.done.exp)}</span> · ${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div>دينه الكلي هسه: <span class="debt">${fmt(AST.done.debt)}</span></div>`:""}<pre class="msgbox" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button><button class="btn ghost go" id="nextAct">تفعيل مشترك ثاني</button></div>`;
+    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تم التفعيل</h2><div>${esc(s.n||s.u)}</div><div class="muted">فعّال لغاية <span class="num">${fdate(AST.done.exp)}</span> · ${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div>دينه الكلي هسه: <span class="debt">${fmt(AST.done.debt)}</span></div>`:""}<pre class="msgbox" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button><button class="btn ghost go" id="nextAct">${SHEET?"تمام، سكّر":"تفعيل مشترك ثاني"}</button></div>`;
     $("copyMsg").onclick=()=>copyText(AST.done.msg,$("msgBox"));
-    $("nextAct").onclick=()=>{ASEL=null;$("aq").value="";renderActivate();$("aq").focus()};return;
+    $("nextAct").onclick=()=>{if(SHEET){closeModal();return}ASEL=null;$("aq").value="";renderActivate();$("aq").focus()};return;
   }
   const plans=Object.keys(SET.plans);
   const sell=AST.sell===""?0:+AST.sell;
@@ -1048,8 +1194,19 @@ function renderAPanel(){
   const when=AST.when||now;
   const base=st.exp&&st.exp>when?st.exp:when; // shows the new expiry from activation time
   const newExp=when+SET.period*DAY;
-  P.innerHTML=`<div class="who"><span class="muted">تفعيل</span><b>${esc(s.n||"بدون اسم")}</b><div class="row"><span class="num">${esc(s.u)}</span>${pill(st.st,st.days)}${d?`<span>دين سابق: <span class="debt">${fmt(d)}</span></span>`:""}</div></div>
-  <div class="field"><label>الباقة</label><div class="plans">${plans.map(p=>`<button class="pbtn" data-apl="${esc(p)}" aria-pressed="${p===AST.pl}"><b>${esc(p)}</b><span>${fmt(planSell(p)||0)}</span></button>`).join("")||`<span class="muted">ما في باقات. أضفها من الإعدادات.</span>`}</div></div>
+  const la=LAST[k];const needPhone=!s.p;const phOk=!needPhone||phoneOk(AST.phone);
+  const alerts=NOTES.filter(n=>n.t==="a"&&n.on!==false&&(!n.u||n.u===k));
+  P.innerHTML=`${alerts.map(n=>`<div class="alertbox" role="alert"><svg><use href="#i-alert"/></svg><div><small>${n.u?"تنبيه على هذا المشترك":"تنبيه"}</small><p>${esc(n.x)}</p></div></div>`).join("")}<div class="who"><div class="row" style="justify-content:space-between;flex-wrap:nowrap"><b style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.n||"بدون اسم")}</b>${pill(st.st,st.days)}</div>
+    <dl class="info">
+      <div><dt>اليوزر</dt><dd><span class="num">${esc(s.u)}</span></dd></div>
+      <div><dt>رقم الهاتف</dt><dd>${s.p?`<span class="num">${esc(s.p)}</span>`:'<span style="color:var(--bad)">ما مضاف</span>'}</dd></div>
+      <div><dt>الباقة الحالية</dt><dd>${s.pl?`<span class="plan">${esc(s.pl)}</span>`:"—"}</dd></div>
+      <div><dt>${st.st==="exp"?"انتهى بتاريخ":"ينتهي بتاريخ"}</dt><dd>${st.exp?`<span class="num">${fdate(st.exp)}</span>`:"—"}</dd></div>
+      <div><dt>آخر تفعيل</dt><dd>${la?`<span class="num">${fdate(la.d)}</span>`:"ماكو"}</dd></div>
+      <div><dt>الدين عليه</dt><dd>${d?`<span class="debt">${fmt(d)}</span>`:'<span style="color:var(--ok)">ماكو دين</span>'}</dd></div>
+    </dl></div>
+  ${needPhone?`<div class="field needph"><label for="aPhone">رقم هاتف المشترك (لازم قبل التجديد)</label><input type="tel" id="aPhone" dir="ltr" inputmode="tel" placeholder="07xxxxxxxxx" value="${esc(AST.phone)}" autocomplete="off"><small id="aPhoneMsg" style="color:${phOk?"var(--ok)":"var(--warn)"}">${AST.phone?(phOk?"الرقم تمام":"الرقم لازم 11 رقم ويبدي بـ 07"):"المشترك ما عنده رقم بالنظام، اكتبه حتى تكدر تجدد"}</small></div>`:""}
+  <div class="field"><label>الباقة</label><div class="plans">${planList().map(([p,pp])=>`<button class="pbtn" style="--pc:${planColor(p)}" data-apl="${esc(p)}" aria-pressed="${p===AST.pl}"><b>${esc(p)}</b><span>${fmt(planSell(p)||0)}</span>${pp.speed?`<small>${esc(pp.speed)}</small>`:""}</button>`).join("")||`<span class="muted">ماكو باقات. ضيفها من الإعدادات.</span>`}</div></div>
   <div class="field" style="margin-top:14px"><label>طريقة الدفع</label><div class="pay"><button data-p="c" aria-pressed="${AST.pay==="c"}">نقد<small>استلمت المبلغ</small></button><button data-p="a" aria-pressed="${AST.pay==="a"}">آجل<small>ينضاف دين عليه</small></button></div></div>
   <div class="fgrid" style="margin-top:14px">
     <div class="field"><label for="aSell">سعر البيع</label><input type="number" id="aSell" dir="ltr" value="${esc(AST.sell)}" inputmode="numeric"></div>
@@ -1058,11 +1215,12 @@ function renderAPanel(){
   <div style="margin-top:10px">${AST.when==null?`<button class="lnk" id="chgDate">تاريخ التفعيل: الآن · تغيير</button>`:`<div class="field"><label for="aWhen">تاريخ التفعيل</label><input type="datetime-local" id="aWhen" value="${toLocalInput(when)}"></div>`}</div>
   <dl class="sum" style="margin-top:14px">
     <dt>ينتهي بتاريخ</dt><dd>${fdate(newExp)}</dd>
-    <dt class="ownonly">سعر الشركة</dt><dd class="ownonly">${fmt(planCost(AST.pl))}</dd>
-    <dt class="ownonly">ربحك</dt><dd class="ownonly" style="color:var(--ok)">${fmt(sell-planCost(AST.pl))}</dd>
+    <dt class="p-finance">سعر الشركة</dt><dd class="p-finance">${fmt(planCost(AST.pl))}</dd>
+    <dt class="p-finance">ربحك</dt><dd class="p-finance" style="color:var(--ok)">${fmt(sell-planCost(AST.pl))}</dd>
     ${AST.pay==="a"?`<dt>ينضاف دين</dt><dd style="color:var(--bad)">${fmt(sell-pd)}</dd><dt>الدين الكلي بعد التفعيل</dt><dd style="color:var(--bad)">${fmt(d+sell-pd)}</dd>`:`<dt>المقبوض</dt><dd style="color:var(--ok)">${fmt(sell)}</dd>`}
   </dl>
-  <button class="btn go" id="doAct" style="margin-top:14px" ${AST.pl?"":"disabled"}><svg><use href="#i-bolt"/></svg>تفعيل · ${fmt(sell)} د.ع ${AST.pay==="a"?"(آجل)":"(نقد)"}</button>`;
+  <div class="actbar"><button class="btn go" id="doAct" ${AST.pl&&phOk?"":"disabled"}><svg><use href="#i-bolt"/></svg>تفعيل · ${fmt(sell)} د.ع ${AST.pay==="a"?"(آجل)":"(نقد)"}</button></div>`;
+  if($("aPhone")){const ip=$("aPhone");ip.oninput=()=>{AST.phone=ip.value;const ok=phoneOk(ip.value);$("aPhoneMsg").textContent=ip.value?(ok?"الرقم تمام":"الرقم لازم 11 رقم ويبدي بـ 07"):"المشترك ما عنده رقم بالنظام، اكتبه حتى تكدر تجدد";$("aPhoneMsg").style.color=ok?"var(--ok)":"var(--warn)";$("doAct").disabled=!(AST.pl&&ok)}}
   P.querySelectorAll("[data-apl]").forEach(b=>b.onclick=()=>{AST.pl=b.dataset.apl;AST.sell=String(planSell(AST.pl)||"");renderAPanel()});
   P.querySelectorAll(".pay [data-p]").forEach(b=>b.onclick=()=>{AST.pay=b.dataset.p;renderAPanel()});
   $("aSell").oninput=e=>{AST.sell=e.target.value;softSum()};
@@ -1075,12 +1233,14 @@ function renderAPanel(){
 }
 async function doActivate(){
   const k=ASEL,s=SUBS.get(k);if(!s||!AST.pl)return;
-  const btn=$("doAct");btn.disabled=true;btn.textContent="جارِ الحفظ...";
+  if(!s.p&&!phoneOk(AST.phone)){toast("اكتب رقم هاتف المشترك أول");const ip=$("aPhone");if(ip)ip.focus();return}
+  const newPhone=s.p?"":normPhone(AST.phone);
+  const btn=$("doAct");btn.disabled=true;btn.textContent="دا يحفظ...";
   const when=AST.when||Date.now();const sell=AST.sell===""?planSell(AST.pl):+AST.sell;
   const pd=AST.pay==="a"?Math.max(0,Math.min(sell,+AST.pd||0)):0;
-  const a={k:k+"|"+when,u:k,d:when,pl:AST.pl,c:planCost(AST.pl),s:sell===planSell(AST.pl)?null:sell,by:"يدوي",pay:AST.pay,pd};
+  const a={k:k+"|"+when,u:k,d:when,pl:AST.pl,c:planCost(AST.pl),s:sell===planSell(AST.pl)?null:sell,by:displayName()||"يدوي",pay:AST.pay,pd,sid:mySid()};
   const pay=AST.pay;
-  const ok=await guard(async()=>{await saveActs([a]);if(s.pl!==AST.pl)await saveSubs(new Map([[k,{...s,pl:AST.pl}]]))});
+  const ok=await guard(async()=>{await saveActs([a]);if(s.pl!==AST.pl||newPhone)await saveSubs(new Map([[k,{...s,pl:AST.pl,...(newPhone?{p:newPhone}:{})}]]))});
   if(ok){AST.done={exp:when+SET.period*DAY,pay,debt:debtOf(k),msg:actMsg(k,a.pl)};renderAPanel();toast("تم تفعيل "+(s.n||s.u))}
 }
 $("aq").addEventListener("input",()=>renderActivate());
@@ -1110,17 +1270,17 @@ function renderSubs(){
   rows.sort((a,b)=>F.st==="debt"?b.d-a.d:(order[a.st.st]-order[b.st.st]||(a.st.exp||0)-(b.st.exp||0)));
   const t=$("subTbl");
   $("subCards").hidden=true;$("subTblBox").hidden=false;
-  if(!SUBS.size){t.innerHTML=`<tbody><tr><td class="empty"><b>ما في مشتركين بعد</b>ابدأ باستيراد تقرير PDF من الشركة، أو أضف مشترك يدوياً.<div class="row" style="justify-content:center;margin-top:12px"><a class="btn" href="#import">استيراد PDF</a></div></td></tr></tbody>`;$("moreBox").hidden=true;return}
+  if(!SUBS.size){t.innerHTML=`<tbody><tr><td class="empty"><b>ماكو مشتركين بعد</b>ابدي باستيراد تقرير PDF من الشركة، أو ضيف مشترك يدوياً.<div class="row" style="justify-content:center;margin-top:12px"><a class="btn" href="#import">استيراد PDF</a></div></td></tr></tbody>`;$("moreBox").hidden=true;return}
   const shown=rows.slice(0,F.lim);
   if(matchMedia("(max-width:700px)").matches){
     $("subCards").hidden=false;$("subTblBox").hidden=true;
     $("subCards").innerHTML=shown.map(r=>`<div class="scard st-${r.st.st}" data-open="${esc(r.k)}"><div class="sc-top"><b class="sc-n">${esc(r.s.n||"بدون اسم")}</b>${pill(r.st.st,r.st.days)}</div>
       <div class="sc-meta"><span class="num">${esc(r.s.u)}</span>${r.s.pl?`<span class="plan">${esc(r.s.pl)}</span>`:""}${r.st.exp?`<span>ينتهي <span class="num">${fdate(r.st.exp)}</span></span>`:""}${r.s.p?`<span class="num">${esc(r.s.p)}</span>`:""}</div>
-      <div class="sc-bot">${r.d?`<span>دين <span class="debt">${fmt(r.d)}</span></span>`:`<span class="muted">${LAST[r.k]?"آخر تفعيل "+fdate(LAST[r.k].d):"بدون تفعيل"}</span>`}<button class="btn sm" data-renew="${esc(r.k)}"><svg><use href="#i-bolt"/></svg>تفعيل</button></div></div>`).join("")||`<div class="empty">ما في نتائج.</div>`;
-    $("moreBox").hidden=rows.length<=F.lim;$("moreBtn").textContent="عرض المزيد ("+(rows.length-F.lim)+")";return;
+      <div class="sc-bot">${r.d?`<span>دين <span class="debt">${fmt(r.d)}</span></span>`:`<span class="muted">${LAST[r.k]?"آخر تفعيل "+fdate(LAST[r.k].d):"بدون تفعيل"}</span>`}<button class="btn sm" data-renew="${esc(r.k)}"><svg><use href="#i-bolt"/></svg>تفعيل</button></div></div>`).join("")||`<div class="empty">ماكو نتائج.</div>`;
+    $("moreBox").hidden=rows.length<=F.lim;$("moreBtn").textContent="طلّع بعد ("+(rows.length-F.lim)+")";return;
   }
-  t.innerHTML=`<thead><tr><th>الاسم</th><th>اليوزر</th><th>الرقم</th><th>الباقة</th><th>ينتهي</th><th>الحالة</th><th>الدين</th><th></th></tr></thead><tbody>${shown.map(r=>`<tr class="click" data-open="${esc(r.k)}"><td class="name">${esc(r.s.n||"—")}</td><td class="num">${esc(r.s.u)}</td><td class="num">${esc(r.s.p||"—")}</td><td>${r.s.pl?`<span class="plan">${esc(r.s.pl)}</span>`:"—"}</td><td class="num">${r.st.exp?fdate(r.st.exp):"—"}</td><td>${pill(r.st.st,r.st.days)}</td><td>${r.d?`<span class="debt">${fmt(r.d)}</span>`:"—"}</td><td><button class="btn sm" data-renew="${esc(r.k)}">تفعيل</button></td></tr>`).join("")||`<tr><td colspan="8" class="empty">ما في نتائج.</td></tr>`}</tbody>`;
-  $("moreBox").hidden=rows.length<=F.lim;$("moreBtn").textContent="عرض المزيد ("+(rows.length-F.lim)+")";
+  t.innerHTML=`<thead><tr><th>الاسم</th><th>اليوزر</th><th>الرقم</th><th>الباقة</th><th>ينتهي</th><th>الحالة</th><th>الدين</th><th></th></tr></thead><tbody>${shown.map(r=>`<tr class="click" data-open="${esc(r.k)}"><td class="name">${esc(r.s.n||"—")}</td><td class="num">${esc(r.s.u)}</td><td class="num">${esc(r.s.p||"—")}</td><td>${r.s.pl?`<span class="plan">${esc(r.s.pl)}</span>`:"—"}</td><td class="num">${r.st.exp?fdate(r.st.exp):"—"}</td><td>${pill(r.st.st,r.st.days)}</td><td>${r.d?`<span class="debt">${fmt(r.d)}</span>`:"—"}</td><td><button class="btn sm" data-renew="${esc(r.k)}">تفعيل</button></td></tr>`).join("")||`<tr><td colspan="8" class="empty">ماكو نتائج.</td></tr>`}</tbody>`;
+  $("moreBox").hidden=rows.length<=F.lim;$("moreBtn").textContent="طلّع بعد ("+(rows.length-F.lim)+")";
 }
 $("q").oninput=e=>{F.q=e.target.value;F.lim=150;renderSubs()};
 $("planF").onchange=e=>{F.pl=e.target.value;renderSubs()};
@@ -1128,7 +1288,71 @@ $("stChips").onclick=e=>{const b=e.target.closest("[data-st]");if(b){F.st=b.data
 $("moreBtn").onclick=()=>{F.lim+=300;renderSubs()};
 
 let _mq=matchMedia("(max-width:700px)").matches;
-window.addEventListener("resize",()=>{const m=matchMedia("(max-width:700px)").matches;if(m!==_mq){_mq=m;renderSubs();if(ROLE==="admin")renderAdmin()}});
+window.addEventListener("resize",()=>{const m=matchMedia("(max-width:700px)").matches;if(m!==_mq){_mq=m;renderSubs();renderReports();if(ROLE==="admin")renderAdmin()}});
+/* ================= BROADCASTS · MY STATS ================= */
+function renderBcasts(){
+  const b=NOTES.filter(n=>n.t==="b"&&n.on!==false);
+  $("bcasts").innerHTML=b.map(n=>`<div class="bcast"><span class="dot"></span><div class="ic"><svg><use href="#i-mega"/></svg></div><div style="min-width:0"><b>تبليغ</b><p>${esc(n.x)}</p><small>${esc(n.by||"")}${n.at?" · "+fdate(n.at):""}</small></div></div>`).join("");
+}
+function sumBy(filterA,filterP){let n=0,amt=0,col=0;for(const a of ACTS)if(filterA(a)){n++;amt+=actSell(a)}for(const p of PAYS)if(filterP(p))col+=p.amt;return {n,amt,col}}
+function renderMyStats(){
+  if(ROLE!=="staff"){$("myStats").innerHTML="";return}
+  const me=mySid(),t0=sod(Date.now());
+  const T=sumBy(a=>a.sid===me&&a.d>=t0,p=>p.sid===me&&p.d>=t0);
+  const L=sumBy(a=>a.sid===me&&a.d>=t0-2*DAY,p=>p.sid===me&&p.d>=t0-2*DAY);
+  const box=(h,x)=>`<div class="mystat"><span class="h">${h}</span><span class="n">${fmt(x.n)}</span><span class="c">تفعيل</span><span class="a">${fmt(x.amt)} د.ع</span>${x.col?`<span class="c">+ استلمت ${fmt(x.col)} د.ع تسديدات</span>`:""}</div>`;
+  $("myStats").innerHTML=box("اليوم",T)+box("آخر 3 أيام",L);
+}
+/* ================= NOTICES ================= */
+let NT="b";
+function renderNotices(){
+  $("ntType").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===NT));
+  $("ntUserBox").hidden=NT!=="a";
+  if(document.activeElement!==$("ntUser"))$("ntUsers").innerHTML=[...SUBS.values()].slice(0,500).map(s=>`<option value="${esc(s.u)}">${esc(s.n||"")}</option>`).join("");
+  const ed=can("notices");
+  $("noteList").innerHTML=NOTES.map(n=>{const s=n.u?SUBS.get(n.u):null;return `<div class="note${n.on===false?" off":""}"><div class="row"><span class="${n.t==="b"?"pill act":"pill near"}">${n.t==="b"?"تبليغ":"تنبيه عند التجديد"}${n.u?" · "+esc(s&&s.n||n.u):""}</span>${n.on===false?'<span class="pill none">مطفي</span>':""}</div>
+    <div style="white-space:pre-wrap;font-weight:600">${esc(n.x)}</div><div class="row"><span class="muted">${esc(n.by||"")}${n.at?" · "+fdt(n.at):""}</span>${ed?`<span class="row" style="gap:6px"><button class="btn ghost sm" data-ntog="${n.id}">${n.on===false?"تشغيل":"إطفاء"}</button><button class="btn danger sm" data-ndel="${n.id}">حذف</button></span>`:""}</div></div>`}).join("")||`<div class="empty">ماكو تبليغات أو تنبيهات.</div>`;
+}
+const notesItems=()=>Object.assign({},(Store.docs["notes/all"]||{}).items||{});
+$("ntType").onclick=e=>{const b=e.target.closest("[data-t]");if(b){NT=b.dataset.t;renderNotices()}};
+$("ntAdd").onclick=()=>{
+  const x=$("ntText").value.trim();if(!x){toast("اكتب النص");return}
+  let u="";if(NT==="a"){u=ukey($("ntUser").value);if(u&&!SUBS.has(u)){toast("هذا اليوزر مو موجود");return}}
+  const it=notesItems();const id="n"+Date.now().toString(36);it[id]={t:NT,x,u,on:true,at:Date.now(),by:displayName()};
+  $("ntText").value="";$("ntUser").value="";guard(()=>Store.write("notes/all",{items:it}),NT==="b"?"انضاف التبليغ":"انضاف التنبيه");
+};
+$("noteList").addEventListener("click",e=>{
+  const t=e.target.closest("[data-ntog]"),d=e.target.closest("[data-ndel]");
+  if(t){const it=notesItems();const n=it[t.dataset.ntog];if(n){it[t.dataset.ntog]={...n,on:n.on===false};guard(()=>Store.write("notes/all",{items:it}))}}
+  if(d){confirmBox("حذف","تحذفه نهائياً؟","حذف",()=>{const it=notesItems();delete it[d.dataset.ndel];return guard(()=>Store.write("notes/all",{items:it}),"انحذف")})}
+});
+/* ================= STAFF REPORT ================= */
+let RPERIOD="today";
+function rRange(){const save=PERIOD;PERIOD=RPERIOD;let r;
+  if(RPERIOD==="custom"){const f=$("rFrom").value?new Date($("rFrom").value+"T00:00").getTime():0;const t=$("rTo").value?new Date($("rTo").value+"T00:00").getTime()+DAY:Infinity;r=[f,t]}else r=periodRange();
+  PERIOD=save;return r}
+function renderReports(){
+  if(!can("reports"))return;
+  $("rtabs").innerHTML=PERIODS.map(([k,l])=>`<button data-p="${k}" aria-pressed="${k===RPERIOD}">${l}</button>`).join("");
+  $("rCustom").hidden=RPERIOD!=="custom";
+  const [a,b]=rRange();const G={};
+  const key=sid=>sid||"none";
+  const label=(sid,by)=>sid==="owner"?((ACCOUNT&&ACCOUNT.name)||(VIEWAS&&VIEWAS.name)||"صاحب الحساب")+" (صاحب الحساب)":sid==="admin"?"الإدارة":sid==="import"?"من ملفات الشركة":!sid||sid==="none"?"بدون موظف (قبل التحديث)":(by||"موظف");
+  const g=(sid,by)=>{const k=key(sid);return G[k]||(G[k]={sid:k,name:label(sid,by),n:0,amt:0,cash:0,cred:0,col:0,profit:0})};
+  for(const x of ACTS){if(x.d<a||x.d>=b)continue;const r=g(x.sid,x.by);if(x.by&&x.sid&&!["owner","admin","import"].includes(x.sid))r.name=x.by;const sv=actSell(x);r.n++;r.amt+=sv;r.profit+=sv-(+x.c||0);if(x.pay==="a"){r.cred+=sv-x.pd;r.cash+=x.pd}else r.cash+=sv}
+  for(const p of PAYS){if(p.d<a||p.d>=b)continue;const r=g(p.sid,p.byn);r.col+=p.amt}
+  const rows=Object.values(G).sort((x,y)=>y.n-x.n);const fin=can("finance");
+  const T=rows.reduce((t,r)=>{for(const k of ["n","amt","cash","cred","col","profit"])t[k]+=r[k];return t},{n:0,amt:0,cash:0,cred:0,col:0,profit:0});
+  const mobile=matchMedia("(max-width:700px)").matches;
+  $("repCards").hidden=!mobile;$("repTblBox").hidden=mobile;
+  if(!rows.length){$("repTbl").innerHTML=`<tbody><tr><td class="empty">ماكو تفعيلات بهذي الفترة.</td></tr></tbody>`;$("repCards").innerHTML=`<div class="empty">ماكو تفعيلات بهذي الفترة.</div>`;return}
+  if(mobile){$("repCards").innerHTML=rows.concat([{...T,name:"المجموع",tot:1}]).map(r=>`<div class="scard ${r.tot?"st-act":""}"><div class="sc-top"><b class="sc-n">${esc(r.name)}</b><span class="num" style="font-weight:700">${fmt(r.n)} تفعيل</span></div>
+      <div class="sc-meta"><span>المبلغ <span class="num">${fmt(r.amt)}</span></span><span>نقد <span class="num">${fmt(r.cash)}</span></span><span>آجل <span class="num" style="color:var(--warn)">${fmt(r.cred)}</span></span><span>تسديدات <span class="num" style="color:var(--ok)">${fmt(r.col)}</span></span>${fin?`<span>ربح <span class="num" style="color:var(--ok)">${fmt(r.profit)}</span></span>`:""}</div></div>`).join("");return}
+  $("repTbl").innerHTML=`<thead><tr><th>الموظف</th><th>التفعيلات</th><th>المبلغ</th><th>نقد</th><th>آجل</th><th>تسديدات استلمها</th>${fin?"<th>الربح</th>":""}</tr></thead><tbody>${rows.map(r=>`<tr><td class="name">${esc(r.name)}</td><td class="num">${fmt(r.n)}</td><td class="num">${fmt(r.amt)}</td><td class="num">${fmt(r.cash)}</td><td class="num" style="color:var(--warn)">${fmt(r.cred)}</td><td class="num" style="color:var(--ok)">${fmt(r.col)}</td>${fin?`<td class="num" style="color:var(--ok)">${fmt(r.profit)}</td>`:""}</tr>`).join("")}
+    <tr><td class="name">المجموع</td><td class="num"><b>${fmt(T.n)}</b></td><td class="num"><b>${fmt(T.amt)}</b></td><td class="num">${fmt(T.cash)}</td><td class="num">${fmt(T.cred)}</td><td class="num">${fmt(T.col)}</td>${fin?`<td class="num"><b>${fmt(T.profit)}</b></td>`:""}</tr></tbody>`;
+}
+$("rtabs").onclick=e=>{const b=e.target.closest("[data-p]");if(b){RPERIOD=b.dataset.p;renderReports()}};
+$("rFrom").onchange=renderReports;$("rTo").onchange=renderReports;
 /* ================= DEBTS ================= */
 function renderDebts(){
   const now=Date.now();const q=($("dq").value||"").trim().toLowerCase();
@@ -1141,21 +1365,21 @@ function renderDebts(){
   const firstCredit=k=>{const a=ACTS.find(x=>x.u===k&&x.pay==="a");return a?a.d:null};
   $("debtTbl").innerHTML=rows.length?`<thead><tr><th>المشترك</th><th>اليوزر</th><th>الرقم</th><th>الدين</th><th>أول آجل</th><th>الحالة</th><th></th></tr></thead><tbody>${rows.map(k=>{const s=SUBS.get(k)||{};const st=status(k,now);const fc=firstCredit(k);
     return `<tr class="click" data-open="${esc(k)}"><td class="name">${esc(s.n||"—")}</td><td class="num">${esc(s.u||k)}</td><td class="num">${esc(s.p||"—")}</td><td><span class="debt">${fmt(debtOf(k))}</span></td><td class="num">${fc?fdate(fc):"—"}</td><td>${pill(st.st,st.days)}</td><td><button class="btn ok sm" data-pay="${esc(k)}">تسديد</button></td></tr>`}).join("")}</tbody>`
-    :`<tbody><tr><td class="empty"><b>${q?"ما في نتائج":"ما في ديون"}</b>${q?"":"التفعيلات الآجلة تظهر هنا مع مجموع الدين لكل مشترك."}</td></tr></tbody>`;
-  $("payList").innerHTML=PAYS.slice().reverse().slice(0,60).map(p=>{const s=SUBS.get(p.u)||{};return `<div class="li" data-open="${esc(p.u)}"><span class="nm">${esc(s.n||s.u||p.u)}</span><span class="u">${fdt(p.d)}</span>${p.note?`<span class="u ph">${esc(p.note)}</span>`:""}<span class="num" style="color:var(--ok);font-weight:700">+${fmt(p.amt)}</span></div>`}).join("")||`<div class="empty">ما في تسديدات بعد.</div>`;
+    :`<tbody><tr><td class="empty"><b>${q?"ماكو نتائج":"ماكو ديون"}</b>${q?"":"التفعيلات الآجلة تظهر هنا مع مجموع الدين لكل مشترك."}</td></tr></tbody>`;
+  $("payList").innerHTML=PAYS.slice().reverse().slice(0,60).map(p=>{const s=SUBS.get(p.u)||{};return `<div class="li" data-open="${esc(p.u)}"><span class="nm">${esc(s.n||s.u||p.u)}</span><span class="u">${fdt(p.d)}</span>${p.note?`<span class="u ph">${esc(p.note)}</span>`:""}<span class="num" style="color:var(--ok);font-weight:700">+${fmt(p.amt)}</span></div>`}).join("")||`<div class="empty">ماكو تسديدات بعد.</div>`;
 }
 $("dq").oninput=renderDebts;
 
 /* ================= MODALS ================= */
 function modal(html){$("mbox").innerHTML=html;$("modal").hidden=false;const f=$("mbox").querySelector("input:not([type=checkbox]),select");if(f&&matchMedia("(min-width:641px)").matches)f.focus()}
-function closeModal(){$("modal").hidden=true;$("mbox").innerHTML=""}
+function closeModal(){const wasSheet=SHEET;SHEET=false;$("modal").hidden=true;$("mbox").innerHTML="";if(wasSheet){ASEL=null;renderAPanel();if(VIEW==="activate")renderActivate()}}
 $("modal").addEventListener("click",e=>{if(e.target.id==="modal"||e.target.closest("[data-close]"))closeModal()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("modal").hidden)closeModal()});
 function confirmBox(title,text,okLbl,fn){
   modal(`<div class="mhd"><div class="t"><h2>${title}</h2></div><button class="x" data-close aria-label="إغلاق">×</button></div><p style="margin:0">${text}</p><div class="row"><button class="btn danger" id="cOk">${okLbl}</button><button class="btn ghost" data-close>إلغاء</button></div>`);
   $("cOk").onclick=async()=>{$("cOk").disabled=true;try{await fn()}finally{closeModal()}};
 }
-const planOpts=sel=>Object.keys(SET.plans).map(p=>`<option${p===sel?" selected":""}>${esc(p)}</option>`).join("")||`<option value="">لا توجد باقات</option>`;
+const planOpts=sel=>Object.keys(SET.plans).map(p=>`<option${p===sel?" selected":""}>${esc(p)}</option>`).join("")||`<option value="">ماكو باقات</option>`;
 const toLocalInput=ms=>{const d=new Date(ms);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":"+pad(d.getMinutes())};
 
 /* writes */
@@ -1173,8 +1397,8 @@ async function saveChunked(col,add,del,enc){
     if(Object.keys(items).length)await Store.write(p,{items});else await Store.remove(p);
   }
 }
-const saveActs=(add,del)=>saveChunked("act",add,del,a=>[a.u,a.d,a.pl,a.c,a.s==null?null:a.s,a.by||"",a.pay==="a"?"a":"c",+a.pd||0]);
-const savePays=(add,del)=>saveChunked("pay",add,del,p=>[p.u,p.d,p.amt,p.note||""]);
+const saveActs=(add,del)=>saveChunked("act",add,del,a=>[a.u,a.d,a.pl,a.c,a.s==null?null:a.s,a.by||"",a.pay==="a"?"a":"c",+a.pd||0,a.sid||""]);
+const savePays=(add,del)=>saveChunked("pay",add,del,p=>[p.u,p.d,p.amt,p.note||"",p.sid||"",p.byn||""]);
 const saveSettings=()=>Store.write("meta/settings",JSON.parse(JSON.stringify(SET)));
 async function guard(fn,okMsg){
   try{await fn();if(okMsg)toast(okMsg);loaded();return true}
@@ -1188,7 +1412,7 @@ function openSub(k){
   const pays=PAYS.filter(p=>p.u===k).slice().reverse();
   let prof=0;hist.forEach(a=>prof+=actSell(a)-(+a.c||0));
   modal(`<div class="mhd"><div class="t"><div class="eyebrow"><span>SUBSCRIBER</span></div><h2>${esc(s.n||"بدون اسم")}</h2></div><button class="x" data-close aria-label="إغلاق">×</button></div>
-  <div class="row">${pill(st.st,st.days)}${st.exp?`<span class="muted">ينتهي <span class="num">${fdate(st.exp)}</span></span>`:""}<span class="muted ownonly">ربحك منه <span class="num" style="color:var(--ok)">${fmt(prof)}</span></span>${d?`<span>الدين <span class="debt">${fmt(d)}</span></span>`:""}</div>
+  <div class="row">${pill(st.st,st.days)}${st.exp?`<span class="muted">ينتهي <span class="num">${fdate(st.exp)}</span></span>`:""}<span class="muted p-finance">ربحك منه <span class="num" style="color:var(--ok)">${fmt(prof)}</span></span>${d?`<span>الدين <span class="debt">${fmt(d)}</span></span>`:""}</div>
   <div class="row"><button class="btn" data-renew="${esc(k)}"><svg><use href="#i-bolt"/></svg>تفعيل</button>${d?`<button class="btn ok" data-pay="${esc(k)}">تسديد دين</button>`:""}<button class="btn ghost" id="eCopy"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button></div>
   <pre class="msgbox" id="eMsg" tabindex="0">${esc(actMsg(k,(LAST[k]||{}).pl))}</pre>
   <div class="fgrid">
@@ -1198,16 +1422,42 @@ function openSub(k){
     <div class="field"><label for="ePl">الباقة</label><select id="ePl">${planOpts(s.pl)}</select></div>
     <div class="field" style="grid-column:1/-1"><label for="eNote">ملاحظات</label><input type="text" id="eNote" value="${esc(s.note||"")}"></div>
   </div>
-  <div class="row"><button class="btn ghost" id="eSave">حفظ البيانات</button><span style="flex:1"></span><button class="btn danger sm ownonly" id="eDel">حذف المشترك</button></div>
+  <div class="row"><button class="btn ghost" id="eSave">حفظ البيانات</button><span style="flex:1"></span><button class="btn danger sm p-delsub" id="eDel">حذف المشترك</button></div>
   <h3>سجل التفعيلات (${hist.length})</h3>
-  <div class="hist">${hist.map(a=>`<div class="hi"><span class="num">${fdt(a.d)}</span><span class="plan">${esc(a.pl)}</span><span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span><span class="num">${fmt(actSell(a))}</span><span class="sp"></span><button class="btn ghost sm" data-flip="${esc(a.k)}">${a.pay==="a"?"حوّل لنقد":"حوّل لآجل"}</button><button class="btn danger sm ownonly" data-delact="${esc(a.k)}">حذف</button></div>`).join("")||`<div class="muted">ما في تفعيلات.</div>`}</div>
-  ${pays.length?`<h3>التسديدات (${pays.length})</h3><div class="hist">${pays.map(p=>`<div class="hi"><span class="num">${fdt(p.d)}</span><span class="num" style="color:var(--ok)">+${fmt(p.amt)}</span>${p.note?`<span class="muted">${esc(p.note)}</span>`:""}<span class="sp"></span><button class="btn danger sm ownonly" data-delpay="${esc(p.k)}">حذف</button></div>`).join("")}</div>`:""}`);
+  <div class="hist">${hist.map(a=>`<div class="hi"><span class="num">${fdt(a.d)}</span><span class="plan">${esc(a.pl)}</span><span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span><span class="num">${fmt(actSell(a))}</span>${a.by?`<span class="muted">${esc(a.by)}</span>`:""}<span class="sp"></span><button class="btn ghost sm" data-flip="${esc(a.k)}">${a.pay==="a"?"حوّل لنقد":"حوّل لآجل"}</button><button class="btn ghost sm p-edit" data-editact="${esc(a.k)}">تعديل</button><button class="btn danger sm p-edit" data-delact="${esc(a.k)}">حذف</button></div>`).join("")||`<div class="muted">ماكو تفعيلات.</div>`}</div>
+  ${pays.length?`<h3>التسديدات (${pays.length})</h3><div class="hist">${pays.map(p=>`<div class="hi"><span class="num">${fdt(p.d)}</span><span class="num" style="color:var(--ok)">+${fmt(p.amt)}</span>${p.note?`<span class="muted">${esc(p.note)}</span>`:""}<span class="sp"></span><button class="btn danger sm p-edit" data-delpay="${esc(p.k)}">حذف</button></div>`).join("")}</div>`:""}`);
   $("eCopy").onclick=()=>copyText(actMsg(k,(LAST[k]||{}).pl),$("eMsg"));
   $("eSave").onclick=()=>{const ns={...s,n:$("eN").value.trim(),p:$("eP").value.trim(),pl:$("ePl").value,note:$("eNote").value.trim()};closeModal();guard(()=>saveSubs(new Map([[k,ns]])),"انحفظت البيانات")};
   $("eDel").onclick=()=>confirmBox("حذف المشترك",`راح ينحذف <b>${esc(s.n||s.u)}</b> وكل تفعيلاته وتسديداته. ما تكدر ترجعه.`,"حذف نهائي",()=>guard(async()=>{await saveActs([],hist);await savePays([],pays);await saveSubs(new Map([[k,null]]))},"انحذف المشترك"));
   $("mbox").querySelectorAll("[data-flip]").forEach(b=>b.onclick=()=>{const a=hist.find(x=>x.k===b.dataset.flip);const na={...a,pay:a.pay==="a"?"c":"a",pd:0};guard(()=>saveActs([na]),na.pay==="a"?"صار آجل":"صار نقد").then(()=>openSub(k))});
+  $("mbox").querySelectorAll("[data-editact]").forEach(b=>b.onclick=()=>openEditAct(hist.find(x=>x.k===b.dataset.editact),k));
   $("mbox").querySelectorAll("[data-delact]").forEach(b=>b.onclick=()=>{const a=hist.find(x=>x.k===b.dataset.delact);confirmBox("حذف التفعيل","حذف تفعيل بتاريخ <span class='num'>"+fdt(a.d)+"</span>؟","حذف",()=>guard(()=>saveActs([],[a]),"انحذف التفعيل"))});
   $("mbox").querySelectorAll("[data-delpay]").forEach(b=>b.onclick=()=>{const p=pays.find(x=>x.k===b.dataset.delpay);confirmBox("حذف التسديد","حذف تسديد بمبلغ <span class='num'>"+fmt(p.amt)+"</span>؟ الدين راح يرجع.","حذف",()=>guard(()=>savePays([],[p]),"انحذف التسديد"))});
+}
+function openEditAct(a,k){
+  if(!a)return;const s=SUBS.get(k)||{};
+  modal(`<div class="mhd"><div class="t"><h2>تعديل التفعيل</h2><div class="muted">${esc(s.n||s.u||k)} · <span class="num">${fdt(a.d)}</span></div></div><button class="x" data-close aria-label="سكّر">×</button></div>
+  <div class="field"><label>الفئة (الباقة)</label><div class="plans" id="eaPl">${planList().map(([n,p])=>`<button class="pbtn" style="--pc:${planColor(n)}" data-epl="${esc(n)}" aria-pressed="${n===a.pl}"><b>${esc(n)}</b><span>${fmt(+p.s||0)}</span></button>`).join("")}</div></div>
+  <div class="fgrid">
+    <div class="field"><label for="eaD">تاريخ التفعيل</label><input type="datetime-local" id="eaD" value="${toLocalInput(a.d)}"></div>
+    <div class="field"><label for="eaS">سعر البيع</label><input type="number" id="eaS" dir="ltr" value="${actSell(a)}" inputmode="numeric"></div>
+  </div>
+  <div class="field"><label>طريقة الدفع</label><div class="pay" id="eaPay"><button data-p="c" aria-pressed="${a.pay==="c"}">نقد<small>مستلم</small></button><button data-p="a" aria-pressed="${a.pay==="a"}">آجل<small>دين</small></button></div></div>
+  <div class="field" id="eaPdBox" ${a.pay==="a"?"":"hidden"}><label for="eaPd">مدفوع مقدماً</label><input type="number" id="eaPd" dir="ltr" value="${a.pd||0}" inputmode="numeric"></div>
+  <div class="row"><button class="btn go" id="eaGo" style="flex:1">حفظ التعديل</button></div>`);
+  let pl=a.pl,pay=a.pay;
+  $("eaPl").onclick=e=>{const b=e.target.closest("[data-epl]");if(!b)return;pl=b.dataset.epl;$("eaPl").querySelectorAll(".pbtn").forEach(x=>x.setAttribute("aria-pressed",x===b));$("eaS").value=planSell(pl)||$("eaS").value};
+  $("eaPay").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;pay=b.dataset.p;$("eaPay").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));$("eaPdBox").hidden=pay!=="a"};
+  $("eaGo").onclick=async()=>{
+    const d=new Date($("eaD").value).getTime();if(!isFinite(d)){toast("التاريخ مو صحيح");return}
+    const sell=+$("eaS").value||0;
+    const na={...a,pl,d,k:a.u+"|"+d,s:sell===planSell(pl)?null:sell,c:pl===a.pl?a.c:(planCost(pl)||a.c),pay,pd:pay==="a"?Math.min(sell,+$("eaPd").value||0):0};
+    const isLatest=LAST[a.u]&&LAST[a.u].k===a.k;
+    closeModal();
+    await guard(async()=>{if(na.k!==a.k){await saveActs([],[a]);await saveActs([na])}else await saveActs([na]);
+      if(isLatest&&s.pl!==pl)await saveSubs(new Map([[a.u,{...s,pl}]]))},"انحفظ التعديل");
+    openSub(k);
+  };
 }
 function openPay(k){
   const s=SUBS.get(k)||{u:k};const d=debtOf(k);
@@ -1220,7 +1470,7 @@ function openPay(k){
   const upd=()=>{const v=+$("pAmt").value||0;$("pAfter").innerHTML="الدين بعد التسديد: <span class='num'>"+fmt(Math.max(0,d-v))+"</span>"+(v>d?" · المبلغ أكثر من الدين":"")};
   upd();$("pAmt").oninput=upd;
   $("mbox").querySelectorAll("[data-amt]").forEach(b=>b.onclick=()=>{$("pAmt").value=b.dataset.amt;upd()});
-  $("pGo").onclick=()=>{const v=+$("pAmt").value||0;if(v<=0){toast("اكتب المبلغ");return}const t=Date.now();const p={k:k+"|p"+t,u:k,d:t,amt:v,note:$("pNote").value.trim()};closeModal();guard(()=>savePays([p]),"تم تسديد "+fmt(v)+" د.ع")};
+  $("pGo").onclick=()=>{const v=+$("pAmt").value||0;if(v<=0){toast("اكتب المبلغ");return}const t=Date.now();const p={k:k+"|p"+t,u:k,d:t,amt:v,note:$("pNote").value.trim(),sid:mySid(),byn:displayName()};closeModal();guard(()=>savePays([p]),"تم تسديد "+fmt(v)+" د.ع")};
 }
 function openAdd(prefill){
   const looksUser=prefill&&/^[A-Za-z0-9._@\-]+$/.test(prefill);
@@ -1248,19 +1498,28 @@ $("addBtn").onclick=()=>openAdd("");
 function renderConfig(){
   if(document.activeElement&&document.activeElement.closest&&document.activeElement.closest("#v-config"))return;
   const used={};ACTS.forEach(a=>used[a.pl]=(used[a.pl]||0)+1);
-  const ps=Object.entries(SET.plans);
-  $("plansTbl").innerHTML=ps.length?`<thead><tr><th>الباقة</th><th>سعر الشركة</th><th>سعر البيع</th><th>ربح الواحد</th><th>تفعيلات</th><th></th></tr></thead><tbody>${ps.map(([n,p])=>`<tr><td><span class="plan">${esc(n)}</span></td><td style="min-width:120px"><input type="number" dir="ltr" data-pc="${esc(n)}" value="${+p.c||0}"></td><td style="min-width:120px"><input type="number" dir="ltr" data-ps="${esc(n)}" value="${+p.s||""}" placeholder="اكتب السعر"></td><td class="num" style="color:${(+p.s-+p.c)>=0?"var(--ok)":"var(--bad)"}">${+p.s?fmt(+p.s-+p.c):"—"}</td><td class="num">${fmt(used[n]||0)}</td><td>${used[n]?"":`<button class="btn danger sm" data-delplan="${esc(n)}">حذف</button>`}</td></tr>`).join("")}</tbody>`
-    :`<tbody><tr><td class="empty"><b>ما في باقات بعد</b>تنضاف تلقائياً من ملف PDF، أو أضفها يدوياً.</td></tr></tbody>`;
+  const l=planList();
+  $("plansTbl").innerHTML=l.length?l.map(([n,p])=>`<div class="plancard" style="--pc:${planColor(n)}"><div class="row" style="justify-content:space-between"><div class="pn">${esc(n)}</div><span class="muted">${fmt(used[n]||0)} تفعيل</span></div>
+    <div class="fgrid">
+      <div class="field p-finance"><label>سعر الشركة</label><input type="number" dir="ltr" data-pf="c" data-pn="${esc(n)}" value="${+p.c||0}" inputmode="numeric"></div>
+      <div class="field"><label>سعر البيع</label><input type="number" dir="ltr" data-pf="s" data-pn="${esc(n)}" value="${+p.s||""}" placeholder="اكتب السعر" inputmode="numeric"></div>
+      <div class="field"><label>السرعة</label><input type="text" data-pf="speed" data-pn="${esc(n)}" value="${esc(p.speed||"")}" placeholder="مثلاً 35 ميگا"></div>
+      <div class="field p-finance"><label>ربح الواحد</label><div class="num" style="padding:10px 0;color:${(+p.s-+p.c)>=0?"var(--ok)":"var(--bad)"}">${+p.s?fmt(+p.s-+p.c):"—"}</div></div>
+    </div>
+    <div class="field"><label>تفاصيل الباقة</label><input type="text" data-pf="info" data-pn="${esc(n)}" value="${esc(p.info||"")}" placeholder="مثلاً: مناسبة للعوائل والألعاب"></div>
+    ${used[n]?"":`<button class="btn danger sm" data-delplan="${esc(n)}" style="justify-self:start">حذف الباقة</button>`}</div>`).join("")
+    :`<div class="empty"><b>ماكو باقات بعد</b>تنضاف تلقائياً من ملف الاستيراد، أو ضيفها يدوياً.</div>`;
   $("cfName").value=SET.name||"";$("cfPeriod").value=SET.period;$("cfNear").value=SET.near;
   $("dataInfo").textContent=`عندك ${fmt(SUBS.size)} مشترك و ${fmt(ACTS.length)} تفعيل و ${fmt(PAYS.length)} تسديد. `+"البيانات محفوظة على Firebase وتظهر بأي جهاز تدخل منه بحسابك.";
 }
-$("plansTbl").addEventListener("change",e=>{const i=e.target;const n=i.dataset.pc||i.dataset.ps;if(!n||!SET.plans[n])return;const p={...SET.plans[n]};if(i.dataset.pc)p.c=+i.value||0;else p.s=+i.value||0;SET.plans={...SET.plans,[n]:p};i.blur();guard(saveSettings,"انحفظ سعر "+n)});
+$("plansTbl").addEventListener("change",e=>{const i=e.target;const n=i.dataset.pn,f=i.dataset.pf;if(!n||!f||!SET.plans[n])return;const p={...SET.plans[n]};p[f]=(f==="c"||f==="s")?(+i.value||0):i.value.trim();SET.plans={...SET.plans,[n]:p};i.blur();guard(saveSettings,"انحفظت باقة "+n)});
 $("plansTbl").addEventListener("click",e=>{const b=e.target.closest("[data-delplan]");if(!b)return;const pl={...SET.plans};delete pl[b.dataset.delplan];SET.plans=pl;guard(saveSettings,"انحذفت الباقة")});
 $("addPlan").onclick=()=>{
   modal(`<div class="mhd"><div class="t"><h2>إضافة باقة</h2></div><button class="x" data-close aria-label="إغلاق">×</button></div>
-  <div class="fgrid"><div class="field"><label for="plN">اسم الباقة</label><input type="text" id="plN" dir="ltr" placeholder="BASIC"></div><div class="field"><label for="plC">سعر الشركة</label><input type="number" id="plC" dir="ltr"></div><div class="field"><label for="plS">سعر البيع</label><input type="number" id="plS" dir="ltr"></div></div>
+  <div class="fgrid"><div class="field"><label for="plN">اسم الباقة</label><input type="text" id="plN" dir="ltr" placeholder="BASIC"></div><div class="field"><label for="plC">سعر الشركة</label><input type="number" id="plC" dir="ltr"></div><div class="field"><label for="plS">سعر البيع</label><input type="number" id="plS" dir="ltr"></div><div class="field"><label for="plSp">السرعة</label><input type="text" id="plSp" placeholder="مثلاً 35 ميگا"></div></div>
+  <div class="field"><label for="plI">تفاصيل الباقة</label><input type="text" id="plI"></div>
   <button class="btn go" id="plGo">إضافة</button>`);
-  $("plGo").onclick=()=>{const n=$("plN").value.trim().toUpperCase();if(!n){toast("اكتب اسم الباقة");return}SET.plans={...SET.plans,[n]:{c:+$("plC").value||0,s:+$("plS").value||0}};closeModal();guard(saveSettings,"انضافت الباقة")};
+  $("plGo").onclick=()=>{const n=$("plN").value.trim().toUpperCase();if(!n){toast("اكتب اسم الباقة");return}SET.plans={...SET.plans,[n]:{c:+$("plC").value||0,s:+$("plS").value||0,speed:$("plSp").value.trim(),info:$("plI").value.trim()}};closeModal();guard(saveSettings,"انضافت الباقة")};
 };
 $("saveCfg").onclick=()=>{SET={...SET,name:$("cfName").value.trim(),period:Math.max(1,Math.min(365,+$("cfPeriod").value||30)),near:Math.max(0,Math.min(30,+$("cfNear").value||0))};$("saveCfg").blur();guard(saveSettings,"انحفظت الإعدادات")};
 $("wipeBtn").onclick=()=>confirmBox("حذف كل البيانات","راح ينحذف كل المشتركين والتفعيلات والتسديدات والباقات. صدّر نسخة Excel قبلها إذا تحتاجها.","حذف الكل",()=>guard(async()=>{for(const p of Object.keys(Store.docs))await Store.remove(p)},"انحذفت كل البيانات"));
@@ -1268,7 +1527,7 @@ $("wipeBtn").onclick=()=>confirmBox("حذف كل البيانات","راح ين�
 /* excel */
 async function exportXlsx(){
   const now=Date.now();
-  const subs=[["الاسم","اليوزر","رقم الهاتف","الباقة","آخر تفعيل","تاريخ الانتهاء","الحالة","الأيام المتبقية","الدين","ملاحظات"]];
+  const subs=[["الاسم","اليوزر","رقم الهاتف","الباقة","آخر تفعيل","تاريخ الانتهاء","الحالة","الأيام الباقية","الدين","ملاحظات"]];
   for(const [k,s] of SUBS){const st=status(k,now);const a=LAST[k];subs.push([s.n||"",s.u,s.p||"",s.pl||"",a?fdt(a.d):"",st.exp?fdate(st.exp):"",ST_LBL[st.st],st.days==null?"":st.days,debtOf(k),s.note||""])}
   const acts=[["التاريخ","اليوزر","الاسم","الباقة","الدفع","سعر الشركة","سعر البيع","الربح","المدفوع مقدماً (آجل)","مدخل البيانات"]];
   for(const a of ACTS){const s=SUBS.get(a.u)||{};const sv=actSell(a);acts.push([fdt(a.d),s.u||a.u,s.n||"",a.pl,a.pay==="a"?"آجل":"نقد",+a.c||0,sv,sv-(+a.c||0),a.pay==="a"?a.pd:"",a.by||""])}
@@ -1279,14 +1538,14 @@ async function exportXlsx(){
   add(subs,"المشتركين",[30,16,16,12,18,14,14,10,12,24]);add(acts,"التفعيلات",[18,16,30,12,8,12,12,12,14,16]);add(pays,"التسديدات",[18,16,30,12,24]);
   wb.Workbook={Views:[{RTL:true}]};
   const fn="المشتركين-"+fdate(now).replace(/\//g,"-")+".xlsx";
-  try{XLSX.writeFile(wb,fn,{compression:true});toast("بدأ التحميل")}catch(e){toast("ما گدرنا نحفظ الملف")}
+  try{XLSX.writeFile(wb,fn,{compression:true});toast("دا ينزل الملف")}catch(e){toast("ما گدرنا نحفظ الملف")}
 }
 $("xlsBtn").onclick=exportXlsx;$("xlsBtn2").onclick=exportXlsx;
 
 /* ================= PDF IMPORT ================= */
 if(window.pdfjsLib)pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 const AR=/[؀-ۿ]/;
-const HEAD={type:/نوع\s*ال(كارت|اشتراك|باقة)/,acc:/اسم\s*ال[حخ]ساب|ال[حخ]ساب|اليوزر|اسم\s*المستخدم|username/i,name:/اسم\s*(العميل|المشترك|الزبون)/,amount:/المبلغ|^السعر$/,date:/التاريخ/,by:/مدخل\s*البيانات/,card:/رقم\s*الكارت/};
+const HEAD={type:/نوع\s*ال(كارت|اشتراك|باقة)|^الباقة$|^الفئة$|^plan$|^type$/i,acc:/اسم\s*ال[حخ]ساب|ال[حخ]ساب|اليوزر|اسم\s*المستخدم|username|^user$/i,name:/اسم\s*(العميل|المشترك|الزبون)|^الاسم$|^name$/i,amount:/المبلغ|^السعر$|^amount$|^price$/i,date:/التاريخ|^date$/i,by:/مدخل\s*البيانات/,card:/رقم\s*الكارت/};
 const normD=s=>s.replace(/[٠-٩]/g,d=>d.charCodeAt(0)-0x660).replace(/[۰-۹]/g,d=>d.charCodeAt(0)-0x6F0).replace(/[‎‏؜‪-‮⁦-⁩]/g,"");
 const parseNum=s=>{s=normD(String(s||"")).replace(/[,٬\s]/g,"");return /^\d+(\.\d+)?$/.test(s)?+s:NaN};
 function rowsOf(items){
@@ -1347,25 +1606,51 @@ async function parseReport(bytes,progEl){
     if(p%4===0)await new Promise(r=>setTimeout(r,0));
   }
   if(!recs.length)return {error:noText===pdf.numPages?"الملف صور ممسوحة بالسكانر بدون نص، ما نكدر نقرأه بدقة.":(headerSeen?"لكينا عناوين الجدول بس ما لكينا أسطر مشتركين.":"ما لكينا جدول بيه عمود \"اسم الحساب\". تأكد إن الملف تقرير تفعيلات.")};
+  return finishRecs(recs,maxSerial,grand,skipped);
+}
+function finishRecs(recs,maxSerial,grand,skipped){
   let dmy=true;for(const r of recs){const m=normD(r.dateRaw).match(/(\d{1,2})[\/\-.](\d{1,2})/);if(m){if(+m[2]>12){dmy=false;break}if(+m[1]>12){dmy=true;break}}}
   let badDate=0,badAmt=0,sum=0;
-  for(const r of recs){r.d=parseDate(r.dateRaw,dmy);r.u=ukey(r.acc);if(r.d==null)badDate++;if(!isFinite(r.amount))badAmt++;else sum+=r.amount}
+  for(const r of recs){r.d=r.dms!=null?r.dms:parseDate(r.dateRaw,dmy);r.u=ukey(r.acc);if(r.d==null)badDate++;if(!isFinite(r.amount))badAmt++;else sum+=r.amount}
   const plans={};for(const r of recs){if(!isFinite(r.amount))continue;const p=plans[r.type]||(plans[r.type]={n:0,costs:{}});p.n++;p.costs[r.amount]=(p.costs[r.amount]||0)+1}
   for(const p of Object.values(plans))p.c=+Object.entries(p.costs).sort((a,b)=>b[1]-a[1])[0][0];
   const checks=[];
   checks.push({h:"أسطر مقروءة",v:fmt(recs.length),ok:maxSerial?recs.length===maxSerial:!skipped.length,s:maxSerial?(recs.length===maxSerial?"يطابق آخر تسلسل بالملف ("+maxSerial+")":"آخر تسلسل بالملف "+maxSerial+"، راجع الملف"):(skipped.length?skipped.length+" سطر ما انقرأ":"")});
   if(grand!=null)checks.push({h:"مجموع المبالغ",v:fmt(sum),ok:Math.round(sum)===Math.round(grand),s:Math.round(sum)===Math.round(grand)?"يطابق المجموع الكلي بالملف":"المجموع بالملف "+fmt(grand)});
-  checks.push({h:"تواريخ",v:fmt(recs.length-badDate),ok:!badDate,s:badDate?badDate+" سطر بدون تاريخ صحيح":"كل التواريخ مقروءة"});
-  if(badAmt)checks.push({h:"مبالغ غير مقروءة",v:fmt(badAmt),ok:false,s:"تنحسب بسعر شركة 0"});
+  checks.push({h:"تواريخ",v:fmt(recs.length-badDate),ok:!badDate,s:badDate?badDate+" سطر بدون تاريخ صحيح":"كل التواريخ انقرت"});
+  if(badAmt)checks.push({h:"مبالغ ما انقرت",v:fmt(badAmt),ok:false,s:"تنحسب بسعر شركة 0"});
   return {recs,plans,checks};
 }
+function parseExcel(bytes){
+  let wb;try{wb=XLSX.read(bytes,{type:"array",cellDates:true})}catch(e){return {error:"ما گدرنا نقرأ ملف Excel"}}
+  const recs=[],skipped=[];let found=false;
+  for(const name of wb.SheetNames){
+    const rows=XLSX.utils.sheet_to_json(wb.Sheets[name],{header:1,raw:true,defval:""});let map=null;
+    for(const row of rows){
+      if(!map){const hm={};let hits=0;row.forEach((c,i)=>{if(typeof c!=="string"||c.length>30)return;for(const [f,re] of Object.entries(HEAD)){if(hm[f]==null&&re.test(c.trim())){hm[f]=i;hits++;break}}});if(hits>=2&&hm.acc!=null){map=hm;found=true}continue}
+      const get=f=>map[f]==null?"":row[map[f]];
+      const acc=String(get("acc")||"").trim();if(!acc)continue;
+      if(!/^[A-Za-z0-9._@\-]{3,}$/.test(acc)){skipped.push(acc);continue}
+      const dv=get("date");let dms=null,dateRaw="";
+      if(dv instanceof Date)dms=dv.getTime();
+      else if(typeof dv==="number"&&dv>20000){const o=XLSX.SSF.parse_date_code(dv);if(o)dms=new Date(o.y,o.m-1,o.d,o.H||0,o.M||0,Math.floor(o.S||0)).getTime()}
+      else dateRaw=String(dv||"");
+      const av=get("amount");
+      recs.push({acc,name:String(get("name")||"").trim(),type:(String(get("type")||"").trim()||"غير محدد").toUpperCase(),amount:typeof av==="number"?av:parseNum(av),dateRaw,dms,by:String(get("by")||"").trim(),serial:null});
+    }
+  }
+  if(!recs.length)return {error:found?"لكينا عناوين الجدول بس ماكو أسطر مشتركين.":"ما لكينا عمود \"اسم الحساب\" أو \"اليوزر\" بالملف."};
+  return finishRecs(recs,0,null,skipped);
+}
+const isExcel=n=>/\.(xlsx|xls|csv)$/i.test(n);
+const parseAny=(bytes,fname,prog)=>isExcel(fname)?Promise.resolve(parseExcel(bytes)):parseReport(bytes,prog);
 const checksHtml=cs=>cs.map(c=>`<div class="ck2 ${c.ok?"ok":"bad"}"><span class="h">${c.h}</span><b>${c.v}</b><small>${esc(c.s)}</small></div>`).join("");
 
 let IMPF=[];
 async function importPdf(bytes,fname){
-  if(SUBS.size){$("impMsg").textContent="الاستيراد متاح فقط إذا الموقع فارغ. لمقارنة تقرير استخدم المطابقة.";return}
-  $("impMsg").textContent="جارِ قراءة "+fname+"...";$("prog").style.width="2%";
-  const R=await parseReport(bytes,$("prog"));
+  if(!can("import")){$("impMsg").textContent="ما عندك صلاحية الاستيراد.";return}
+  $("impMsg").textContent="دا يقرأ "+fname+"...";$("prog").style.width="2%";
+  const R=await parseAny(bytes,fname,$("prog"));$("prog").style.width="100%";
   if(R.error){$("impMsg").textContent=fname+": "+R.error;return}
   IMPF=IMPF.filter(f=>f.fname!==fname);IMPF.push({fname,R});
   $("impMsg").textContent="";buildImp(true);
@@ -1378,7 +1663,8 @@ function buildImp(scroll){
   for(const f of IMPF){recs.push(...f.R.recs);for(const [n,p] of Object.entries(f.R.plans)){const q=plans[n]||(plans[n]={n:0,costs:{}});q.n+=p.n;for(const [c,k] of Object.entries(p.costs))q.costs[c]=(q.costs[c]||0)+k}}
   for(const p of Object.values(plans))p.c=+Object.entries(p.costs).sort((a,b)=>b[1]-a[1])[0][0];
   const seen=new Set();let dup=0;const newSubs=new Set(),acts=[];
-  for(const r of recs){if(r.d==null)continue;const ak=r.u+"|"+r.d;if(seen.has(ak)){dup++;continue}seen.add(ak);newSubs.add(r.u);acts.push({k:ak,u:r.u,d:r.d,pl:r.type,c:isFinite(r.amount)?r.amount:0,s:null,by:r.by,raw:r})}
+  const have=new Set(ACTS.map(a=>a.k));let exist=0;
+  for(const r of recs){if(r.d==null)continue;const ak=r.u+"|"+r.d;if(seen.has(ak)){dup++;continue}seen.add(ak);if(have.has(ak)){exist++;continue}if(!SUBS.has(r.u))newSubs.add(r.u);acts.push({k:ak,u:r.u,d:r.d,pl:r.type,c:isFinite(r.amount)?r.amount:0,s:null,by:r.by,raw:r})}
   const keepPay=IMP?IMP_PAY:"c";
   IMP={recs,acts,plans,newSubs,dup};IMP_PAY=keepPay;
   $("impPay").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.p===IMP_PAY));
@@ -1387,7 +1673,7 @@ function buildImp(scroll){
   const h=$("impHint");h.hidden=IMPF.length>1;
   h.textContent="رفعت شهر واحد. إذا عندك تقرير الشهر السابق ارفعه هسه حتى تطلع المقارنة والمفقودين، لأن الاستيراد ما يرجع يتاح بعد الإضافة.";
   $("impFiles").innerHTML=IMPF.map((f,i)=>`<div class="impfile"><div class="row"><b>${esc(f.fname)}</b><span class="muted">${fileMonths(f.R).slice(0,1).map(mname).join("")} · ${fmt(f.R.recs.length)} سطر</span><button class="btn danger sm" data-rmf="${i}">إزالة</button></div><div class="checks">${checksHtml(f.R.checks)}</div></div>`).join("");
-  $("impChecks").innerHTML=checksHtml([{h:"مشتركين",v:fmt(newSubs.size),ok:true,s:"راح ينضافون للنظام"},{h:"تفعيلات",v:fmt(acts.length),ok:true,s:dup?fmt(dup)+" سطر مكرر بين الملفات تم تجاهله":"بدون تكرار"}]);
+  $("impChecks").innerHTML=checksHtml([{h:"مشتركين جداد",v:fmt(newSubs.size),ok:true,s:"راح ينضافون للنظام"},{h:"تفعيلات جديدة",v:fmt(acts.length),ok:true,s:(exist?fmt(exist)+" موجودة أصلاً بالموقع انتركت":"")+(dup?(exist?" · ":"")+fmt(dup)+" مكرر بين الملفات":"")||"بدون تكرار"}]);
   $("impPlans").innerHTML=`<thead><tr><th>الباقة</th><th>تفعيلات</th><th>سعر الشركة</th><th>سعر البيع</th></tr></thead><tbody>${Object.entries(plans).map(([n,p])=>{const prev=document.querySelector(`[data-imps="${CSS.escape(n)}"]`);const v=prev?prev.value:(planSell(n)||"");return `<tr><td><span class="plan">${esc(n)}</span></td><td class="num">${fmt(p.n)}</td><td class="num">${fmt(p.c)}</td><td style="min-width:130px"><input type="number" dir="ltr" data-imps="${esc(n)}" value="${esc(v)}" placeholder="اكتب السعر" inputmode="numeric"></td></tr>`}).join("")}</tbody>`;
   const pv=recs.filter(r=>r.d!=null).slice().sort((a,b)=>b.d-a.d).slice(0,60);
   $("impPrev").innerHTML=`<thead><tr><th>التاريخ</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>المبلغ</th><th>مدخل البيانات</th></tr></thead><tbody>${pv.map(r=>`<tr><td class="num">${fdt(r.d)}</td><td class="num">${esc(r.acc)}</td><td class="name">${esc(r.name||"—")}</td><td><span class="plan">${esc(r.type)}</span></td><td class="num">${isFinite(r.amount)?fmt(r.amount):"؟"}</td><td>${esc(r.by)}</td></tr>`).join("")}</tbody>`;
@@ -1422,7 +1708,7 @@ function renderMatch(){
   box.hidden=false;
   $("mName").textContent=MR.fname+" · من "+fdate(MR.from)+" إلى "+fdate(MR.to-DAY);
   $("mChecks").innerHTML=checksHtml(MR.checks);
-  const tabs={miss:{c:"r",h:"غير مسجّل بالموقع",n:MR.miss.length,s:"موجود بتقرير الشركة وما مسجل عندك"+(MR.unknown.length?` · ${MR.unknown.length} منهم مو موجودين كمشتركين`:"")},
+  const tabs={miss:{c:"r",h:"مو مسجّل بالموقع",n:MR.miss.length,s:"موجود بتقرير الشركة وما مسجل عندك"+(MR.unknown.length?` · ${MR.unknown.length} منهم مو موجودين كمشتركين`:"")},
     ok:{c:"g",h:"مسجّل ومطابق",n:MR.ok.length,s:"موجود بالتقرير ومسجل بالموقع"},
     extra:{c:"y",h:"مسجّل بالموقع فقط",n:MR.extra.length,s:"مسجل عندك بنفس الفترة وما موجود بالتقرير"}};
   $("mBoxes").innerHTML=Object.entries(tabs).map(([k,t])=>`<button class="lbox ${t.c}" data-mt="${k}" aria-pressed="${k===MTAB}"><span class="h">${t.h}</span><span class="big">${fmt(t.n)}</span><span class="s">${esc(t.s)}</span></button>`).join("");
@@ -1437,16 +1723,16 @@ function renderMatch(){
     const all=$("mAll");if(all)all.onchange=()=>{MSEL=all.checked?new Set(MR.miss.map(r=>r.u+"|"+r.d)):new Set();renderMatch()};
   }else if(MTAB==="ok"){
     T.innerHTML=MR.ok.length?`<thead><tr><th>التقرير</th><th>بالموقع</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>الدفع</th></tr></thead><tbody>${MR.ok.map(({r,a})=>{const s=SUBS.get(r.u)||{};return `<tr class="click" data-open="${esc(r.u)}"><td class="num">${fdt(r.d)}</td><td class="num">${fdt(a.d)}</td><td class="num">${esc(r.acc)}</td><td class="name">${esc(s.n||r.name||"—")}</td><td><span class="plan">${esc(a.pl)}</span></td><td><span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span></td></tr>`}).join("")}</tbody>`
-      :`<tbody><tr><td class="empty">ما في تفعيلات مطابقة.</td></tr></tbody>`;
+      :`<tbody><tr><td class="empty">ماكو تفعيلات مطابقة.</td></tr></tbody>`;
   }else{
     T.innerHTML=MR.extra.length?`<thead><tr><th>التاريخ</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>الدفع</th></tr></thead><tbody>${MR.extra.map(a=>{const s=SUBS.get(a.u)||{};return `<tr class="click" data-open="${esc(a.u)}"><td class="num">${fdt(a.d)}</td><td class="num">${esc(s.u||a.u)}</td><td class="name">${esc(s.n||"—")}</td><td><span class="plan">${esc(a.pl)}</span></td><td><span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span></td></tr>`}).join("")}</tbody>`
-      :`<tbody><tr><td class="empty">ما في تفعيلات زايدة. كل اللي مسجل عندك موجود بالتقرير.</td></tr></tbody>`;
+      :`<tbody><tr><td class="empty">ماكو تفعيلات زايدة. كل اللي مسجل عندك موجود بالتقرير.</td></tr></tbody>`;
   }
   $("mPay").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.p===MPAY));
 }
 async function matchPdf(bytes,fname){
-  $("mRes").hidden=true;$("mMsg").textContent="جارِ قراءة التقرير...";$("mProg").style.width="2%";
-  const R=await parseReport(bytes,$("mProg"));
+  $("mRes").hidden=true;$("mMsg").textContent="دا يقرأ التقرير...";$("mProg").style.width="2%";
+  const R=await parseAny(bytes,fname,$("mProg"));$("mProg").style.width="100%";
   if(R.error){$("mMsg").textContent=R.error;return}
   if(!R.recs.some(r=>r.d!=null)){$("mMsg").textContent="ما لكينا تواريخ صحيحة بالتقرير.";return}
   MR={fname,recs:R.recs,plans:R.plans,checks:R.checks};MTAB="miss";MPAY="c";
@@ -1462,7 +1748,7 @@ $("mAdd").onclick=async()=>{
   for(const r of sel)if(!pl[r.type]){pl[r.type]={c:(MR.plans[r.type]&&MR.plans[r.type].c)||(isFinite(r.amount)?r.amount:0),s:0};planCh=true}
   const subCh=new Map();
   for(const r of sel){if(!SUBS.has(r.u)&&!subCh.has(r.u))subCh.set(r.u,{u:r.acc,n:r.name,p:"",pl:r.type,note:"",t:Date.now()})}
-  const acts=sel.map(r=>({k:r.u+"|"+r.d,u:r.u,d:r.d,pl:r.type,c:isFinite(r.amount)?r.amount:planCost(r.type),s:null,by:r.by||"مطابقة",pay:MPAY,pd:0}));
+  const acts=sel.map(r=>({k:r.u+"|"+r.d,u:r.u,d:r.d,pl:r.type,c:isFinite(r.amount)?r.amount:planCost(r.type),s:null,by:r.by||"مطابقة",pay:MPAY,pd:0,sid:"import"}));
   const btn=$("mAdd");btn.disabled=true;
   const ok=await guard(async()=>{if(planCh){SET.plans=pl;await saveSettings()}if(subCh.size)await saveSubs(subCh);await saveActs(acts)},"انسجل "+fmt(acts.length)+" تفعيل"+(subCh.size?" و "+fmt(subCh.size)+" مشترك جديد":""));
   btn.disabled=false;
@@ -1473,12 +1759,12 @@ $("mClear").onclick=()=>{MR=null;$("mRes").hidden=true;$("mMsg").textContent="";
   d.onclick=()=>f.click();d.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();f.click()}};
   ["dragenter","dragover"].forEach(ev=>d.addEventListener(ev,e=>{e.preventDefault();d.classList.add("over")}));
   ["dragleave","drop"].forEach(ev=>d.addEventListener(ev,e=>{e.preventDefault();d.classList.remove("over")}));
-  const go=x=>{if(!x)return;if(!/\.pdf$/i.test(x.name)&&x.type!=="application/pdf"){$("mMsg").textContent="الملف لازم يكون PDF.";return}const rd=new FileReader();rd.onload=()=>matchPdf(new Uint8Array(rd.result),x.name);rd.readAsArrayBuffer(x)};
+  const go=x=>{if(!x)return;if(!/\.(pdf|xlsx|xls|csv)$/i.test(x.name)){$("mMsg").textContent="الملف لازم يكون PDF أو Excel.";return}const rd=new FileReader();rd.onload=()=>matchPdf(new Uint8Array(rd.result),x.name);rd.readAsArrayBuffer(x)};
   d.addEventListener("drop",e=>go(e.dataTransfer.files[0]));f.onchange=()=>{go(f.files[0]);f.value=""};
 })();
 $("impPay").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;IMP_PAY=b.dataset.p;$("impPay").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b))};
 $("commitBtn").onclick=()=>{
-  if(!IMP)return;if(SUBS.size){toast("الاستيراد متاح فقط إذا الموقع فارغ");return}const imp=IMP;const btn=$("commitBtn");btn.disabled=true;btn.textContent="جارِ الحفظ...";
+  if(!IMP)return;if(!can("import")){toast("ما عندك صلاحية الاستيراد");return}const imp=IMP;const btn=$("commitBtn");btn.disabled=true;btn.textContent="دا يحفظ...";
   const pl={...SET.plans};
   for(const [n,p] of Object.entries(imp.plans)){const inp=document.querySelector(`[data-imps="${CSS.escape(n)}"]`);const s=inp&&inp.value!==""?+inp.value:(pl[n]?+pl[n].s||0:0);pl[n]={c:pl[n]&&+pl[n].c?+pl[n].c:p.c,s}}
   const latest={};for(const a of imp.acts)if(!latest[a.u]||a.d>latest[a.u].d)latest[a.u]=a;
@@ -1487,7 +1773,7 @@ $("commitBtn").onclick=()=>{
     if(!old)changes.set(k,{u:r.acc,n:r.name,p:"",pl:a.pl,note:"",t:Date.now()});
     else{const ns={...old};let ch=false;if(!ns.n&&r.name){ns.n=r.name;ch=true}const la=LAST[k];if((!la||a.d>=la.d)&&ns.pl!==a.pl){ns.pl=a.pl;ch=true}if(ch)changes.set(k,ns)}}
   for(const a of imp.acts){const ch=changes.get(a.u);if(ch&&!ch.n&&a.raw.name)ch.n=a.raw.name}
-  const acts=imp.acts.map(({raw,...a})=>({...a,pay:IMP_PAY,pd:0}));
+  const acts=imp.acts.map(({raw,...a})=>({...a,pay:IMP_PAY,pd:0,sid:"import"}));
   guard(async()=>{SET.plans=pl;await saveSettings();await saveSubs(changes);await saveActs(acts)},"انضاف "+fmt(acts.length)+" تفعيل و "+fmt(imp.newSubs.size)+" مشترك جديد")
     .then(ok=>{if(ok){IMP=null;IMPF=[];$("impRes").hidden=true;$("impMsg").textContent="";$("prog").style.width="0";location.hash="home"}else{btn.disabled=false;btn.textContent="إضافة إلى النظام"}});
 };
@@ -1501,7 +1787,7 @@ drop.addEventListener("drop",e=>handleMany(e.dataTransfer.files));
 file.onchange=()=>{handleMany(file.files);file.value=""};
 async function handleMany(list){
   for(const f of [...(list||[])]){
-    if(!/\.pdf$/i.test(f.name)&&f.type!=="application/pdf"){$("impMsg").textContent=f.name+": الملف لازم يكون PDF.";continue}
+    if(!/\.(pdf|xlsx|xls|csv)$/i.test(f.name)){$("impMsg").textContent=f.name+": الملف لازم يكون PDF أو Excel.";continue}
     const buf=await new Promise((res,rej)=>{const rd=new FileReader();rd.onload=()=>res(rd.result);rd.onerror=rej;rd.readAsArrayBuffer(f)}).catch(()=>null);
     if(buf)await importPdf(new Uint8Array(buf),f.name);
   }
@@ -1516,6 +1802,9 @@ function tsMs(t){return t?(typeof t.toMillis==="function"?t.toMillis():+t):0}
 const TS=ms=>firebase.firestore.Timestamp.fromMillis(ms);
 const SVT=()=>firebase.firestore.FieldValue.serverTimestamp();
 function MEMBER(){return ROLE==="marketer"||ROLE==="staff"}
+const PERMS=[["finance","يشوف الأرباح والحسابات والمقارنات والديون الكلية"],["reports","يشوف تقرير الموظفين"],["edit","يعدّل ويحذف التفعيلات والتسديدات"],["import","يستورد تفعيلات من Excel/PDF والمطابقة"],["notices","يضيف تبليغات وتنبيهات"],["plans","يعدّل الباقات والإعدادات"],["delsub","يحذف مشتركين"]];
+function can(p){if(ROLE==="admin"||ROLE==="marketer")return true;if(ROLE==="staff")return !!(LOGIN&&LOGIN.perms&&LOGIN.perms[p]);return false}
+function mySid(){return ROLE==="staff"?((LOGIN&&LOGIN.sid)||(ME&&ME.uid)||"staff"):ROLE==="marketer"?"owner":ROLE==="admin"?"admin":""}
 const isAdminUser=u=>!!u&&(u.email||"").toLowerCase()===String(CONFIG.adminEmail).trim().toLowerCase();
 /* كلمة السر وحدها تحدد الحساب: نحولها لإيميل داخلي ثابت */
 async function pwEmail(pw){
@@ -1540,7 +1829,7 @@ function lockNow(){gate("locked");renderLockText()}
 function renderLockText(){
   if($("gLocked").hidden)return;
   const st=memberState();
-  $("lkTitle").textContent=st==="expired"?"انتهت مدة الاشتراك":st==="off"?"الحساب موقوف":st==="staffoff"?"حسابك موقوف":"الحساب غير موجود";
+  $("lkTitle").textContent=st==="expired"?"انتهت مدة الاشتراك":st==="off"?"الحساب موقوف":st==="staffoff"?"حسابك موقوف":"الحساب مو موجود";
   $("lkText").textContent=st==="expired"?("انتهى اشتراك الحساب بتاريخ "+fdate(tsMs(ACCOUNT.expiresAt))+". البيانات محفوظة وترجع أول ما يتجدد."):st==="off"?"الإدارة أوقفت الحساب مؤقتاً. البيانات محفوظة وترجع أول ما يتشغل.":st==="staffoff"?"صاحب الحساب أوقف دخولك. تواصل وياه.":"كلمة السر هذي ما مربوطة بأي حساب، أو الحساب انحذف.";
   const ph=APPMETA.phone||"";
   const box=$("lkContact");box.hidden=st==="staffoff";
@@ -1554,6 +1843,7 @@ function setMode(){
   app.toggleAttribute("data-owner",ROLE==="marketer");
   app.toggleAttribute("data-staff",ROLE==="staff");
   app.toggleAttribute("data-nomatch",!matchOn());
+  PERMS.forEach(([p])=>app.toggleAttribute("data-no-"+p,!can(p)));
   $("vbName").textContent=VIEWAS?VIEWAS.name:"";
   renderUserCard();
   if(VIEW==="match"&&!matchOn())location.hash="home";
@@ -1587,7 +1877,7 @@ async function onAuth(user){
     if(Store.uid!==ACCT){
       Store.attach(ACCT);
       if(first)hello(displayName());else gate(null);
-      if(!VIEWS.includes(location.hash.slice(1)))location.hash="home";
+      if(first||!VIEWS.includes(location.hash.slice(1)))location.hash="home";
       show(location.hash.slice(1));
       if(ROLE==="marketer")watchStaff();
     }else if(!$("gLocked").hidden)gate(null);
@@ -1609,13 +1899,13 @@ $("gLogin").addEventListener("submit",async e=>{
   e.preventDefault();
   const p=$("lgPass").value;const err=$("lgErr");err.textContent="";
   if(!p){err.textContent="اكتب كلمة السر";return}
-  const b=$("lgBtn");b.disabled=true;b.textContent="جارِ الدخول...";
+  const b=$("lgBtn");b.disabled=true;b.textContent="دا يدخل...";
   const bad=c=>/invalid-credential|wrong-password|user-not-found|invalid-email|invalid-login/.test(c);
   try{
     try{await auth.signInWithEmailAndPassword(await pwEmail(p),p)}
     catch(x){if(bad(x&&x.code||""))await auth.signInWithEmailAndPassword(CONFIG.adminEmail,p);else throw x}
     $("lgPass").value="";
-  }catch(x){const c=x&&x.code||"";err.textContent=bad(c)?"كلمة السر غلط":c.includes("too-many-requests")?"محاولات كثيرة، انتظر شوية وجرّب":c.includes("network")?"ما في اتصال بالإنترنت":"ما گدرنا ندخل ("+c+")"}
+  }catch(x){const c=x&&x.code||"";err.textContent=bad(c)?"كلمة السر غلط":c.includes("too-many-requests")?"محاولات كثيرة، انتظر شوية وجرّب":c.includes("network")?"ماكو اتصال بالإنترنت":"ما گدرنا ندخل ("+c+")"}
   finally{b.disabled=false;b.textContent="دخول"}
 });
 $("lgShow").onclick=()=>{const i=$("lgPass");i.type=i.type==="password"?"text":"password";$("lgShow").textContent=i.type==="password"?"إظهار":"إخفاء"};
@@ -1650,20 +1940,20 @@ function renderAdmin(){
   const rows=ms.filter(m=>(MKF==="all"||mkState(m).st===MKF)&&(!q||(m.name||"").toLowerCase().includes(q)||(m.phone||"").includes(q))).sort((a,b)=>tsMs(a.expiresAt)-tsMs(b.expiresAt));
   const mobile=matchMedia("(max-width:700px)").matches;
   const acts=m=>`<button class="btn ok sm" data-mx="extend" data-id="${m.id}">تمديد</button><button class="btn ghost sm" data-mx="toggle" data-id="${m.id}">${m.active?"إيقاف":"تشغيل"}</button><button class="btn ghost sm" data-mx="open" data-id="${m.id}">فتح لوحته</button><button class="btn ghost sm" data-mx="edit" data-id="${m.id}">تعديل</button>`;
-  const empty=`<div class="empty"><b>ما في مسوقين بعد</b>أضف أول مسوق، ويطلعلك كلمة السر حتى ترسلها له.<div class="row" style="justify-content:center;margin-top:12px"><button class="btn" data-mx="add">إضافة مسوق</button></div></div>`;
+  const empty=`<div class="empty"><b>ماكو مسوقين بعد</b>ضيف أول مسوق، ويطلعلك كلمة السر حتى ترسلها له.<div class="row" style="justify-content:center;margin-top:12px"><button class="btn" data-mx="add">إضافة مسوق</button></div></div>`;
   $("mkCards").hidden=!mobile;$("mkTblBox").hidden=mobile;
   if(mobile){
     $("mkCards").innerHTML=ms.length?rows.map(m=>{const s=mkState(m),st=m.stats||{};return `<div class="scard st-${s.cls}"><div class="sc-top"><b class="sc-n">${esc(m.name||"—")}</b><span class="pill ${s.cls}">${s.lbl}</span></div>
       <div class="sc-meta"><span class="num">${esc(m.phone||"")}</span><span>ينتهي <span class="num">${s.exp?fdate(s.exp):"—"}</span></span><span>${fmt(st.subs||0)} مشترك</span>${m.features&&m.features.match===false?'<span class="paytag a">المطابقة مطفية</span>':""}</div>
-      <div class="sc-acts">${acts(m)}</div></div>`}).join("")||`<div class="empty">ما في نتائج.</div>`:empty;
+      <div class="sc-acts">${acts(m)}</div></div>`}).join("")||`<div class="empty">ماكو نتائج.</div>`:empty;
   }else{
     $("mkTbl").innerHTML=ms.length?`<thead><tr><th>المسوق</th><th>الهاتف</th><th>الحالة</th><th>ينتهي</th><th>المشتركين</th><th>الديون عنده</th><th>الرسوم الشهرية</th><th>المطابقة</th><th></th></tr></thead><tbody>${rows.map(m=>{const s=mkState(m);const st=m.stats||{};const mo=!(m.features&&m.features.match===false);
       return `<tr><td class="name">${esc(m.name||"—")}</td><td class="num">${esc(m.phone||"—")}</td><td><span class="pill ${s.cls}">${s.lbl}</span></td><td class="num">${s.exp?fdate(s.exp):"—"}</td><td class="num">${st.subs!=null?fmt(st.subs)+` <span class="muted">(${fmt(st.act||0)} فعّال)</span>`:"—"}</td><td class="num">${st.debt?fmt(st.debt):"—"}</td><td class="num">${m.fee?fmt(m.fee):"—"}</td>
       <td><button class="sw ${mo?"on":""}" data-mx="match" data-id="${m.id}" role="switch" aria-checked="${mo}" aria-label="المطابقة"><i></i></button></td>
-      <td><div class="row" style="flex-wrap:nowrap;gap:6px">${acts(m)}</div></td></tr>`}).join("")||`<tr><td colspan="9" class="empty">ما في نتائج.</td></tr>`}</tbody>`
+      <td><div class="row" style="flex-wrap:nowrap;gap:6px">${acts(m)}</div></td></tr>`}).join("")||`<tr><td colspan="9" class="empty">ماكو نتائج.</td></tr>`}</tbody>`
       :`<tbody><tr><td>${empty}</td></tr></tbody>`;
   }
-  $("billList").innerHTML=BILL.slice(0,80).map(b=>`<div class="li"><span class="nm">${esc(b.name||"")}</span><span class="u">${tsMs(b.at)?fdt(tsMs(b.at)):"الآن"}</span><span class="u ph">${b.days?"+"+b.days+" يوم":""}${b.note?" · "+esc(b.note):""}</span><span class="num" style="color:var(--ok);font-weight:700">+${fmt(b.amount||0)}</span></div>`).join("")||`<div class="empty">ما في رسوم مسجلة بعد.</div>`;
+  $("billList").innerHTML=BILL.slice(0,80).map(b=>`<div class="li"><span class="nm">${esc(b.name||"")}</span><span class="u">${tsMs(b.at)?fdt(tsMs(b.at)):"الآن"}</span><span class="u ph">${b.days?"+"+b.days+" يوم":""}${b.note?" · "+esc(b.note):""}</span><span class="num" style="color:var(--ok);font-weight:700">+${fmt(b.amount||0)}</span></div>`).join("")||`<div class="empty">ماكو رسوم مسجلة بعد.</div>`;
   if(document.activeElement!==$("cAdminName")&&document.activeElement!==$("cAdminPhone")){$("cAdminName").value=APPMETA.adminName||"";$("cAdminPhone").value=APPMETA.phone||""}
 }
 $("aq2").oninput=renderAdmin;
@@ -1736,7 +2026,7 @@ function openNewPw(name,doIt,note){
   <p class="muted" style="margin:0">${note||""}</p><div class="err" id="npwErr"></div>
   <button class="btn go" id="npwGo">تغيير</button>`);
   $("npwGo").onclick=async()=>{const pw=$("npw").value.trim();if(pw.length<6){$("npwErr").textContent="6 أحرف أو أكثر";return}
-    const b=$("npwGo");b.disabled=true;b.textContent="جارِ التغيير...";
+    const b=$("npwGo");b.disabled=true;b.textContent="دا يغيّر...";
     try{await doIt(pw);credBox("تغيرت كلمة السر",esc(name||""),`رابط النظام: ${siteUrl()}\nكلمة السر: ${pw}`)}
     catch(x){$("npwErr").textContent=pwErr(x);b.disabled=false;b.textContent="تغيير"}};
 }
@@ -1758,7 +2048,7 @@ function openAddMk(){
     const er=$("amErr");er.textContent="";
     if(!name){er.textContent="اكتب اسم المسوق";return}
     if(pw.length<6){er.textContent="كلمة السر لازم 6 أحرف أو أكثر";return}
-    const b=$("amGo");b.disabled=true;b.textContent="جارِ الإنشاء...";
+    const b=$("amGo");b.disabled=true;b.textContent="دا ينشئ الحساب...";
     try{
       const uid=await createLogin(pw);
       const exp=Date.now()+days*DAY,paid=+$("amPaid").value||0;
@@ -1794,26 +2084,32 @@ function watchStaff(){
   try{unsubStaff&&unsubStaff()}catch(e){}
   unsubStaff=fs.collection("logins").where("acct","==",ACCT).onSnapshot(s=>{STAFF=s.docs.map(d=>({id:d.id,...d.data()})).filter(x=>x.role==="staff");renderStaff()},()=>{});
 }
+function permsHtml(cur){return `<div class="perms">${PERMS.map(([p,l])=>`<label class="tgl"><span>${l}</span><input type="checkbox" data-perm="${p}" ${cur&&cur[p]?"checked":""}></label>`).join("")}</div>`}
+function readPerms(){const o={};document.querySelectorAll("#mbox [data-perm]").forEach(i=>o[i.dataset.perm]=i.checked);return o}
 function renderStaff(){
   const box=$("staffList");if(!box)return;
-  box.innerHTML=STAFF.length?STAFF.map(s=>`<div class="li"><span class="nm">${esc(s.name||"موظف")}</span>${s.active===false?'<span class="pill none">موقوف</span>':'<span class="pill act">شغّال</span>'}<button class="btn ghost sm" data-st-t="${s.id}">${s.active===false?"تشغيل":"إيقاف"}</button><button class="btn ghost sm" data-st-p="${s.id}">كلمة سر جديدة</button><button class="btn danger sm" data-st-d="${s.id}">حذف</button></div>`).join("")
-    :`<div class="empty">ما عندك موظفين. الموظف يكدر يفعّل ويضيف مشتركين ويسدد ديون، وما يشوف الأرباح ولا الإعدادات.</div>`;
+  box.innerHTML=STAFF.length?STAFF.map(s=>`<div class="li" style="flex-wrap:wrap"><span class="nm">${esc(s.name||"موظف")}<small class="muted" style="display:block;font-weight:400">${PERMS.filter(([p])=>s.perms&&s.perms[p]).length} صلاحية</small></span><button class="btn ghost sm" data-st-perm="${s.id}">الصلاحيات</button>${s.active===false?'<span class="pill none">موقوف</span>':'<span class="pill act">شغّال</span>'}<button class="btn ghost sm" data-st-t="${s.id}">${s.active===false?"تشغيل":"إيقاف"}</button><button class="btn ghost sm" data-st-p="${s.id}">كلمة سر جديدة</button><button class="btn danger sm" data-st-d="${s.id}">حذف</button></div>`).join("")
+    :`<div class="empty">ما عندك موظفين. الموظف يكدر يفعّل ويضيف مشتركين ويسدد ديون، والباقي حسب الصلاحيات اللي تنطيها إله.</div>`;
 }
 $("addStaff").onclick=()=>{
   modal(`<div class="mhd"><div class="t"><h2>إضافة موظف</h2><div class="muted">يدخل بكلمة السر فقط ويشتغل على مشتركينك</div></div><button class="x" data-close aria-label="إغلاق">×</button></div>
   <div class="fgrid"><div class="field"><label for="sfN">اسم الموظف</label><input type="text" id="sfN"></div><div class="field"><label for="sfPw">كلمة السر</label><input type="text" id="sfPw" dir="ltr" value="${genPw()}" autocomplete="off"></div></div>
+  <div class="field"><label>الصلاحيات</label>${permsHtml({})}</div>
   <div class="err" id="sfErr"></div><button class="btn go" id="sfGo">إنشاء</button>`);
   $("sfGo").onclick=async()=>{const n=$("sfN").value.trim(),pw=$("sfPw").value.trim();const er=$("sfErr");
     if(!n){er.textContent="اكتب اسم الموظف";return}if(pw.length<6){er.textContent="كلمة السر 6 أحرف أو أكثر";return}
-    const b=$("sfGo");b.disabled=true;b.textContent="جارِ الإنشاء...";
-    try{const uid=await createLogin(pw);await fs.collection("logins").doc(uid).set({acct:ACCT,role:"staff",name:n,active:true,createdAt:SVT()});
+    const b=$("sfGo");b.disabled=true;b.textContent="دا ينشئ الحساب...";
+    try{const uid=await createLogin(pw);await fs.collection("logins").doc(uid).set({acct:ACCT,role:"staff",name:n,active:true,perms:readPerms(),sid:"s"+Date.now().toString(36),createdAt:SVT()});
       credBox("انضاف "+esc(n),"موظف بحساب "+esc(ACCOUNT&&ACCOUNT.name||""),`رابط النظام: ${siteUrl()}\nكلمة السر: ${pw}`)}
     catch(x){er.textContent=pwErr(x);b.disabled=false;b.textContent="إنشاء"}};
 };
 $("staffList").addEventListener("click",e=>{
+  const pm=e.target.closest("[data-st-perm]");
+  if(pm){const s=STAFF.find(x=>x.id===pm.dataset.stPerm);modal(`<div class="mhd"><div class="t"><h2>صلاحيات ${esc(s.name)}</h2><div class="muted">التفعيل والإضافة والتسديد متاحة دائماً</div></div><button class="x" data-close aria-label="سكّر">×</button></div>${permsHtml(s.perms||{})}<button class="btn go" id="pmGo">حفظ</button>`);
+    $("pmGo").onclick=async()=>{const p=readPerms();closeModal();await aGuard(()=>fs.collection("logins").doc(s.id).update({perms:p}),"انحفظت صلاحيات "+s.name)};return}
   const t=e.target.closest("[data-st-t]"),p=e.target.closest("[data-st-p]"),d=e.target.closest("[data-st-d]");
   if(t){const s=STAFF.find(x=>x.id===t.dataset.stT);aGuard(()=>fs.collection("logins").doc(s.id).update({active:s.active===false}),s.active===false?"اشتغل "+s.name:"توقف "+s.name)}
-  if(p){const s=STAFF.find(x=>x.id===p.dataset.stP);openNewPw(s.name,async pw=>{const uid=await createLogin(pw);await fs.collection("logins").doc(uid).set({acct:ACCT,role:"staff",name:s.name,active:s.active!==false,createdAt:SVT()});await fs.collection("logins").doc(s.id).delete()},"كلمة السر القديمة تبطل فوراً.")}
+  if(p){const s=STAFF.find(x=>x.id===p.dataset.stP);openNewPw(s.name,async pw=>{const uid=await createLogin(pw);await fs.collection("logins").doc(uid).set({acct:ACCT,role:"staff",name:s.name,active:s.active!==false,perms:s.perms||{},sid:s.sid||s.id,createdAt:SVT()});await fs.collection("logins").doc(s.id).delete()},"كلمة السر القديمة تبطل فوراً.")}
   if(d){const s=STAFF.find(x=>x.id===d.dataset.stD);confirmBox("حذف الموظف","حذف <b>"+esc(s.name)+"</b>؟ ما يكدر يدخل بعد.","حذف",()=>aGuard(()=>fs.collection("logins").doc(s.id).delete(),"انحذف الموظف"))}
 });
 /* صاحب الحساب يغير كلمة سره */
