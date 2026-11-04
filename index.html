@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.04-16">
+<meta name="amnet-build" content="2026.11.04-17">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -358,6 +358,7 @@ body{margin:0;padding-top:var(--sat)}
 #app[data-no-balance] .p-balance,#app[data-no-log] .p-log,#app[data-no-balview] .p-balview,#app[data-no-finance] .p-finance,#app[data-no-reports] .p-reports,#app[data-no-edit] .p-edit,#app[data-no-import] .p-import,#app[data-no-notices] .p-notices,#app[data-no-plans] .p-plans,#app[data-no-delsub] .p-delsub{display:none!important}
 #app[data-nomatch] .matchf{display:none!important}
 #app[data-nomgmt] .mgf{display:none!important}
+#app[data-noamsg] .amsg{display:none!important}
 @media (max-width:900px){#app[data-nomgmt] .bnav{grid-template-columns:repeat(3,minmax(0,1fr)) 70px repeat(2,minmax(0,1fr))}}
 #app[data-mode="admin"] .bnav{display:none!important}
 @media (max-width:900px){#app[data-mode="admin"] main{padding-bottom:30px}}
@@ -1744,7 +1745,7 @@ function renderAPanel(){
   if(!ASEL||!SUBS.has(ASEL)){if(SHEET){closeModal();return}ASEL=null;P.innerHTML=`<div class="empty"><b>اختار مشترك</b>دوّره ودوس عليه حتى تفعّله.</div>`;return}
   const k=ASEL,s=SUBS.get(k),now=Date.now(),st=status(k,now),d=debtOf(k);
   if(AST.done){
-    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تفعّل</h2><div>${esc(s.n||s.u)}</div><div class="muted">شغّال لغاية <span class="num">${fdate(AST.done.exp)}</span> · ${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div>دينه الكلي هسه: <span class="debt">${fmt(AST.done.debt)}</span></div>`:""}<pre class="msgbox" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button><button class="btn ghost go" id="nextAct">${SHEET?"زين، سدّها":"تفعيل مشترك ثاني"}</button></div>`;
+    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تفعّل</h2><div>${esc(s.n||s.u)}</div><div class="muted">شغّال لغاية <span class="num">${fdate(AST.done.exp)}</span> · ${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div>دينه الكلي هسه: <span class="debt">${fmt(AST.done.debt)}</span></div>`:""}<pre class="msgbox amsg" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go amsg" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button><button class="btn ghost go" id="nextAct">${SHEET?"زين، سدّها":"تفعيل مشترك ثاني"}</button></div>`;
     $("copyMsg").onclick=()=>copyText(AST.done.msg,$("msgBox"));
     $("nextAct").onclick=()=>{if(SHEET){closeModal();return}ASEL=null;$("aq").value="";renderActivate();$("aq").focus()};return;
   }
@@ -2210,7 +2211,7 @@ function openSub(k){
     <button type="button" class="prof-user" data-cpu="${esc(s.u)}" aria-label="نسخ اليوزر"><span>${esc(s.u)}</span><svg><use href="#i-copy"/></svg></button>
     <div class="sub">${s.pl?planTag(s.pl):""}${pill(st.st,st.days)}</div></div></div>
   ${d?`<div class="debtban" style="margin:0"><span class="di">!</span><div class="dt"><small>عليه دين</small><b>${fmt(d)}</b> <span style="color:#ffd0d5;font-size:12px">د.ع</span></div><button class="btn sm" data-pay="${esc(k)}" data-after="sub">تسديد الدين</button></div>`:""}
-  <div class="prof-acts"><button class="btn" data-renew="${esc(k)}"><svg><use href="#i-bolt"/></svg>تجديد</button><button class="btn ghost" id="eCopy"><svg><use href="#i-copy"/></svg>نسخ الرسالة</button><button class="btn ghost mgf" data-mgfind="${esc(k)}"><svg><use href="#i-globe"/></svg>بالمنجمنت</button></div>
+  <div class="prof-acts"><button class="btn" data-renew="${esc(k)}"><svg><use href="#i-bolt"/></svg>تجديد</button><button class="btn ghost amsg" id="eCopy"><svg><use href="#i-copy"/></svg>نسخ الرسالة</button><button class="btn ghost mgf" data-mgfind="${esc(k)}"><svg><use href="#i-globe"/></svg>بالمنجمنت</button></div>
   <dl class="info" style="margin:0">
     <div><dt>رقم الهاتف</dt><dd>${s.p?`<span class="num">${esc(s.p)}</span>`:'<span style="color:var(--bad)">ما مضاف</span>'}</dd></div>
     <div><dt>${st.st==="exp"?"انتهى بتاريخ":"ينتهي بتاريخ"}</dt><dd>${st.exp?`<span class="num">${fdate(st.exp)}</span>`:"—"}</dd></div>
@@ -2671,6 +2672,7 @@ const genPw=()=>{const c="abcdefghjkmnpqrstuvwxyz23456789";let s="";const r=cryp
 function features(){return ((VIEWAS?VIEWAS.acc:ACCOUNT)||{}).features||{}}
 function matchOn(){return features().match!==false}
 function mgmtOn(){return features().mgmt!==false}
+function amsgOn(){return features().actmsg!==false}
 function accState(a){if(!a)return "missing";if(!a.active)return "off";if(tsMs(a.expiresAt)<=Date.now())return "expired";return "ok"}
 function memberState(){if(!LOGIN)return "missing";if(LOGIN.active===false)return "staffoff";return accState(ACCOUNT)}
 function gate(which){
@@ -2703,6 +2705,7 @@ function setMode(){
   app.toggleAttribute("data-canreset",ROLE==="marketer"||!!VIEWAS);
   app.toggleAttribute("data-nomatch",!matchOn());
   app.toggleAttribute("data-nomgmt",!mgmtOn());
+  app.toggleAttribute("data-noamsg",!amsgOn());
   PERMS.forEach(([p])=>app.toggleAttribute("data-no-"+p,!can(p)));
   app.toggleAttribute("data-no-balview",!(can("finance")||can("balance")));
   $("vbName").textContent=VIEWAS?VIEWAS.name:"";
@@ -2805,14 +2808,15 @@ function renderAdmin(){
   $("mkCards").hidden=!mobile;$("mkTblBox").hidden=mobile;
   if(mobile){
     $("mkCards").innerHTML=ms.length?rows.map(m=>{const s=mkState(m),st=m.stats||{};return `<div class="scard st-${s.cls}"><div class="sc-top"><b class="sc-n">${esc(m.name||"—")}</b><span class="pill ${s.cls}">${s.lbl}</span></div>
-      <div class="sc-meta"><span class="num">${esc(m.phone||"")}</span><span>ينتهي <span class="num">${s.exp?fdate(s.exp):"—"}</span></span><span>${fmt(st.subs||0)} مشترك</span>${m.features&&m.features.match===false?'<span class="paytag a">المطابقة مطفية</span>':""}${m.features&&m.features.mgmt===false?'<span class="paytag a">المنجمنت مطفي</span>':""}</div>
+      <div class="sc-meta"><span class="num">${esc(m.phone||"")}</span><span>ينتهي <span class="num">${s.exp?fdate(s.exp):"—"}</span></span><span>${fmt(st.subs||0)} مشترك</span>${m.features&&m.features.match===false?'<span class="paytag a">المطابقة مطفية</span>':""}${m.features&&m.features.mgmt===false?'<span class="paytag a">المنجمنت مطفي</span>':""}${m.features&&m.features.actmsg===false?'<span class="paytag a">رسالة التفعيل مطفية</span>':""}</div>
       <div class="sc-acts">${acts(m)}</div></div>`}).join("")||`<div class="empty">ماكو نتائج.</div>`:empty;
   }else{
-    $("mkTbl").innerHTML=ms.length?`<thead><tr><th>المسوق</th><th>الهاتف</th><th>الحالة</th><th>ينتهي</th><th>المشتركين</th><th>الديون عنده</th><th>الرسوم الشهرية</th><th>المطابقة</th><th>المنجمنت</th><th></th></tr></thead><tbody>${rows.map(m=>{const s=mkState(m);const st=m.stats||{};const mo=!(m.features&&m.features.match===false);const mg=!(m.features&&m.features.mgmt===false);
+    $("mkTbl").innerHTML=ms.length?`<thead><tr><th>المسوق</th><th>الهاتف</th><th>الحالة</th><th>ينتهي</th><th>المشتركين</th><th>الديون عنده</th><th>الرسوم الشهرية</th><th>المطابقة</th><th>المنجمنت</th><th>رسالة التفعيل</th><th></th></tr></thead><tbody>${rows.map(m=>{const s=mkState(m);const st=m.stats||{};const mo=!(m.features&&m.features.match===false);const mg=!(m.features&&m.features.mgmt===false);const am=!(m.features&&m.features.actmsg===false);
       return `<tr><td class="name">${esc(m.name||"—")}</td><td class="num">${esc(m.phone||"—")}</td><td><span class="pill ${s.cls}">${s.lbl}</span></td><td class="num">${s.exp?fdate(s.exp):"—"}</td><td class="num">${st.subs!=null?fmt(st.subs)+` <span class="muted">(${fmt(st.act||0)} فعّال)</span>`:"—"}</td><td class="num">${st.debt?fmt(st.debt):"—"}</td><td class="num">${m.fee?fmt(m.fee):"—"}</td>
       <td><button class="sw ${mo?"on":""}" data-mx="match" data-id="${m.id}" role="switch" aria-checked="${mo}" aria-label="المطابقة"><i></i></button></td>
       <td><button class="sw ${mg?"on":""}" data-mx="mgmt" data-id="${m.id}" role="switch" aria-checked="${mg}" aria-label="المنجمنت"><i></i></button></td>
-      <td><div class="row" style="flex-wrap:nowrap;gap:6px">${acts(m)}</div></td></tr>`}).join("")||`<tr><td colspan="10" class="empty">ماكو نتائج.</td></tr>`}</tbody>`
+      <td><button class="sw ${am?"on":""}" data-mx="actmsg" data-id="${m.id}" role="switch" aria-checked="${am}" aria-label="رسالة التفعيل"><i></i></button></td>
+      <td><div class="row" style="flex-wrap:nowrap;gap:6px">${acts(m)}</div></td></tr>`}).join("")||`<tr><td colspan="11" class="empty">ماكو نتائج.</td></tr>`}</tbody>`
       :`<tbody><tr><td>${empty}</td></tr></tbody>`;
   }
   $("billList").innerHTML=BILL.slice(0,80).map(b=>`<div class="li"><span class="nm">${esc(b.name||"")}</span><span class="u">${tsMs(b.at)?fdt(tsMs(b.at)):"الآن"}</span><span class="u ph">${b.days?"+"+b.days+" يوم":""}${b.note?" · "+esc(b.note):""}</span><span class="num" style="color:var(--ok);font-weight:700">+${fmt(b.amount||0)}</span></div>`).join("")||`<div class="empty">ماكو رسوم مسجلة بعد.</div>`;
@@ -2827,6 +2831,7 @@ document.addEventListener("click",e=>{
   if(!m)return;
   if(a==="extend")openExtend(m);
   else if(a==="toggle")aGuard(()=>fs.collection("accounts").doc(m.id).update({active:!m.active}),m.active?"توقف حساب "+m.name:"اشتغل حساب "+m.name);
+  else if(a==="actmsg"){const on=!(m.features&&m.features.actmsg===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),actmsg:!on}}),(on?"انطفت":"اشتغلت")+" رسالة التفعيل عند "+m.name)}
   else if(a==="mgmt"){const on=!(m.features&&m.features.mgmt===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),mgmt:!on}}),(on?"انطفى":"اشتغل")+" المنجمنت عند "+m.name)}
   else if(a==="match"){const on=!(m.features&&m.features.match===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),match:!on}}),(on?"انطفت":"اشتغلت")+" المطابقة عند "+m.name)}
   else if(a==="open")viewAs(m);
@@ -2875,9 +2880,10 @@ function openEditMk(m){
   <div class="field"><label for="emNote">ملاحظة</label><input type="text" id="emNote" value="${esc(m.note||"")}"></div>
   <label class="tgl"><span>خاصية المطابقة</span><input type="checkbox" id="emMatch" ${mo?"checked":""}></label>
   <label class="tgl"><span>المنجمنت (موقع الشركة)</span><input type="checkbox" id="emMgmt" ${m.features&&m.features.mgmt===false?"":"checked"}></label>
+  <label class="tgl"><span>رسالة التفعيل (تطلع بعد التفعيل وبالبروفايل)</span><input type="checkbox" id="emAmsg" ${m.features&&m.features.actmsg===false?"":"checked"}></label>
   <div class="row"><button class="btn" id="emGo">حفظ</button><button class="btn ghost" id="emPw">كلمة سر جديدة</button><span style="flex:1"></span><button class="btn danger sm" id="emDel">حذف المسوق</button></div>`);
   $("emGo").onclick=async()=>{const e=$("emE").value?new Date($("emE").value+"T23:59:59").getTime():tsMs(m.expiresAt);
-    if(await aGuard(()=>fs.collection("accounts").doc(m.id).update({name:$("emN").value.trim(),phone:$("emP").value.trim(),fee:+$("emF").value||0,note:$("emNote").value.trim(),expiresAt:TS(e),features:{...(m.features||{}),match:$("emMatch").checked,mgmt:$("emMgmt").checked}}),"انحفظ"))closeModal()};
+    if(await aGuard(()=>fs.collection("accounts").doc(m.id).update({name:$("emN").value.trim(),phone:$("emP").value.trim(),fee:+$("emF").value||0,note:$("emNote").value.trim(),expiresAt:TS(e),features:{...(m.features||{}),match:$("emMatch").checked,mgmt:$("emMgmt").checked,actmsg:$("emAmsg").checked}}),"انحفظ"))closeModal()};
   $("emPw").onclick=()=>openNewPw(m.name,async pw=>{await replaceLogins(m.id,"owner",pw,m.name)},"كلمة السر القديمة تبطل فوراً، والموظفين يبقون بكلمات سرهم.");
   $("emDel").onclick=()=>confirmBox("حذف المسوق",`راح ينحذف <b>${esc(m.name)}</b> وكل مشتركينه وموظفينه نهائياً.`,"إي، احذف",async()=>{
     await aGuard(async()=>{const snap=await fs.collection("accounts").doc(m.id).collection("data").get();for(const d of snap.docs)await d.ref.delete();
