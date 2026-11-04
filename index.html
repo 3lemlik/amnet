@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.05-1">
+<meta name="amnet-build" content="2026.11.05-2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1168,6 +1168,43 @@ nav.side-nav a[aria-current="page"]::before{animation:sideBar .45s cubic-bezier(
 @media (prefers-reduced-motion:reduce){.view.enter>*,.view.enter h1.pg,.view.enter .eyebrow span,#warp,#warp::before,.bnav svg,nav.side-nav a::before{animation:none!important}}
 
 @media (max-width:520px){.g-boot{font-size:10px;line-height:1.5;min-height:60px}.gwrap{gap:14px}.g-core{width:120px;height:120px}.g-core svg{width:50px;height:50px}.gwm{font-size:28px}}
+
+/* ================= GROWTH CHART ================= */
+.growth .chead{flex-wrap:wrap}
+.growth .seg button{padding:6px 12px;font-size:13px}
+.gr-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:6px}
+@media (max-width:760px){.gr-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.gk{display:grid;gap:2px;padding:10px 12px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);min-width:0}
+.gk small{font-size:11.5px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gk b{font-size:18px;font-weight:800;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gk.ok b{color:var(--ok)}.gk.bad b{color:var(--bad)}
+.gk em{font-style:normal;font-size:11px;color:var(--faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gk-chg{justify-self:start;font-family:var(--f-mono);font-size:11.5px;font-weight:700;padding:0 7px;border-radius:99px;background:var(--panel3);color:var(--dim);direction:ltr}
+.gk-chg.up{background:var(--ok-soft);color:var(--ok)}.gk-chg.down{background:var(--bad-soft);color:var(--bad)}
+.gr-chart{width:100%;overflow:hidden}
+.gr-svg{width:100%;height:auto;display:block;font-family:var(--f-body)}
+.gr-svg .gl{stroke:var(--line);stroke-width:1}.gr-svg .gl.z{stroke:var(--line2)}
+.gr-svg .gy{fill:var(--faint);font-size:10px;text-anchor:end;font-family:var(--f-mono)}
+.gr-svg .gx{fill:var(--dim);font-size:11px;text-anchor:middle}.gr-svg .gx.cur{fill:var(--accent);font-weight:700}
+.gr-svg .gv{fill:var(--ink);font-size:10.5px;text-anchor:middle;font-family:var(--f-mono);font-weight:700}
+.gr-svg .ghit{fill:transparent;cursor:pointer}
+.gr-svg .gcol:hover .ghit,.gr-svg .gcol.sel .ghit{fill:rgba(var(--acc-rgb),.06)}
+.gr-svg .gbar{transform-box:fill-box;transform-origin:50% 100%;animation:grUp .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:var(--d)}
+.gr-svg .gbar.dn{transform-origin:50% 0}
+@keyframes grUp{from{transform:scaleY(0)}to{transform:none}}
+.gr-svg .gline{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:2000;stroke-dashoffset:2000;animation:grLine 1.2s .1s ease-out forwards}
+@keyframes grLine{to{stroke-dashoffset:0}}
+.gr-svg .gdot{fill:var(--panel);stroke:var(--accent);stroke-width:2}.gr-svg .gdot.cur{fill:var(--accent)}
+.gr-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--dim);margin-top:4px}
+.gr-legend span{display:inline-flex;align-items:center;gap:6px}
+.gr-legend i{display:inline-block;width:12px;height:12px;border-radius:3px}
+.lg-bar{background:var(--accent)}.lg-part{background:repeating-linear-gradient(45deg,var(--accent) 0 2px,transparent 2px 5px);border:1px dashed var(--accent)}
+.lg-line{height:3px!important;border-radius:2px!important;background:var(--accent)}.lg-ok{background:var(--ok)}.lg-bad{background:var(--bad)}
+.gr-detail{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);font-size:13px;color:var(--dim)}
+.gr-detail>b{color:var(--ink)}.gr-detail .ok{color:var(--ok)}.gr-detail .bad{color:var(--bad)}.gr-detail span b{color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.gr-svg .gbar,.gr-svg .gline{animation:none;stroke-dashoffset:0}}
+
+.gr-svg .gy2{font-family:var(--f-body);font-size:10px}
 </style>
 </head>
 <body>
@@ -1379,6 +1416,16 @@ nav.side-nav a[aria-current="page"]::before{animation:sideBar .45s cubic-bezier(
     <div class="card br pc r"><div class="lb">ديون جديدة (آجل)</div><div class="v" id="pCred">0</div><div class="s" id="pCredS"></div></div>
   </div>
 
+  <div class="card br growth" id="growthCard" hidden>
+    <div class="chead"><div class="t"><h2>نمو الشبكة</h2><div class="muted" id="grSub"></div></div>
+      <div class="seg" id="grTabs" role="group" aria-label="نوع الرسم"><button data-gt="profit" class="p-finance">الأرباح</button><button data-gt="subs">المشتركين</button></div>
+      <div class="seg" id="grN" role="group" aria-label="عدد الأشهر"><button data-gn="6">6 أشهر</button><button data-gn="12">سنة</button></div>
+    </div>
+    <div class="gr-kpis" id="grKpis"></div>
+    <div class="gr-chart" id="grChart" dir="ltr"></div>
+    <div class="gr-legend" id="grLegend"></div>
+    <div class="gr-detail" id="grDetail"></div>
+  </div>
   <div class="card br homestaff" id="homeStaff" hidden>
     <div class="chead"><div class="t"><h2>الموظفين</h2><div class="muted" id="hsSub"></div></div><a class="btn ghost sm" href="#reports">التقرير الكامل</a></div>
     <div class="hs" id="hsList"></div>
@@ -1896,7 +1943,7 @@ function renderAll(){
   $("impIntro").innerHTML=empty?'الموقع فارغ هسه. ارفع تقرير الشركة لهذا الشهر، <b style="color:var(--ink)">وارفع وياه تقرير الشهر السابق</b> حتى تطلع مقارنة الأشهر والمشتركين المفقودين من أول يوم. يقبل PDF وExcel.':"ارفع تقرير الشركة (PDF أو Excel)، وينضاف بس اللي مو مسجّل بالموقع. التفعيلات المكررة تنترك تلقائياً.";
   $("dropSub").textContent=empty?"ملف هذا الشهر + ملف الشهر السابق":"PDF أو Excel · ينضاف الناقص فقط";
   $("plansBox").open=ROLE==="staff"||$("plansBox").open;
-  renderHome();renderHomeStaff();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();renderMcUI();renderWaHome();fillWaCfg();if(WA_REDRAW&&$("waList"))WA_REDRAW();
+  renderHome();renderHomeStaff();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();renderGrowth();renderMcUI();renderWaHome();fillWaCfg();if(WA_REDRAW&&$("waList"))WA_REDRAW();
   if(VIEW==="mgmt"&&MGF.uid!==Store.uid)mgEnter();
 }
 
@@ -2488,6 +2535,72 @@ let _mq=matchMedia("(max-width:700px)").matches;
 window.addEventListener("resize",()=>{const m=matchMedia("(max-width:700px)").matches;if(m!==_mq){_mq=m;renderSubs();renderReports();if(ROLE==="admin")renderAdmin()}});
 function setActTop(){const w=document.querySelector("#v-activate .act-wrap");if(!w||$("v-activate").hidden)return;document.documentElement.style.setProperty("--actTop",Math.round(w.getBoundingClientRect().top+window.scrollY)+"px")}
 addEventListener("resize",()=>setActTop());
+
+/* ================= GROWTH CHART (home) ================= */
+var GR_T="profit",GR_N=6;try{GR_N=+localStorage.getItem("amnet_grn")||6;GR_T=localStorage.getItem("amnet_grt")||"profit"}catch(e){}
+var GR_SEL=null;
+const MSHORT=["ك2","شباط","آذار","نيسان","أيار","حزيران","تموز","آب","أيلول","ت1","ت2","ك1"];
+function grShort(k){const [y,m]=k.split("-");return MSHORT[+m-1]}
+function cmpt(v){const a=Math.abs(v);const sg=v<0?"-":"";return a>=1e6?sg+(a/1e6).toFixed(a>=1e7?0:1).replace(/\.0$/,"")+"M":a>=1e3?sg+Math.round(a/1e3)+"K":sg+Math.round(a)}
+function grData(){
+  const now=new Date();const keys=[];for(let i=GR_N;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);keys.push(d.getFullYear()+"-"+pad(d.getMonth()+1))}
+  const sets=keys.map(k=>monthSet(k));
+  return keys.slice(1).map((k,i)=>{const cur=sets[i+1],prev=sets[i];const m=monthMoney(k);
+    let gained=0,lost=0;for(const u of cur)if(!prev.has(u))gained++;for(const u of prev)if(!cur.has(u))lost++;
+    return {k,act:cur.size,gained,lost,profit:m.profit,rev:m.rev,n:m.n,partial:i===keys.length-2}});
+}
+function pctTxt(a,b){if(!b)return a?"جديد":"—";const p=Math.round((a-b)/Math.abs(b)*100);return (p>0?"+":"")+p+"%"}
+function renderGrowth(){
+  const card=$("growthCard");if(!card)return;
+  if(!ACTS.length||(ROLE==="admin"&&!VIEWAS)){card.hidden=true;return}
+  card.hidden=false;
+  if(GR_T==="profit"&&!can("finance"))GR_T="subs";
+  $("grTabs").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.gt===GR_T));
+  $("grN").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.gn===GR_N));
+  const D=grData(),L=D.length,cur=D[L-1],prev=D[L-2]||{act:0,profit:0};
+  // compare the running month fairly: scale last month to the same day
+  const day=new Date().getDate(),dim=new Date(new Date().getFullYear(),new Date().getMonth()+1,0).getDate();
+  $("grSub").textContent=(GR_T==="profit"?"صافي الربح كل شهر":"المشتركين الشغّالين والجداد والمفقودين كل شهر")+" · آخر "+(GR_N===12?"سنة":"6 أشهر");
+  const k=(lbl,val,chg,cls,sub)=>`<div class="gk ${cls||""}"><small>${lbl}</small><b class="num">${val}</b>${chg?`<span class="gk-chg ${chg.startsWith("+")?"up":chg.startsWith("-")?"down":""}">${chg}</span>`:""}${sub?`<em>${sub}</em>`:""}</div>`;
+  if(GR_T==="profit"){
+    const best=D.reduce((a,b)=>b.profit>a.profit?b:a,D[0]);const avg=Math.round(D.slice(0,-1).reduce((t,x)=>t+x.profit,0)/Math.max(1,L-1));
+    $("grKpis").innerHTML=k("ربح "+mname(cur.k).split(" ")[0]+" لحد الآن",fmt(cur.profit),pctTxt(cur.profit,prev.profit*day/dim),"","مقارنة بنفس الفترة من الشهر الماضي")+k("الشهر الماضي",fmt(prev.profit||0),pctTxt(prev.profit||0,(D[L-3]||{}).profit||0))+k("أعلى شهر",fmt(best.profit),"","",mname(best.k))+k("المعدّل الشهري",fmt(avg));
+  }else{
+    const totG=D.reduce((t,x)=>t+x.gained,0),totL=D.slice(0,-1).reduce((t,x)=>t+x.lost,0);
+    $("grKpis").innerHTML=k("شغّالين هذا الشهر",fmt(cur.act),pctTxt(cur.act,prev.act),"","المشتركين اللي تفعّلوا بهذا الشهر")+k("جداد هذا الشهر","+"+fmt(cur.gained),"","ok")+k("مفقودين الشهر الماضي","-"+fmt(prev.lost||0),"","bad","تفعّلوا قبله وما جددوا")+k("صافي الفترة",(totG-totL>=0?"+":"")+fmt(totG-totL),"",totG-totL>=0?"ok":"bad","جداد "+fmt(totG)+" · مفقودين "+fmt(totL));
+  }
+  const cwid=$("grChart").clientWidth||680;const W=Math.round(Math.max(300,Math.min(720,cwid))),H=W<520?220:250,pl=W<520?34:44,pr=8,pt=22,pb=28,cw=(W-pl-pr)/L;const thin=cw<34;
+  let svg=`<svg viewBox="0 0 ${W} ${H}" class="gr-svg" role="img" aria-label="${GR_T==="profit"?"رسم الأرباح الشهرية":"رسم المشتركين الشهري"}"><defs><linearGradient id="grG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".95"/><stop offset="1" stop-color="var(--accent)" stop-opacity=".35"/></linearGradient><linearGradient id="grA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".28"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient><pattern id="grP" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="3" height="6" fill="var(--accent)" fill-opacity=".55"/></pattern></defs>`;
+  const grid=(min,max,y)=>{let g="";for(let i=0;i<=4;i++){const v=min+(max-min)*i/4,yy=y(v);g+=`<line x1="${pl}" x2="${W-pr}" y1="${yy}" y2="${yy}" class="gl${Math.abs(v)<1e-9?" z":""}"/><text x="${pl-6}" y="${yy+3.5}" class="gy">${cmpt(v)}</text>`}return g};
+  const xl=(i)=>(thin&&i%2&&i!==L-1)?"":`<text x="${pl+cw*i+cw/2}" y="${H-10}" class="gx${i===L-1?" cur":""}">${grShort(D[i].k)}</text>`;
+  if(GR_T==="profit"){
+    const vals=D.map(x=>x.profit);let max=Math.max(0,...vals),min=Math.min(0,...vals);if(max===min)max=1;max*=1.12;if(min<0)min*=1.12;
+    const y=v=>pt+(max-v)/(max-min)*(H-pt-pb);
+    svg+=grid(min,max,y);
+    D.forEach((x,i)=>{const bw=Math.min(46,cw*.58),bx=pl+cw*i+(cw-bw)/2,y0=y(0),y1=y(x.profit),h=Math.abs(y0-y1);
+      svg+=`<g class="gcol${GR_SEL===i?" sel":""}" data-gi="${i}"><rect class="ghit" x="${pl+cw*i}" y="${pt}" width="${cw}" height="${H-pt-pb}"/><rect x="${bx}" y="${Math.min(y0,y1)}" width="${bw}" height="${Math.max(1.5,h)}" rx="5" fill="${x.profit<0?"var(--bad)":x.partial?"url(#grP)":"url(#grG)"}" ${x.partial?'stroke="var(--accent)" stroke-dasharray="3 3"':""} class="gbar" style="--d:${i*45}ms"/>${(!thin||i===L-1||x.profit===Math.max(...vals))&&x.profit?`<text x="${bx+bw/2}" y="${x.profit<0?y1+13:y1-6}" class="gv">${cmpt(x.profit)}</text>`:""}${xl(i)}<title>${mname(x.k)}: ربح ${fmt(x.profit)} من ${fmt(x.n)} تفعيل</title></g>`});
+    $("grLegend").innerHTML=`<span><i class="lg-bar"></i>صافي الربح</span><span><i class="lg-part"></i>الشهر الحالي (لحد الآن)</span>`;
+  }else{
+    const topH=(H-pt-pb)*.62,botTop=pt+topH+14,botH=H-pb-botTop;
+    const amax=Math.max(1,...D.map(x=>x.act))*1.15;const y=v=>pt+(amax-v)/amax*topH;
+    for(let i=0;i<=3;i++){const v=amax*i/3,yy=y(v);svg+=`<line x1="${pl}" x2="${W-pr}" y1="${yy}" y2="${yy}" class="gl"/><text x="${pl-6}" y="${yy+3.5}" class="gy">${cmpt(v)}</text>`}
+    const pts=D.map((x,i)=>[pl+cw*i+cw/2,y(x.act)]);
+    const path=pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ");
+    svg+=`<path d="${path} L${pts[L-1][0]} ${pt+topH} L${pts[0][0]} ${pt+topH} Z" fill="url(#grA)"/><path d="${path}" class="gline"/>`;
+    const gmax=Math.max(1,...D.map(x=>Math.max(x.gained,x.lost)));const mid=botTop+botH/2;
+    svg+=`<line x1="${pl}" x2="${W-pr}" y1="${mid}" y2="${mid}" class="gl z"/><text x="${pl-4}" y="${botTop+8}" class="gy gy2">جداد</text><text x="${pl-4}" y="${botTop+botH}" class="gy gy2">مفقود</text>`;
+    D.forEach((x,i)=>{const bw=Math.min(22,cw*.3),cx=pl+cw*i+cw/2,hg=x.gained/gmax*(botH/2-2),hl=x.lost/gmax*(botH/2-2);
+      svg+=`<g class="gcol${GR_SEL===i?" sel":""}" data-gi="${i}"><rect class="ghit" x="${pl+cw*i}" y="${pt}" width="${cw}" height="${H-pt-pb}"/><rect x="${cx-bw-1}" y="${mid-hg}" width="${bw}" height="${Math.max(hg,1)}" rx="3" fill="var(--ok)" class="gbar" style="--d:${i*45}ms"/><rect x="${cx+1}" y="${mid}" width="${bw}" height="${Math.max(hl,1)}" rx="3" fill="var(--bad)" class="gbar dn" style="--d:${i*45}ms"/><circle cx="${pts[i][0]}" cy="${pts[i][1]}" r="${i===L-1?5:3.6}" class="gdot${x.partial?" cur":""}"/>${!thin||i===L-1?`<text x="${pts[i][0]}" y="${pts[i][1]-9}" class="gv">${fmt(x.act)}</text>`:""}${xl(i)}<title>${mname(x.k)}: ${fmt(x.act)} شغّال · +${x.gained} جديد · -${x.lost} مفقود</title></g>`});
+    $("grLegend").innerHTML=`<span><i class="lg-line"></i>المشتركين الشغّالين</span><span><i class="lg-ok"></i>جداد</span><span><i class="lg-bad"></i>مفقودين</span>`;
+  }
+  svg+="</svg>";$("grChart").innerHTML=svg;
+  const sel=GR_SEL!=null&&D[GR_SEL]?D[GR_SEL]:cur;
+  $("grDetail").innerHTML=`<b>${mname(sel.k)}${sel.partial?" (لحد الآن)":""}</b><span>${fmt(sel.n)} تفعيل</span><span>${fmt(sel.act)} مشترك شغّال</span><span class="ok">+${fmt(sel.gained)} جديد</span><span class="bad">-${fmt(sel.lost)} مفقود</span>${can("finance")?`<span>ربح <b class="num">${fmt(sel.profit)}</b></span>`:""}`;
+}
+$("grTabs").onclick=e=>{const b=e.target.closest("[data-gt]");if(!b)return;GR_T=b.dataset.gt;try{localStorage.setItem("amnet_grt",GR_T)}catch(x){}renderGrowth()};
+$("grN").onclick=e=>{const b=e.target.closest("[data-gn]");if(!b)return;GR_N=+b.dataset.gn;GR_SEL=null;try{localStorage.setItem("amnet_grn",GR_N)}catch(x){}renderGrowth()};
+addEventListener("resize",()=>{clearTimeout(window.__grT);window.__grT=setTimeout(()=>{if(!$("growthCard").hidden)renderGrowth()},200)});
+$("grChart").onclick=e=>{const g=e.target.closest("[data-gi]");if(!g)return;GR_SEL=+g.dataset.gi;renderGrowth()};
 /* ================= QUICK ACTIVATE: chooser + from message ================= */
 function openActChooser(){
   modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><h2>تفعيل سريع</h2><div class="muted">شلون تريد تفعّل؟</div></div><button class="x" data-close aria-label="سدّها">×</button></div>
