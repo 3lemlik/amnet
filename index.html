@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.04-4">
+<meta name="amnet-build" content="2026.11.04-7">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -21,7 +21,8 @@
 :root{
   --void:#08080b; --panel:#101015; --panel2:#16161d; --panel3:#1c1c25; --line:#25191d; --line2:#3a242b;
   --ink:#f5f2f3; --dim:#9a9095; --faint:#5f565a;
-  --accent:#ec1c32; --accent2:#ff3b4f; --accent-ink:#ffffff; --accent-soft:rgba(236,28,50,.12); --accent-glow:rgba(236,28,50,.42);
+  --acc-rgb:236,28,50; --bgpat:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cg fill='none' stroke='%23ec1c32' stroke-opacity='.075' stroke-width='2.4' stroke-linecap='round'%3E%3Cg transform='translate(18 18) scale(.55)'%3E%3Cpath d='M24 3 42 13.5v21L24 45 6 34.5v-21Z'/%3E%3Cpath d='M13 22a15 15 0 0 1 22 0M16.5 25.5a10 10 0 0 1 15 0M20 29a5 5 0 0 1 8 0'/%3E%3C/g%3E%3Cg transform='translate(88 88) scale(.55)'%3E%3Cpath d='M24 3 42 13.5v21L24 45 6 34.5v-21Z'/%3E%3Cpath d='M13 22a15 15 0 0 1 22 0M16.5 25.5a10 10 0 0 1 15 0M20 29a5 5 0 0 1 8 0'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  --accent:#ec1c32; --accent2:#ff3b4f; --accent-ink:#ffffff; --accent-soft:rgba(var(--acc-rgb),.12); --accent-glow:rgba(var(--acc-rgb),.42);
   --ok:#2fd27a; --ok-soft:rgba(47,210,122,.11); --warn:#ffb020; --warn-soft:rgba(255,176,32,.11); --bad:#ff4d5e; --bad-soft:rgba(255,77,94,.11);
   --f-display:"Cairo","IBM Plex Sans Arabic",system-ui,sans-serif;
   --f-body:"IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
@@ -33,8 +34,8 @@
 *{box-sizing:border-box}
 html,body{background:var(--void);color:var(--ink)}
 body{font-family:var(--f-body);font-size:15px;line-height:1.6;
-  background-image:radial-gradient(900px 500px at 70% -10%,rgba(236,28,50,.10),transparent 60%),linear-gradient(rgba(236,28,50,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(236,28,50,.05) 1px,transparent 1px);
-  background-size:auto,48px 48px,48px 48px;background-attachment:fixed}
+  background-image:radial-gradient(900px 500px at 70% -10%,rgba(var(--acc-rgb),.10),transparent 60%),var(--bgpat);
+  background-size:auto,140px 140px;background-attachment:fixed}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:50;background:var(--void)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 button{font-family:inherit;color:inherit}
@@ -145,7 +146,7 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
 .pill.near{color:var(--warn);border-color:rgba(255,176,32,.4);background:var(--warn-soft)}
 .pill.exp{color:var(--bad);border-color:rgba(255,77,94,.4);background:var(--bad-soft)}
 .pill.none{color:var(--dim);border-color:var(--line2)}
-.plan{font-family:var(--f-mono);font-size:12px;padding:2px 8px;border:1px solid var(--line2);border-radius:4px;white-space:nowrap}
+.plan{--pc:var(--line2);font-family:var(--f-mono);font-size:12px;font-weight:700;padding:2px 9px;border:1px solid color-mix(in srgb,var(--pc) 70%,transparent);background:color-mix(in srgb,var(--pc) 16%,transparent);color:var(--ink);border-radius:5px;white-space:nowrap;box-shadow:0 0 10px color-mix(in srgb,var(--pc) 18%,transparent)}
 .paytag{font-size:11.5px;font-weight:700;padding:1px 8px;border-radius:4px}
 .paytag.c{color:var(--ok);background:var(--ok-soft)}.paytag.a{color:var(--warn);background:var(--warn-soft)}
 .debt{color:var(--bad);font-family:var(--f-mono);font-weight:700;direction:ltr;unicode-bidi:isolate}
@@ -175,7 +176,7 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
 .meter i{display:block;height:100%}
 .radar{position:relative;aspect-ratio:1;max-width:100%;border-radius:50%;border:1px solid var(--line2);background:radial-gradient(circle,var(--accent-soft),transparent 65%);display:grid;place-items:center;align-self:center}
 .radar::before{content:"";position:absolute;inset:14%;border-radius:50%;border:1px dashed var(--line2)}
-.radar::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(236,28,50,.32),transparent 22%);animation:spin 5s linear infinite}
+.radar::after{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(var(--acc-rgb),.32),transparent 22%);animation:spin 5s linear infinite}
 .radar svg{width:52%;position:relative;z-index:1;filter:drop-shadow(0 0 18px var(--accent-glow))}
 @media (max-width:1100px){.hero .radar{display:none}}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -190,7 +191,7 @@ input:focus,select:focus{border-color:var(--accent);outline:none;box-shadow:0 0 
 .pc .v{font-family:var(--f-mono);font-size:clamp(22px,2.6vw,30px);font-weight:700;direction:ltr;text-align:right;line-height:1.3;margin-top:6px}
 .pc .v small{font-size:13px;color:var(--dim);font-family:var(--f-body);margin-inline-end:6px}
 .pc .s{font-size:12px;color:var(--dim)}
-.pc.hot{border-color:rgba(236,28,50,.55);box-shadow:inset 0 0 40px rgba(236,28,50,.10),0 0 22px rgba(236,28,50,.15)}
+.pc.hot{border-color:rgba(var(--acc-rgb),.55);box-shadow:inset 0 0 40px rgba(var(--acc-rgb),.10),0 0 22px rgba(var(--acc-rgb),.15)}
 .pc.g .v{color:var(--ok)}.pc.r .v{color:var(--bad)}
 .custom{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .custom input{width:auto}
@@ -244,7 +245,7 @@ table.t{border-collapse:collapse;width:100%;font-size:13.5px}
 .res{display:grid;gap:8px;margin-top:12px}
 .rc{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;border:1px solid var(--line);background:var(--panel2);padding:12px 14px;border-radius:4px;cursor:pointer;text-align:right;width:100%}
 .rc:hover,.rc.sel{border-color:var(--accent)}
-.rc.sel{box-shadow:inset 0 0 0 1px var(--accent),0 0 18px rgba(236,28,50,.18)}
+.rc.sel{box-shadow:inset 0 0 0 1px var(--accent),0 0 18px rgba(var(--acc-rgb),.18)}
 .rc .n{font-weight:700;font-size:15.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .rc .m{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px;color:var(--dim)}
 .apanel{position:sticky;top:20px}
@@ -255,7 +256,7 @@ table.t{border-collapse:collapse;width:100%;font-size:13.5px}
 .pbtn{border:1px solid var(--line2);background:var(--panel2);padding:12px 10px;border-radius:4px;cursor:pointer;text-align:center;display:grid;gap:2px}
 .pbtn b{font-family:var(--f-mono);font-size:14px}
 .pbtn span{font-family:var(--f-mono);font-size:12px;color:var(--dim);direction:ltr}
-.pbtn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 14px rgba(236,28,50,.2)}
+.pbtn[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 0 14px rgba(var(--acc-rgb),.2)}
 .pay{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .pay button{border:1px solid var(--line2);background:var(--panel2);padding:14px;border-radius:4px;cursor:pointer;font-weight:800;font-size:16px;font-family:var(--f-display);display:grid;gap:0;justify-items:center}
 .pay button small{font-family:var(--f-body);font-weight:500;font-size:11.5px;color:var(--dim)}
@@ -314,7 +315,7 @@ img{max-width:100%}
 [hidden]{display:none!important}
 :root{padding-top:env(safe-area-inset-top,0px)}
 /* gate */
-#gate{position:fixed;inset:0;z-index:200;background:var(--void);background-image:radial-gradient(700px 420px at 50% 0%,rgba(236,28,50,.16),transparent 65%),linear-gradient(rgba(236,28,50,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(236,28,50,.05) 1px,transparent 1px);background-size:auto,48px 48px,48px 48px;display:grid;place-items:center;overflow:auto;padding:max(20px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+#gate{position:fixed;inset:0;z-index:200;background:var(--void);background-image:radial-gradient(700px 420px at 50% 0%,rgba(var(--acc-rgb),.16),transparent 65%),var(--bgpat);background-size:auto,140px 140px;display:grid;place-items:center;overflow:auto;padding:max(20px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
 .gwrap{width:min(420px,100%);display:grid;gap:22px;justify-items:center}
 .gradar{width:150px;height:150px}
 .gwm{font-family:var(--f-tech);font-weight:900;font-size:30px;letter-spacing:2px;direction:ltr;text-align:center;line-height:1}
@@ -395,7 +396,7 @@ input,select,textarea{font-size:16px!important}
 @media (max-width:640px){.sheetgrab{display:block}.modal .box{animation:sheetUp .22s ease-out}}
 @keyframes sheetUp{from{transform:translateY(40px);opacity:.4}to{transform:none;opacity:1}}
 /* broadcasts & alerts */
-.bcast{position:relative;display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-radius:10px;background:linear-gradient(135deg,rgba(236,28,50,.22),rgba(236,28,50,.06) 60%),var(--panel);border:1px solid rgba(236,28,50,.6);box-shadow:0 0 26px rgba(236,28,50,.18)}
+.bcast{position:relative;display:flex;gap:14px;align-items:flex-start;padding:16px 18px;border-radius:10px;background:linear-gradient(135deg,rgba(var(--acc-rgb),.22),rgba(var(--acc-rgb),.06) 60%),var(--panel);border:1px solid rgba(var(--acc-rgb),.6);box-shadow:0 0 26px rgba(var(--acc-rgb),.18)}
 .bcast .ic{width:42px;height:42px;border-radius:10px;background:var(--accent);display:grid;place-items:center;flex:none;box-shadow:0 0 18px var(--accent-glow)}
 .bcast .ic svg{width:22px;height:22px;color:#fff}
 .bcast b{display:block;font-family:var(--f-display);font-size:13px;color:var(--accent2);letter-spacing:.5px}
@@ -428,7 +429,55 @@ details.plansbox>summary::-webkit-details-marker{display:none}
 details.plansbox>summary .chev{margin-inline-start:auto;transition:transform .15s;color:var(--dim)}
 details.plansbox[open]>summary .chev{transform:rotate(180deg)}
 details.plansbox[open]>summary{margin-bottom:14px}
-.pbtn{--pc:var(--line2);border-top:3px solid var(--pc)!important}
+.pbtn{--pc:var(--line2);position:relative;border:1.5px solid color-mix(in srgb,var(--pc) 45%,var(--line2))!important;border-top:4px solid var(--pc)!important;border-radius:10px!important;padding:14px 10px 12px!important;background:linear-gradient(160deg,color-mix(in srgb,var(--pc) 14%,transparent),transparent 70%),var(--panel2)!important;opacity:.78}
+.pbtn b{font-size:15px!important;color:var(--pc)}
+.pbtn span{font-size:14px!important;color:var(--ink)!important;font-weight:700}
+.pbtn[aria-pressed="true"]{opacity:1;background:linear-gradient(160deg,color-mix(in srgb,var(--pc) 42%,transparent),color-mix(in srgb,var(--pc) 12%,transparent))!important;border-color:var(--pc)!important;box-shadow:0 0 0 2px var(--pc),0 0 22px color-mix(in srgb,var(--pc) 45%,transparent)!important;transform:translateY(-2px)}
+.pbtn[aria-pressed="true"] b{color:#fff}
+.pbtn[aria-pressed="true"]::after{content:"✓ مختارة";position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--pc);color:#08080b;font-family:var(--f-body);font-size:11px;font-weight:800;padding:1px 9px;border-radius:99px;white-space:nowrap}
+.plans{gap:12px!important;padding-top:8px}
+.selplan{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;border-radius:8px;border:1px dashed color-mix(in srgb,var(--pc) 70%,transparent);background:color-mix(in srgb,var(--pc) 10%,transparent);font-weight:600}
+.selplan b{color:var(--pc);font-family:var(--f-mono)}
+.debtban{display:flex;align-items:center;gap:12px;padding:14px;border-radius:10px;margin-bottom:12px;background:linear-gradient(135deg,rgba(255,77,94,.28),rgba(255,77,94,.08));border:1.5px solid var(--bad);box-shadow:0 0 22px rgba(255,77,94,.25);animation:debtpulse 2s ease-in-out infinite}
+@keyframes debtpulse{50%{box-shadow:0 0 34px rgba(255,77,94,.45)}}
+.debtban .di{width:42px;height:42px;border-radius:50%;background:var(--bad);display:grid;place-items:center;flex:none;color:#fff;font-weight:900;font-size:22px;font-family:var(--f-display)}
+.debtban .dt{flex:1;min-width:0}
+.debtban small{display:block;color:#ffb3bb;font-size:12px;font-weight:700}
+.debtban b{font-family:var(--f-mono);font-size:24px;color:#fff;direction:ltr;display:inline-block}
+.debtban .btn{background:#fff;color:var(--bad);border-color:#fff;box-shadow:none}
+/* notices button */
+.nbtn{position:relative;display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:12px;text-decoration:none;color:var(--ink);overflow:hidden;background:linear-gradient(120deg,rgba(255,176,32,.18),rgba(var(--acc-rgb),.18) 55%,rgba(139,123,255,.16)),var(--panel);border:1px solid rgba(255,176,32,.45);box-shadow:0 0 26px rgba(255,176,32,.12)}
+.nbtn::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.08) 50%,transparent 70%);transform:translateX(-100%);animation:shine 3.5s ease-in-out infinite}
+@keyframes shine{60%,100%{transform:translateX(100%)}}
+.nbtn .ic{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;flex:none;background:linear-gradient(135deg,var(--warn),var(--accent));box-shadow:0 0 18px rgba(255,176,32,.4)}
+.nbtn .ic svg{width:26px;height:26px;color:#fff}
+.nbtn .tx{flex:1;min-width:0}
+.nbtn .tx b{display:block;font-family:var(--f-display);font-weight:800;font-size:17px}
+.nbtn .tx span{font-size:12.5px;color:var(--dim)}
+.nbtn .cnt{min-width:28px;height:28px;border-radius:99px;background:var(--accent);color:#fff;font-family:var(--f-mono);font-weight:700;display:grid;place-items:center;padding:0 8px;box-shadow:0 0 12px var(--accent-glow)}
+.nbtn .cnt.z{background:var(--line2);box-shadow:none}
+/* profile */
+.prof-hd{position:relative;display:flex;align-items:center;gap:14px;padding:16px;border-radius:14px;background:linear-gradient(150deg,color-mix(in srgb,var(--sc) 22%,transparent),transparent 70%),var(--panel2);border:1px solid color-mix(in srgb,var(--sc) 50%,transparent);overflow:hidden}
+.prof-hd::after{content:"";position:absolute;top:0;inset-inline:0;height:3px;background:var(--sc);box-shadow:0 0 12px var(--sc)}
+.prof-av{width:62px;height:62px;border-radius:50%;flex:none;display:grid;place-items:center;font-family:var(--f-display);font-weight:900;font-size:24px;background:var(--panel3);border:3px solid var(--sc);box-shadow:0 0 18px color-mix(in srgb,var(--sc) 45%,transparent)}
+.prof-hd .nm{font-family:var(--f-display);font-weight:800;font-size:20px;line-height:1.3}
+.prof-hd .sub{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-top:4px;font-size:12.5px;color:var(--dim)}
+.prof-acts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.prof-acts .btn{padding:12px 10px}
+details.edbox{border:1px solid var(--line2);border-radius:10px;background:var(--panel2)}
+details.edbox>summary{list-style:none;cursor:pointer;padding:12px 14px;font-weight:700;display:flex;align-items:center;gap:8px}
+details.edbox>summary::-webkit-details-marker{display:none}
+details.edbox>summary .chev{margin-inline-start:auto;transition:transform .15s;color:var(--dim)}
+details.edbox[open]>summary .chev{transform:rotate(180deg)}
+details.edbox>.in{padding:0 14px 14px;display:grid;gap:12px}
+.tl{display:grid;gap:0;position:relative;padding-inline-start:18px}
+.tl::before{content:"";position:absolute;top:6px;bottom:6px;inset-inline-start:5px;width:2px;background:var(--line2)}
+.tl .hi{position:relative;border:0!important;background:none!important;padding:8px 0!important;border-bottom:1px dashed var(--line)!important;border-radius:0!important}
+.tl .hi::before{content:"";position:absolute;inset-inline-start:-17px;top:15px;width:10px;height:10px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.tl .hi.a::before{background:var(--warn);box-shadow:0 0 8px var(--warn)}
+.tl .hi.p::before{background:var(--info,#4fb6ff);box-shadow:0 0 8px #4fb6ff}
+.mshead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+@media (prefers-reduced-motion:reduce){.debtban,.nbtn::before{animation:none}}
 .pbtn small{font-size:11px;color:var(--dim)}
 .planed{display:grid;gap:12px}
 .planed .plancard{gap:10px}
@@ -444,6 +493,37 @@ details.plansbox[open]>summary{margin-bottom:14px}
 .perms{display:grid;gap:8px}
 .perms .tgl{font-weight:500;font-size:14px}
 @media (max-width:560px){.chead>.field{min-width:0!important;flex:1 1 100%}.chead>.t{flex:1 1 100%}}
+/* sizing fixes: never let long content push buttons off the card */
+.scard{grid-template-columns:minmax(0,1fr)}
+.scard>*{min-width:0}
+.sc-top{align-items:flex-start}
+.sc-top>.pill,.sc-top>.num{flex:none;margin-top:2px}
+.sc-n{flex:1 1 auto;min-width:0;white-space:normal!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.45}
+.sc-meta>*{min-width:0}
+.sc-bot>span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc-bot .btn,.sc-acts .btn{flex:none;min-width:104px;justify-content:center}
+.sc-acts .btn{min-width:0}
+.pill{flex:none;max-width:100%}
+.btn{min-height:40px;line-height:1.2}
+.btn.sm{min-height:32px}
+.go{min-height:50px}
+.li{min-width:0}
+.li>.btn,.li>.pill{flex:none}
+.hist .hi{min-width:0}
+.prof-acts{grid-template-columns:repeat(2,minmax(0,1fr))}
+.prof-acts .btn{min-height:48px}
+.rc{grid-template-columns:minmax(0,1fr) auto}
+.who .row>b{min-width:0}
+.info dd{white-space:nowrap}
+.plancard{min-width:0}
+.mini{min-width:0}
+.mini span{line-height:1.35}
+.pc .v{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.swatches{display:flex;flex-wrap:wrap;gap:10px}
+.swatches button{width:44px;height:44px;border-radius:12px;border:2px solid transparent;cursor:pointer;box-shadow:0 0 14px color-mix(in srgb,var(--c) 45%,transparent);background:var(--c)}
+.swatches button[aria-pressed="true"]{border-color:#fff;transform:scale(1.08)}
+.sndbtn{background:none;border:1px solid var(--line2);border-radius:6px;padding:5px 8px;font-size:12px;color:var(--dim);cursor:pointer;display:inline-flex;align-items:center}
+.sndbtn svg{width:15px;height:15px}
 .impfile{display:grid;gap:8px;border:1px solid var(--line2);background:var(--panel2);border-radius:6px;padding:12px}
 .impfile .row{justify-content:space-between}
 footer.cr{color:var(--faint);font-size:12px;text-align:center;padding-top:10px}
@@ -465,6 +545,8 @@ footer.cr b{color:var(--dim)}
   <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 20h20Z"/><path d="M12 10v4M12 17.5v.01"/></g></symbol>
   <symbol id="i-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></g></symbol>
   <symbol id="i-chev" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-snd" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h4l5 4V6L8 10Z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11"/></g></symbol>
+  <symbol id="i-mute" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h4l5 4V6L8 10Z"/><path d="m17 10 4 4M21 10l-4 4"/></g></symbol>
   <symbol id="i-cog" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4 5.3 5.3"/></g></symbol>
   <symbol id="i-more" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></g></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></g></symbol>
@@ -532,7 +614,7 @@ footer.cr b{color:var(--dim)}
   <div class="side-foot">
     <div class="clockcard"><b id="clockS">--:--:--</b><span>SYS · UTC+3</span></div>
     <div class="sync" id="sync"><i></i><span>دا يحمّل</span></div>
-    <div class="usercard"><div class="av" id="avS">ع</div><div style="min-width:0"><b id="ownerS">—</b><small id="ownerSub"></small></div><div class="ucard-actions"><button type="button" data-logout>خروج</button></div></div>
+    <div class="usercard"><div class="av" id="avS">ع</div><div style="min-width:0"><b id="ownerS">—</b><small id="ownerSub"></small></div><div class="ucard-actions" style="display:flex;gap:6px"><button type="button" class="sndbtn" data-snd aria-label="الأصوات"><svg><use href="#i-snd"/></svg></button><button type="button" data-logout>خروج</button></div></div>
   </div>
 </aside>
 
@@ -569,6 +651,11 @@ footer.cr b{color:var(--dim)}
     </div>
   </div>
   <div class="card br">
+    <div class="chead"><div class="t"><h2>ألوان الموقع</h2><div class="muted">اللون اللي تختاره يتطبق على كل الموقع وعند كل المسوقين والموظفين.</div></div></div>
+    <div class="swatches" id="thSw"></div>
+    <div class="row" style="margin-top:12px"><label class="row" style="gap:8px;font-size:14px">لون مخصص <input type="color" id="thPick" style="width:52px;height:38px;padding:2px;border-radius:6px;border:1px solid var(--line2);background:var(--panel2)"></label><span style="flex:1"></span><button class="btn ghost" id="thReset">رجّع الأحمر</button><button class="btn" id="thSave">حفظ للكل</button></div>
+  </div>
+  <div class="card br">
     <div class="chead"><div class="t"><h2>كلمة سر المدير</h2><div class="muted">تدخل بيها للوحة الإدارة.</div></div></div>
     <div class="fgrid"><div class="field"><label for="admPwCur">الحالية</label><input type="password" id="admPwCur" dir="ltr" autocomplete="current-password"></div><div class="field"><label for="admPwNew">الجديدة (6 أحرف أو أكثر)</label><input type="password" id="admPwNew" dir="ltr" autocomplete="new-password"></div></div>
     <div class="err" id="admPwMsg"></div>
@@ -598,12 +685,13 @@ footer.cr b{color:var(--dim)}
     </div>
     <div class="radar" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#i-logo"/></svg></div>
   </div>
+  <a class="nbtn" href="#notices"><span class="ic"><svg><use href="#i-mega"/></svg></span><span class="tx"><b>التبليغات والتنبيهات</b><span id="nbSub"></span></span><span class="cnt" id="nbCnt">0</span></a>
   <div id="bcasts" style="display:grid;gap:10px"></div>
   <div class="warnbox" id="expWarn" hidden></div>
   <div id="planWarn" class="p-plans" hidden></div>
 
   <div class="card br staffonly">
-    <div class="chead"><div class="t"><h2>إحصائياتي</h2><div class="muted">التفعيلات اللي سويتها انت</div></div></div>
+    <div class="chead"><div class="t"><h2>إحصائياتي</h2><div class="muted">تفعيلاتك لليوم ولآخر 3 أيام</div></div><button class="sw" id="msTog" role="switch" aria-label="إظهار الإحصائيات"><i></i></button></div>
     <div class="mystats" id="myStats"></div>
   </div>
 
@@ -976,7 +1064,7 @@ window.addEventListener("hashchange",()=>show(location.hash.slice(1)));
 show(location.hash.slice(1));
 $("moreNav").onclick=()=>modal(`<div class="mhd"><div class="t"><h2>المزيد</h2></div><button class="x" data-close aria-label="إغلاق">×</button></div>
   <div class="sheetmenu"><a href="#notices" data-close><svg><use href="#i-mega"/></svg>التبليغات والتنبيهات</a>${can("reports")?`<a href="#reports" data-close><svg><use href="#i-chart"/></svg>تقرير الموظفين</a>`:""}${matchOn()&&can("import")?`<a href="#match" data-close><svg><use href="#i-match"/></svg>المطابقة</a>`:""}${can("import")?`<a href="#import" data-close><svg><use href="#i-pdf"/></svg>استيراد تفعيلات</a>`:""}${can("plans")?`<a href="#config" data-close><svg><use href="#i-cog"/></svg>${ROLE==="staff"?"الباقات والإعدادات":"الباقات والإعدادات والموظفين"}</a>`:""}</div>
-  <div class="sheetmenu">${VIEWAS?`<a href="#admin" data-backadmin><svg><use href="#i-home"/></svg>رجوع للإدارة</a>`:""}<a href="#" data-logout><svg><use href="#i-more"/></svg>تسجيل خروج</a></div>
+  <div class="sheetmenu">${VIEWAS?`<a href="#admin" data-backadmin><svg><use href="#i-home"/></svg>رجوع للإدارة</a>`:""}<a href="#" data-snd><svg><use href="#${SND.on?"i-snd":"i-mute"}"/></svg>${SND.on?"الأصوات شغّالة · دوس حتى تطفيها":"الأصوات مطفية · دوس حتى تشغلها"}</a><a href="#" data-logout><svg><use href="#i-more"/></svg>تسجيل خروج</a></div>
   <div class="muted">${esc(displayName())}${MEMBER()&&ACCOUNT?" · الاشتراك لغاية "+fdate(tsMs(ACCOUNT.expiresAt)):""}</div>`);
 document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(!g)return;F.st=g.dataset.go;F.lim=150;location.hash="subs";renderSubs()});
 document.addEventListener("click",e=>{const o=e.target.closest("[data-open]");if(o&&!e.target.closest("button[data-renew],button[data-pay]"))openSub(o.dataset.open)});
@@ -1103,11 +1191,73 @@ $("refMonth").onchange=e=>{REF=e.target.value;renderHome()};
 $("lostBoxes").onclick=e=>{const b=e.target.closest("[data-lt]");if(b){LOSTTAB=b.dataset.lt;renderHome()}};
 document.addEventListener("click",e=>{
   const r=e.target.closest("[data-renew]");if(r){e.preventDefault();e.stopPropagation();const rk=r.dataset.renew;closeModal();selectForActivate(rk);return}
-  const p=e.target.closest("[data-pay]");if(p){e.preventDefault();e.stopPropagation();openPay(p.dataset.pay)}
+  const p=e.target.closest("[data-pay]");if(p){e.preventDefault();e.stopPropagation();const pk=p.dataset.pay,af=p.dataset.after;if(SHEET){SHEET=false;ASEL=null}openPay(pk,af==="sheet"?()=>openRenewSheet(pk):af==="sub"?()=>openSub(pk):null)}
 },true);
 
+/* ================= THEME ================= */
+const THEMES=[["#ec1c32","أحمر"],["#ff6a00","برتقالي"],["#f5a524","ذهبي"],["#22c55e","أخضر"],["#00b8d4","سماوي"],["#2f7bff","أزرق"],["#8b5cf6","بنفسجي"],["#ec4899","وردي"]];
+let THEME="#ec1c32";
+function hexRgb(h){h=String(h||"").replace("#","");if(h.length===3)h=h.split("").map(c=>c+c).join("");const n=parseInt(h,16);return isFinite(n)&&h.length===6?[n>>16&255,n>>8&255,n&255]:null}
+function applyTheme(hex){
+  const rgb=hexRgb(hex)||[236,28,50];const r=document.documentElement.style;
+  const hx="#"+rgb.map(v=>v.toString(16).padStart(2,"0")).join("");
+  const li=rgb.map(v=>Math.round(v+(255-v)*.18));
+  const lum=(0.299*rgb[0]+0.587*rgb[1]+0.114*rgb[2])/255;
+  r.setProperty("--acc-rgb",rgb.join(","));r.setProperty("--accent",hx);r.setProperty("--accent2","rgb("+li.join(",")+")");
+  r.setProperty("--accent-soft","rgba("+rgb.join(",")+",.12)");r.setProperty("--accent-glow","rgba("+rgb.join(",")+",.42)");
+  r.setProperty("--accent-ink",lum>.62?"#08080b":"#ffffff");
+  const lg=(x,y)=>`<g transform='translate(${x} ${y}) scale(.55)'><path d='M24 3 42 13.5v21L24 45 6 34.5v-21Z'/><path d='M13 22a15 15 0 0 1 22 0M16.5 25.5a10 10 0 0 1 15 0M20 29a5 5 0 0 1 8 0'/></g>`;
+  const svg=`<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'><g fill='none' stroke='${hx}' stroke-opacity='.075' stroke-width='2.4' stroke-linecap='round'>${lg(18,18)}${lg(88,88)}</g></svg>`;
+  r.setProperty("--bgpat",`url("data:image/svg+xml,${encodeURIComponent(svg)}")`);
+  THEME=hx;
+}
+try{const t=localStorage.getItem("amnet_theme");if(t)applyTheme(t)}catch(e){}
+function renderThemeUI(){
+  if(!$("thSw"))return;
+  const cur=String(APPMETA.accent||"#ec1c32").toLowerCase();
+  $("thSw").innerHTML=THEMES.map(([c,n])=>`<button type="button" style="--c:${c}" data-th="${c}" aria-pressed="${c===cur}" aria-label="${n}" title="${n}"></button>`).join("");
+  if(document.activeElement!==$("thPick"))$("thPick").value=cur;
+}
+const markSw=c=>$("thSw").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.th===c));
+$("thSw").onclick=e=>{const b=e.target.closest("[data-th]");if(!b)return;markSw(b.dataset.th);$("thPick").value=b.dataset.th;applyTheme(b.dataset.th)};
+$("thPick").oninput=e=>{markSw(e.target.value);applyTheme(e.target.value)};
+$("thReset").onclick=()=>{$("thPick").value="#ec1c32";markSw("#ec1c32");applyTheme("#ec1c32")};
+$("thSave").onclick=()=>aGuard(()=>fs.collection("meta").doc("app").set({accent:$("thPick").value},{merge:true}),"تغير لون الموقع عند الكل");
+
+/* ================= SOUNDS (soft, Discord-like) ================= */
+const SND={on:true,ctx:null};
+try{SND.on=localStorage.getItem("amnet_snd")!=="0"}catch(e){}
+function actx(){try{if(!SND.ctx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;SND.ctx=new C()}if(SND.ctx.state==="suspended")SND.ctx.resume();return SND.ctx}catch(e){return null}}
+function blip(c,f1,f2,t,dur,type,vol){
+  const o=c.createOscillator(),g=c.createGain(),lp=c.createBiquadFilter();
+  lp.type="lowpass";lp.frequency.value=3200;
+  o.type=type;const t0=c.currentTime+t;
+  o.frequency.setValueAtTime(f1,t0);if(f2&&f2!==f1)o.frequency.exponentialRampToValueAtTime(f2,t0+Math.min(.09,dur*.5));
+  g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(vol,t0+.012);g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+  o.connect(lp);lp.connect(g);g.connect(c.destination);o.start(t0);o.stop(t0+dur+.03);
+}
+function play(kind){
+  if(!SND.on)return;const c=actx();if(!c)return;
+  try{
+    if(kind==="cash"){ /* نقد: نغمتين صاعدة ولامعة */
+      blip(c,620,880,0,.16,"sine",.10);blip(c,880,1320,.085,.26,"sine",.085);blip(c,1760,1760,.17,.22,"sine",.025);
+    }else if(kind==="credit"){ /* آجل: أوطأ وأنعم ونازلة، تفرق عن النقد */
+      blip(c,560,500,0,.18,"triangle",.09);blip(c,440,370,.12,.30,"triangle",.085);
+    }else if(kind==="alert"){ /* تنبيه: طق طق ناعم */
+      blip(c,990,940,0,.11,"sine",.075);blip(c,990,940,.15,.11,"sine",.075);blip(c,1320,1250,.30,.22,"sine",.06);
+    }else if(kind==="pay"){ /* تسديد: رنة خفيفة */
+      blip(c,1046,1046,0,.10,"sine",.07);blip(c,1568,1568,.06,.30,"sine",.06);
+    }
+  }catch(e){}
+}
+function setSnd(on){SND.on=on;try{localStorage.setItem("amnet_snd",on?"1":"0")}catch(e){}
+  document.querySelectorAll(".sndbtn use").forEach(u=>u.setAttribute("href",on?"#i-snd":"#i-mute"));if(on)play("pay");toast(on?"الأصوات شغّالة":"الأصوات انطفت")}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-snd]");if(!b)return;e.preventDefault();setSnd(!SND.on);if(!$("modal").hidden&&b.tagName==="A")closeModal()});
+document.querySelectorAll(".sndbtn use").forEach(u=>u.setAttribute("href",SND.on?"#i-snd":"#i-mute"));
+let LASTB=null;
 /* ================= PLANS ================= */
 const PCOL=["#2fd2c4","#4fb6ff","#8b7bff","#c46bff","#ff9f2f","#ff3b4f"];
+function planTag(n){return `<span class="plan" style="--pc:${planColor(n)}">${esc(n)}</span>`}
 function planList(){return Object.entries(SET.plans).sort((a,b)=>(+a[1].s||0)-(+b[1].s||0)||a[0].localeCompare(b[0]))}
 function planColor(n){const l=planList();const i=l.findIndex(x=>x[0]===n);if(i<0)return "var(--line2)";if(l.length<2)return PCOL[2];return PCOL[Math.round(i/(l.length-1)*(PCOL.length-1))]}
 function planCardHtml(n,p,i,len){const sp=String(p.speed||"").trim();const m=sp.match(/^(\d+(?:\.\d+)?)\s*(.*)$/);
@@ -1143,7 +1293,7 @@ function openRenewSheet(k){
   $("apanel").innerHTML="";
   modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><div class="eyebrow"><span>RENEW</span></div><h2>تجديد اشتراك</h2></div><button class="x" data-close aria-label="سكّر">×</button></div><div id="sheetPanel"></div>`);
   SHEET=true;renderAPanel();
-  if(NOTES.some(n=>n.t==="a"&&n.on!==false&&(!n.u||n.u===k))&&navigator.vibrate)try{navigator.vibrate(120)}catch(e){}
+  if(NOTES.some(n=>n.t==="a"&&n.on!==false&&(!n.u||n.u===k))){play("alert");if(navigator.vibrate)try{navigator.vibrate(120)}catch(e){}}
 }
 function selectForActivate(k){
   if(isPhone())return openRenewSheet(k);
@@ -1172,7 +1322,7 @@ function renderActivate(fromData){
   const keys=searchSubs(q,40);
   $("aqHint").textContent=q.trim()?(keys.length?keys.length+" نتيجة · Enter يختار الأولى":""):(keys.length?"يحتاجون تجديد (قريب الانتهاء أو انتهى مؤخراً):":"اكتب أي جزء من الاسم أو اليوزر.");
   $("ares").innerHTML=keys.map(k=>{const s=SUBS.get(k)||{};const st=status(k,now);const d=debtOf(k);
-    return `<button class="rc${k===ASEL?" sel":""}" data-asel="${esc(k)}"><span class="n">${esc(s.n||"بدون اسم")}</span>${pill(st.st,st.days)}<span class="m"><span class="num">${esc(s.u)}</span>${s.pl?`<span class="plan">${esc(s.pl)}</span>`:""}${s.p?`<span class="num">${esc(s.p)}</span>`:""}${d?`<span>دين: <span class="debt">${fmt(d)}</span></span>`:""}</span></button>`}).join("")
+    return `<button class="rc${k===ASEL?" sel":""}" data-asel="${esc(k)}"><span class="n">${esc(s.n||"بدون اسم")}</span>${pill(st.st,st.days)}<span class="m"><span class="num">${esc(s.u)}</span>${s.pl?`${planTag(s.pl)}`:""}${s.p?`<span class="num">${esc(s.p)}</span>`:""}${d?`<span>دين: <span class="debt">${fmt(d)}</span></span>`:""}</span></button>`}).join("")
     ||(q.trim()?`<div class="empty"><b>ما لكينا "${esc(q)}"</b>تريد تضيفه مشترك جديد؟<div class="row" style="justify-content:center;margin-top:12px"><button class="btn" id="quickAdd"><svg><use href="#i-plus"/></svg>إضافة "${esc(q.trim())}"</button></div></div>`
       :(SUBS.size?`<div class="empty">ماكو أحد يحتاج تجديد هسه.</div>`:`<div class="empty"><b>ماكو مشتركين بعد</b>ابدي باستيراد تقرير PDF.<div class="row" style="justify-content:center;margin-top:12px"><a class="btn" href="#import">استيراد PDF</a></div></div>`));
   const qa=$("quickAdd");if(qa)qa.onclick=()=>openAdd(q.trim());
@@ -1200,13 +1350,14 @@ function renderAPanel(){
     <dl class="info">
       <div><dt>اليوزر</dt><dd><span class="num">${esc(s.u)}</span></dd></div>
       <div><dt>رقم الهاتف</dt><dd>${s.p?`<span class="num">${esc(s.p)}</span>`:'<span style="color:var(--bad)">ما مضاف</span>'}</dd></div>
-      <div><dt>الباقة الحالية</dt><dd>${s.pl?`<span class="plan">${esc(s.pl)}</span>`:"—"}</dd></div>
+      <div><dt>الباقة الحالية</dt><dd>${s.pl?`${planTag(s.pl)}`:"—"}</dd></div>
       <div><dt>${st.st==="exp"?"انتهى بتاريخ":"ينتهي بتاريخ"}</dt><dd>${st.exp?`<span class="num">${fdate(st.exp)}</span>`:"—"}</dd></div>
       <div><dt>آخر تفعيل</dt><dd>${la?`<span class="num">${fdate(la.d)}</span>`:"ماكو"}</dd></div>
       <div><dt>الدين عليه</dt><dd>${d?`<span class="debt">${fmt(d)}</span>`:'<span style="color:var(--ok)">ماكو دين</span>'}</dd></div>
     </dl></div>
+  ${d?`<div class="debtban"><span class="di">!</span><div class="dt"><small>انتبه: المشترك عليه دين سابق</small><b>${fmt(d)}</b> <span style="color:#ffd0d5;font-size:12px">د.ع</span></div><button class="btn sm" data-pay="${esc(k)}" data-after="sheet">سدّد</button></div>`:""}
   ${needPhone?`<div class="field needph"><label for="aPhone">رقم هاتف المشترك (لازم قبل التجديد)</label><input type="tel" id="aPhone" dir="ltr" inputmode="tel" placeholder="07xxxxxxxxx" value="${esc(AST.phone)}" autocomplete="off"><small id="aPhoneMsg" style="color:${phOk?"var(--ok)":"var(--warn)"}">${AST.phone?(phOk?"الرقم تمام":"الرقم لازم 11 رقم ويبدي بـ 07"):"المشترك ما عنده رقم بالنظام، اكتبه حتى تكدر تجدد"}</small></div>`:""}
-  <div class="field"><label>الباقة</label><div class="plans">${planList().map(([p,pp])=>`<button class="pbtn" style="--pc:${planColor(p)}" data-apl="${esc(p)}" aria-pressed="${p===AST.pl}"><b>${esc(p)}</b><span>${fmt(planSell(p)||0)}</span>${pp.speed?`<small>${esc(pp.speed)}</small>`:""}</button>`).join("")||`<span class="muted">ماكو باقات. ضيفها من الإعدادات.</span>`}</div></div>
+  <div class="field"><label>اختار الباقة</label><div class="plans">${planList().map(([p,pp])=>`<button class="pbtn" style="--pc:${planColor(p)}" data-apl="${esc(p)}" aria-pressed="${p===AST.pl}"><b>${esc(p)}</b><span>${fmt(planSell(p)||0)}</span>${pp.speed?`<small>${esc(pp.speed)}</small>`:""}</button>`).join("")||`<span class="muted">ماكو باقات. ضيفها من الإعدادات.</span>`}</div>${AST.pl?`<div class="selplan" style="--pc:${planColor(AST.pl)}">الباقة المختارة: <b>${esc(AST.pl)}</b><span class="num" style="margin-inline-start:auto">${fmt(planSell(AST.pl)||0)} د.ع</span></div>`:""}</div>
   <div class="field" style="margin-top:14px"><label>طريقة الدفع</label><div class="pay"><button data-p="c" aria-pressed="${AST.pay==="c"}">نقد<small>استلمت المبلغ</small></button><button data-p="a" aria-pressed="${AST.pay==="a"}">آجل<small>ينضاف دين عليه</small></button></div></div>
   <div class="fgrid" style="margin-top:14px">
     <div class="field"><label for="aSell">سعر البيع</label><input type="number" id="aSell" dir="ltr" value="${esc(AST.sell)}" inputmode="numeric"></div>
@@ -1241,7 +1392,7 @@ async function doActivate(){
   const a={k:k+"|"+when,u:k,d:when,pl:AST.pl,c:planCost(AST.pl),s:sell===planSell(AST.pl)?null:sell,by:displayName()||"يدوي",pay:AST.pay,pd,sid:mySid()};
   const pay=AST.pay;
   const ok=await guard(async()=>{await saveActs([a]);if(s.pl!==AST.pl||newPhone)await saveSubs(new Map([[k,{...s,pl:AST.pl,...(newPhone?{p:newPhone}:{})}]]))});
-  if(ok){AST.done={exp:when+SET.period*DAY,pay,debt:debtOf(k),msg:actMsg(k,a.pl)};renderAPanel();toast("تم تفعيل "+(s.n||s.u))}
+  if(ok){play(pay==="a"?"credit":"cash");AST.done={exp:when+SET.period*DAY,pay,debt:debtOf(k),msg:actMsg(k,a.pl)};renderAPanel();toast("تم تفعيل "+(s.n||s.u))}
 }
 $("aq").addEventListener("input",()=>renderActivate());
 $("aq").addEventListener("keydown",e=>{if(e.key==="Enter"){const f=$("ares").querySelector("[data-asel]");if(f){e.preventDefault();selectForActivate(f.dataset.asel)}}});
@@ -1275,11 +1426,11 @@ function renderSubs(){
   if(matchMedia("(max-width:700px)").matches){
     $("subCards").hidden=false;$("subTblBox").hidden=true;
     $("subCards").innerHTML=shown.map(r=>`<div class="scard st-${r.st.st}" data-open="${esc(r.k)}"><div class="sc-top"><b class="sc-n">${esc(r.s.n||"بدون اسم")}</b>${pill(r.st.st,r.st.days)}</div>
-      <div class="sc-meta"><span class="num">${esc(r.s.u)}</span>${r.s.pl?`<span class="plan">${esc(r.s.pl)}</span>`:""}${r.st.exp?`<span>ينتهي <span class="num">${fdate(r.st.exp)}</span></span>`:""}${r.s.p?`<span class="num">${esc(r.s.p)}</span>`:""}</div>
+      <div class="sc-meta"><span class="num">${esc(r.s.u)}</span>${r.s.pl?`${planTag(r.s.pl)}`:""}${r.st.exp?`<span>ينتهي <span class="num">${fdate(r.st.exp)}</span></span>`:""}${r.s.p?`<span class="num">${esc(r.s.p)}</span>`:""}</div>
       <div class="sc-bot">${r.d?`<span>دين <span class="debt">${fmt(r.d)}</span></span>`:`<span class="muted">${LAST[r.k]?"آخر تفعيل "+fdate(LAST[r.k].d):"بدون تفعيل"}</span>`}<button class="btn sm" data-renew="${esc(r.k)}"><svg><use href="#i-bolt"/></svg>تفعيل</button></div></div>`).join("")||`<div class="empty">ماكو نتائج.</div>`;
     $("moreBox").hidden=rows.length<=F.lim;$("moreBtn").textContent="طلّع بعد ("+(rows.length-F.lim)+")";return;
   }
-  t.innerHTML=`<thead><tr><th>الاسم</th><th>اليوزر</th><th>الرقم</th><th>الباقة</th><th>ينتهي</th><th>الحالة</th><th>الدين</th><th></th></tr></thead><tbody>${shown.map(r=>`<tr class="click" data-open="${esc(r.k)}"><td class="name">${esc(r.s.n||"—")}</td><td class="num">${esc(r.s.u)}</td><td class="num">${esc(r.s.p||"—")}</td><td>${r.s.pl?`<span class="plan">${esc(r.s.pl)}</span>`:"—"}</td><td class="num">${r.st.exp?fdate(r.st.exp):"—"}</td><td>${pill(r.st.st,r.st.days)}</td><td>${r.d?`<span class="debt">${fmt(r.d)}</span>`:"—"}</td><td><button class="btn sm" data-renew="${esc(r.k)}">تفعيل</button></td></tr>`).join("")||`<tr><td colspan="8" class="empty">ماكو نتائج.</td></tr>`}</tbody>`;
+  t.innerHTML=`<thead><tr><th>الاسم</th><th>اليوزر</th><th>الرقم</th><th>الباقة</th><th>ينتهي</th><th>الحالة</th><th>الدين</th><th></th></tr></thead><tbody>${shown.map(r=>`<tr class="click" data-open="${esc(r.k)}"><td class="name">${esc(r.s.n||"—")}</td><td class="num">${esc(r.s.u)}</td><td class="num">${esc(r.s.p||"—")}</td><td>${r.s.pl?`${planTag(r.s.pl)}`:"—"}</td><td class="num">${r.st.exp?fdate(r.st.exp):"—"}</td><td>${pill(r.st.st,r.st.days)}</td><td>${r.d?`<span class="debt">${fmt(r.d)}</span>`:"—"}</td><td><button class="btn sm" data-renew="${esc(r.k)}">تفعيل</button></td></tr>`).join("")||`<tr><td colspan="8" class="empty">ماكو نتائج.</td></tr>`}</tbody>`;
   $("moreBox").hidden=rows.length<=F.lim;$("moreBtn").textContent="طلّع بعد ("+(rows.length-F.lim)+")";
 }
 $("q").oninput=e=>{F.q=e.target.value;F.lim=150;renderSubs()};
@@ -1291,11 +1442,17 @@ let _mq=matchMedia("(max-width:700px)").matches;
 window.addEventListener("resize",()=>{const m=matchMedia("(max-width:700px)").matches;if(m!==_mq){_mq=m;renderSubs();renderReports();if(ROLE==="admin")renderAdmin()}});
 /* ================= BROADCASTS · MY STATS ================= */
 function renderBcasts(){
-  const b=NOTES.filter(n=>n.t==="b"&&n.on!==false);
+  const b=NOTES.filter(n=>n.t==="b"&&n.on!==false),al=NOTES.filter(n=>n.t==="a"&&n.on!==false);
+  if(LASTB!==null&&b.length>LASTB&&Store.uid)play("alert");LASTB=Store.uid?b.length:null;
+  $("nbCnt").textContent=b.length+al.length;$("nbCnt").classList.toggle("z",!(b.length+al.length));
+  $("nbSub").textContent=(b.length||al.length)?`${b.length} تبليغ · ${al.length} تنبيه عند التجديد`:(can("notices")?"ماكو شي هسه · دوس حتى تضيف":"ماكو شي هسه");
   $("bcasts").innerHTML=b.map(n=>`<div class="bcast"><span class="dot"></span><div class="ic"><svg><use href="#i-mega"/></svg></div><div style="min-width:0"><b>تبليغ</b><p>${esc(n.x)}</p><small>${esc(n.by||"")}${n.at?" · "+fdate(n.at):""}</small></div></div>`).join("");
 }
 function sumBy(filterA,filterP){let n=0,amt=0,col=0;for(const a of ACTS)if(filterA(a)){n++;amt+=actSell(a)}for(const p of PAYS)if(filterP(p))col+=p.amt;return {n,amt,col}}
+let MS_ON=true;try{MS_ON=localStorage.getItem("amnet_mystats")!=="0"}catch(e){}
+$("msTog").onclick=()=>{MS_ON=!MS_ON;try{localStorage.setItem("amnet_mystats",MS_ON?"1":"0")}catch(e){}renderMyStats()};
 function renderMyStats(){
+  $("msTog").classList.toggle("on",MS_ON);$("msTog").setAttribute("aria-checked",MS_ON);$("myStats").hidden=!MS_ON;
   if(ROLE!=="staff"){$("myStats").innerHTML="";return}
   const me=mySid(),t0=sod(Date.now());
   const T=sumBy(a=>a.sid===me&&a.d>=t0,p=>p.sid===me&&p.d>=t0);
@@ -1411,10 +1568,23 @@ function openSub(k){
   const hist=ACTS.filter(a=>a.u===k).slice().reverse();
   const pays=PAYS.filter(p=>p.u===k).slice().reverse();
   let prof=0;hist.forEach(a=>prof+=actSell(a)-(+a.c||0));
-  modal(`<div class="mhd"><div class="t"><div class="eyebrow"><span>SUBSCRIBER</span></div><h2>${esc(s.n||"بدون اسم")}</h2></div><button class="x" data-close aria-label="إغلاق">×</button></div>
-  <div class="row">${pill(st.st,st.days)}${st.exp?`<span class="muted">ينتهي <span class="num">${fdate(st.exp)}</span></span>`:""}<span class="muted p-finance">ربحك منه <span class="num" style="color:var(--ok)">${fmt(prof)}</span></span>${d?`<span>الدين <span class="debt">${fmt(d)}</span></span>`:""}</div>
-  <div class="row"><button class="btn" data-renew="${esc(k)}"><svg><use href="#i-bolt"/></svg>تفعيل</button>${d?`<button class="btn ok" data-pay="${esc(k)}">تسديد دين</button>`:""}<button class="btn ghost" id="eCopy"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button></div>
-  <pre class="msgbox" id="eMsg" tabindex="0">${esc(actMsg(k,(LAST[k]||{}).pl))}</pre>
+  const SC={act:"var(--ok)",near:"var(--warn)",exp:"var(--bad)",none:"var(--faint)"}[st.st];
+  const ini=(s.n||s.u||"؟").trim().split(/\s+/).slice(0,2).map(w=>w.charAt(0)).join(" ");
+  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mshead"><div class="eyebrow"><span>SUBSCRIBER · PROFILE</span></div><button class="x" data-close aria-label="سكّر">×</button></div>
+  <div class="prof-hd" style="--sc:${SC}"><div class="prof-av">${esc(ini)}</div><div style="min-width:0;flex:1"><div class="nm">${esc(s.n||"بدون اسم")}</div>
+    <div class="sub"><span class="num">${esc(s.u)}</span>${s.pl?planTag(s.pl):""}${pill(st.st,st.days)}</div></div></div>
+  ${d?`<div class="debtban" style="margin:0"><span class="di">!</span><div class="dt"><small>عليه دين</small><b>${fmt(d)}</b> <span style="color:#ffd0d5;font-size:12px">د.ع</span></div><button class="btn sm" data-pay="${esc(k)}" data-after="sub">تسديد الدين</button></div>`:""}
+  <div class="prof-acts"><button class="btn" data-renew="${esc(k)}"><svg><use href="#i-bolt"/></svg>تجديد</button><button class="btn ghost" id="eCopy"><svg><use href="#i-copy"/></svg>نسخ الرسالة</button></div>
+  <dl class="info" style="margin:0">
+    <div><dt>رقم الهاتف</dt><dd>${s.p?`<span class="num">${esc(s.p)}</span>`:'<span style="color:var(--bad)">ما مضاف</span>'}</dd></div>
+    <div><dt>${st.st==="exp"?"انتهى بتاريخ":"ينتهي بتاريخ"}</dt><dd>${st.exp?`<span class="num">${fdate(st.exp)}</span>`:"—"}</dd></div>
+    <div><dt>آخر تفعيل</dt><dd>${LAST[k]?`<span class="num">${fdate(LAST[k].d)}</span>`:"ماكو"}</dd></div>
+    <div><dt>عدد التفعيلات</dt><dd><span class="num">${hist.length}</span></dd></div>
+    <div class="p-finance"><dt>ربحك منه</dt><dd><span class="num" style="color:var(--ok)">${fmt(prof)}</span></dd></div>
+    <div><dt>المسدد</dt><dd><span class="num">${fmt(pays.reduce((t,p)=>t+p.amt,0))}</span></dd></div>
+  </dl>
+  <pre class="msgbox" id="eMsg" tabindex="0" hidden>${esc(actMsg(k,(LAST[k]||{}).pl))}</pre>
+  <details class="edbox"><summary>تعديل بيانات المشترك<svg class="chev" width="18" height="18"><use href="#i-chev"/></svg></summary><div class="in">
   <div class="fgrid">
     <div class="field"><label for="eN">اسم المشترك</label><input type="text" id="eN" value="${esc(s.n||"")}"></div>
     <div class="field"><label for="eU">اليوزر</label><input type="text" id="eU" value="${esc(s.u)}" dir="ltr" readonly></div>
@@ -1422,11 +1592,12 @@ function openSub(k){
     <div class="field"><label for="ePl">الباقة</label><select id="ePl">${planOpts(s.pl)}</select></div>
     <div class="field" style="grid-column:1/-1"><label for="eNote">ملاحظات</label><input type="text" id="eNote" value="${esc(s.note||"")}"></div>
   </div>
-  <div class="row"><button class="btn ghost" id="eSave">حفظ البيانات</button><span style="flex:1"></span><button class="btn danger sm p-delsub" id="eDel">حذف المشترك</button></div>
+  <div class="row"><button class="btn" id="eSave">حفظ البيانات</button><span style="flex:1"></span><button class="btn danger sm p-delsub" id="eDel">حذف المشترك</button></div>
+  </div></details>
   <h3>سجل التفعيلات (${hist.length})</h3>
-  <div class="hist">${hist.map(a=>`<div class="hi"><span class="num">${fdt(a.d)}</span><span class="plan">${esc(a.pl)}</span><span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span><span class="num">${fmt(actSell(a))}</span>${a.by?`<span class="muted">${esc(a.by)}</span>`:""}<span class="sp"></span><button class="btn ghost sm" data-flip="${esc(a.k)}">${a.pay==="a"?"حوّل لنقد":"حوّل لآجل"}</button><button class="btn ghost sm p-edit" data-editact="${esc(a.k)}">تعديل</button><button class="btn danger sm p-edit" data-delact="${esc(a.k)}">حذف</button></div>`).join("")||`<div class="muted">ماكو تفعيلات.</div>`}</div>
-  ${pays.length?`<h3>التسديدات (${pays.length})</h3><div class="hist">${pays.map(p=>`<div class="hi"><span class="num">${fdt(p.d)}</span><span class="num" style="color:var(--ok)">+${fmt(p.amt)}</span>${p.note?`<span class="muted">${esc(p.note)}</span>`:""}<span class="sp"></span><button class="btn danger sm p-edit" data-delpay="${esc(p.k)}">حذف</button></div>`).join("")}</div>`:""}`);
-  $("eCopy").onclick=()=>copyText(actMsg(k,(LAST[k]||{}).pl),$("eMsg"));
+  <div class="hist tl">${hist.map(a=>`<div class="hi ${a.pay}"><span class="num">${fdt(a.d)}</span>${planTag(a.pl)}<span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span><span class="num">${fmt(actSell(a))}</span>${a.by?`<span class="muted">${esc(a.by)}</span>`:""}<span class="sp"></span><button class="btn ghost sm" data-flip="${esc(a.k)}">${a.pay==="a"?"حوّل لنقد":"حوّل لآجل"}</button><button class="btn ghost sm p-edit" data-editact="${esc(a.k)}">تعديل</button><button class="btn danger sm p-edit" data-delact="${esc(a.k)}">حذف</button></div>`).join("")||`<div class="muted">ماكو تفعيلات.</div>`}</div>
+  ${pays.length?`<h3>التسديدات (${pays.length})</h3><div class="hist tl">${pays.map(p=>`<div class="hi p"><span class="num">${fdt(p.d)}</span><span class="num" style="color:var(--ok)">+${fmt(p.amt)}</span>${p.note?`<span class="muted">${esc(p.note)}</span>`:""}<span class="sp"></span><button class="btn danger sm p-edit" data-delpay="${esc(p.k)}">حذف</button></div>`).join("")}</div>`:""}`);
+  $("eCopy").onclick=()=>{$("eMsg").hidden=false;copyText(actMsg(k,(LAST[k]||{}).pl),$("eMsg"))};
   $("eSave").onclick=()=>{const ns={...s,n:$("eN").value.trim(),p:$("eP").value.trim(),pl:$("ePl").value,note:$("eNote").value.trim()};closeModal();guard(()=>saveSubs(new Map([[k,ns]])),"انحفظت البيانات")};
   $("eDel").onclick=()=>confirmBox("حذف المشترك",`راح ينحذف <b>${esc(s.n||s.u)}</b> وكل تفعيلاته وتسديداته. ما تكدر ترجعه.`,"حذف نهائي",()=>guard(async()=>{await saveActs([],hist);await savePays([],pays);await saveSubs(new Map([[k,null]]))},"انحذف المشترك"));
   $("mbox").querySelectorAll("[data-flip]").forEach(b=>b.onclick=()=>{const a=hist.find(x=>x.k===b.dataset.flip);const na={...a,pay:a.pay==="a"?"c":"a",pd:0};guard(()=>saveActs([na]),na.pay==="a"?"صار آجل":"صار نقد").then(()=>openSub(k))});
@@ -1459,18 +1630,19 @@ function openEditAct(a,k){
     openSub(k);
   };
 }
-function openPay(k){
+function openPay(k,after){
   const s=SUBS.get(k)||{u:k};const d=debtOf(k);
   modal(`<div class="mhd"><div class="t"><h2>تسديد دين</h2><div class="muted">${esc(s.n||s.u)} · الدين الحالي <span class="debt">${fmt(d)}</span></div></div><button class="x" data-close aria-label="إغلاق">×</button></div>
   <div class="field"><label for="pAmt">المبلغ المستلم</label><input type="number" id="pAmt" dir="ltr" value="${d}" inputmode="numeric" style="font-size:20px"></div>
   <div class="chips"><button class="chip" data-amt="${d}">كامل الدين</button><button class="chip" data-amt="${Math.round(d/2)}">النص</button>${[10000,25000,50000].filter(v=>v<d).map(v=>`<button class="chip" data-amt="${v}">${fmt(v)}</button>`).join("")}</div>
   <div class="field"><label for="pNote">ملاحظة (اختياري)</label><input type="text" id="pNote"></div>
   <div class="muted" id="pAfter"></div>
-  <button class="btn ok go" id="pGo">تأكيد التسديد</button>`);
+  <button class="btn ok go" id="pGo">تأكيد التسديد</button>${after?`<button class="btn ghost go" id="pBack">رجوع</button>`:""}`);
+  if($("pBack"))$("pBack").onclick=()=>{closeModal();after()};
   const upd=()=>{const v=+$("pAmt").value||0;$("pAfter").innerHTML="الدين بعد التسديد: <span class='num'>"+fmt(Math.max(0,d-v))+"</span>"+(v>d?" · المبلغ أكثر من الدين":"")};
   upd();$("pAmt").oninput=upd;
   $("mbox").querySelectorAll("[data-amt]").forEach(b=>b.onclick=()=>{$("pAmt").value=b.dataset.amt;upd()});
-  $("pGo").onclick=()=>{const v=+$("pAmt").value||0;if(v<=0){toast("اكتب المبلغ");return}const t=Date.now();const p={k:k+"|p"+t,u:k,d:t,amt:v,note:$("pNote").value.trim(),sid:mySid(),byn:displayName()};closeModal();guard(()=>savePays([p]),"تم تسديد "+fmt(v)+" د.ع")};
+  $("pGo").onclick=()=>{const v=+$("pAmt").value||0;if(v<=0){toast("اكتب المبلغ");return}const t=Date.now();const p={k:k+"|p"+t,u:k,d:t,amt:v,note:$("pNote").value.trim(),sid:mySid(),byn:displayName()};closeModal();guard(()=>savePays([p]),"تم تسديد "+fmt(v)+" د.ع").then(ok=>{if(ok)play("pay");if(ok&&after)after()})};
 }
 function openAdd(prefill){
   const looksUser=prefill&&/^[A-Za-z0-9._@\-]+$/.test(prefill);
@@ -1674,9 +1846,9 @@ function buildImp(scroll){
   h.textContent="رفعت شهر واحد. إذا عندك تقرير الشهر السابق ارفعه هسه حتى تطلع المقارنة والمفقودين، لأن الاستيراد ما يرجع يتاح بعد الإضافة.";
   $("impFiles").innerHTML=IMPF.map((f,i)=>`<div class="impfile"><div class="row"><b>${esc(f.fname)}</b><span class="muted">${fileMonths(f.R).slice(0,1).map(mname).join("")} · ${fmt(f.R.recs.length)} سطر</span><button class="btn danger sm" data-rmf="${i}">إزالة</button></div><div class="checks">${checksHtml(f.R.checks)}</div></div>`).join("");
   $("impChecks").innerHTML=checksHtml([{h:"مشتركين جداد",v:fmt(newSubs.size),ok:true,s:"راح ينضافون للنظام"},{h:"تفعيلات جديدة",v:fmt(acts.length),ok:true,s:(exist?fmt(exist)+" موجودة أصلاً بالموقع انتركت":"")+(dup?(exist?" · ":"")+fmt(dup)+" مكرر بين الملفات":"")||"بدون تكرار"}]);
-  $("impPlans").innerHTML=`<thead><tr><th>الباقة</th><th>تفعيلات</th><th>سعر الشركة</th><th>سعر البيع</th></tr></thead><tbody>${Object.entries(plans).map(([n,p])=>{const prev=document.querySelector(`[data-imps="${CSS.escape(n)}"]`);const v=prev?prev.value:(planSell(n)||"");return `<tr><td><span class="plan">${esc(n)}</span></td><td class="num">${fmt(p.n)}</td><td class="num">${fmt(p.c)}</td><td style="min-width:130px"><input type="number" dir="ltr" data-imps="${esc(n)}" value="${esc(v)}" placeholder="اكتب السعر" inputmode="numeric"></td></tr>`}).join("")}</tbody>`;
+  $("impPlans").innerHTML=`<thead><tr><th>الباقة</th><th>تفعيلات</th><th>سعر الشركة</th><th>سعر البيع</th></tr></thead><tbody>${Object.entries(plans).map(([n,p])=>{const prev=document.querySelector(`[data-imps="${CSS.escape(n)}"]`);const v=prev?prev.value:(planSell(n)||"");return `<tr><td>${planTag(n)}</td><td class="num">${fmt(p.n)}</td><td class="num">${fmt(p.c)}</td><td style="min-width:130px"><input type="number" dir="ltr" data-imps="${esc(n)}" value="${esc(v)}" placeholder="اكتب السعر" inputmode="numeric"></td></tr>`}).join("")}</tbody>`;
   const pv=recs.filter(r=>r.d!=null).slice().sort((a,b)=>b.d-a.d).slice(0,60);
-  $("impPrev").innerHTML=`<thead><tr><th>التاريخ</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>المبلغ</th><th>مدخل البيانات</th></tr></thead><tbody>${pv.map(r=>`<tr><td class="num">${fdt(r.d)}</td><td class="num">${esc(r.acc)}</td><td class="name">${esc(r.name||"—")}</td><td><span class="plan">${esc(r.type)}</span></td><td class="num">${isFinite(r.amount)?fmt(r.amount):"؟"}</td><td>${esc(r.by)}</td></tr>`).join("")}</tbody>`;
+  $("impPrev").innerHTML=`<thead><tr><th>التاريخ</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>المبلغ</th><th>مدخل البيانات</th></tr></thead><tbody>${pv.map(r=>`<tr><td class="num">${fdt(r.d)}</td><td class="num">${esc(r.acc)}</td><td class="name">${esc(r.name||"—")}</td><td>${planTag(r.type)}</td><td class="num">${isFinite(r.amount)?fmt(r.amount):"؟"}</td><td>${esc(r.by)}</td></tr>`).join("")}</tbody>`;
   $("commitBtn").disabled=!acts.length;$("commitBtn").textContent="إضافة "+fmt(acts.length)+" تفعيل و "+fmt(newSubs.size)+" مشترك";
   $("impRes").hidden=false;if(scroll)$("impRes").scrollIntoView({behavior:"smooth",block:"start"});
 }
@@ -1717,15 +1889,15 @@ function renderMatch(){
   const T=$("mTbl"),act=$("mActions");
   act.hidden=!(MTAB==="miss"&&MR.miss.length);
   if(MTAB==="miss"){
-    T.innerHTML=MR.miss.length?`<thead><tr><th><input type="checkbox" id="mAll" aria-label="تحديد الكل" ${MSEL.size===MR.miss.length?"checked":""}></th><th>التاريخ</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>المبلغ</th><th>ملاحظة</th></tr></thead><tbody>${MR.miss.map(r=>{const id=r.u+"|"+r.d;const s=SUBS.get(r.u);return `<tr><td><input type="checkbox" data-ms="${esc(id)}" ${MSEL.has(id)?"checked":""} aria-label="تحديد"></td><td class="num">${fdt(r.d)}</td><td class="num">${esc(r.acc)}</td><td class="name">${esc(s&&s.n||r.name||"—")}</td><td><span class="plan">${esc(r.type)}</span></td><td class="num">${isFinite(r.amount)?fmt(r.amount):"؟"}</td><td>${s?"":'<span class="paytag a">مشترك جديد</span>'}</td></tr>`}).join("")}</tbody>`
+    T.innerHTML=MR.miss.length?`<thead><tr><th><input type="checkbox" id="mAll" aria-label="تحديد الكل" ${MSEL.size===MR.miss.length?"checked":""}></th><th>التاريخ</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>المبلغ</th><th>ملاحظة</th></tr></thead><tbody>${MR.miss.map(r=>{const id=r.u+"|"+r.d;const s=SUBS.get(r.u);return `<tr><td><input type="checkbox" data-ms="${esc(id)}" ${MSEL.has(id)?"checked":""} aria-label="تحديد"></td><td class="num">${fdt(r.d)}</td><td class="num">${esc(r.acc)}</td><td class="name">${esc(s&&s.n||r.name||"—")}</td><td>${planTag(r.type)}</td><td class="num">${isFinite(r.amount)?fmt(r.amount):"؟"}</td><td>${s?"":'<span class="paytag a">مشترك جديد</span>'}</td></tr>`}).join("")}</tbody>`
       :`<tbody><tr><td class="empty"><b>كل التفعيلات مسجلة</b>كل سطر بتقرير الشركة يقابله تفعيل بالموقع.</td></tr></tbody>`;
     $("mCount").textContent=fmt(MSEL.size)+" محدد";
     const all=$("mAll");if(all)all.onchange=()=>{MSEL=all.checked?new Set(MR.miss.map(r=>r.u+"|"+r.d)):new Set();renderMatch()};
   }else if(MTAB==="ok"){
-    T.innerHTML=MR.ok.length?`<thead><tr><th>التقرير</th><th>بالموقع</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>الدفع</th></tr></thead><tbody>${MR.ok.map(({r,a})=>{const s=SUBS.get(r.u)||{};return `<tr class="click" data-open="${esc(r.u)}"><td class="num">${fdt(r.d)}</td><td class="num">${fdt(a.d)}</td><td class="num">${esc(r.acc)}</td><td class="name">${esc(s.n||r.name||"—")}</td><td><span class="plan">${esc(a.pl)}</span></td><td><span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span></td></tr>`}).join("")}</tbody>`
+    T.innerHTML=MR.ok.length?`<thead><tr><th>التقرير</th><th>بالموقع</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>الدفع</th></tr></thead><tbody>${MR.ok.map(({r,a})=>{const s=SUBS.get(r.u)||{};return `<tr class="click" data-open="${esc(r.u)}"><td class="num">${fdt(r.d)}</td><td class="num">${fdt(a.d)}</td><td class="num">${esc(r.acc)}</td><td class="name">${esc(s.n||r.name||"—")}</td><td>${planTag(a.pl)}</td><td><span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span></td></tr>`}).join("")}</tbody>`
       :`<tbody><tr><td class="empty">ماكو تفعيلات مطابقة.</td></tr></tbody>`;
   }else{
-    T.innerHTML=MR.extra.length?`<thead><tr><th>التاريخ</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>الدفع</th></tr></thead><tbody>${MR.extra.map(a=>{const s=SUBS.get(a.u)||{};return `<tr class="click" data-open="${esc(a.u)}"><td class="num">${fdt(a.d)}</td><td class="num">${esc(s.u||a.u)}</td><td class="name">${esc(s.n||"—")}</td><td><span class="plan">${esc(a.pl)}</span></td><td><span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span></td></tr>`}).join("")}</tbody>`
+    T.innerHTML=MR.extra.length?`<thead><tr><th>التاريخ</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>الدفع</th></tr></thead><tbody>${MR.extra.map(a=>{const s=SUBS.get(a.u)||{};return `<tr class="click" data-open="${esc(a.u)}"><td class="num">${fdt(a.d)}</td><td class="num">${esc(s.u||a.u)}</td><td class="name">${esc(s.n||"—")}</td><td>${planTag(a.pl)}</td><td><span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span></td></tr>`}).join("")}</tbody>`
       :`<tbody><tr><td class="empty">ماكو تفعيلات زايدة. كل اللي مسجل عندك موجود بالتقرير.</td></tr></tbody>`;
   }
   $("mPay").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.p===MPAY));
@@ -1862,7 +2034,7 @@ function clearSubs(){[unsubLogin,unsubAcct,unsubAccts,unsubBill,unsubMeta,unsubS
 async function onAuth(user){
   clearSubs();ME=user;ACCOUNT=null;LOGIN=null;ACCT=null;VIEWAS=null;MK=[];BILL=[];STAFF=[];ROLE=null;
   if(!user){setMode();loaded();gate("login");if(LGMSG){$("lgErr").textContent=LGMSG;LGMSG=""}return}
-  unsubMeta=fs.collection("meta").doc("app").onSnapshot(s=>{APPMETA=s.exists?s.data():{};renderUserCard();renderLockText();if(ROLE==="admin")renderAdmin()},()=>{});
+  unsubMeta=fs.collection("meta").doc("app").onSnapshot(s=>{APPMETA=s.exists?s.data():{};if(APPMETA.accent){applyTheme(APPMETA.accent);try{localStorage.setItem("amnet_theme",APPMETA.accent)}catch(e){}}renderThemeUI();renderUserCard();renderLockText();if(ROLE==="admin")renderAdmin()},()=>{});
   if(isAdminUser(user)){
     ROLE="admin";setMode();setSync();hello(APPMETA.adminName||"المدير");
     unsubAccts=fs.collection("accounts").onSnapshot(s=>{MK=s.docs.map(d=>({id:d.id,...d.data()}));renderAdmin();if(VIEWAS){const m=MK.find(x=>x.id===VIEWAS.id);if(!m)backToAdmin();else{VIEWAS.acc=m;setMode()}}},e=>toast("ما گدرنا نقرأ الحسابات، تأكد من قواعد Firebase"));
