@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.04-28">
+<meta name="amnet-build" content="2026.11.04-31">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1049,6 +1049,63 @@ html[data-theme="light"] .sw:not(.on),html[data-theme="light"] .tgl input:not(:c
 html[data-theme="light"] .plan{border-color:color-mix(in srgb,var(--pc) 45%,transparent)!important;background:color-mix(in srgb,var(--pc) 10%,transparent)!important}
 html[data-theme="light"] .pk b,html[data-theme="light"] .pbtn b{color:color-mix(in srgb,var(--pc) 68%,#000)!important}
 html[data-theme="light"] .bcast{box-shadow:none}
+
+@media (max-width:340px){.ap-sum b{font-size:12px;letter-spacing:-.2px}.ap-sum>div{padding:8px 6px}}
+
+/* ================= ACCOUNT SUBSCRIPTION + VERIFIED ================= */
+.vbadge{width:1em;height:1em;min-width:16px;min-height:16px;color:#1d9bf0;vertical-align:-.14em;margin-inline-start:.28em;filter:drop-shadow(0 1px 2px rgba(29,155,240,.35));flex:none}
+.hero h1 .vbadge{width:.78em;height:.78em}
+.acctbox{--c:var(--ok);display:flex;align-items:center;gap:14px;margin-top:14px;padding:12px 14px;border-radius:14px;border:1px solid color-mix(in srgb,var(--c) 35%,var(--line));background:linear-gradient(110deg,color-mix(in srgb,var(--c) 11%,transparent),transparent 70%),var(--panel2);max-width:520px}
+.acctbox.warn{--c:var(--warn)}.acctbox.bad{--c:var(--bad)}
+.ab-ring{--p:50;position:relative;width:58px;height:58px;flex:none;border-radius:50%;display:grid;place-content:center;justify-items:center;line-height:1;background:conic-gradient(var(--c) calc(var(--p)*1%),color-mix(in srgb,var(--c) 14%,var(--panel3)) 0)}
+.ab-ring::before{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--panel)}
+.ab-ring>*{position:relative}
+.ab-ring b{font-size:19px;font-weight:800;color:var(--c)}
+.ab-ring small{font-size:10px;color:var(--dim);margin-top:2px}
+.ab-tx{flex:1;min-width:0;display:grid;gap:1px}
+.ab-tx>small{font-size:11.5px;color:var(--dim);letter-spacing:.2px}
+.ab-tx>b{font-family:var(--f-display);font-size:17px;font-weight:800;display:flex;align-items:center;gap:2px}
+.ab-tx>span{font-size:12.5px;color:var(--dim)}.ab-tx>span b{color:var(--ink);font-weight:600}
+.ab-renew{flex:none}
+.acctbox.life{--c:#1d9bf0;border-color:rgba(29,155,240,.35);background:linear-gradient(110deg,rgba(29,155,240,.13),rgba(245,180,40,.06) 60%,transparent),var(--panel2)}
+.ab-ring.life{background:linear-gradient(135deg,#1d9bf0,#7c5cff);color:#fff;box-shadow:0 6px 18px rgba(29,155,240,.3)}
+.ab-ring.life::before{display:none}
+.ab-ring.life svg{width:30px;height:30px}
+.acctbox.life .ab-tx>b{background:linear-gradient(90deg,#1d9bf0,#7c5cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.acctbox.life .ab-tx>b .vbadge{color:#1d9bf0}
+@media (max-width:900px){.acctbox{max-width:none}}
+.usercard b .vbadge{width:15px;height:15px}
+
+.ftgs{display:flex;flex-wrap:wrap;gap:4px;max-width:210px}
+.ftg{font:inherit;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;border:1px solid var(--line2);background:transparent;color:var(--faint);cursor:pointer;text-decoration:line-through;white-space:nowrap}
+.ftg[aria-pressed="true"]{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 45%,transparent);background:var(--ok-soft);text-decoration:none}
+
+.mkacts{display:grid;grid-template-columns:repeat(2,auto);gap:5px;justify-content:start}
+.mkacts .btn{justify-content:center}
+#mkTbl td.name{min-width:140px;white-space:normal}
+
+/* ================= WHATSAPP ================= */
+.btn.wa{background:#1fa855;border-color:#1fa855;color:#fff}
+.btn.wa:disabled{background:var(--panel3);border-color:var(--line2);color:var(--dim)}
+.btn.wa svg,.btn [href="#i-wa"]{width:17px;height:17px}
+.wa-home{display:flex;align-items:center;gap:14px;width:100%;text-align:start;padding:14px 16px;border-radius:var(--r);border:1px solid rgba(31,168,85,.35);background:linear-gradient(120deg,rgba(31,168,85,.12),rgba(31,168,85,.02) 60%),var(--panel);color:var(--ink);cursor:pointer;font:inherit}
+.wa-home .wa-ic{width:44px;height:44px;flex:none;border-radius:12px;display:grid;place-items:center;background:#1fa855;color:#fff}
+.wa-home .wa-ic svg{width:24px;height:24px}
+.wa-home .tx{flex:1;min-width:0;display:grid;gap:2px}.wa-home .tx b{font-size:16px}.wa-home .tx span{font-size:12.5px;color:var(--dim)}
+.wa-home .cnt{min-width:30px;height:30px;padding:0 9px;border-radius:99px;display:grid;place-items:center;background:#1fa855;color:#fff;font-family:var(--f-mono);font-weight:700}
+.wa-home .cnt.z{background:var(--panel3);color:var(--dim)}
+.wa-list{display:grid;gap:8px;max-height:min(62vh,560px);overflow:auto;overscroll-behavior:contain}
+.wa-row{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel2)}
+.wa-row.sent{opacity:.7}
+.wa-who{flex:1;min-width:0;display:grid;gap:2px;cursor:pointer}
+.wa-who>b{font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wa-who span{font-size:12.5px;color:var(--dim)}.wa-who small{font-size:11.5px;color:var(--ok)}
+.wa-row .btn{flex:none}
+.wa-vars{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.wa-vars .chip{font-family:var(--f-body);font-size:12.5px;padding:4px 10px}
+.wa-grid{grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))!important}
+.wa-grid textarea{width:100%;background:var(--panel2);color:var(--ink);border:1px solid var(--line2);border-radius:10px;padding:10px 12px;font:inherit;font-size:14px;line-height:1.6;resize:vertical;min-height:110px}
+.done .btn.wa{width:100%;border-radius:12px}
 </style>
 </head>
 <body>
@@ -1068,6 +1125,8 @@ html[data-theme="light"] .bcast{box-shadow:none}
   <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9Z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></g></symbol>
+  <symbol id="i-verified" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.6l2.3 1.7 2.8-.2 1 2.6 2.5 1.3-.4 2.8 1.5 2.4-1.9 2.1.1 2.8-2.7.8-1.4 2.5-2.8-.5L12 22.4l-2.3-1.6-2.8.5-1.4-2.5-2.7-.8.1-2.8-1.9-2.1 1.5-2.4-.4-2.8L4.6 5.7l1-2.6 2.8.2Z"/><path fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="m7.8 12.3 2.8 2.8 5.6-5.8"/></symbol>
+  <symbol id="i-inf" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M12 12c-2-2.7-3.6-4-5.5-4a4 4 0 0 0 0 8c1.9 0 3.5-1.3 5.5-4Zm0 0c2 2.7 3.6 4 5.5 4a4 4 0 0 0 0-8c-1.9 0-3.5 1.3-5.5 4Z"/></symbol>
   <symbol id="i-snd" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h4l5 4V6L8 10Z"/><path d="M16.5 9a4 4 0 0 1 0 6M19 6.5a7.5 7.5 0 0 1 0 11"/></g></symbol>
   <symbol id="i-mute" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10v4h4l5 4V6L8 10Z"/><path d="m17 10 4 4M21 10l-4 4"/></g></symbol>
   <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.5-.3Z"/></symbol>
@@ -1209,6 +1268,7 @@ html[data-theme="light"] .bcast{box-shadow:none}
       </div>
       <h1 id="greet">أهلاً، <em>علي مالك</em></h1>
       <div class="tags"><span class="tag on" id="syncTag">متصل ومحفوظ</span><span class="tag" id="netTag">شبكة الإنترنت</span><span class="tag p-finance" id="periodTag"></span></div>
+      <div class="acctbox" id="acctBox" hidden></div>
       <div class="minis">
         <button class="mini" data-go="all"><b id="kAll">0</b><span>كل المشتركين</span></button>
         <button class="mini g" data-go="act"><b id="kAct">0</b><span>شغّال</span></button>
@@ -1222,6 +1282,7 @@ html[data-theme="light"] .bcast{box-shadow:none}
     <div class="radar" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#i-logo"/></svg></div>
   </div>
   <div id="bcasts" style="display:grid;gap:10px"></div>
+  <button type="button" class="wa-home" id="waHome" hidden><span class="wa-ic"><svg><use href="#i-wa"/></svg></span><span class="tx"><b>تذكير المشتركين بالواتساب</b><span id="waHomeSub"></span></span><span class="cnt" id="waHomeCnt">0</span></button>
   <div id="lowBal"></div>
   <div class="warnbox" id="expWarn" hidden></div>
   <div id="planWarn" class="p-plans" hidden></div>
@@ -1505,6 +1566,17 @@ html[data-theme="light"] .bcast{box-shadow:none}
     </div>
     <div class="row" style="margin-top:14px"><button class="btn" id="saveCfg">حفظ الإعدادات</button></div>
   </div>
+  <div class="card br">
+    <div class="chead"><div class="t"><h2>رسائل الواتساب للمشتركين</h2><div class="muted">الموقع يحضّر الرسالة ويفتح محادثة المشترك، وإنت بس تدوس إرسال. اكتب الكلمات بين القوسين وتتبدل وحدها.</div></div></div>
+    <div class="wa-vars" id="waVars"></div>
+    <div class="fgrid wa-grid">
+      <div class="field"><label for="waAct">بعد التفعيل</label><textarea id="waAct" rows="4"></textarea></div>
+      <div class="field"><label for="waPay">بعد تسديد دين</label><textarea id="waPay" rows="4"></textarea></div>
+      <div class="field"><label for="waRem">تذكير قبل لا يخلص</label><textarea id="waRem" rows="4"></textarea></div>
+      <div class="field"><label for="waDays">التذكير قبل كم يوم</label><input type="number" id="waDays" min="0" max="15" dir="ltr"><small class="muted">مثلاً 3 يعني يطلع بقائمة التذكير من يبقى عليه 3 أيام أو أقل.</small></div>
+    </div>
+    <div class="row" style="margin-top:14px"><button class="btn" id="waSave">حفظ الرسائل</button><button class="btn ghost" id="waReset">رجّع الرسائل الأصلية</button></div>
+  </div>
   <div class="card br owneronly">
     <div class="chead"><div class="t"><h2>الموظفين</h2><div class="muted">حسابات فرعية لموظفينك، كل واحد يدخل بكلمة سر خاصة بيه.</div></div><button class="btn sm" id="addStaff"><svg><use href="#i-plus"/></svg>إضافة موظف</button></div>
     <div class="list" id="staffList" style="margin-top:0"></div>
@@ -1722,7 +1794,8 @@ function renderAll(){
   renderUserCard();
   $("netTag").textContent=SET.name||"شبكة الإنترنت";
   const h=new Date().getHours();
-  $("greet").innerHTML=(h<12?"صباح الخير":h<17?"نهارك سعيد":"مساء الخير")+"، <em>"+esc(displayName())+"</em>";
+  $("greet").innerHTML=(h<12?"صباح الخير":h<17?"نهارك سعيد":"مساء الخير")+"، <em>"+esc(displayName())+"</em>"+((ROLE==="marketer"||VIEWAS)&&isLife(VIEWAS?VIEWAS.acc:ACCOUNT)?VBADGE:"");
+  renderAcctBox();
   const expW=$("expWarn");if(MEMBER()&&ACCOUNT&&!isLife(ACCOUNT)){const dd=Math.ceil((tsMs(ACCOUNT.expiresAt)-Date.now())/DAY);expW.hidden=dd>5;expW.innerHTML=`<div class="row" style="justify-content:space-between"><span>اشتراك الحساب يخلص بعد ${Math.max(0,dd)} يوم (<span class="num">${fdate(tsMs(ACCOUNT.expiresAt))}</span>). جدده قبل لا يوقف.</span>${APPMETA.phone?`<a class="btn wa sm" target="_blank" rel="noopener" href="${esc(waLink("هلا، أريد أجدد اشتراك حساب "+(ACCOUNT.name||"")+" بنظام AM NET"))}"><svg><use href="#i-wa"/></svg>واتساب الإدارة</a>`:""}</div>`}else expW.hidden=true;
   const dc=Object.keys(DEBT).filter(k=>debtOf(k)>0).length;
   for(const id of ["debtBadge","debtBadgeM"]){const b=$(id);b.hidden=!dc;b.textContent=dc}
@@ -1731,7 +1804,7 @@ function renderAll(){
   $("impIntro").innerHTML=empty?'الموقع فارغ هسه. ارفع تقرير الشركة لهذا الشهر، <b style="color:var(--ink)">وارفع وياه تقرير الشهر السابق</b> حتى تطلع مقارنة الأشهر والمشتركين المفقودين من أول يوم. يقبل PDF وExcel.':"ارفع تقرير الشركة (PDF أو Excel)، وينضاف بس اللي مو مسجّل بالموقع. التفعيلات المكررة تنترك تلقائياً.";
   $("dropSub").textContent=empty?"ملف هذا الشهر + ملف الشهر السابق":"PDF أو Excel · ينضاف الناقص فقط";
   $("plansBox").open=ROLE==="staff"||$("plansBox").open;
-  renderHome();renderHomeStaff();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();
+  renderHome();renderHomeStaff();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();renderWaHome();fillWaCfg();if(WA_REDRAW&&$("waList"))WA_REDRAW();
   if(VIEW==="mgmt"&&MGF.uid!==Store.uid)mgEnter();
 }
 
@@ -2162,7 +2235,7 @@ function renderAPanel(){
   if(!ASEL||!SUBS.has(ASEL)){if(SHEET){closeModal();return}ASEL=null;P.innerHTML=`<div class="empty"><b>اختار مشترك</b>دوّره ودوس عليه حتى تفعّله.</div>`;return}
   const k=ASEL,s=SUBS.get(k),now=Date.now(),st=status(k,now),d=debtOf(k);
   if(AST.done){
-    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تفعّل بنجاح</h2><div class="done-n">${esc(s.n||s.u)} <span class="ap-u num">${esc(s.u)}</span></div><div class="done-chips"><span>شغّال لغاية <b class="num">${fdate(AST.done.exp)}</b></span>${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div class="done-debt">دينه الكلي هسه: <b class="num">${fmt(AST.done.debt)}</b></div>`:""}<pre class="msgbox amsg" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go amsg" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button><button class="btn ghost go" id="nextAct">${SHEET?"زين، سدّها":"تفعيل مشترك ثاني"}</button></div>`;
+    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تفعّل بنجاح</h2><div class="done-n">${esc(s.n||s.u)} <span class="ap-u num">${esc(s.u)}</span></div><div class="done-chips"><span>شغّال لغاية <b class="num">${fdate(AST.done.exp)}</b></span>${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div class="done-debt">دينه الكلي هسه: <b class="num">${fmt(AST.done.debt)}</b></div>`:""}<pre class="msgbox amsg" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go amsg" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button>${waBtn(k,"act",{exp:AST.done.exp,pl:AST.done.pl})}<button class="btn ghost go" id="nextAct">${SHEET?"زين، سدّها":"تفعيل مشترك ثاني"}</button></div>`;
     $("copyMsg").onclick=()=>copyText(AST.done.msg,$("msgBox"));
     $("nextAct").onclick=()=>{if(SHEET){closeModal();return}ASEL=null;$("aq").value="";renderActivate();$("aq").focus()};return;
   }
@@ -2231,7 +2304,7 @@ async function doActivate(){
   const a={k:k+"|"+when,u:k,d:when,pl:AST.pl,c:planCost(AST.pl),s:sell===planSell(AST.pl)?null:sell,by:displayName()||"يدوي",pay:AST.pay,pd,sid:mySid()};
   const pay=AST.pay;
   const ok=await guard(async()=>{await saveActs([a]);if(s.pl!==AST.pl||newPhone||newName)await saveSubs(new Map([[k,{...s,pl:AST.pl,...(newPhone?{p:newPhone}:{}),...(newName?{n:newName}:{})}]]))});
-  if(ok){play(pay==="a"?"credit":"cash");AST.done={exp:when+SET.period*DAY,pay,debt:debtOf(k),msg:actMsg(k,a.pl,when)};renderAPanel();toast("تفعّل "+(s.n||s.u))}
+  if(ok){play(pay==="a"?"credit":"cash");AST.done={exp:when+SET.period*DAY,pay,pl:a.pl,debt:debtOf(k),msg:actMsg(k,a.pl,when)};renderAPanel();toast("تفعّل "+(s.n||s.u))}
 }
 $("aq").addEventListener("input",()=>renderActivate());
 $("aq").addEventListener("keydown",e=>{if(e.key==="Enter"){const f=$("ares").querySelector("[data-asel]");if(f){e.preventDefault();selectForActivate(f.dataset.asel)}}});
@@ -2377,6 +2450,70 @@ document.addEventListener("click",e=>{
   if(!a||ROLE==="admin"&&!VIEWAS)return;
   e.preventDefault();openActChooser();
 },true);
+
+/* ================= WHATSAPP (semi-automatic) ================= */
+const WA_DEF={
+  act:"هلا {الاسم} 👋\nتم تجديد اشتراكك بالإنترنت ✅\nالباقة: {الباقة}\nشغّال لغاية: {الانتهاء}\nشكراً لأنك ويانا 🌐 {الشبكة}",
+  pay:"هلا {الاسم} 👋\nوصلنا تسديدك {المبلغ} د.ع ✅\nالدين الباقي عليك: {الدين} د.ع\nشكراً 🌐 {الشبكة}",
+  rem:"هلا {الاسم} 👋\nاشتراكك بالإنترنت يخلص {متى} ({الانتهاء}) ⏳\nحتى ما ينقطع عليك، جدده من هسه.\nالباقة: {الباقة}\n{الشبكة}",
+  days:3
+};
+const WA_VARS=[["الاسم","اسم المشترك الثنائي"],["اليوزر","يوزر المشترك"],["الباقة","الباقة"],["الانتهاء","تاريخ الانتهاء"],["متى","اليوم / باچر / بعد كم يوم"],["المبلغ","مبلغ التسديد"],["الدين","الدين الباقي"],["الشبكة","اسم الشبكة"]];
+function waCfg(){const w=SET.wa||{};return {act:w.act||WA_DEF.act,pay:w.pay||WA_DEF.pay,rem:w.rem||WA_DEF.rem,days:w.days!=null&&w.days!==""?+w.days:WA_DEF.days}}
+function waPhone(p){const n=normPhone(p||"");return /^07\d{9}$/.test(n)?"964"+n.slice(1):""}
+function whenTxt(exp){if(!exp)return "";const d=Math.round((sod(exp)-sod(Date.now()))/DAY);return d<0?"من "+Math.abs(d)+" يوم":d===0?"اليوم":d===1?"باچر":d===2?"بعد يومين":"بعد "+d+" أيام"}
+function waFill(tpl,k,extra){
+  const s=SUBS.get(k)||{u:k};const st=status(k,Date.now());const x=extra||{};
+  const exp=x.exp||st.exp;const v={"الاسم":twoName(s.n)||s.u||"","اليوزر":s.u||k,"الباقة":x.pl||s.pl||"","الانتهاء":exp?fdate(exp):"","متى":whenTxt(exp),"المبلغ":x.amt!=null?fmt(x.amt):"","الدين":fmt(x.debt!=null?x.debt:debtOf(k)),"الشبكة":SET.name||""};
+  return String(tpl).replace(/\{([^{}]+)\}/g,(m,n)=>n in v?v[n]:m).replace(/[ \t]+\n/g,"\n").replace(/\n{3,}/g,"\n\n").trim();
+}
+function waUrl(k,text){const ph=waPhone((SUBS.get(k)||{}).p);return ph?"https://wa.me/"+ph+"?text="+encodeURIComponent(text):""}
+function waOpen(k,text){const u=waUrl(k,text);if(!u){toast("المشترك ما عنده رقم صحيح");return false}const w=window.open(u,"_blank");if(!w)location.href=u;return true}
+function waBtn(k,kind,extra,label){const ph=waPhone((SUBS.get(k)||{}).p);return `<button type="button" class="btn wa go" data-wa="${esc(k)}" data-wak="${kind}" ${extra?`data-wax='${esc(JSON.stringify(extra))}'`:""} ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${label||"أرسل للمشترك بالواتساب"}${ph?"":" (ما عنده رقم)"}</button>`}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-wa]");if(!b)return;e.preventDefault();
+  const k=b.dataset.wa,kind=b.dataset.wak||"rem";let x=null;try{x=b.dataset.wax?JSON.parse(b.dataset.wax):null}catch(_){}
+  const W=waCfg();const txt=waFill(W[kind]||W.rem,k,x);
+  if(waOpen(k,txt)&&kind==="rem")waMark(k);
+});
+/* reminders: who should get a message, and who already got one (shared between staff) */
+const waSent=()=>((Store.docs["wa/sent"]||{}).items)||{};
+function waDue(){
+  const W=waCfg(),now=Date.now(),lim=sod(now)+(W.days+1)*DAY,sent=waSent(),out=[];
+  for(const k of SUBS.keys()){const st=status(k,now);if(!st.exp)continue;
+    if(st.exp>=now-DAY&&st.exp<lim){const m=sent[k];out.push({k,exp:st.exp,sent:m&&m.e===st.exp?m:null})}}
+  return out.sort((a,b)=>(!!a.sent-!!b.sent)||a.exp-b.exp);
+}
+function waMark(k){const st=status(k,Date.now());if(!st.exp)return;guard(()=>Store.mergeItems("wa/sent",{[k]:{e:st.exp,t:Date.now(),by:displayName()}}))}
+function renderWaHome(){
+  const b=$("waHome");if(!b)return;const due=waDue();const left=due.filter(x=>!x.sent).length;
+  b.hidden=!SUBS.size||ROLE==="admin"&&!VIEWAS;
+  $("waHomeCnt").textContent=left;$("waHomeCnt").classList.toggle("z",!left);
+  $("waHomeSub").textContent=due.length?(left?left+" مشترك يرادله تذكير":"كل المشتركين اللي قرّب يخلصون انبعثلهم")+" · "+due.length+" يخلصون خلال "+waCfg().days+" أيام":"ماكو أحد قرّب يخلص هسه";
+}
+function openWaList(){
+  const draw=()=>{const due=waDue();const W=waCfg();
+    $("waList").innerHTML=due.length?due.map(x=>{const s=SUBS.get(x.k)||{};const ph=waPhone(s.p);
+      return `<div class="wa-row${x.sent?" sent":""}"><div class="wa-who" data-open="${esc(x.k)}"><b>${esc(s.n||s.u||x.k)}</b><span><span class="num">${esc(s.u||x.k)}</span> · يخلص <b class="num">${fdate(x.exp)}</b> (${whenTxt(x.exp)})</span>${x.sent?`<small>انبعث ${fdt(x.sent.t)}${x.sent.by?" · "+esc(x.sent.by):""}</small>`:""}</div>
+      <button type="button" class="btn ${x.sent?"ghost":"wa"} sm" data-wa="${esc(x.k)}" data-wak="rem" ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${ph?(x.sent?"مرة ثانية":"أرسل"):"بلا رقم"}</button></div>`}).join("")
+      :`<div class="empty" style="padding:22px 10px"><b>ماكو أحد قرّب يخلص</b>اللي يبقى عليه ${W.days} أيام أو أقل يطلع هنا.</div>`;
+    const left=due.filter(x=>!x.sent).length;$("waLeft").textContent=left?left+" باقي ما انبعثله":"خلصت كلهم ✓";
+  };
+  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><h2>تذكير قبل الانتهاء</h2><div class="muted">دوس "أرسل" يفتح الواتساب والرسالة جاهزة، وبعدها ارجع للموقع وكمل للي بعده. <span id="waLeft"></span></div></div><button class="x" data-close aria-label="سدّها">×</button></div>
+  <div class="wa-list" id="waList"></div>`);
+  draw();WA_REDRAW=draw;
+}
+var WA_REDRAW=null;
+$("waHome").onclick=openWaList;
+/* settings */
+function fillWaCfg(){
+  if(!$("waAct")||document.activeElement&&document.activeElement.closest&&document.activeElement.closest("#waAct,#waPay,#waRem,#waDays"))return;
+  const W=waCfg();$("waAct").value=W.act;$("waPay").value=W.pay;$("waRem").value=W.rem;$("waDays").value=W.days;
+  $("waVars").innerHTML=WA_VARS.map(([n,l])=>`<button type="button" class="chip" data-wv="{${n}}" title="${l}">{${n}}</button>`).join("");
+}
+let WA_LAST=null;["waAct","waPay","waRem"].forEach(id=>$(id).addEventListener("focus",()=>WA_LAST=$(id)));
+$("waVars").onclick=e=>{const b=e.target.closest("[data-wv]");if(!b)return;const t=WA_LAST||$("waAct");const p=t.selectionStart??t.value.length;t.value=t.value.slice(0,p)+b.dataset.wv+t.value.slice(t.selectionEnd??p);t.focus();t.selectionStart=t.selectionEnd=p+b.dataset.wv.length};
+$("waSave").onclick=()=>{const d=Math.max(0,Math.min(15,+$("waDays").value||0));SET={...SET,wa:{act:$("waAct").value.trim(),pay:$("waPay").value.trim(),rem:$("waRem").value.trim(),days:d}};guard(async()=>{await saveSettings();logEv("settings","غيّر رسائل الواتساب")},"انحفظت الرسائل").then(()=>{fillWaCfg();renderWaHome()})};
+$("waReset").onclick=()=>{$("waAct").value=WA_DEF.act;$("waPay").value=WA_DEF.pay;$("waRem").value=WA_DEF.rem;$("waDays").value=WA_DEF.days;toast("رجعت الرسائل الأصلية، دوس حفظ حتى تثبت")};
 
 /* ================= BALANCE ================= */
 function balInfo(){
@@ -2702,7 +2839,7 @@ function openSub(k){
     <button type="button" class="prof-user" data-cpu="${esc(s.u)}" aria-label="نسخ اليوزر"><span>${esc(s.u)}</span><svg><use href="#i-copy"/></svg></button>
     <div class="sub">${s.pl?planTag(s.pl):""}${pill(st.st,st.days)}</div></div></div>
   ${d?`<div class="debtban" style="margin:0"><span class="di">!</span><div class="dt"><small>عليه دين</small><b>${fmt(d)}</b> <span style="color:#ffd0d5;font-size:12px">د.ع</span></div><button class="btn sm" data-pay="${esc(k)}" data-after="sub">تسديد الدين</button></div>`:""}
-  <div class="prof-acts"><button class="btn" data-renew="${esc(k)}"><svg><use href="#i-bolt"/></svg>تجديد</button><button class="btn ghost amsg" id="eCopy"><svg><use href="#i-copy"/></svg>نسخ الرسالة</button><button class="btn ghost mgf" data-mgfind="${esc(k)}"><svg><use href="#i-globe"/></svg>بالمنجمنت</button></div>
+  <div class="prof-acts"><button class="btn" data-renew="${esc(k)}"><svg><use href="#i-bolt"/></svg>تجديد</button><button class="btn ghost amsg" id="eCopy"><svg><use href="#i-copy"/></svg>نسخ الرسالة</button>${s.p?`<button class="btn ghost" data-wa="${esc(k)}" data-wak="rem"><svg><use href="#i-wa"/></svg>واتساب</button>`:""}<button class="btn ghost mgf" data-mgfind="${esc(k)}"><svg><use href="#i-globe"/></svg>بالمنجمنت</button></div>
   <dl class="info" style="margin:0">
     <div><dt>رقم الهاتف</dt><dd>${s.p?`<span class="num">${esc(s.p)}</span>`:'<span style="color:var(--bad)">ما مضاف</span>'}</dd></div>
     <div><dt>${st.st==="exp"?"انتهى بتاريخ":"ينتهي بتاريخ"}</dt><dd>${st.exp?`<span class="num">${fdate(st.exp)}</span>`:"—"}</dd></div>
@@ -2770,7 +2907,9 @@ function openPay(k,after){
   const upd=()=>{const v=+$("pAmt").value||0;$("pAfter").innerHTML="الدين بعد التسديد: <span class='num'>"+fmt(Math.max(0,d-v))+"</span>"+(v>d?" · المبلغ أكثر من الدين":"")};
   upd();$("pAmt").oninput=upd;
   $("mbox").querySelectorAll("[data-amt]").forEach(b=>b.onclick=()=>{$("pAmt").value=b.dataset.amt;upd()});
-  $("pGo").onclick=()=>{const v=+$("pAmt").value||0;if(v<=0){toast("اكتب المبلغ");return}const t=Date.now();const p={k:k+"|p"+t,u:k,d:t,amt:v,note:$("pNote").value.trim(),sid:mySid(),byn:displayName()};closeModal();guard(()=>savePays([p]),"تسدد "+fmt(v)+" د.ع").then(ok=>{if(ok)play("pay");if(ok&&after)after()})};
+  $("pGo").onclick=()=>{const v=+$("pAmt").value||0;if(v<=0){toast("اكتب المبلغ");return}const t=Date.now();const p={k:k+"|p"+t,u:k,d:t,amt:v,note:$("pNote").value.trim(),sid:mySid(),byn:displayName()};closeModal();guard(()=>savePays([p]),"تسدد "+fmt(v)+" د.ع").then(ok=>{if(ok){play("pay");const rest=debtOf(k);
+    modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="done" style="padding:6px 0 0"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">انسجل التسديد</h2><div class="done-n">${esc(s.n||s.u)}</div><div class="done-chips"><span>المبلغ <b class="num">${fmt(v)}</b></span><span>الدين الباقي <b class="num">${fmt(rest)}</b></span></div>${waBtn(k,"pay",{amt:v,debt:rest})}<button class="btn ghost go" id="pDone">${after?"رجوع":"زين، سدّها"}</button></div>`);
+    $("pDone").onclick=()=>{closeModal();if(after)after()}}})};
 }
 function openAdd(prefill,pre){
   pre=pre||{};
@@ -3235,9 +3374,25 @@ function setMode(){
   if(VIEW==="match"&&!matchOn())location.hash="home";
 }
 function displayName(){return VIEWAS?VIEWAS.name:ROLE==="staff"?(LOGIN&&LOGIN.name)||"":(ACCOUNT&&ACCOUNT.name)||(ROLE==="admin"?(APPMETA.adminName||"المدير"):"")}
+const VBADGE='<svg class="vbadge" role="img" aria-label="حساب موثّق مدى الحياة"><title>حساب موثّق · مدى الحياة</title><use href="#i-verified"/></svg>';
+function renderAcctBox(){
+  const box=$("acctBox");if(!box)return;
+  const A=VIEWAS?VIEWAS.acc:ACCOUNT;
+  if(!A||(ROLE==="admin"&&!VIEWAS)){box.hidden=true;return}
+  box.hidden=false;
+  if(isLife(A)){
+    box.className="acctbox life";
+    box.innerHTML=`<span class="ab-ring life"><svg><use href="#i-inf"/></svg></span><div class="ab-tx"><small>اشتراك الحساب</small><b>مدى الحياة ${VBADGE}</b><span>حساب موثّق · ما ينتهي</span></div>`;
+    return;
+  }
+  const exp=tsMs(A.expiresAt),d=Math.max(0,Math.ceil((exp-Date.now())/DAY));
+  const cls=d<=2?"bad":d<=7?"warn":"ok";const pct=Math.max(3,Math.min(100,Math.round(d/30*100)));
+  box.className="acctbox "+cls;
+  box.innerHTML=`<span class="ab-ring" style="--p:${pct}"><b class="num">${d}</b><small>يوم</small></span><div class="ab-tx"><small>اشتراك الحساب</small><b>${d?"باقي "+d+" يوم":"خلص اليوم"}</b><span>ينتهي بتاريخ <b class="num">${fdate(exp)}</b></span></div>${d<=7&&APPMETA.phone?`<a class="btn wa sm ab-renew" target="_blank" rel="noopener" href="${esc(waLink("هلا، أريد أجدد اشتراك حساب "+(A.name||"")+" بنظام AM NET"))}"><svg><use href="#i-wa"/></svg>جدد</a>`:""}`;
+}
 function renderUserCard(){
   const n=ROLE==="admin"?(APPMETA.adminName||"المدير"):displayName();
-  $("ownerS").textContent=n||"—";$("avS").textContent=(n||"؟").trim().charAt(0);
+  $("ownerS").innerHTML=esc(n||"—")+(ROLE==="marketer"&&ACCOUNT&&isLife(ACCOUNT)?VBADGE:"");$("avS").textContent=(n||"؟").trim().charAt(0);
   let sub="";
   if(ROLE==="admin")sub=VIEWAS?"تشاهد لوحة "+VIEWAS.name:"مدير النظام";
   else if(ROLE==="staff")sub="موظف · "+((ACCOUNT&&ACCOUNT.name)||"");
@@ -3332,16 +3487,14 @@ function renderAdmin(){
   const empty=`<div class="empty"><b>ماكو مسوقين بعد</b>ضيف أول مسوق، ويطلعلك كلمة السر حتى ترسلها له.<div class="row" style="justify-content:center;margin-top:12px"><button class="btn" data-mx="add">إضافة مسوق</button></div></div>`;
   $("mkCards").hidden=!mobile;$("mkTblBox").hidden=mobile;
   if(mobile){
-    $("mkCards").innerHTML=ms.length?rows.map(m=>{const s=mkState(m),st=m.stats||{};return `<div class="scard st-${s.cls}"><div class="sc-top"><b class="sc-n">${esc(m.name||"—")}</b><span class="pill ${s.cls}">${s.lbl}</span></div>
+    $("mkCards").innerHTML=ms.length?rows.map(m=>{const s=mkState(m),st=m.stats||{};return `<div class="scard st-${s.cls}"><div class="sc-top"><b class="sc-n">${esc(m.name||"—")}${isLife(m)?VBADGE:""}</b><span class="pill ${s.cls}">${s.lbl}</span></div>
       <div class="sc-meta"><span class="num">${esc(m.phone||"")}</span><span>ينتهي <span class="num">${s.life?"مدى الحياة":s.exp?fdate(s.exp):"—"}</span></span><span>${fmt(st.subs||0)} مشترك</span>${m.features&&m.features.match===false?'<span class="paytag a">المطابقة مطفية</span>':""}${m.features&&m.features.mgmt===false?'<span class="paytag a">المنجمنت مطفي</span>':""}${m.features&&m.features.actmsg===false?'<span class="paytag a">رسالة التفعيل مطفية</span>':""}</div>
       <div class="sc-acts">${acts(m)}</div></div>`}).join("")||`<div class="empty">ماكو نتائج.</div>`:empty;
   }else{
-    $("mkTbl").innerHTML=ms.length?`<thead><tr><th>المسوق</th><th>الهاتف</th><th>الحالة</th><th>ينتهي</th><th>المشتركين</th><th>الديون عنده</th><th>الرسوم الشهرية</th><th>المطابقة</th><th>المنجمنت</th><th>رسالة التفعيل</th><th></th></tr></thead><tbody>${rows.map(m=>{const s=mkState(m);const st=m.stats||{};const mo=!(m.features&&m.features.match===false);const mg=!(m.features&&m.features.mgmt===false);const am=!(m.features&&m.features.actmsg===false);
-      return `<tr><td class="name"><span class="mkdot" style="--c:${esc(m.accent||APPMETA.accent||"#ec1c32")}"></span>${esc(m.name||"—")}</td><td class="num">${esc(m.phone||"—")}</td><td><span class="pill ${s.cls}">${s.lbl}</span></td><td class="num">${s.life?"مدى الحياة":s.exp?fdate(s.exp):"—"}</td><td class="num">${st.subs!=null?fmt(st.subs)+` <span class="muted">(${fmt(st.act||0)} فعّال)</span>`:"—"}</td><td class="num">${st.debt?fmt(st.debt):"—"}</td><td class="num">${m.fee?fmt(m.fee):"—"}</td>
-      <td><button class="sw ${mo?"on":""}" data-mx="match" data-id="${m.id}" role="switch" aria-checked="${mo}" aria-label="المطابقة"><i></i></button></td>
-      <td><button class="sw ${mg?"on":""}" data-mx="mgmt" data-id="${m.id}" role="switch" aria-checked="${mg}" aria-label="المنجمنت"><i></i></button></td>
-      <td><button class="sw ${am?"on":""}" data-mx="actmsg" data-id="${m.id}" role="switch" aria-checked="${am}" aria-label="رسالة التفعيل"><i></i></button></td>
-      <td><div class="row" style="flex-wrap:nowrap;gap:6px">${acts(m)}</div></td></tr>`}).join("")||`<tr><td colspan="11" class="empty">ماكو نتائج.</td></tr>`}</tbody>`
+    $("mkTbl").innerHTML=ms.length?`<thead><tr><th>المسوق</th><th>الهاتف</th><th>الحالة</th><th>ينتهي</th><th>المشتركين</th><th>الديون عنده</th><th>الرسوم الشهرية</th><th>الخصائص</th><th></th></tr></thead><tbody>${rows.map(m=>{const s=mkState(m);const st=m.stats||{};const mo=!(m.features&&m.features.match===false);const mg=!(m.features&&m.features.mgmt===false);const am=!(m.features&&m.features.actmsg===false);
+      return `<tr><td class="name"><span class="mkdot" style="--c:${esc(m.accent||APPMETA.accent||"#ec1c32")}"></span>${esc(m.name||"—")}${isLife(m)?VBADGE:""}</td><td class="num">${esc(m.phone||"—")}</td><td><span class="pill ${s.cls}">${s.lbl}</span></td><td${s.life?"":` class="num"`}>${s.life?"مدى الحياة":s.exp?fdate(s.exp):"—"}</td><td class="num">${st.subs!=null?fmt(st.subs)+` <span class="muted">(${fmt(st.act||0)} فعّال)</span>`:"—"}</td><td class="num">${st.debt?fmt(st.debt):"—"}</td><td class="num">${m.fee?fmt(m.fee):"—"}</td>
+      <td><div class="ftgs"><button type="button" class="ftg" data-mx="match" data-id="${m.id}" aria-pressed="${mo}">المطابقة</button><button type="button" class="ftg" data-mx="mgmt" data-id="${m.id}" aria-pressed="${mg}">المنجمنت</button><button type="button" class="ftg" data-mx="actmsg" data-id="${m.id}" aria-pressed="${am}">رسالة التفعيل</button></div></td>
+      <td><div class="mkacts">${acts(m)}</div></td></tr>`}).join("")||`<tr><td colspan="9" class="empty">ماكو نتائج.</td></tr>`}</tbody>`
       :`<tbody><tr><td>${empty}</td></tr></tbody>`;
   }
   $("billList").innerHTML=BILL.slice(0,80).map(b=>`<div class="li"><span class="nm">${esc(b.name||"")}</span><span class="u">${tsMs(b.at)?fdt(tsMs(b.at)):"الآن"}</span><span class="u ph">${b.days?"+"+b.days+" يوم":""}${b.note?" · "+esc(b.note):""}</span><span class="num" style="color:var(--ok);font-weight:700">+${fmt(b.amount||0)}</span></div>`).join("")||`<div class="empty">ماكو رسوم مسجلة بعد.</div>`;
