@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.04-19">
+<meta name="amnet-build" content="2026.11.04-20">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -359,7 +359,7 @@ body{margin:0;padding-top:var(--sat)}
 #app[data-nomatch] .matchf{display:none!important}
 #app[data-nomgmt] .mgf{display:none!important}
 #app[data-noamsg] .amsg{display:none!important}
-@media (max-width:900px){#app[data-nomgmt] .bnav{grid-template-columns:repeat(3,minmax(0,1fr)) 70px repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){#app[data-nomgmt] .bnav{grid-template-columns:repeat(3,minmax(0,2fr)) 70px repeat(2,minmax(0,3fr))}}
 #app[data-mode="admin"] .bnav{display:none!important}
 @media (max-width:900px){#app[data-mode="admin"] main{padding-bottom:30px}}
 .vbanner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid rgba(255,176,32,.5);background:var(--warn-soft);padding:10px 14px;border-radius:4px;color:var(--warn);font-weight:600}
@@ -1584,6 +1584,24 @@ $("mgSave").onclick=async()=>{
 document.addEventListener("click",e=>{const b=e.target.closest("[data-cpu]");if(!b)return;e.preventDefault();e.stopPropagation();copyPlain(b.dataset.cpu,"انتسخ اليوزر "+b.dataset.cpu)});
 document.addEventListener("click",e=>{const b=e.target.closest("[data-mgfind]");if(!b)return;e.preventDefault();closeModal();mgGo(b.dataset.mgfind)});
 
+/* iOS home-screen app: on some iOS versions the page already ends above the home bar,
+   so adding the bottom safe area again lifts the bottom menu too high. Only the bottom is adjusted. */
+(function(){
+  function fixBottom(){
+    const r=document.documentElement.style;r.removeProperty("--sab");
+    const standalone=navigator.standalone||matchMedia("(display-mode: standalone)").matches;if(!standalone)return;
+    const pr=document.createElement("div");pr.style.cssText="position:fixed;bottom:0;left:0;width:1px;visibility:hidden;pointer-events:none;padding-bottom:env(safe-area-inset-bottom,0px)";
+    document.body.appendChild(pr);const b=parseFloat(getComputedStyle(pr).paddingBottom)||0;pr.remove();
+    if(!b)return;
+    const portrait=innerHeight>=innerWidth;const sh=portrait?Math.max(screen.height,screen.width):Math.min(screen.height,screen.width);
+    const gap=sh-innerHeight;if(gap<4)return;
+    r.setProperty("--sab",Math.max(4,Math.round(b-gap))+"px");
+  }
+  fixBottom();
+  addEventListener("resize",()=>setTimeout(fixBottom,80));
+  addEventListener("orientationchange",()=>setTimeout(fixBottom,350));
+  addEventListener("pageshow",fixBottom);
+})();
 /* iOS: after the keyboard closes, snap the page back so the sticky header and content line up */
 (function(){
   const isField=el=>el&&/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName);
