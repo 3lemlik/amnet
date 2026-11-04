@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.04-32">
+<meta name="amnet-build" content="2026.11.04-33">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1117,6 +1117,96 @@ html[data-theme="light"] .bcast{box-shadow:none}
 .acctchip.life{--c:#1d9bf0;border-color:rgba(29,155,240,.4);background:linear-gradient(90deg,rgba(29,155,240,.12),rgba(124,92,255,.08))}
 .acctchip .ac-ic{width:16px;height:16px;color:#1d9bf0}
 .acctchip .vbadge{width:14px;height:14px;min-width:14px;min-height:14px;margin-inline-start:2px}
+
+/* ================= SCI-FI LOGIN ================= */
+#gate{--void:#05060a;--panel:#0c0e14;--panel2:#11141c;--panel3:#181c27;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.13);--ink:#eef1f6;--dim:#8e96a5;--faint:#596070;color-scheme:dark;color:var(--ink);
+  background:radial-gradient(900px 560px at 50% 18%,rgba(var(--acc-rgb),.20),transparent 62%),radial-gradient(600px 400px at 50% 110%,rgba(var(--acc-rgb),.12),transparent 70%),#05060a!important;overflow:hidden}
+#gFx{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.9}
+.g-floor{position:absolute;left:-50%;right:-50%;bottom:-10%;height:55%;pointer-events:none;
+  background-image:linear-gradient(rgba(var(--acc-rgb),.22) 1px,transparent 1px),linear-gradient(90deg,rgba(var(--acc-rgb),.22) 1px,transparent 1px);background-size:56px 56px;
+  transform:perspective(420px) rotateX(62deg);transform-origin:50% 0;-webkit-mask:linear-gradient(transparent,#000 35%,#000 70%,transparent);mask:linear-gradient(transparent,#000 35%,#000 70%,transparent);animation:floorMove 3.2s linear infinite;opacity:.55}
+@keyframes floorMove{to{background-position:0 56px,0 0}}
+.g-scan{position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px)}
+.g-scan::after{content:"";position:absolute;left:0;right:0;height:120px;top:-120px;background:linear-gradient(180deg,transparent,rgba(var(--acc-rgb),.10),transparent);animation:scanDown 5s linear infinite}
+@keyframes scanDown{to{transform:translateY(calc(100vh + 240px))}}
+.g-hud{position:absolute;inset:max(14px,var(--sat)) 14px max(14px,var(--sab));pointer-events:none;font-family:var(--f-mono);font-size:10.5px;letter-spacing:1.5px;color:var(--dim);direction:ltr}
+.g-hud .hc{position:absolute;width:26px;height:26px;border:1.5px solid rgba(var(--acc-rgb),.7)}
+.hc.tl{top:0;left:0;border-right:0;border-bottom:0}.hc.tr{top:0;right:0;border-left:0;border-bottom:0}.hc.bl{bottom:0;left:0;border-right:0;border-top:0}.hc.br{bottom:0;right:0;border-left:0;border-top:0}
+.g-hud-t,.g-hud-b{position:absolute;left:36px;right:36px;display:flex;justify-content:space-between;gap:10px}
+.g-hud-t{top:6px}.g-hud-b{bottom:6px}
+.g-hud b{color:var(--accent);font-weight:600}.g-hud .g-ok{color:#3ccf82}
+@media (max-width:520px){.g-hud{font-size:9px;letter-spacing:1px}.g-hud-t span:first-child b,.g-hud-b span:last-child{display:none}}
+.gwrap{position:relative;z-index:2;gap:18px}
+.g-core{position:relative;width:150px;height:150px;display:grid;place-items:center}
+.g-core .r{position:absolute;border-radius:50%;border:1.5px solid rgba(var(--acc-rgb),.5)}
+.g-core .r1{inset:0;border-style:dashed;border-color:rgba(var(--acc-rgb),.35);animation:spin 16s linear infinite}
+.g-core .r2{inset:14px;border-color:transparent;border-top-color:var(--accent);border-bottom-color:rgba(var(--acc-rgb),.5);animation:spin 3.2s linear infinite reverse;box-shadow:0 0 18px rgba(var(--acc-rgb),.25)}
+.g-core .r3{inset:30px;border-color:rgba(var(--acc-rgb),.18);border-left-color:var(--accent);animation:spin 6s linear infinite}
+.g-pulse{position:absolute;inset:44px;border-radius:50%;background:radial-gradient(circle,rgba(var(--acc-rgb),.45),transparent 70%);animation:corePulse 2.4s ease-in-out infinite}
+@keyframes corePulse{0%,100%{transform:scale(.85);opacity:.6}50%{transform:scale(1.15);opacity:1}}
+.g-core svg{position:relative;width:62px;height:62px;color:var(--ink);filter:drop-shadow(0 0 14px rgba(var(--acc-rgb),.8))}
+.gwm{position:relative;font-size:34px;letter-spacing:6px;text-shadow:0 0 22px rgba(var(--acc-rgb),.45)}
+.gwm::before,.gwm::after{content:attr(data-t);position:absolute;inset:0;letter-spacing:6px;opacity:0;pointer-events:none}
+.gwm::before{color:rgba(0,255,240,.7);animation:glitchA 6s infinite}
+.gwm::after{color:rgba(var(--acc-rgb),.85);animation:glitchB 6s infinite}
+@keyframes glitchA{0%,92%,100%{opacity:0;transform:none}93%{opacity:.8;transform:translate(-3px,1px);clip-path:inset(0 0 60% 0)}95%{opacity:.8;transform:translate(2px,-1px);clip-path:inset(50% 0 0 0)}}
+@keyframes glitchB{0%,93%,100%{opacity:0;transform:none}94%{opacity:.8;transform:translate(3px,0);clip-path:inset(30% 0 30% 0)}96%{opacity:.8;transform:translate(-2px,1px);clip-path:inset(0 0 70% 0)}}
+.gsub{letter-spacing:.3px}
+.g-boot{width:min(420px,100%);min-height:76px;font-family:var(--f-mono);font-size:11.5px;line-height:1.6;color:rgba(var(--acc-rgb),.9);direction:ltr;text-align:left;opacity:.85}
+.g-boot div:last-child span::after{content:"▌";animation:blink 1s steps(1) infinite;margin-left:2px}
+.g-boot.done div:last-child{color:var(--ink)}
+.gcard{position:relative;background:linear-gradient(180deg,rgba(18,21,30,.78),rgba(10,12,18,.86))!important;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(var(--acc-rgb),.28)!important;border-radius:16px!important;box-shadow:0 30px 70px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.05),0 0 0 1px rgba(0,0,0,.4)!important;overflow:hidden;animation:cardRise .7s .2s cubic-bezier(.2,.8,.2,1) both}
+.gcard::before,.gcard::after{opacity:1!important;border-color:var(--accent)!important;width:16px!important;height:16px!important}
+.gcard>*{position:relative;z-index:1}
+#gLogin{isolation:isolate}
+#gLogin::marker{display:none}
+.gcard .g-head .eyebrow{justify-content:flex-start}
+.gcard input#lgPass{background:rgba(5,6,10,.7)!important;border-color:rgba(var(--acc-rgb),.3)!important;font-family:var(--f-mono)!important;text-align:center;letter-spacing:6px!important}
+.gcard input#lgPass:focus{box-shadow:0 0 0 3px rgba(var(--acc-rgb),.22),0 0 26px rgba(var(--acc-rgb),.25)!important}
+.g-btn{position:relative;overflow:hidden;min-height:50px;font-size:16px!important;letter-spacing:.5px;border-radius:12px!important;box-shadow:0 10px 30px rgba(var(--acc-rgb),.35)!important}
+.g-btn::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-50%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:btnShine 3.5s ease-in-out infinite}
+@keyframes btnShine{0%,60%{left:-50%}100%{left:130%}}
+.g-bar{height:3px;border-radius:3px;background:rgba(255,255,255,.06);overflow:hidden;opacity:0;transition:opacity .2s}
+.g-bar i{display:block;height:100%;width:35%;background:linear-gradient(90deg,transparent,var(--accent),transparent);box-shadow:0 0 12px var(--accent)}
+#gLogin.busy .g-bar,.g-bar.on{opacity:1}
+#gLogin.busy .g-bar i,.g-bar.on i{animation:barRun 1s ease-in-out infinite}
+@keyframes barRun{from{transform:translateX(-120%)}to{transform:translateX(320%)}}
+[dir="rtl"] .g-bar i{margin-inline-start:auto}
+#gLogin.deny{animation:deny .5s ease}
+#gLogin.deny input#lgPass{border-color:var(--bad)!important;box-shadow:0 0 0 3px rgba(242,89,106,.25)!important}
+@keyframes deny{0%,100%{transform:none}20%{transform:translateX(-9px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+@keyframes cardRise{from{opacity:0;transform:translateY(18px) scale(.98);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.hello{animation:cardRise .5s cubic-bezier(.2,.8,.2,1) both}
+.g-granted{font-family:var(--f-tech);font-size:12px;letter-spacing:5px;color:#3ccf82;text-shadow:0 0 14px rgba(60,207,130,.6)}
+.hello .g-bar{width:220px;margin:6px auto 0}
+.gcredit{position:relative;z-index:2}
+@media (max-height:700px){.g-core{width:110px;height:110px}.g-core svg{width:46px;height:46px}.g-boot{min-height:0;font-size:10.5px}}
+@media (prefers-reduced-motion:reduce){.g-floor,.g-scan::after,.g-core .r,.g-pulse,.gwm::before,.gwm::after,.g-btn::after,.gcard,.hello{animation:none!important}}
+
+/* ================= PAGE TRANSITIONS ================= */
+.view{animation:none}
+.view.enter>*{animation:cardIn .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*55ms)}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.985);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+.view.enter h1.pg{animation:hudType .6s steps(1) both}
+@keyframes hudType{0%{opacity:0}15%{opacity:1}22%{opacity:.25}30%{opacity:1}40%{opacity:.6}48%,100%{opacity:1}}
+.view.enter .eyebrow span{display:inline-block;animation:eyeSlide .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes eyeSlide{from{opacity:0;letter-spacing:8px}to{opacity:1}}
+.view.enter .card.br::before,.view.enter .card.br::after{animation:brDraw .6s .2s cubic-bezier(.2,.8,.2,1) both}
+@keyframes brDraw{from{width:0;height:0;opacity:0}to{opacity:.55}}
+#warp{position:fixed;inset:0;z-index:44;pointer-events:none;opacity:0}
+#warp.go{animation:warpOn .7s ease-out}
+#warp::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent) 30%,#fff 50%,var(--accent) 70%,transparent);box-shadow:0 0 16px var(--accent),0 0 46px var(--accent-glow)}
+#warp::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(var(--acc-rgb),.05) 0 1px,transparent 1px 4px)}
+#warp.go::before{animation:warpScan .7s cubic-bezier(.4,.6,.2,1) both}
+@keyframes warpOn{0%{opacity:1}75%{opacity:1}100%{opacity:0}}
+@keyframes warpScan{from{transform:translateY(0)}to{transform:translateY(100vh)}}
+.bnav [aria-current="page"]:not(.mid) svg{animation:navPop .4s cubic-bezier(.2,.9,.3,1.4)}
+@keyframes navPop{0%{transform:scale(.7)}60%{transform:scale(1.18)}100%{transform:none}}
+nav.side-nav a[aria-current="page"]::before{animation:sideBar .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes sideBar{from{transform:scaleY(0)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){.view.enter>*,.view.enter h1.pg,.view.enter .eyebrow span,#warp,#warp::before,.bnav svg,nav.side-nav a::before{animation:none!important}}
+
+@media (max-width:520px){.g-boot{font-size:10px;line-height:1.5;min-height:60px}.gwrap{gap:14px}.g-core{width:120px;height:120px}.g-core svg{width:50px;height:50px}.gwm{font-size:28px}}
 </style>
 </head>
 <body>
@@ -1157,15 +1247,25 @@ html[data-theme="light"] .bcast{box-shadow:none}
 
 <div dir="rtl" lang="ar" id="app" data-mode="market">
 <div id="gate">
+  <canvas id="gFx" aria-hidden="true"></canvas>
+  <div class="g-floor" aria-hidden="true"></div>
+  <div class="g-scan" aria-hidden="true"></div>
+  <div class="g-hud" aria-hidden="true">
+    <i class="hc tl"></i><i class="hc tr"></i><i class="hc bl"></i><i class="hc br"></i>
+    <div class="g-hud-t"><span>AM-NET <b>//</b> SECURE NODE 01</span><span class="num" id="gClock">--:--:--</span></div>
+    <div class="g-hud-b"><span>LINK <b class="g-ok">● ENCRYPTED</b></span><span>SYS <b id="gVer">—</b></span></div>
+  </div>
   <div class="gwrap">
-    <div class="radar gradar" aria-hidden="true"><svg viewBox="0 0 48 48"><use href="#i-logo"/></svg></div>
-    <div><div class="gwm">AM<em>NET</em></div><div class="gsub">نظام إدارة مشتركي الإنترنت</div></div>
+    <div class="g-core" aria-hidden="true"><i class="r r1"></i><i class="r r2"></i><i class="r r3"></i><span class="g-pulse"></span><svg viewBox="0 0 48 48"><use href="#i-logo"/></svg></div>
+    <div><div class="gwm" data-t="AMNET">AM<em>NET</em></div><div class="gsub">نظام إدارة مشتركي الإنترنت</div></div>
+    <div class="g-boot" id="gBoot" aria-hidden="true"></div>
     <div id="gLoading"><div class="dots"><i></i><i></i><i></i></div></div>
     <form class="card br gcard" id="gLogin" hidden autocomplete="on">
-      <div><div class="eyebrow"><span>SECURE · LOGIN</span></div><h2>تسجيل الدخول</h2><div class="muted">اكتب كلمة السر الخاصة بحسابك</div></div>
+      <div class="g-head"><div class="eyebrow"><span>ACCESS · AUTH</span><b>LVL-3</b></div><h2>تسجيل الدخول</h2><div class="muted">اكتب كلمة السر الخاصة بحسابك</div></div>
       <div class="field"><label for="lgPass">كلمة السر</label><div class="pwrow"><input type="password" id="lgPass" dir="ltr" autocomplete="current-password" autocapitalize="none" spellcheck="false" style="font-size:20px!important;padding-block:14px;letter-spacing:2px"><button type="button" id="lgShow">إظهار</button></div></div>
       <div class="err" id="lgErr"></div>
-      <button class="btn go" id="lgBtn" type="submit">دخول</button>
+      <button class="btn go g-btn" id="lgBtn" type="submit">دخول</button>
+      <div class="g-bar" aria-hidden="true"><i></i></div>
     </form>
     <div class="card br gcard" id="gLocked" hidden>
       <div><div class="eyebrow"><span>ACCOUNT · LOCKED</span></div><h2 id="lkTitle">حسابك موقوف</h2></div>
@@ -1177,7 +1277,7 @@ html[data-theme="light"] .bcast{box-shadow:none}
       <div><div class="eyebrow"><span>SETUP</span></div><h2>النظام يحتاج إعداد</h2></div>
       <p style="margin:0" class="muted">افتح ملف index.html وحط إعدادات مشروع Firebase وإيميل المدير بقسم CONFIG بأول السكربت، وارفع الملف من جديد.</p>
     </div>
-    <div class="hello" id="gHello" hidden><span class="muted">أهلاً وسهلاً</span><b><em id="helloName"></em></b><div class="dots"><i></i><i></i><i></i></div></div>
+    <div class="hello" id="gHello" hidden><span class="g-granted">ACCESS GRANTED</span><span class="muted">أهلاً وسهلاً</span><b><em id="helloName"></em></b><div class="g-bar on" aria-hidden="true"><i></i></div></div>
     <div class="gcredit">تصميم وبرمجة <b>علي مالك</b></div>
   </div>
 </div>
@@ -1626,6 +1726,7 @@ html[data-theme="light"] .bcast{box-shadow:none}
   <button type="button" id="moreNav" data-v="more"><svg><use href="#i-more"/></svg><span class="bl">المزيد</span></button>
 </nav>
 
+<div id="warp" aria-hidden="true"></div>
 <div class="modal" id="modal" hidden><div class="box" id="mbox" role="dialog" aria-modal="true"></div></div>
 <div class="toast" id="toast" hidden></div>
 </div>
@@ -1771,14 +1872,38 @@ const pill=(st,days)=>`<span class="pill ${st}">${ST_LBL[st]}${st==="near"?" · 
 const VIEWS=["home","activate","subs","debts","match","import","config","notices","reports","log","balance","mgmt"];
 const ALLV=VIEWS.concat(["admin"]);
 let VIEW="home";
+var SHOWN=false,FX_T=null;
+const RM=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+function fxEnter(v){
+  if(RM())return;
+  const sec=$("v-"+v);if(!sec)return;
+  [...sec.children].forEach((c,i)=>c.style.setProperty("--i",Math.min(i,8)));
+  sec.classList.remove("enter");void sec.offsetWidth;sec.classList.add("enter");
+  const w=$("warp");if(w){w.classList.remove("go");void w.offsetWidth;w.classList.add("go")}
+  clearTimeout(FX_T);FX_T=setTimeout(()=>{sec.classList.remove("enter");if(w)w.classList.remove("go")},1200);
+}
+/* leaving a page resets it: next time it opens fresh, not frozen on the last search or selection */
+function resetViewState(old){
+  if(!old||old==="mgmt")return;
+  const sec=$("v-"+old);if(!sec)return;
+  sec.querySelectorAll('input[type=search]').forEach(i=>i.value="");
+  sec.querySelectorAll("details[open]").forEach(d=>d.open=false);
+  sec.querySelectorAll(".tbox,.res,.apanel,.act-wrap>.card,.wa-list").forEach(e=>e.scrollTop=0);
+  if(old==="subs"&&typeof F!=="undefined"){F.q="";F.st="all";F.pl="";F.lim=150}
+  if(old==="activate"){ASEL=null;if(typeof AST!=="undefined")AST.done=null}
+  if(old==="notices"){const t=$("ntText");if(t)t.value=""}
+  if(ROLE)setTimeout(()=>{try{renderAll()}catch(e){}},0);
+}
 function show(v){
   if(ROLE==="admin"&&!VIEWAS)v="admin";
   else if(!VIEWS.includes(v))v="home";
   if(ROLE&&((v==="config"&&!can("plans"))||(v==="import"&&!can("import"))||(v==="reports"&&!can("reports"))||(v==="log"&&!can("log"))||(v==="balance"&&!(can("finance")||can("balance")))))v="home";
   if(v==="match"&&ROLE&&(!matchOn()||!can("import")))v="home";
   if(v==="mgmt"&&ROLE&&!mgmtOn())v="home";
-  VIEW=v;
+  const OLDV=VIEW;VIEW=v;
   ALLV.forEach(x=>$("v-"+x).hidden=x!==v);
+  if(SHOWN&&OLDV!==v){try{resetViewState(OLDV)}catch(e){}fxEnter(v)}
+  SHOWN=true;
   document.querySelectorAll("[data-v]").forEach(a=>{const on=a.dataset.v===v||(a.dataset.v==="more"&&(v==="import"||v==="config"||v==="match"||v==="log"||v==="balance"||v==="reports"||v==="notices"));a.setAttribute("aria-current",on?"page":"false")});
   window.scrollTo(0,0);
   if(v==="config"&&typeof loadMgSec==="function"&&ROLE==="marketer")loadMgSec();
@@ -2411,6 +2536,26 @@ let _mq=matchMedia("(max-width:700px)").matches;
 window.addEventListener("resize",()=>{const m=matchMedia("(max-width:700px)").matches;if(m!==_mq){_mq=m;renderSubs();renderReports();if(ROLE==="admin")renderAdmin()}});
 function setActTop(){const w=document.querySelector("#v-activate .act-wrap");if(!w||$("v-activate").hidden)return;document.documentElement.style.setProperty("--actTop",Math.round(w.getBoundingClientRect().top+window.scrollY)+"px")}
 addEventListener("resize",()=>setActTop());
+/* ================= LOGIN SCREEN FX ================= */
+(function(){
+  const g=$("gate");if(!g)return;
+  const ver=document.querySelector('meta[name="amnet-build"]');if(ver&&$("gVer"))$("gVer").textContent=ver.content;
+  const clk=()=>{if(g.hidden)return;const d=new Date();$("gClock").textContent=pad(d.getHours())+":"+pad(d.getMinutes())+":"+pad(d.getSeconds())};setInterval(clk,1000);clk();
+  const lines=["INIT CORE ............ OK","SECURE CHANNEL ....... TLS 1.3","NODE AM-NET-01 ....... ONLINE","WAITING FOR ACCESS KEY"];
+  const boot=$("gBoot");
+  if(boot){if(RM()){boot.innerHTML=lines.map(l=>`<div>&gt; ${l}</div>`).join("")}else{let li=0,ci=0;const tick=()=>{if(li>=lines.length){boot.classList.add("done");return}if(ci===0)boot.insertAdjacentHTML("beforeend","<div>&gt; <span></span></div>");const sp=boot.lastElementChild.querySelector("span");sp.textContent=lines[li].slice(0,++ci);if(ci>=lines[li].length){li++;ci=0;setTimeout(tick,160)}else setTimeout(tick,14)};setTimeout(tick,350)}}
+  const cv=$("gFx");if(!cv||RM())return;const cx=cv.getContext("2d");let W=0,H=0,P=[],dpr=Math.min(2,window.devicePixelRatio||1);
+  const size=()=>{W=cv.clientWidth;H=cv.clientHeight;cv.width=W*dpr;cv.height=H*dpr;cx.setTransform(dpr,0,0,dpr,0,0);const n=Math.round(Math.min(70,W*H/16000));P=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.4+.4}))};
+  size();addEventListener("resize",size);
+  const draw=()=>{if(g.hidden){setTimeout(()=>requestAnimationFrame(draw),600);return}
+    const c=getComputedStyle(document.documentElement).getPropertyValue("--acc-rgb").trim()||"236,28,50";
+    cx.clearRect(0,0,W,H);
+    for(const p of P){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1}
+    for(let i=0;i<P.length;i++){const a=P[i];for(let j=i+1;j<P.length;j++){const b=P[j];const dx=a.x-b.x,dy=a.y-b.y,d=dx*dx+dy*dy;if(d<12000){cx.strokeStyle=`rgba(${c},${(1-d/12000)*.22})`;cx.lineWidth=.6;cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.stroke()}}
+      cx.fillStyle=`rgba(${c},.7)`;cx.beginPath();cx.arc(a.x,a.y,a.r,0,7);cx.fill()}
+    requestAnimationFrame(draw)};
+  requestAnimationFrame(draw);
+})();
 /* ================= QUICK ACTIVATE: chooser + from message ================= */
 function openActChooser(){
   modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><h2>تفعيل سريع</h2><div class="muted">شلون تريد تفعّل؟</div></div><button class="x" data-close aria-label="سدّها">×</button></div>
@@ -3462,14 +3607,14 @@ $("gLogin").addEventListener("submit",async e=>{
   e.preventDefault();
   const p=$("lgPass").value;const err=$("lgErr");err.textContent="";
   if(!p){err.textContent="اكتب كلمة السر";return}
-  const b=$("lgBtn");b.disabled=true;b.textContent="دا يدخل...";
+  const b=$("lgBtn");b.disabled=true;b.textContent="دا يتحقق...";$("gLogin").classList.add("busy");
   const bad=c=>/invalid-credential|wrong-password|user-not-found|invalid-email|invalid-login/.test(c);
   try{
     try{await auth.signInWithEmailAndPassword(await pwEmail(p),p)}
     catch(x){if(bad(x&&x.code||""))await auth.signInWithEmailAndPassword(CONFIG.adminEmail,p);else throw x}
     $("lgPass").value="";
   }catch(x){const c=x&&x.code||"";err.textContent=bad(c)?"كلمة السر غلط":c.includes("too-many-requests")?"محاولات كثيرة، انتظر شوية وجرّب":c.includes("network")?"ماكو اتصال بالإنترنت":"ما گدرنا ندخل ("+c+")"}
-  finally{b.disabled=false;b.textContent="دخول"}
+  finally{b.disabled=false;b.textContent="دخول";const f=$("gLogin");f.classList.remove("busy");if(err.textContent){f.classList.remove("deny");void f.offsetWidth;f.classList.add("deny");setTimeout(()=>f.classList.remove("deny"),700)}}
 });
 $("lgShow").onclick=()=>{const i=$("lgPass");i.type=i.type==="password"?"text":"password";$("lgShow").textContent=i.type==="password"?"إظهار":"إخفاء"};
 function logout(){closeModal();auth.signOut()}
