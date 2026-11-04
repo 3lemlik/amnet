@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.04-17">
+<meta name="amnet-build" content="2026.11.04-19">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -591,6 +591,14 @@ html,body{overflow-x:hidden;max-width:100%}
 .multi .li{flex-wrap:wrap}
 .mg-top{display:flex;gap:12px;align-items:center}
 .qchoose{display:grid;gap:10px}
+.mrange{display:grid;gap:10px;margin-top:14px;padding:14px;border:1px solid var(--line2);border-radius:12px;background:var(--panel2)}
+.mr-hd{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;justify-content:space-between}
+.mr-hd .muted{font-size:12.5px}
+.mr-seg{display:grid;grid-template-columns:1fr 1fr;width:100%}
+.mr-seg button{padding:10px 8px}
+.mr-custom{display:grid;gap:10px}
+.mr-dates{grid-template-columns:1fr 1fr!important}
+@media (max-width:360px){.mr-dates{grid-template-columns:1fr!important}}
 .seg.desk{display:inline-flex}
 @media (max-width:700px){.seg.desk{display:none!important}}
 .stiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:14px}
@@ -1003,6 +1011,14 @@ input,select,textarea{min-width:0;max-width:100%}
       <div class="big">ارفع تقرير PDF أو Excel للمطابقة</div>
       <div class="muted">ما يتغير شي بالموقع إلا إذا انت أكدت</div>
       <input type="file" id="mFile" accept="application/pdf,.pdf,.xlsx,.xls,.csv" hidden>
+    </div>
+    <div class="mrange">
+      <div class="mr-hd"><b>فترة المطابقة</b><span class="muted" id="mFileRange"></span></div>
+      <div class="seg mr-seg" id="mMode"><button data-mm="file" aria-pressed="true">حسب تاريخ الملف</button><button data-mm="custom" aria-pressed="false">تاريخ أحدده</button></div>
+      <div class="mr-custom" id="mCustom" hidden>
+        <div class="chips" id="mQuick"><button class="chip" data-mq="today">اليوم</button><button class="chip" data-mq="yday">أمس</button><button class="chip" data-mq="week">آخر 7 أيام</button><button class="chip" data-mq="month">هذا الشهر</button><button class="chip" data-mq="pmonth">الشهر السابق</button></div>
+        <div class="fgrid mr-dates"><div class="field"><label for="mFrom">من</label><input type="date" id="mFrom"></div><div class="field"><label for="mTo">إلى</label><input type="date" id="mTo"></div></div>
+      </div>
     </div>
     <div class="prog" style="margin-top:12px"><i id="mProg"></i></div>
     <div id="mMsg" class="muted" style="margin-top:8px"></div>
@@ -1568,27 +1584,6 @@ $("mgSave").onclick=async()=>{
 document.addEventListener("click",e=>{const b=e.target.closest("[data-cpu]");if(!b)return;e.preventDefault();e.stopPropagation();copyPlain(b.dataset.cpu,"انتسخ اليوزر "+b.dataset.cpu)});
 document.addEventListener("click",e=>{const b=e.target.closest("[data-mgfind]");if(!b)return;e.preventDefault();closeModal();mgGo(b.dataset.mgfind)});
 
-/* iOS home-screen app: some versions report a top/bottom safe area even though the
-   page already starts below the status bar, which leaves a gap. Detect and correct it. */
-(function(){
-  function fixInsets(){
-    const r=document.documentElement.style;r.removeProperty("--sat");r.removeProperty("--sab");
-    const standalone=navigator.standalone||matchMedia("(display-mode: standalone)").matches;if(!standalone)return;
-    const pr=document.createElement("div");pr.style.cssText="position:fixed;top:0;left:0;width:1px;visibility:hidden;pointer-events:none;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)";
-    document.body.appendChild(pr);const cs=getComputedStyle(pr);const t=parseFloat(cs.paddingTop)||0,b=parseFloat(cs.paddingBottom)||0;pr.remove();
-    if(!t&&!b)return;
-    const portrait=innerHeight>=innerWidth;const sh=portrait?Math.max(screen.height,screen.width):Math.min(screen.height,screen.width);
-    const d=sh-innerHeight;if(d<3)return;
-    const near=(x,y)=>Math.abs(x-y)<9;
-    if(near(d,t+b)){r.setProperty("--sat","0px");r.setProperty("--sab","0px")}
-    else if(near(d,t))r.setProperty("--sat","0px");
-    else if(near(d,b))r.setProperty("--sab","0px");
-  }
-  fixInsets();
-  addEventListener("resize",()=>setTimeout(fixInsets,80));
-  addEventListener("orientationchange",()=>setTimeout(fixInsets,350));
-  addEventListener("pageshow",fixInsets);
-})();
 /* iOS: after the keyboard closes, snap the page back so the sticky header and content line up */
 (function(){
   const isField=el=>el&&/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName);
@@ -2542,11 +2537,40 @@ $("impMore").onclick=()=>$("file").click();
 /* ================= MATCHING ================= */
 const MATCH_TOL=2*DAY;
 let MR=null,MTAB="miss",MPAY="c",MSEL=new Set();
+let MRANGE={mode:"file",from:"",to:""};
+const isoD=t=>{const d=new Date(t);return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())};
+const parseISO=v=>v?new Date(v+"T00:00").getTime():null;
+function mRangeOf(){
+  if(MRANGE.mode!=="custom")return null;
+  const f=parseISO(MRANGE.from),t=parseISO(MRANGE.to);
+  if(f==null&&t==null)return null;
+  const a=f!=null?f:t,b=t!=null?t:f;
+  return [Math.min(a,b),Math.max(a,b)+DAY];
+}
+function renderMRange(){
+  $("mMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mm===MRANGE.mode));
+  $("mCustom").hidden=MRANGE.mode!=="custom";
+  if(document.activeElement!==$("mFrom"))$("mFrom").value=MRANGE.from;
+  if(document.activeElement!==$("mTo"))$("mTo").value=MRANGE.to;
+  $("mFileRange").textContent=MR&&MR.fFrom?"تاريخ الملف: "+fdate(MR.fFrom)+(MR.fTo-DAY>MR.fFrom?" ← "+fdate(MR.fTo-DAY):""):"";
+}
+function mRangeChanged(){renderMRange();if(MR){runMatch();renderMatch()}}
+$("mMode").onclick=e=>{const b=e.target.closest("[data-mm]");if(!b)return;MRANGE.mode=b.dataset.mm;
+  if(MRANGE.mode==="custom"&&!MRANGE.from&&!MRANGE.to){const base=MR&&MR.fFrom?[MR.fFrom,MR.fTo-DAY]:[sod(Date.now()),sod(Date.now())];MRANGE.from=isoD(base[0]);MRANGE.to=isoD(base[1])}
+  mRangeChanged()};
+$("mFrom").onchange=()=>{MRANGE.from=$("mFrom").value;mRangeChanged()};
+$("mTo").onchange=()=>{MRANGE.to=$("mTo").value;mRangeChanged()};
+$("mQuick").onclick=e=>{const b=e.target.closest("[data-mq]");if(!b)return;const t0=sod(Date.now()),d=new Date(t0);let f=t0,t=t0;
+  switch(b.dataset.mq){case "yday":f=t=t0-DAY;break;case "week":f=t0-6*DAY;break;case "month":f=new Date(d.getFullYear(),d.getMonth(),1).getTime();break;case "pmonth":f=new Date(d.getFullYear(),d.getMonth()-1,1).getTime();t=new Date(d.getFullYear(),d.getMonth(),1).getTime()-DAY;break}
+  MRANGE.from=isoD(f);MRANGE.to=isoD(t);mRangeChanged()};
 function runMatch(){
   if(!MR)return;
-  const recs=MR.recs.filter(r=>r.d!=null).slice().sort((a,b)=>a.d-b.d);
-  const from=sod(recs[0].d),to=sod(recs[recs.length-1].d)+DAY;
-  MR.from=from;MR.to=to;
+  const all=MR.recs.filter(r=>r.d!=null).slice().sort((a,b)=>a.d-b.d);
+  MR.fFrom=sod(all[0].d);MR.fTo=sod(all[all.length-1].d)+DAY;
+  const R=mRangeOf();
+  const from=R?R[0]:MR.fFrom,to=R?R[1]:MR.fTo;
+  const recs=R?all.filter(r=>r.d>=from&&r.d<to):all;
+  MR.from=from;MR.to=to;MR.inRange=recs.length;MR.outRange=all.length-recs.length;
   const byU={};for(const a of ACTS){if(a.d<from-MATCH_TOL||a.d>=to+MATCH_TOL)continue;(byU[a.u]=byU[a.u]||[]).push(a)}
   const used=new Set();const ok=[],miss=[];
   for(const r of recs){
@@ -2562,7 +2586,9 @@ function runMatch(){
 function renderMatch(){
   const box=$("mRes");if(!MR||!MR.ok){box.hidden=true;return}
   box.hidden=false;
-  $("mName").textContent=MR.fname+" · من "+fdate(MR.from)+" إلى "+fdate(MR.to-DAY);
+  renderMRange();
+  const one=MR.to-DAY<=MR.from;
+  $("mName").innerHTML=esc(MR.fname)+" · "+(MRANGE.mode==="custom"&&mRangeOf()?"الفترة اللي حددتها: ":"حسب تاريخ الملف: ")+(one?"يوم <span class='num'>"+fdate(MR.from)+"</span>":"من <span class='num'>"+fdate(MR.from)+"</span> إلى <span class='num'>"+fdate(MR.to-DAY)+"</span>")+(MR.outRange?" · <span style='color:var(--warn)'>"+fmt(MR.outRange)+" سطر بالملف برا الفترة وانترك</span>":"");
   $("mChecks").innerHTML=checksHtml(MR.checks);
   const tabs={miss:{c:"r",h:"مو مسجّل بالموقع",n:MR.miss.length,s:"موجود بتقرير الشركة وما مسجل عندك"+(MR.unknown.length?` · ${MR.unknown.length} منهم مو موجودين كمشتركين`:"")},
     ok:{c:"g",h:"مسجّل ومطابق",n:MR.ok.length,s:"موجود بالتقرير ومسجل بالموقع"},
