@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.05-2">
+<meta name="amnet-build" content="2026.11.05-3">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1205,6 +1205,17 @@ nav.side-nav a[aria-current="page"]::before{animation:sideBar .45s cubic-bezier(
 @media (prefers-reduced-motion:reduce){.gr-svg .gbar,.gr-svg .gline{animation:none;stroke-dashoffset:0}}
 
 .gr-svg .gy2{font-family:var(--f-body);font-size:10px}
+
+/* smart import column mapping */
+.imp-how{font-size:12.5px;color:var(--warn);background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);border-radius:10px;padding:7px 10px;margin:8px 0 0}
+.imp-how.ok{color:var(--ok);background:var(--ok-soft);border-color:color-mix(in srgb,var(--ok) 35%,transparent)}
+.cm-cols{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;max-height:min(58vh,520px);overflow:auto;overscroll-behavior:contain}
+.cm-col{display:grid;gap:6px;padding:10px;border-radius:12px;border:1px solid var(--line2);background:var(--panel2);min-width:0}
+.cm-col.on{border-color:rgba(var(--acc-rgb),.5);background:linear-gradient(180deg,var(--accent-soft),transparent),var(--panel2)}
+.cm-hd{display:grid;gap:1px}.cm-hd b{font-size:12.5px}.cm-hd span{font-size:11.5px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cm-smp{display:grid;gap:2px;font-size:12px;color:var(--ink);min-height:54px}
+.cm-smp div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--f-body)}
+.cm-col select{padding:7px 8px;font-size:13px}
 </style>
 </head>
 <body>
@@ -3347,13 +3358,146 @@ const isExcel=n=>/\.(xlsx|xls|csv)$/i.test(n);
 const parseAny=(bytes,fname,prog)=>isExcel(fname)?Promise.resolve(parseExcel(bytes)):parseReport(bytes,prog);
 const checksHtml=cs=>cs.map(c=>`<div class="ck2 ${c.ok?"ok":"bad"}"><span class="h">${c.h}</span><b>${c.v}</b><small>${esc(c.s)}</small></div>`).join("");
 
+
+/* ================= SMART IMPORT: any column order, any headers ================= */
+const ROLE_LBL={acc:"اليوزر",name:"اسم المشترك",date:"التاريخ",type:"الباقة",amount:"المبلغ",phone:"الهاتف",by:"مدخل البيانات",skip:"تجاهل"};
+const ROLE_HEAD={
+  acc:/اسم\s*ال[حخ]ساب|ال[حخ]ساب|اليوزر|يوزر|اسم\s*(المستخدم|الدخول)|المعرف|user\s*name|username|login|account|^user$/i,
+  name:/اسم\s*(العميل|المشترك|الزبون)|^الاسم$|^اسم$|العميل|الزبون|المشترك|customer|subscriber|full\s*name|^name$/i,
+  date:/تاريخ|التاريخ|الوقت|وقت|date|time|created|activat/i,
+  type:/نوع|الباقة|باقة|الفئة|الخدمة|السرعة|package|profile|plan|service|type/i,
+  amount:/المبلغ|السعر|القيمة|الكلفة|price|amount|cost|total/i,
+  phone:/هاتف|موبايل|جوال|رقم\s*الهاتف|phone|mobile/i,
+  by:/مدخل|الموظف|بواسطة|المسوق|الوكيل|agent|operator|^by$/i
+};
+const cellStr=v=>v instanceof Date?"":normD(String(v==null?"":v)).replace(/\s+/g," ").trim();
+const isUserS=t=>/^[A-Za-z0-9._@\-]{3,40}$/.test(t)&&/[A-Za-z]/.test(t)&&(/\d/.test(t)||/@/.test(t));
+const isDateV=v=>v instanceof Date||/\d{1,4}[\/\-.]\d{1,2}[\/\-.]\d{1,4}/.test(cellStr(v));
+const phoneOf=t=>{const d=t.replace(/[\s\-()+]/g,"");const m=d.match(/^(?:00964|964|0)?(7\d{9})$/);return m?"0"+m[1]:""};
+const numOf=v=>typeof v==="number"?v:parseNum(cellStr(v));
+async function extractTable(bytes,fname){
+  if(isExcel(fname)){
+    let wb;try{wb=XLSX.read(bytes,{type:"array",cellDates:true})}catch(e){return null}
+    let best=null;for(const n of wb.SheetNames){const rows=XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,raw:true,defval:""}).filter(r=>r.some(c=>cellStr(c)||c instanceof Date));if(!best||rows.length>best.length)best=rows}
+    if(!best||!best.length)return null;
+    const nc=Math.max(...best.map(r=>r.length));return finishTable(best.map(r=>{const a=r.slice();while(a.length<nc)a.push("");return a}),nc);
+  }
+  let pdf;try{pdf=await pdfjsLib.getDocument({data:bytes,isEvalSupported:false,disableFontFace:true}).promise}catch(e){return null}
+  const allRows=[];
+  for(let p=1;p<=pdf.numPages;p++){const page=await pdf.getPage(p);const vp=page.getViewport({scale:1});const tc=await page.getTextContent();const items=[];
+    for(const it of tc.items){if(!it.str||!it.str.trim())continue;const tx=pdfjsLib.Util.transform(vp.transform,it.transform);const h=Math.hypot(tx[2],tx[3])||10;items.push({s:it.str,x:tx[4],w:Math.abs(it.width)||h*0.5*it.str.length,y:tx[5],h,rtl:it.dir==="rtl"||AR.test(it.str)})}
+    for(const segs of rowsOf(items))if(segs.length>=2)allRows.push(segs);
+    if(p%4===0)await new Promise(r=>setTimeout(r,0));}
+  if(!allRows.length)return null;
+  // find column centres by clustering the middle x of every cell
+  const xs=allRows.flatMap(r=>r.map(c=>c.cx)).sort((a,b)=>a-b);const cl=[];
+  for(const x of xs){const c=cl[cl.length-1];if(c&&x-c.max<14){c.max=x;c.sum+=x;c.n++}else cl.push({min:x,max:x,sum:x,n:1})}
+  const need=Math.max(3,allRows.length*0.12);let cs=cl.filter(c=>c.n>=need).map(c=>c.sum/c.n).sort((a,b)=>b-a);
+  if(cs.length<2)return null;
+  const rows=allRows.map(segs=>{const r=cs.map(()=>"");for(const sg of segs){let bi=0,bd=Infinity;cs.forEach((c,i)=>{const d=Math.abs(sg.cx-c);if(d<bd){bd=d;bi=i}});r[bi]=r[bi]?r[bi]+" "+sg.t:sg.t}return r});
+  return finishTable(rows,cs.length);
+}
+function finishTable(rows,nc){
+  let hdr=-1,bestHits=1;
+  for(let i=0;i<Math.min(rows.length,25);i++){let hits=0;rows[i].forEach(c=>{const t=cellStr(c);if(!t||t.length>30)return;for(const re of Object.values(ROLE_HEAD))if(re.test(t)){hits++;break}});if(hits>bestHits){bestHits=hits;hdr=i}}
+  const head=hdr>=0?rows[hdr].map(cellStr):[];
+  const isHead=r=>{if(hdr<0)return false;let same=0;r.forEach((c,i)=>{if(cellStr(c)&&cellStr(c)===head[i])same++});return same>=2};
+  const data=rows.slice(hdr+1).filter(r=>!isHead(r)&&r.filter(c=>cellStr(c)||c instanceof Date).length>=2);
+  return {rows:data,head,nc};
+}
+function tableSig(T){return T.head.length&&T.head.some(Boolean)?"h:"+T.head.map(h=>h.toLowerCase()).join("¦"):"n:"+T.nc}
+function detectMap(T){
+  const sample=T.rows.slice(0,400),N=Math.max(1,sample.length),plans=Object.keys(SET.plans||{}).map(p=>p.toLowerCase());
+  const sc=[];
+  for(let j=0;j<T.nc;j++){
+    let u=0,inS=0,dt=0,ph=0,mo=0,pl=0,nm=0,short=0,filled=0;const vals=new Set();
+    for(const r of sample){const v=r[j],t=cellStr(v);if(!t&&!(v instanceof Date))continue;filled++;vals.add(t.toLowerCase());
+      if(isUserS(t)){u++;if(SUBS.has(ukey(t)))inS++}
+      if(isDateV(v))dt++;
+      if(phoneOf(t))ph++;
+      const n=numOf(v);if(isFinite(n)&&n>=250&&n<=1e7&&!phoneOf(t)&&!isDateV(v))mo++;
+      if(plans.includes(t.toLowerCase()))pl++;
+      if(AR.test(t)&&!/\d/.test(t)&&t.split(" ").length>=2)nm++;
+      if(t.length<=24&&/[A-Za-z؀-ۿ]/.test(t)&&!isDateV(v))short++;}
+    const f=x=>x/N,fill=filled/N,distinct=vals.size/Math.max(1,filled),h=T.head[j]||"";
+    const hb=r=>h&&ROLE_HEAD[r].test(h)?0.6:0;
+    sc.push({j,acc:f(u)+f(inS)*1.5+hb("acc"),date:f(dt)+hb("date"),phone:f(ph)+hb("phone"),amount:f(mo)*0.9+hb("amount"),
+      type:f(pl)*1.6+(distinct<0.15&&f(short)>0.6?0.6:0)+hb("type"),name:f(nm)*(distinct>0.4?1:0.6)+hb("name"),by:(distinct<0.1&&f(short)>0.6?0.3:0)+(h&&ROLE_HEAD.by.test(h)?0.9:0),fill});
+  }
+  const cand=[];for(const c of sc)for(const r of ["acc","date","type","amount","name","phone","by"])if(c[r]>=0.35)cand.push({r,j:c.j,v:c[r]+(r==="acc"?0.2:0)});
+  cand.sort((a,b)=>b.v-a.v);const map={},used=new Set();
+  for(const c of cand){if(map[c.r]!=null||used.has(c.j))continue;map[c.r]=c.j;used.add(c.j)}
+  return map;
+}
+function tableToRecs(T,map){
+  const recs=[],skipped=[];const g=(r,k)=>map[k]==null?"":r[map[k]];
+  for(const r of T.rows){
+    const acc=cellStr(g(r,"acc"));if(!acc)continue;
+    if(!/^[A-Za-z0-9._@\-]{3,}$/.test(acc)){skipped.push(acc);continue}
+    const dv=g(r,"date");let dms=null,dateRaw="";
+    if(dv instanceof Date)dms=dv.getTime();
+    else if(typeof dv==="number"&&dv>20000&&dv<80000&&typeof XLSX!=="undefined"){const o=XLSX.SSF.parse_date_code(dv);if(o)dms=new Date(o.y,o.m-1,o.d,o.H||0,o.M||0,Math.floor(o.S||0)).getTime()}
+    else dateRaw=cellStr(dv);
+    recs.push({acc,name:cellStr(g(r,"name")),type:(cellStr(g(r,"type"))||"غير محدد").toUpperCase(),amount:numOf(g(r,"amount")),dateRaw,dms,by:cellStr(g(r,"by")),phone:phoneOf(cellStr(g(r,"phone"))),serial:null});
+  }
+  return {recs,skipped};
+}
+function recsFromTable(T,map){
+  if(map.acc==null)return {error:"ما لگينا عمود اليوزر. دوس \"الأعمدة\" وحدده بنفسك."};
+  const {recs,skipped}=tableToRecs(T,map);
+  if(!recs.length)return {error:"ما طلع ولا سطر بيه يوزر صحيح بالعمود المختار."};
+  const R=finishRecs(recs,0,null,skipped);R.table=T;R.map=map;return R;
+}
+async function parseSmart(bytes,fname,prog){
+  const cp=()=>bytes.slice(0);
+  const hasSaved=Object.keys(SET.impMaps||{}).length>0;
+  let T=null;
+  if(hasSaved){try{T=await extractTable(cp(),fname)}catch(e){T=null}
+    const saved=T&&(SET.impMaps||{})[tableSig(T)];
+    if(T&&saved&&saved.acc!=null){const R=recsFromTable(T,saved);if(!R.error){R.how="saved";return R}}}
+  const R0=await parseAny(cp(),fname,prog);
+  if(!R0.error&&R0.recs.length){R0.how="known";if(T)R0.table=T;return R0}
+  if(!T){try{T=await extractTable(cp(),fname)}catch(e){T=null}}
+  if(!T)return R0;
+  const map=detectMap(T);const R=recsFromTable(T,map);
+  if(R.error)return {error:R0.error+" · "+R.error,table:T,map};
+  R.how="auto";return R;
+}
+function openColMap(i){
+  const f=IMPF[i];if(!f)return;
+  const go=async()=>{
+    let T=f.R.table;if(!T){T=await extractTable(f.bytes.slice(0),f.fname);f.R.table=T}
+    if(!T){toast("ما گدرنا نقرأ جدول من هذا الملف");return}
+    let map=Object.assign({},f.R.map||detectMap(T));
+    const roleOf=j=>Object.keys(map).find(k=>map[k]===j)||"skip";
+    const draw=()=>{
+      const {recs}=map.acc!=null?tableToRecs(T,map):{recs:[]};
+      $("cmCount").innerHTML=map.acc!=null?`راح ينقرى <b class="num">${fmt(recs.length)}</b> سطر من <b class="num">${fmt(T.rows.length)}</b>`:`<span style="color:var(--bad)">لازم تحدد عمود اليوزر</span>`;
+      $("cmCols").innerHTML=Array.from({length:T.nc},(_,j)=>{const smp=T.rows.slice(0,40).map(r=>r[j]).filter(v=>cellStr(v)||v instanceof Date).slice(0,3).map(v=>v instanceof Date?fdate(v.getTime()):cellStr(v));const ro=roleOf(j);
+        return `<div class="cm-col ${ro!=="skip"?"on":""}"><div class="cm-hd"><b>عمود ${j+1}</b>${T.head[j]?`<span>${esc(T.head[j])}</span>`:""}</div><div class="cm-smp" dir="auto">${smp.map(v=>`<div>${esc(v)}</div>`).join("")||'<div class="muted">فارغ</div>'}</div>
+        <select data-cmj="${j}">${Object.entries(ROLE_LBL).map(([k,l])=>`<option value="${k}"${k===ro?" selected":""}>${l}</option>`).join("")}</select></div>`}).join("");
+    };
+    modal(`<div class="mhd"><div class="t"><h2>أعمدة الملف</h2><div class="muted">${esc(f.fname)} · تأكد كل عمود شنو بيه، وغيّر اللي مو صحيح. الموقع يتذكر هذا الترتيب للملفات اللي بنفس الشكل.</div></div><button class="x" data-close aria-label="سدّها">×</button></div>
+    <div class="cm-cols" id="cmCols"></div><div class="muted" id="cmCount" style="margin-top:4px"></div>
+    <div class="row" style="margin-top:6px"><button class="btn" id="cmGo">طبّق</button><button class="btn ghost" id="cmAuto">تعرّف تلقائي</button></div>`);
+    draw();
+    $("cmCols").onchange=e=>{const sel=e.target.closest("[data-cmj]");if(!sel)return;const j=+sel.dataset.cmj,r=sel.value;for(const k of Object.keys(map))if(map[k]===j)delete map[k];if(r!=="skip")map[r]=j;draw()};
+    $("cmAuto").onclick=()=>{map=detectMap(T);draw()};
+    $("cmGo").onclick=()=>{const R=recsFromTable(T,map);if(R.error){toast(R.error);return}R.how="manual";f.R=R;
+      const maps=Object.assign({},SET.impMaps||{});maps[tableSig(T)]=map;const keys=Object.keys(maps);while(keys.length>20)delete maps[keys.shift()];
+      SET={...SET,impMaps:maps};guard(()=>saveSettings());closeModal();buildImp(false);toast("انقرى "+fmt(R.recs.length)+" سطر")};
+  };
+  go();
+}
+
 let IMPF=[];
 async function importPdf(bytes,fname){
   if(!can("import")){$("impMsg").textContent="ما عندك صلاحية الاستيراد.";return}
   $("impMsg").textContent="دا يقرأ "+fname+"...";$("prog").style.width="2%";
-  const R=await parseAny(bytes,fname,$("prog"));$("prog").style.width="100%";
-  if(R.error){$("impMsg").textContent=fname+": "+R.error;return}
-  IMPF=IMPF.filter(f=>f.fname!==fname);IMPF.push({fname,R});
+  const R=await parseSmart(bytes,fname,$("prog"));$("prog").style.width="100%";
+  if(R.error&&!R.table){$("impMsg").textContent=fname+": "+R.error;return}
+  IMPF=IMPF.filter(f=>f.fname!==fname);IMPF.push({fname,R:R.error?{recs:[],plans:{},checks:[{h:"ما انقرى",v:"0",ok:false,s:R.error}],table:R.table,map:R.map}:R,bytes:bytes.slice(0)});
+  if(R.error){$("impMsg").textContent="";buildImp(true);openColMap(IMPF.length-1);return}
   $("impMsg").textContent="";buildImp(true);
 }
 const fileMonths=R=>{const c={};R.recs.forEach(r=>{if(r.d!=null){const k=mkey(r.d);c[k]=(c[k]||0)+1}});return Object.entries(c).sort((a,b)=>b[1]-a[1]).map(x=>x[0])};
@@ -3373,7 +3517,7 @@ function buildImp(scroll){
   $("impName").textContent=IMPF.length+" ملف · "+[...months].sort().map(mname).join(" + ");
   const h=$("impHint");h.hidden=IMPF.length>1;
   h.textContent="رفعت شهر واحد. إذا عندك تقرير الشهر السابق ارفعه هسه حتى تطلع المقارنة والمفقودين، لأن الاستيراد ما يرجع يتاح بعد الإضافة.";
-  $("impFiles").innerHTML=IMPF.map((f,i)=>`<div class="impfile"><div class="row"><b>${esc(f.fname)}</b><span class="muted">${fileMonths(f.R).slice(0,1).map(mname).join("")} · ${fmt(f.R.recs.length)} سطر</span><button class="btn danger sm" data-rmf="${i}">إزالة</button></div><div class="checks">${checksHtml(f.R.checks)}</div></div>`).join("");
+  $("impFiles").innerHTML=IMPF.map((f,i)=>`<div class="impfile"><div class="row"><b>${esc(f.fname)}</b><span class="muted">${fileMonths(f.R).slice(0,1).map(mname).join("")} · ${fmt(f.R.recs.length)} سطر</span><button class="btn ghost sm" data-colf="${i}">الأعمدة</button><button class="btn danger sm" data-rmf="${i}">إزالة</button></div>${f.R.how==="auto"?`<div class="imp-how">تعرّفنا على أعمدة الملف تلقائياً. تأكد من المعاينة، وإذا شي مو صحيح دوس <b>الأعمدة</b>.</div>`:f.R.how==="saved"?`<div class="imp-how ok">انقرى بنفس ترتيب الأعمدة اللي حددته قبل.</div>`:f.R.how==="manual"?`<div class="imp-how ok">انقرى بالأعمدة اللي حددتها.</div>`:""}<div class="checks">${checksHtml(f.R.checks)}</div></div>`).join("");
   const distinct=new Set(recs.filter(r=>r.d!=null).map(r=>r.u)).size;
   $("impChecks").innerHTML=checksHtml([{h:"يوزرات مختلفة بالملفات",v:fmt(distinct),ok:true,s:"من "+fmt(recs.length)+" سطر (المشترك اللي تفعّل مرتين ينحسب مرة)"},{h:"مشتركين جداد",v:fmt(newSubs.size),ok:true,s:(distinct-newSubs.size>0?fmt(distinct-newSubs.size)+" موجودين أصلاً بالموقع · ":"")+"راح ينضافون للنظام"},{h:"تفعيلات جديدة",v:fmt(acts.length),ok:true,s:(exist?fmt(exist)+" موجودة أصلاً بالموقع انتركت":"")+(dup?(exist?" · ":"")+fmt(dup)+" مكرر بين الملفات":"")||"بدون تكرار"}]);
   $("impPlans").innerHTML=`<thead><tr><th>الباقة</th><th>تفعيلات</th><th>سعر الشركة</th><th>سعر البيع</th></tr></thead><tbody>${Object.entries(plans).map(([n,p])=>{const prev=document.querySelector(`[data-imps="${CSS.escape(n)}"]`);const v=prev?prev.value:(planSell(n)||"");return `<tr><td>${planTag(n)}</td><td class="num">${fmt(p.n)}</td><td class="num">${fmt(p.c)}</td><td style="min-width:130px"><input type="number" dir="ltr" data-imps="${esc(n)}" value="${esc(v)}" placeholder="اكتب السعر" inputmode="numeric"></td></tr>`}).join("")}</tbody>`;
@@ -3382,7 +3526,7 @@ function buildImp(scroll){
   $("commitBtn").disabled=!acts.length;$("commitBtn").textContent="إضافة "+fmt(acts.length)+" تفعيل و "+fmt(newSubs.size)+" مشترك";
   $("impRes").hidden=false;if(scroll)$("impRes").scrollIntoView({behavior:"smooth",block:"start"});
 }
-$("impFiles").addEventListener("click",e=>{const b=e.target.closest("[data-rmf]");if(!b)return;IMPF.splice(+b.dataset.rmf,1);buildImp()});
+$("impFiles").addEventListener("click",e=>{const cb=e.target.closest("[data-colf]");if(cb){openColMap(+cb.dataset.colf);return}const b=e.target.closest("[data-rmf]");if(!b)return;IMPF.splice(+b.dataset.rmf,1);buildImp()});
 $("impMore").onclick=()=>$("file").click();
 
 /* ================= MATCHING ================= */
@@ -3465,7 +3609,7 @@ function renderMatch(){
 }
 async function matchPdf(bytes,fname){
   $("mRes").hidden=true;$("mMsg").textContent="دا يقرأ التقرير...";$("mProg").style.width="2%";
-  const R=await parseAny(bytes,fname,$("mProg"));$("mProg").style.width="100%";
+  const R=await parseSmart(bytes,fname,$("mProg"));$("mProg").style.width="100%";
   if(R.error){$("mMsg").textContent=R.error;return}
   if(!R.recs.some(r=>r.d!=null)){$("mMsg").textContent="ما لكينا تواريخ صحيحة بالتقرير.";return}
   MR={fname,recs:R.recs,plans:R.plans,checks:R.checks};MTAB="miss";MPAY="c";
@@ -3480,7 +3624,7 @@ $("mAdd").onclick=async()=>{
   const pl={...SET.plans};let planCh=false;
   for(const r of sel)if(!pl[r.type]){pl[r.type]={c:(MR.plans[r.type]&&MR.plans[r.type].c)||(isFinite(r.amount)?r.amount:0),s:0};planCh=true}
   const subCh=new Map();
-  for(const r of sel){if(!SUBS.has(r.u)&&!subCh.has(r.u))subCh.set(r.u,{u:r.acc,n:r.name,p:"",pl:r.type,note:"",t:Date.now()})}
+  for(const r of sel){if(!SUBS.has(r.u)&&!subCh.has(r.u))subCh.set(r.u,{u:r.acc,n:r.name,p:r.phone||"",pl:r.type,note:"",t:Date.now()})}
   const acts=sel.map(r=>({k:r.u+"|"+r.d,u:r.u,d:r.d,pl:r.type,c:isFinite(r.amount)?r.amount:planCost(r.type),s:null,by:r.by||"مطابقة",pay:MPAY,pd:0,sid:"import"}));
   const btn=$("mAdd");btn.disabled=true;
   const ok=await guard(async()=>{if(planCh){SET.plans=pl;await saveSettings()}if(subCh.size)await saveSubs(subCh);await saveActs(acts)},"انسجل "+fmt(acts.length)+" تفعيل"+(subCh.size?" و "+fmt(subCh.size)+" مشترك جديد":""));
@@ -3503,7 +3647,7 @@ $("commitBtn").onclick=()=>{
   const latest={};for(const a of imp.acts)if(!latest[a.u]||a.d>latest[a.u].d)latest[a.u]=a;
   const changes=new Map();
   for(const [k,a] of Object.entries(latest)){const old=SUBS.get(k);const r=a.raw;
-    if(!old)changes.set(k,{u:r.acc,n:r.name,p:"",pl:a.pl,note:"",t:Date.now()});
+    if(!old)changes.set(k,{u:r.acc,n:r.name,p:r.phone||"",pl:a.pl,note:"",t:Date.now()});
     else{const ns={...old};let ch=false;if(!ns.n&&r.name){ns.n=r.name;ch=true}const la=LAST[k];if((!la||a.d>=la.d)&&ns.pl!==a.pl){ns.pl=a.pl;ch=true}if(ch)changes.set(k,ns)}}
   for(const a of imp.acts){const ch=changes.get(a.u);if(ch&&!ch.n&&a.raw.name)ch.n=a.raw.name}
   if(btn.dataset.busy)return;btn.dataset.busy="1";
