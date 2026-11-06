@@ -1,0 +1,204 @@
+rules_version = '2';
+// AM NET — قواعد الأمان (نسخة الدخول بكلمة السر + الموظفين)
+// إيميل المدير: admin@amnet.app (نفسه اللي بملف index.html)
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && request.auth.token.email == 'admin@amnet.app';
+    }
+    // كل مستخدم (صاحب حساب أو موظف) عنده سجل دخول يربطه بحساب
+    function hasLogin() {
+      return signedIn() && exists(/databases/$(database)/documents/logins/$(request.auth.uid));
+    }
+    function myLogin() {
+      return get(/databases/$(database)/documents/logins/$(request.auth.uid)).data;
+    }
+    function acc(a) {
+      return get(/databases/$(database)/documents/accounts/$(a)).data;
+    }
+    // الحساب شغّال: مفعّل من المدير ومدته ما خلصت
+    function accOk(a) {
+      return exists(/databases/$(database)/documents/accounts/$(a))
+        && acc(a).active == true
+        && acc(a).expiresAt > request.time;
+    }
+    function member(a) {
+      return hasLogin() && myLogin().acct == a && myLogin().active == true && accOk(a);
+    }
+    function owner(a) {
+      return member(a) && myLogin().role == 'owner';
+    }
+
+    // صاحب الحساب حتى لو حسابه خالص أو موقوف (حتى يگدر يراسل الإدارة)
+    function ownerAny(a) {
+      return hasLogin() && myLogin().acct == a && myLogin().role == 'owner' && myLogin().active == true;
+    }
+
+    // ===== المراسلة بين المسوق والإدارة =====
+    match /chats/{a} {
+      allow read, write: if isAdmin() || ownerAny(a);
+      match /msgs/{m} {
+        allow read: if isAdmin() || ownerAny(a);
+        allow create: if (isAdmin() || ownerAny(a))
+          && request.resource.data.t is string && request.resource.data.t.size() > 0 && request.resource.data.t.size() <= 2000
+          && request.resource.data.by == (isAdmin() ? 'a' : 'm');
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    // بيانات التواصل اللي تظهر إذا توقف الحساب
+    match /meta/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    // حسابات المسوقين: الحالة والمدة والخصائص يغيرها المدير فقط
+    match /accounts/{a} {
+      allow read: if isAdmin() || (hasLogin() && myLogin().acct == a);
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin()
+        || (member(a) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['settings', 'stats']));
+
+      // المشتركين والتفعيلات والتسديدات
+      match /data/{docId} {
+        allow read, write: if isAdmin() || member(a);
+      }
+
+      // حساب المنجمنت (يوزر وباسورد الشركة): المسوق والمدير يعدلون،
+      // والموظف اللي عنده صلاحية "المنجمنت" يقرا بس حتى يدخل تلقائياً
+      match /secret/{id} {
+        allow read: if isAdmin() || owner(a)
+          || (member(a) && myLogin().get('perms', {}).get('mgmt', false) == true);
+        allow write: if isAdmin() || owner(a);
+      }
+
+      // واتساب التلقائي: الموظفين يقرون الإعدادات حتى الموقع يرسل من أجهزتهم، والتعديل للمسوق والمدير بس
+      match /secret/wa {
+        allow read: if member(a);
+      }
+    }
+
+    // سجلات الدخول (كلمة سر = سجل)
+    match /logins/{uid} {
+      allow read: if isAdmin()
+        || (signedIn() && request.auth.uid == uid)
+        || (hasLogin() && myLogin().role == 'owner' && resource.data.acct == myLogin().acct);
+      allow create: if isAdmin()
+        || (owner(request.resource.data.acct)
+            && request.resource.data.role in ['staff', 'owner']
+            && request.resource.data.active == true);
+      allow update: if isAdmin()
+        || (owner(resource.data.acct) && resource.data.role == 'staff'
+            && request.resource.data.role == 'staff'
+            && request.resource.data.acct == resource.data.acct);
+      allow delete: if isAdmin()
+        || (owner(resource.data.acct) && (resource.data.role == 'staff' || uid == request.auth.uid));
+    }
+
+    // سجل الرسوم: للمدير فقط
+    match /billing/{id} {
+      allow read, write: if isAdmin();
+    }
+
+    // ===== منصة العملاء: رموز الروابط (كل عميل عنده رمز قصير بالرابط) =====
+    match /slugs/{code} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ===== نظام المتجر والمبيعات (الدزاز جم وغيره): كل متجر بياناته تحت dz/{الحساب} =====
+    match /dz/{a} {
+      allow read, write: if isAdmin() || member(a);
+
+      // المتجر الأونلاين: الزبائن يقرون بدون دخول
+      match /storefront/{d} {
+        allow read: if true;
+        allow write: if isAdmin() || member(a);
+      }
+      // طلبات الزبائن من المتجر
+      match /orders/{id} {
+        allow read, update, delete: if isAdmin() || member(a);
+        allow create: if isAdmin() || member(a) || (
+          accOk(a)
+          && request.resource.data.src == 'store'
+          && request.resource.data.status == 'new'
+          && request.resource.data.no == id
+          && request.resource.data.items is list
+          && request.resource.data.items.size() > 0
+          && request.resource.data.items.size() <= 30
+          && request.resource.data.customer is string
+          && request.resource.data.customer.size() <= 80);
+      }
+      // برامج المدرب العامة (رابط الزبون)
+      match /cpub/{k} {
+        allow read: if true;
+        allow write: if isAdmin() || member(a);
+        allow update: if accOk(a) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['got']);
+      }
+      // تذكيرات الزبائن
+      match /creminders/{id} {
+        allow read, update, delete: if isAdmin() || member(a);
+        allow create: if isAdmin() || member(a) || (accOk(a) && request.resource.data.status == 'new');
+      }
+      // باقي بيانات المتجر (المنتجات، المبيعات، الموظفين، الدردشة…)
+      match /{col}/{doc=**} {
+        allow read, write: if isAdmin() || member(a);
+      }
+    }
+
+    // ===== المتجر العام (shop): كل متجر بياناته تحت gs/{الحساب} =====
+    match /gs/{a} {
+      allow read, write: if isAdmin() || member(a);
+      // واجهة المتجر للزبائن: المنتجات (بدون الكلفة) والإعدادات العامة
+      match /cat/{d} {
+        allow read: if accOk(a);
+        allow write: if isAdmin() || member(a);
+      }
+      match /meta/pub {
+        allow read: if accOk(a);
+        allow write: if isAdmin() || member(a);
+      }
+      // طلبات الزبائن
+      match /orders/{id} {
+        allow read, update, delete: if isAdmin() || member(a);
+        allow create: if isAdmin() || member(a) || (
+          accOk(a)
+          && request.resource.data.src == 'store'
+          && request.resource.data.status == 'new'
+          && request.resource.data.no == id
+          && request.resource.data.items is list
+          && request.resource.data.items.size() > 0
+          && request.resource.data.items.size() <= 40
+          && request.resource.data.customer is string
+          && request.resource.data.customer.size() <= 80
+          && request.resource.data.phone is string
+          && request.resource.data.phone.size() <= 20);
+      }
+      match /{col}/{doc=**} {
+        allow read, write: if isAdmin() || member(a);
+      }
+    }
+
+    // ===== علي فيجن للعملاء: كل عميل مكتبته تحت av/{الحساب} =====
+    match /av/{a}/{doc=**} {
+      allow read, write: if isAdmin() || member(a);
+    }
+    // المحتوى العام لكل عميل: المشاهدين يشوفونه ما دام الحساب شغّال
+    match /av/{a}/d/public {
+      allow read: if accOk(a);
+    }
+
+    // ===== علي فيجن (Ali Vision) =====
+    // المحتوى العام: الكل يشوفه، والمدير بس يعدّله
+    match /alivision/{doc} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    // المكتبة الشخصية: كل واحد يشوف ويعدّل مكتبته بس
+    match /alivision_users/{uid} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+    }
+  }
+}
