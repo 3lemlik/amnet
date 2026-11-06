@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.07-3">
+<meta name="amnet-build" content="2026.11.07-5">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1337,7 +1337,12 @@ html[data-theme="light"] .ptag.p-isp{color:#0369a1}html[data-theme="light"] .pta
 .logopick small{color:var(--accent);font-weight:700;font-size:13px}
 .idbox{display:flex;flex-direction:column;gap:8px;border:1px solid var(--line2);border-radius:14px;padding:12px;background:var(--panel)}
 .idbox>small{margin-top:-6px}
+.slugrow{display:flex;align-items:center;gap:0;border:1px solid var(--line2);border-radius:10px;background:var(--panel2);overflow:hidden;direction:ltr;min-width:0}.slugrow span{padding:0 4px 0 10px;color:var(--dim);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%;flex:none}.slugrow input{flex:1;min-width:0;border:0!important;background:transparent!important;box-shadow:none!important;padding-inline-start:2px!important;font-weight:700;color:var(--accent)!important}
 .idrow{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap}.idrow>div:first-child{width:auto}.idrow .logopick{width:auto}
+
+.prodseg.k2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.prodseg.k2 button{align-items:flex-start;text-align:start;padding:10px 12px}
+.prodseg.k2 small{font-size:11.5px;color:var(--dim);font-weight:500;line-height:1.4}
 </style>
 </head>
 <body>
@@ -4301,11 +4306,16 @@ const PRODS={
   av:{n:"علي فيجن",biz:"اسم الموقع",ic:"i-play",url:()=>(APPMETA.urlAv||"https://3lemlik.github.io/alivision/")}
 };
 const prodOf=m=>(m&&PRODS[m.product])?m.product:"isp";
+/* اسم الرابط: حروف إنكليزية وأرقام وشخطة، يتقترح تلقائي من اسم المتجر */
+const TRL={"ا":"a","أ":"a","إ":"i","آ":"a","ب":"b","ت":"t","ث":"th","ج":"j","ح":"h","خ":"kh","د":"d","ذ":"th","ر":"r","ز":"z","س":"s","ش":"sh","ص":"s","ض":"d","ط":"t","ظ":"z","ع":"a","غ":"gh","ف":"f","ق":"q","ك":"k","ل":"l","م":"m","ن":"n","ه":"h","ة":"a","و":"w","ي":"y","ى":"a","ئ":"y","ؤ":"w","ء":"","گ":"g","چ":"ch","پ":"p","ڤ":"v"};
+const slugify=t=>String(t||"").trim().toLowerCase().replace(/^(ال)/,"al").split("").map(c=>TRL[c]!=null?TRL[c]:/[a-z0-9]/.test(c)?c:/[\s_.\-]/.test(c)?"-":/[٠-٩]/.test(c)?String("٠١٢٣٤٥٦٧٨٩".indexOf(c)):"").join("").replace(/-+/g,"-").replace(/^-|-$/g,"").slice(0,30);
+const slugOk=t=>/^[a-z0-9][a-z0-9-]{1,29}$/.test(t)&&!["main","admin","store","index","www"].includes(t);
+async function slugFree(t,acct){try{const d=await fs.collection("slugs").doc(t).get();return !d.exists||d.data().acct===acct}catch(e){return false}}
 const genCode=()=>{const c="abcdefghjkmnpqrstuvwxyz23456789";let s="";for(const x of crypto.getRandomValues(new Uint32Array(6)))s+=c[x%c.length];return s};
 function prodLinks(m,pw){
   const p=prodOf(m),u=PRODS[p].url(),biz=m.biz||m.name||"";
-  if(p==="dz"){const st=u+"?s="+(m.code||"");return {main:st+"#admin",lines:[["رابط إدارة المتجر (النظام)",st+"#admin"],["رابط المتجر للزبائن",st]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بنظام المبيعات والمتجر.\n\nرابط إدارة المتجر:\n${st}#admin\n\nرابط متجرك للزبائن (انشره):\n${st}${pw?`\n\nكلمة سر ربط الجهاز: ${pw}`:""}`}}
-  if(p==="av"){const st=u+"?s="+(m.code||"");return {main:st+"#admin",lines:[["رابط التعديل (للعميل)",st+"#admin"],["رابط الموقع للمشاهدين",st]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بموقع علي فيجن.\n\nرابط التعديل (إنت بس):\n${st}#admin\n\nرابط موقعك للمشاهدين:\n${st}${pw?`\n\nكلمة السر: ${pw}`:""}`}}
+  if(p==="dz"){const st=u+(m.code||"");return {main:st+"#admin",lines:[["رابط إدارة المتجر (النظام)",st+"#admin"],["رابط المتجر للزبائن",st]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بنظام المبيعات والمتجر.\n\nرابط إدارة المتجر:\n${st}#admin\n\nرابط متجرك للزبائن (انشره):\n${st}${pw?`\n\nكلمة سر ربط الجهاز: ${pw}`:""}`}}
+  if(p==="av"){const st=u+(m.code||"");return {main:st+"#admin",lines:[["رابط التعديل (للعميل)",st+"#admin"],["رابط الموقع للمشاهدين",st]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بموقع علي فيجن.\n\nرابط التعديل (إنت بس):\n${st}#admin\n\nرابط موقعك للمشاهدين:\n${st}${pw?`\n\nكلمة السر: ${pw}`:""}`}}
   return {main:u,lines:[["رابط النظام",u]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بنظام AM NET.\n\nالرابط:\n${u}${pw?`\nكلمة السر: ${pw}`:""}`};
 }
 /* شعار العميل: يتصغّر لـ 256px حتى يكون خفيف ويتخزن ويه الحساب */
@@ -4319,13 +4329,24 @@ function clientBox(m,pw,title){
     <pre class="msgbox" id="credTxt" tabindex="0">${esc(L.msg)}</pre>
     <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn ok go" id="cpCred" style="flex:1"><svg><use href="#i-copy"/></svg>نسخ الرسالة</button>${ph.length>=10?`<a class="btn wa" style="flex:1" target="_blank" rel="noopener" href="https://wa.me/${ph}?text=${encodeURIComponent(L.msg)}"><svg><use href="#i-wa"/></svg>إرسال واتساب</a>`:""}</div>`);
   $("cpCred").onclick=()=>copyText(L.msg,$("credTxt"));
-  if(p==="dz"&&m.id){let LG=m.logo||"";
-    $("mbox").insertAdjacentHTML("beforeend",`<div class="idbox"><b>هوية المتجر</b><small class="muted">الاسم والشعار اللي يشوفهم العميل وزبائنه</small><div class="idrow"><div id="idLB">${logoBox("idLogo",LG,m.biz||m.name)}</div><div class="field" style="flex:1;min-width:0"><label for="idBiz">اسم المتجر</label><input type="text" id="idBiz" value="${esc(m.biz||"")}"></div></div><button type="button" class="btn ghost" id="idSave">حفظ الاسم والشعار</button></div>`);
+  if(p!=="isp"&&m.id){$("mbox").insertAdjacentHTML("beforeend",`<div class="idbox"><b>اسم الرابط</b><small class="muted">يطلع بآخر الرابط. إذا غيّرته، الرابط القديم يبقى يشتغل هم.</small><div class="slugrow"><span class="num">${esc(PRODS[p].url().replace(/^https?:\/\//,""))}</span><input type="text" id="slEd" dir="ltr" autocapitalize="none" spellcheck="false" value="${esc(m.code||"")}"></div><button type="button" class="btn ghost" id="slSave">حفظ اسم الرابط</button><div class="err" id="slErr"></div></div>`);
+    $("slEd").oninput=()=>{$("slEd").value=$("slEd").value.toLowerCase().replace(/[^a-z0-9-]/g,"")};
+    $("slSave").onclick=async()=>{const c=$("slEd").value.trim(),er=$("slErr");er.textContent="";if(c===m.code)return;
+      if(!slugOk(c)){er.textContent="لازم حروف إنكليزية أو أرقام (2 لـ 30 حرف)";return}
+      if(!(await slugFree(c,m.id))){er.textContent="هذا الاسم محجوز لعميل ثاني";return}
+      const ok=await aGuard(async()=>{const bt=fs.batch();bt.set(fs.collection("slugs").doc(c),{acct:m.id,p,biz:m.biz||m.name||"",logo:m.logo||"",kind:m.kind||"",bot:m.bot||""});bt.update(fs.collection("accounts").doc(m.id),{code:c});await bt.commit()},"صار الرابط: "+c);
+      if(ok)clientBox({...m,code:c})}}
+  if(p==="dz"&&m.id){let LG=m.logo||"",KD=m.kind==="general"?"general":(m.kind==="sport"?"sport":"sport");
+    $("mbox").insertAdjacentHTML("beforeend",`<div class="idbox"><b>هوية المتجر</b><small class="muted">الاسم والشعار اللي يشوفهم العميل وزبائنه</small><div class="idrow"><div id="idLB">${logoBox("idLogo",LG,m.biz||m.name)}</div><div class="field" style="flex:1;min-width:0"><label for="idBiz">اسم المتجر</label><input type="text" id="idBiz" value="${esc(m.biz||"")}"></div></div>
+      <label class="muted" style="font-size:13px">نوع المتجر وردود المساعد</label><div class="prodseg k2" id="idKind" role="radiogroup"><button type="button" role="radio" data-k="general" aria-checked="${KD==="general"}"><b>متجر عام</b><small>ردود محترمة تناسب أي متجر</small></button><button type="button" role="radio" data-k="sport" aria-checked="${KD!=="general"}"><b>رياضي / مكملات</b><small>ينادي الزبون «كابتن» ويعطي نصايح تمرين</small></button></div>
+      <div class="field"><label for="idBot">اسم المساعد الآلي</label><input type="text" id="idBot" maxlength="30" value="${esc(m.bot||(KD==="general"?"الدعم":"الكابتن"))}"></div>
+      <button type="button" class="btn ghost" id="idSave">حفظ الهوية</button></div>`);
+    $("idKind").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;KD=b.dataset.k;$("idKind").querySelectorAll("[data-k]").forEach(x=>x.setAttribute("aria-checked",x===b))};
     const wl=()=>{$("idLB").innerHTML=logoBox("idLogo",LG,$("idBiz").value);$("idLogo").onclick=()=>logoPick(d=>{LG=d;wl()})};wl();
-    $("idSave").onclick=()=>{const biz=$("idBiz").value.trim()||m.name||"";aGuard(async()=>{const bt=fs.batch();bt.update(fs.collection("accounts").doc(m.id),{biz,logo:LG});if(m.code)bt.set(fs.collection("slugs").doc(m.code),{acct:m.id,p:"dz",biz,logo:LG});const mn=await fs.collection("slugs").doc("main").get();if(mn.exists&&mn.data().acct===m.id)bt.set(fs.collection("slugs").doc("main"),{acct:m.id,p:"dz",biz,logo:LG});await bt.commit()},"انحفظت هوية "+biz)};
+    $("idSave").onclick=()=>{const biz=$("idBiz").value.trim()||m.name||"",bot=$("idBot").value.trim()||(KD==="general"?"الدعم":"الكابتن"),D={biz,logo:LG,kind:KD,bot};aGuard(async()=>{const bt=fs.batch();bt.update(fs.collection("accounts").doc(m.id),D);if(m.code)bt.set(fs.collection("slugs").doc(m.code),{acct:m.id,p:"dz",...D});const mn=await fs.collection("slugs").doc("main").get();if(mn.exists&&mn.data().acct===m.id)bt.set(fs.collection("slugs").doc("main"),{acct:m.id,p:"dz",...D});await bt.commit()},"انحفظت هوية "+biz)};
     $("mbox").insertAdjacentHTML("beforeend",`<label class="tgl" style="margin-top:4px"><span>المتجر الأساسي <small class="muted">(رابط الموقع بدون رمز يفتح هذا المتجر)</small></span><input type="checkbox" id="dzMain"></label>`);
     fs.collection("slugs").doc("main").get().then(d=>{const c=$("dzMain");if(c)c.checked=d.exists&&d.data().acct===m.id}).catch(()=>{});
-    $("dzMain").onchange=e=>aGuard(()=>e.target.checked?fs.collection("slugs").doc("main").set({acct:m.id,p:"dz",biz:m.biz||m.name||"",logo:m.logo||""}):fs.collection("slugs").doc("main").delete(),e.target.checked?"صار "+(m.biz||m.name)+" المتجر الأساسي":"انشال المتجر الأساسي")}
+    $("dzMain").onchange=e=>aGuard(()=>e.target.checked?fs.collection("slugs").doc("main").set({acct:m.id,p:"dz",biz:m.biz||m.name||"",logo:m.logo||"",kind:m.kind||"",bot:m.bot||""}):fs.collection("slugs").doc("main").delete(),e.target.checked?"صار "+(m.biz||m.name)+" المتجر الأساسي":"انشال المتجر الأساسي")}
   $("mbox").querySelectorAll("[data-cl]").forEach(b=>b.onclick=()=>copyText(L.lines[+b.dataset.cl][1],b));
 }
 async function replaceLogins(acct,role,pw,name,extraFilter){
@@ -4382,6 +4403,9 @@ function openAddMk(){
   <div class="fgrid">
     <div class="field"><label for="amN">اسم العميل</label><input type="text" id="amN"></div>
     <div class="field"><label for="amBiz" id="amBizL">اسم شركة الانترنت</label><input type="text" id="amBiz"></div>
+    <div class="field" id="amSlugW" hidden><label for="amSlug">اسم الرابط <small class="muted">(إنكليزي، يطلع بالرابط)</small></label><div class="slugrow"><span class="num" id="amSlugP"></span><input type="text" id="amSlug" dir="ltr" autocapitalize="none" spellcheck="false" placeholder="alnoor"></div></div>
+    <div class="field" id="amKindW" hidden><label>نوع المتجر وردود المساعد</label><div class="prodseg k2" id="amKind" role="radiogroup"><button type="button" role="radio" data-k="general" aria-checked="${"general"==="general"}"><b>متجر عام</b><small>ردود محترمة تناسب أي متجر</small></button><button type="button" role="radio" data-k="sport" aria-checked="${"general"!=="general"}"><b>رياضي / مكملات</b><small>ينادي الزبون «كابتن» ويعطي نصايح تمرين</small></button></div></div>
+    <div class="field" id="amBotW" hidden><label for="amBot">اسم المساعد الآلي بالمتجر</label><input type="text" id="amBot" value="الدعم" maxlength="30"></div>
     <div class="field" id="amLogoW" hidden><label>شعار المتجر <small class="muted">(يطلع بمتجره ونظامه)</small></label><div id="amLogoB">${logoBox("amLogo","","")}</div></div>
     <div class="field"><label for="amP">الهاتف</label><input type="tel" id="amP" dir="ltr"></div>
     <div class="field"><label for="amPw">كلمة السر</label><input type="text" id="amPw" dir="ltr" autocomplete="off" value="${genPw()}"></div>
@@ -4395,27 +4419,32 @@ function openAddMk(){
   <button class="btn go" id="amGo">إنشاء الحساب</button>`);
   $("amTrial").onchange=()=>{const t=$("amTrial").checked;$("amD").value=t?(APPMETA.trialDays||3):30;document.querySelector('label[for="amD"]').textContent=t?"مدة التجربة (يوم)":"مدة الحساب (يوم)";["amF","amPaid"].forEach(id=>{$(id).disabled=t;if(t)$(id).value=id==="amF"?0:""});$("amGo").textContent=t?"إنشاء حساب تجريبي":"إنشاء الحساب"};
   let PROD="isp";
-  $("amProd").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;PROD=b.dataset.p;$("amProd").querySelectorAll("[data-p]").forEach(x=>x.setAttribute("aria-checked",x===b));$("amBizL").textContent=PRODS[PROD].biz;$("amMatchW").hidden=PROD!=="isp";$("amLogoW").hidden=PROD!=="dz"};
+  $("amProd").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;PROD=b.dataset.p;$("amProd").querySelectorAll("[data-p]").forEach(x=>x.setAttribute("aria-checked",x===b));$("amBizL").textContent=PRODS[PROD].biz;$("amMatchW").hidden=PROD!=="isp";$("amLogoW").hidden=PROD!=="dz";$("amKindW").hidden=PROD!=="dz";$("amBotW").hidden=PROD!=="dz";$("amSlugW").hidden=PROD==="isp";$("amSlugP").textContent=PROD==="isp"?"":PRODS[PROD].url().replace(/^https?:\/\//,"")};
+  let KIND="general",BOTT=false;$("amBot").oninput=()=>BOTT=true;
+  $("amKind").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;KIND=b.dataset.k;$("amKind").querySelectorAll("[data-k]").forEach(x=>x.setAttribute("aria-checked",x===b));if(!BOTT)$("amBot").value=KIND==="general"?"الدعم":"الكابتن"};
+  let SLUGT=false;$("amSlug").oninput=()=>{SLUGT=true;$("amSlug").value=$("amSlug").value.toLowerCase().replace(/[^a-z0-9-]/g,"")};$("amBiz").addEventListener("input",()=>{if(!SLUGT)$("amSlug").value=slugify($("amBiz").value)});
   let LOGO="";const wl=()=>{$("amLogoB").innerHTML=logoBox("amLogo",LOGO,$("amBiz").value);$("amLogo").onclick=()=>logoPick(d=>{LOGO=d;wl()})};wl();$("amBiz").addEventListener("input",()=>{if(!LOGO)wl()});
   $("amGo").onclick=async()=>{
     const name=$("amN").value.trim(),biz=$("amBiz").value.trim(),pw=$("amPw").value.trim(),days=Math.max(1,+$("amD").value||30),trial=$("amTrial").checked;
     const er=$("amErr");er.textContent="";
     if(!name){er.textContent="اكتب اسم العميل";return}
     if(pw.length<6){er.textContent="كلمة السر لازم 6 أحرف أو أكثر";return}
+    const code=PROD==="isp"?genCode():($("amSlug").value.trim()||slugify(biz||name));
+    if(PROD!=="isp"&&!slugOk(code)){er.textContent="اسم الرابط لازم حروف إنكليزية أو أرقام (2 لـ 30 حرف)";return}
     const b=$("amGo");b.disabled=true;b.textContent="دا ينشئ الحساب...";
+    if(PROD!=="isp"&&!(await slugFree(code))){er.textContent="اسم الرابط ("+code+") محجوز لعميل ثاني، اختار غيره";b.disabled=false;b.textContent="إنشاء الحساب";return}
     try{
       const uid=await createLogin(pw);
       const exp=Date.now()+days*DAY,paid=+$("amPaid").value||0;
       const aref=fs.collection("accounts").doc();
       const bt=fs.batch();
-      const code=genCode();
-      const logo=PROD==="dz"?LOGO:"";
-      bt.set(aref,{name,biz,product:PROD,code,logo,phone:$("amP").value.trim(),active:true,expiresAt:TS(exp),trial,fee:trial?0:+$("amF").value||0,note:trial?"حساب تجريبي":"",features:{match:PROD==="isp"&&$("amMatch").checked},createdAt:SVT(),settings:{plans:{},period:30,near:3,name:PROD==="isp"?biz:""},stats:{}});
-      bt.set(fs.collection("slugs").doc(code),{acct:aref.id,p:PROD,biz:biz||name,logo});
+      const logo=PROD==="dz"?LOGO:"",kind=PROD==="dz"?KIND:"",bot=PROD==="dz"?($("amBot").value.trim()||(KIND==="general"?"الدعم":"الكابتن")):"";
+      bt.set(aref,{name,biz,product:PROD,code,logo,kind,bot,phone:$("amP").value.trim(),active:true,expiresAt:TS(exp),trial,fee:trial?0:+$("amF").value||0,note:trial?"حساب تجريبي":"",features:{match:PROD==="isp"&&$("amMatch").checked},createdAt:SVT(),settings:{plans:{},period:30,near:3,name:PROD==="isp"?biz:""},stats:{}});
+      bt.set(fs.collection("slugs").doc(code),{acct:aref.id,p:PROD,biz:biz||name,logo,kind,bot});
       bt.set(fs.collection("logins").doc(uid),{acct:aref.id,role:"owner",name,active:true,createdAt:SVT()});
       if(paid&&!trial)bt.set(fs.collection("billing").doc(),{acct:aref.id,name,amount:paid,days,from:TS(Date.now()),to:TS(exp),note:"أول اشتراك",at:SVT()});
       await bt.commit();
-      clientBox({name,biz,product:PROD,code,phone:$("amP").value.trim()},pw,"انضاف "+esc(biz||name)+(trial?" · تجريبي "+days+" يوم":""));
+      clientBox({name,biz,product:PROD,code,logo,kind,bot,phone:$("amP").value.trim()},pw,"انضاف "+esc(biz||name)+(trial?" · تجريبي "+days+" يوم":""));
     }catch(x){er.textContent=pwErr(x);b.disabled=false;b.textContent="إنشاء الحساب"}
   };
 }
