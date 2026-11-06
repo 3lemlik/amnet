@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.05-4">
+<meta name="amnet-build" content="2026.11.06-1">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1216,6 +1216,13 @@ nav.side-nav a[aria-current="page"]::before{animation:sideBar .45s cubic-bezier(
 .cm-smp{display:grid;gap:2px;font-size:12px;color:var(--ink);min-height:54px}
 .cm-smp div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--f-body)}
 .cm-col select{padding:7px 8px;font-size:13px}
+
+/* backup + early renewal + undo */
+.bkbox{display:flex;flex-direction:column;gap:12px;padding:14px;border-radius:14px;background:var(--panel2);border:1px solid var(--line2);margin-bottom:14px}
+.bkbox>div:first-child{display:flex;flex-direction:column;gap:4px}
+.bkbox small{font-size:12.5px;line-height:1.6}
+.extsw button{font-size:13px}
+.done .undo{border-style:dashed}
 </style>
 </head>
 <body>
@@ -1720,6 +1727,8 @@ nav.side-nav a[aria-current="page"]::before{animation:sideBar .45s cubic-bezier(
   <div class="card br canreset">
     <div class="chead"><div class="t"><h2>البيانات</h2></div></div>
     <p class="muted" id="dataInfo" style="margin-top:0"></p>
+    <div class="bkbox"><div><b>النسخة الاحتياطية</b><small class="muted">ملف واحد بيه كل شي: المشتركين، التفعيلات، التسديدات، الديون، الرصيد، التبليغات والإعدادات. احفظه بمكان آمن، وإذا انمسحت البيانات بالغلط ترجعها منه.</small><small class="muted" id="bkLast"></small></div>
+    <div class="row"><button class="btn" id="bkBtn"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>نسخة احتياطية</button><button class="btn ghost" id="rsBtn"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg>استرجاع نسخة</button><input type="file" id="rsFile" accept=".json,application/json" hidden></div></div>
     <div class="row"><button class="btn ghost" id="diagBtn">فحص البيانات</button><button class="btn ghost" id="xlsBtn2">تصدير كل البيانات Excel</button><button class="btn danger" id="wipeBtn">تصفير البيانات</button></div>
   </div>
 </section>
@@ -1854,7 +1863,7 @@ function loaded(){
   SUBS=new Map();ACTS=[];PAYS=[];NOTES=[];LOGS=[];BALS=[];LAST={};DEBT={};
   for(const [p,doc] of Object.entries(Store.docs)){
     if(p.startsWith("subs/"))for(const [k,s] of Object.entries(doc.items||{}))SUBS.set(k,s);
-    else if(p.startsWith("act/"))for(const [k,a] of Object.entries(doc.items||{}))ACTS.push({k,u:a[0],d:a[1],pl:a[2],c:a[3],s:a[4],by:a[5],pay:a[6]==="a"?"a":"c",pd:+a[7]||0,sid:a[8]||""});
+    else if(p.startsWith("act/"))for(const [k,a] of Object.entries(doc.items||{}))ACTS.push({k,u:a[0],d:a[1],pl:a[2],c:a[3],s:a[4],by:a[5],pay:a[6]==="a"?"a":"c",pd:+a[7]||0,sid:a[8]||"",x:+a[9]||0});
     else if(p.startsWith("pay/"))for(const [k,a] of Object.entries(doc.items||{}))PAYS.push({k,u:a[0],d:a[1],amt:+a[2]||0,note:a[3]||"",sid:a[4]||"",byn:a[5]||""});
     else if(p.startsWith("log/"))for(const [id,l] of Object.entries(doc.items||{}))LOGS.push({id,t:l[0],ty:l[1],x:l[2],by:l[3],sid:l[4],ref:l[5]});
     else if(p==="bal/all")for(const [id,b] of Object.entries(doc.items||{}))BALS.push({id,...b});
@@ -1872,7 +1881,7 @@ const actSell=a=>a.s!=null&&a.s!==""?+a.s:planSell(a.pl);
 const debtOf=k=>Math.max(0,Math.round(DEBT[k]||0));
 function status(k,now){
   const a=LAST[k];if(!a)return {st:"none",days:null,exp:null};
-  const exp=a.d+SET.period*DAY;const days=Math.ceil((exp-now)/DAY);
+  const exp=+a.x||(a.d+SET.period*DAY);const days=Math.ceil((exp-now)/DAY);
   if(exp<=now)return {st:"exp",days,exp};
   return {st:days<=SET.near?"near":"act",days,exp};
 }
@@ -2462,16 +2471,19 @@ function renderAPanel(){
   if(!ASEL||!SUBS.has(ASEL)){if(SHEET){closeModal();return}ASEL=null;P.innerHTML=`<div class="empty"><b>اختار مشترك</b>دوّره ودوس عليه حتى تفعّله.</div>`;return}
   const k=ASEL,s=SUBS.get(k),now=Date.now(),st=status(k,now),d=debtOf(k);
   if(AST.done){
-    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تفعّل بنجاح</h2><div class="done-n">${esc(s.n||s.u)} <span class="ap-u num">${esc(s.u)}</span></div><div class="done-chips"><span>شغّال لغاية <b class="num">${fdate(AST.done.exp)}</b></span>${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div class="done-debt">دينه الكلي هسه: <b class="num">${fmt(AST.done.debt)}</b></div>`:""}<pre class="msgbox amsg" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go amsg" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button>${waBtn(k,"act",{exp:AST.done.exp,pl:AST.done.pl})}<button class="btn ghost go" id="nextAct">${SHEET?"زين، سدّها":"تفعيل مشترك ثاني"}</button></div>`;
+    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تفعّل بنجاح</h2><div class="done-n">${esc(s.n||s.u)} <span class="ap-u num">${esc(s.u)}</span></div><div class="done-chips"><span>شغّال لغاية <b class="num">${fdate(AST.done.exp)}</b></span>${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div class="done-debt">دينه الكلي هسه: <b class="num">${fmt(AST.done.debt)}</b></div>`:""}<pre class="msgbox amsg" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go amsg" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button>${waBtn(k,"act",{exp:AST.done.exp,pl:AST.done.pl})}<button class="btn ghost go" id="nextAct">${SHEET?"زين، سدّها":"تفعيل مشترك ثاني"}</button>${AST.done.a&&Date.now()-AST.done.at<15000?`<button class="btn ghost go undo" id="undoAct"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>تراجع عن التفعيل · <span class="num" id="undoN">${Math.ceil((AST.done.at+15000-Date.now())/1000)}</span></button>`:""}</div>`;
     $("copyMsg").onclick=()=>copyText(AST.done.msg,$("msgBox"));
-    $("nextAct").onclick=()=>{if(SHEET){closeModal();return}ASEL=null;$("aq").value="";renderActivate();$("aq").focus()};return;
+    $("nextAct").onclick=()=>{if(SHEET){closeModal();return}ASEL=null;$("aq").value="";renderActivate();$("aq").focus()};
+    clearInterval(window.__undoT);const ub=$("undoAct");if(ub){ub.onclick=undoActivate;window.__undoT=setInterval(()=>{const l=AST.done?Math.ceil((AST.done.at+15000-Date.now())/1000):0,n=$("undoN");if(!n||l<=0){clearInterval(window.__undoT);const u=$("undoAct");if(u)u.remove();return}n.textContent=l},500)}
+    return;
   }
   const plans=Object.keys(SET.plans);
   const sell=AST.sell===""?0:+AST.sell;
   const pd=AST.pay==="a"?Math.min(sell,+AST.pd||0):sell;
   const when=AST.when||now;
   const base=st.exp&&st.exp>when?st.exp:when; // shows the new expiry from activation time
-  const newExp=when+SET.period*DAY;
+  const rem=st.exp&&st.exp>when?st.exp-when:0,ext=rem>0&&AST.ext!==false;
+  const newExp=(ext?st.exp:when)+SET.period*DAY;
   const la=LAST[k];const needPhone=!s.p;const phOk=!needPhone||phoneOk(AST.phone);const needName=!String(s.n||"").trim();const nmOk=!needName||nameOk(AST.name);
   const alerts=NOTES.filter(n=>n.t==="a"&&n.on!==false&&(!n.u||n.u===k));
   const BI=balInfo();const balWarn=BI&&AST.pl&&BI.bal<planCost(AST.pl)?`<div class="lowbal crit"><svg><use href="#i-alert"/></svg><div>الرصيد ما يكفي لهذا التفعيل${can("finance")||can("balance")?" (الرصيد "+fmt(BI.bal)+" د.ع)":""}. بلّغ صاحب الحساب يشحن.</div></div>`:BI&&BI.low?`<div class="lowbal"><svg><use href="#i-alert"/></svg><div>الرصيد قرّب يخلص، يكفي ${fmt(BI.left)} تفعيل بس.</div></div>`:"";
@@ -2500,6 +2512,9 @@ function renderAPanel(){
       <div class="field"><label for="aWhen">تاريخ التفعيل</label>${AST.when==null?`<button type="button" class="btn ghost" id="chgDate" style="width:100%">هسه · تغيير</button>`:`<input type="datetime-local" id="aWhen" value="${toLocalInput(when)}">`}</div>
     </div>
   </details>
+  ${rem>0?`<div class="ap-sec"><div class="ap-lbl">باقي له <b class="num">${Math.ceil(rem/DAY)}</b> يوم من اشتراكه الحالي</div>
+    <div class="paysw extsw"><button type="button" data-ext="1" aria-pressed="${ext}">يكمل من نهاية اشتراكه</button><button type="button" data-ext="0" aria-pressed="${!ext}">يبدي من اليوم</button></div>
+    <small class="muted" style="display:block;margin-top:8px">${ext?"الأيام الباقية ما تضيع، تنضاف على الاشتراك الجديد.":"الأيام الباقية تضيع والاشتراك الجديد يبدي من وقت التفعيل."}</small></div>`:""}
   <div class="ap-sum">
     <div><small>ينتهي</small><b class="num">${fdate(newExp)}</b></div>
     ${AST.pay==="a"?`<div class="bad"><small>ينضاف دين</small><b class="num">${fmt(sell-pd)}</b></div>`:`<div class="ok"><small>المقبوض</small><b class="num">${fmt(sell)}</b></div>`}
@@ -2511,6 +2526,7 @@ function renderAPanel(){
   if($("aPhone")){const ip=$("aPhone");ip.oninput=()=>{AST.phone=ip.value;const ok=phoneOk(ip.value);$("aPhoneMsg").textContent=ip.value?(ok?"الرقم تمام":"الرقم لازم 11 رقم ويبدي بـ 07"):"المشترك ما عنده رقم بالنظام، اكتبه حتى تكدر تجدد";$("aPhoneMsg").style.color=ok?"var(--ok)":"var(--warn)";$("doAct").disabled=!actReady()}}
   P.querySelectorAll("[data-apl]").forEach(b=>b.onclick=()=>{AST.pl=b.dataset.apl;AST.sell=String(planSell(AST.pl)||"");renderAPanel()});
   P.querySelectorAll(".paysw [data-p]").forEach(b=>b.onclick=()=>{AST.pay=b.dataset.p;renderAPanel()});
+  P.querySelectorAll("[data-ext]").forEach(b=>b.onclick=()=>{AST.ext=b.dataset.ext==="1";renderAPanel()});
   $("aSell").oninput=e=>{AST.sell=e.target.value;softSum()};
   $("aSell").onchange=()=>renderAPanel();
   if($("aPd")){$("aPd").oninput=e=>{AST.pd=e.target.value};$("aPd").onchange=()=>renderAPanel()}
@@ -2518,6 +2534,11 @@ function renderAPanel(){
   if($("aWhen"))$("aWhen").onchange=e=>{const t=new Date(e.target.value).getTime();if(isFinite(t)){AST.when=t;renderAPanel()}};
   $("doAct").onclick=doActivate;
   function softSum(){const v=+AST.sell||0;$("doAct").innerHTML=`<svg><use href="#i-bolt"/></svg>تفعيل · ${fmt(v)} د.ع ${AST.pay==="a"?"(آجل)":"(نقد)"}`}
+}
+async function undoActivate(){
+  const D=AST.done;if(!D||!D.a)return;const b=$("undoAct");if(b)b.disabled=true;clearInterval(window.__undoT);
+  const ok=await guard(async()=>{await saveActs([],[D.a]);if(D.prev)await saveSubs(new Map([[D.a.u,D.prev]]))},"انلغى التفعيل");
+  if(ok){play("alert");AST.done=null;renderAPanel()}else if(b)b.disabled=false;
 }
 async function doActivate(){
   const k=ASEL,s=SUBS.get(k);if(!s||!AST.pl)return;
@@ -2528,10 +2549,12 @@ async function doActivate(){
   const btn=$("doAct");btn.disabled=true;btn.textContent="دا يحفظ...";
   const when=AST.when||Date.now();const sell=AST.sell===""?planSell(AST.pl):+AST.sell;
   const pd=AST.pay==="a"?Math.max(0,Math.min(sell,+AST.pd||0)):0;
-  const a={k:k+"|"+when,u:k,d:when,pl:AST.pl,c:planCost(AST.pl),s:sell===planSell(AST.pl)?null:sell,by:displayName()||"يدوي",pay:AST.pay,pd,sid:mySid()};
+  const st0=status(k,Date.now()),xExp=st0.exp&&st0.exp>when&&AST.ext!==false?st0.exp+SET.period*DAY:0;
+  const a={k:k+"|"+when,u:k,d:when,pl:AST.pl,c:planCost(AST.pl),s:sell===planSell(AST.pl)?null:sell,by:displayName()||"يدوي",pay:AST.pay,pd,sid:mySid(),...(xExp?{x:xExp}:{})};
+  const prevSub=(s.pl!==AST.pl||newPhone||newName)?{...s}:null;
   const pay=AST.pay;
   const ok=await guard(async()=>{await saveActs([a]);if(s.pl!==AST.pl||newPhone||newName)await saveSubs(new Map([[k,{...s,pl:AST.pl,...(newPhone?{p:newPhone}:{}),...(newName?{n:newName}:{})}]]))});
-  if(ok){play(pay==="a"?"credit":"cash");AST.done={exp:when+SET.period*DAY,pay,pl:a.pl,debt:debtOf(k),msg:actMsg(k,a.pl,when)};renderAPanel();toast("تفعّل "+(s.n||s.u))}
+  if(ok){play(pay==="a"?"credit":"cash");AST.done={exp:xExp||when+SET.period*DAY,pay,pl:a.pl,debt:debtOf(k),msg:actMsg(k,a.pl,when),a,prev:prevSub,at:Date.now()};renderAPanel();toast("تفعّل "+(s.n||s.u))}
 }
 $("aq").addEventListener("input",()=>renderActivate());
 $("aq").addEventListener("keydown",e=>{if(e.key==="Enter"){const f=$("ares").querySelector("[data-asel]");if(f){e.preventDefault();selectForActivate(f.dataset.asel)}}});
@@ -2875,7 +2898,7 @@ function renderMulti(){
   $("multiList").innerHTML=out.slice(0,50).map(o=>{const s=SUBS.get(o.u)||{};return `<div class="li" data-open="${esc(o.u)}"><span class="nm">${esc(s.n||s.u||o.u)}</span><span class="u">${o.hits.map(h=>fdate(h.d)).join(" · ")}</span><span class="paytag a">${o.hits.length} مرات</span><span class="u ph">${esc([...new Set(o.hits.map(h=>h.by).filter(Boolean))].join("، "))}</span></div>`}).join("");
 }
 /* ================= ACTIVITY LOG VIEW ================= */
-const LTYPES={act:["تفعيل","#2fd27a","⚡"],actedit:["تعديل تفعيل","#ffb020","✎"],actdel:["حذف تفعيل","#ff4d5e","✕"],pay:["تسديد","#4fb6ff","＄"],paydel:["حذف تسديد","#ff4d5e","✕"],sub:["مشترك جديد","#8b7bff","＋"],subedit:["تعديل مشترك","#ffb020","✎"],subdel:["حذف مشترك","#ff4d5e","✕"],plan:["الباقات","#c46bff","◆"],settings:["الإعدادات","#9a9095","⚙"],notice:["التبليغات","#ff9f2f","📣"],staff:["الموظفين","#2fd2c4","👤"],bal:["الرصيد","#2fd27a","₪"],import:["استيراد","#4fb6ff","⬇"],login:["دخول","#9a9095","↪"]};
+const LTYPES={backup:["نسخة احتياطية","#4fb6ff","⤓"],restore:["استرجاع نسخة","#ffb020","⤒"],act:["تفعيل","#2fd27a","⚡"],actedit:["تعديل تفعيل","#ffb020","✎"],actdel:["حذف تفعيل","#ff4d5e","✕"],pay:["تسديد","#4fb6ff","＄"],paydel:["حذف تسديد","#ff4d5e","✕"],sub:["مشترك جديد","#8b7bff","＋"],subedit:["تعديل مشترك","#ffb020","✎"],subdel:["حذف مشترك","#ff4d5e","✕"],plan:["الباقات","#c46bff","◆"],settings:["الإعدادات","#9a9095","⚙"],notice:["التبليغات","#ff9f2f","📣"],staff:["الموظفين","#2fd2c4","👤"],bal:["الرصيد","#2fd27a","₪"],import:["استيراد","#4fb6ff","⬇"],login:["دخول","#9a9095","↪"]};
 let LPERIOD="today",LLIM=150;
 function renderLog(){
   if(!can("log"))return;
@@ -3082,7 +3105,7 @@ async function saveActs(add,del){
       else logs.push(["act","فعّل "+subLbl(a.u)+" · "+a.pl+" · "+fmt(a.s!=null?+a.s:planSell(a.pl))+" د.ع · "+payLbl(a.pay)+(a.pay==="a"&&a.pd?" (دفع "+fmt(a.pd)+")":""),a.u])}
     for(const d of del)if(!used.has(d.k))logs.push(["actdel","حذف تفعيل "+subLbl(d.u)+" بتاريخ "+fdt(d.d)+" · "+d.pl,d.u]);
   }
-  await saveChunked("act",add,del,a=>[a.u,a.d,a.pl,a.c,a.s==null?null:a.s,a.by||"",a.pay==="a"?"a":"c",+a.pd||0,a.sid||""]);
+  await saveChunked("act",add,del,a=>{const r=[a.u,a.d,a.pl,a.c,a.s==null?null:a.s,a.by||"",a.pay==="a"?"a":"c",+a.pd||0,a.sid||""];if(+a.x)r.push(+a.x);return r});
   logMany(logs);
 }
 async function savePays(add,del){
@@ -3243,7 +3266,7 @@ function renderConfig(){
     <label class="tgl"><span>تطلع بإعلان الباقات بالرئيسية</span><input type="checkbox" data-pf="home" data-pn="${esc(n)}" ${p.home!==false?"checked":""}></label>
     ${used[n]?"":`<button class="btn danger sm" data-delplan="${esc(n)}" style="justify-self:start">حذف الباقة</button>`}</div>`).join("")
     :`<div class="empty"><b>ماكو باقات بعد</b>تنضاف تلقائياً من ملف الاستيراد، أو ضيفها يدوياً.</div>`;
-  $("cfName").value=SET.name||"";$("cfPeriod").value=SET.period;$("cfNear").value=SET.near;
+  bkInfo();$("cfName").value=SET.name||"";$("cfPeriod").value=SET.period;$("cfNear").value=SET.near;
   $("dataInfo").textContent=`عندك ${fmt(SUBS.size)} مشترك و ${fmt(ACTS.length)} تفعيل و ${fmt(PAYS.length)} تسديد. `+"البيانات محفوظة على Firebase وتظهر بأي جهاز تدخل منه بحسابك.";
 }
 $("plansTbl").addEventListener("change",e=>{const i=e.target;const n=i.dataset.pn,f=i.dataset.pf;if(!n||!f||!SET.plans[n])return;const p={...SET.plans[n]};p[f]=f==="home"?i.checked:(f==="c"||f==="s")?(+i.value||0):i.value.trim();SET.plans={...SET.plans,[n]:p};i.blur();guard(saveSettings,"انحفظت باقة "+n)});
@@ -3256,9 +3279,38 @@ $("addPlan").onclick=()=>{
   $("plGo").onclick=()=>{const n=$("plN").value.trim().toUpperCase();if(!n){toast("اكتب اسم الباقة");return}SET.plans={...SET.plans,[n]:{c:+$("plC").value||0,s:+$("plS").value||0,speed:$("plSp").value.trim(),info:$("plI").value.trim()}};closeModal();guard(saveSettings,"انضافت الباقة")};
 };
 $("saveCfg").onclick=()=>{SET={...SET,name:$("cfName").value.trim(),period:Math.max(1,Math.min(365,+$("cfPeriod").value||30)),near:Math.max(0,Math.min(30,+$("cfNear").value||0))};$("saveCfg").blur();guard(saveSettings,"انحفظت الإعدادات")};
+/* ---- backup / restore ---- */
+function dlBlob(blob,name){const u=URL.createObjectURL(blob);const l=document.createElement("a");l.href=u;l.download=name;document.body.append(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),6000)}
+function doBackup(tag,quiet){
+  if(!Store.uid){toast("سجّل دخول أول");return false}
+  const d=new Date(),docs={};for(const [p,b] of Object.entries(Store.docs))docs[p]=b;
+  const nm=((ACCOUNT&&ACCOUNT.name)||(VIEWAS&&VIEWAS.name)||"").replace(/[^\w\u0600-\u06FF-]+/g,"_").slice(0,30);
+  const file="amnet-"+(tag||"backup")+(nm?"-"+nm:"")+"-"+d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"_"+pad(d.getHours())+pad(d.getMinutes())+".json";
+  dlBlob(new Blob([JSON.stringify({app:"amnet",v:1,acct:Store.uid,name:(ACCOUNT&&ACCOUNT.name)||(VIEWAS&&VIEWAS.name)||"",at:Date.now(),by:displayName()||"",docs})],{type:"application/json"}),file);
+  try{localStorage.setItem("amnet_bk_"+Store.uid,String(Date.now()))}catch(e){}bkInfo();
+  if(!quiet){toast("انحفظت النسخة الاحتياطية");logEv("backup","سوّى نسخة احتياطية")}return true;
+}
+function bkInfo(){const el=$("bkLast");if(!el)return;let t=0;try{t=+localStorage.getItem("amnet_bk_"+Store.uid)||0}catch(e){}el.textContent=t?"آخر نسخة من هذا الجهاز: "+fdt(t):"ما سويت نسخة من هذا الجهاز لحد الآن"}
+$("bkBtn").onclick=()=>doBackup();
+$("rsBtn").onclick=()=>$("rsFile").click();
+$("rsFile").onchange=async e=>{
+  const f=e.target.files[0];e.target.value="";if(!f)return;let d;
+  try{d=JSON.parse(await f.text())}catch(x){toast("هذا الملف مو نسخة احتياطية صحيحة");return}
+  if(!d||d.app!=="amnet"||!d.docs||typeof d.docs!=="object"){toast("هذا الملف مو نسخة احتياطية من AM NET");return}
+  let ns=0,na=0,np=0;for(const [p,b] of Object.entries(d.docs)){const n=Object.keys((b&&b.items)||{}).length;if(p.startsWith("subs/"))ns+=n;else if(p.startsWith("act/"))na+=n;else if(p.startsWith("pay/"))np+=n}
+  const other=d.acct&&d.acct!==Store.uid;
+  confirmBox("استرجاع نسخة احتياطية",`نسخة بتاريخ <b class="num">${fdt(d.at||0)}</b>${d.name?" · "+esc(d.name):""}<br>بيها <b class="num">${fmt(ns)}</b> مشترك و <b class="num">${fmt(na)}</b> تفعيل و <b class="num">${fmt(np)}</b> تسديد.${other?'<br><br><b style="color:var(--warn)">انتبه: هاي النسخة من حساب ثاني.</b>':""}<br><br>بياناتك الحالية تتبدّل بيها، وأي شي انضاف بعد تاريخ النسخة ينشال. سجل العمليات يبقى مثل ما هو. وقبل الاسترجاع تنحفظ نسخة من بياناتك الحالية تلقائياً حتى تگدر ترجعها.`,"رجّعها",async()=>{
+    doBackup("before-restore",true);
+    await guard(async()=>{
+      for(const p of Object.keys(Store.docs))if(!(p in d.docs)&&p!=="meta/settings"&&!p.startsWith("log/"))await Store.remove(p);
+      for(const [p,b] of Object.entries(d.docs)){if(p.startsWith("log/"))continue;await Store.write(p,b)}
+    },"رجعت النسخة الاحتياطية");
+    logEv("restore","رجّع نسخة احتياطية بتاريخ "+fdt(d.at||0));
+  });
+};
 $("wipeBtn").onclick=()=>{
   const n={subs:SUBS.size,acts:ACTS.length,pays:PAYS.length,logs:LOGS.length,notes:NOTES.length,bals:BALS.length};
-  modal(`<div class="mhd"><div class="t"><h2>تصفير البيانات</h2><div class="muted">اختار شنو تريد تمسح. ما يرجع بعد المسح، فإذا تحتاج نسخة صدّر Excel قبلها.</div></div><button class="x" data-close aria-label="سكّر">×</button></div>
+  modal(`<div class="mhd"><div class="t"><h2>تصفير البيانات</h2><div class="muted">اختار شنو تريد تمسح. قبل المسح تنحفظ نسخة احتياطية تلقائياً على جهازك حتى تگدر ترجعها إذا احتجت.</div></div><button class="x" data-close aria-label="سكّر">×</button></div>
   <div class="perms">
     <label class="tgl"><span>المشتركين والتفعيلات والتسديدات <small class="muted">(${fmt(n.subs)} مشترك · ${fmt(n.acts)} تفعيل · ${fmt(n.pays)} تسديد)</small></span><input type="checkbox" data-wp="core" checked></label>
     <label class="tgl"><span>سجل العمليات <small class="muted">(${fmt(n.logs)})</small></span><input type="checkbox" data-wp="log"></label>
@@ -3271,6 +3323,7 @@ $("wipeBtn").onclick=()=>{
   <button class="btn danger go" id="wpGo">صفّر هسه</button>`);
   $("wpGo").onclick=async()=>{
     if($("wpConf").value.trim()!=="تصفير"){toast("اكتب كلمة تصفير حتى تأكد");$("wpConf").focus();return}
+    doBackup("before-wipe",true);
     const o={};document.querySelectorAll("#mbox [data-wp]").forEach(i=>o[i.dataset.wp]=i.checked);
     const pre=[];if(o.core)pre.push("subs/","act/","pay/");if(o.log)pre.push("log/");if(o.bal)pre.push("bal/");if(o.notes)pre.push("notes/");
     const paths=Object.keys(Store.docs).filter(p=>pre.some(x=>p.startsWith(x)));
