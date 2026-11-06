@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>جاري الفتح…</title>
+<script>
+/* روابط بالاسم: .../store/alnoor  →  .../store/?s=alnoor  (و #admin يبقى مثل ما هو) */
+(function(){var p=location.pathname,m=p.match(/^(\/[^\/]+\/(?:store\/)?)([A-Za-z0-9-]{2,30})\/?$/);
+if(m){location.replace(m[1]+'?s='+m[2].toLowerCase()+location.hash);}else{document.addEventListener('DOMContentLoaded',function(){document.getElementById('msg').textContent='الصفحة مو موجودة. تأكد من الرابط.'})}})();
+</script>
+<style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0b0c10;color:#eceef2;font:16px system-ui,sans-serif}</style>
+</head><body><p id="msg">جاري الفتح…</p></body></html>
