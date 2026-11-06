@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.06-3">
+<meta name="amnet-build" content="2026.11.06-4">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -3938,6 +3938,27 @@ document.addEventListener("click",e=>{
   if(ROLE==="admin"){if(VIEWAS)openChat(VIEWAS.id,VIEWAS.name);else{location.hash="admin";setTimeout(()=>{const c=$("chatCard");if(c)c.scrollIntoView({behavior:"smooth",block:"start"})},80)}}
   else if(ROLE==="marketer"&&LOGIN&&LOGIN.acct)openChat(LOGIN.acct,"");
 });
+/* telegram-style doodle wallpaper built from the AM NET logo + network icons, tinted with the current accent */
+function chatWall(el){
+  const cs=getComputedStyle(document.documentElement),acc=(cs.getPropertyValue("--accent")||"#ec1c32").trim(),lt=document.documentElement.dataset.theme==="light";
+  const o=lt?.16:.10,ink=lt?"#1b2030":"#ffffff",io=lt?.07:.045;
+  const logo=(x,y,r,sc)=>`<g transform="translate(${x} ${y}) rotate(${r}) scale(${sc}) translate(-24 -24)"><path d="M24 3 42 13.5v21L24 45 6 34.5v-21Z" fill="none" stroke="${acc}" stroke-opacity="${o}" stroke-width="2.4" stroke-linejoin="round"/><path d="M13 22a15 15 0 0 1 22 0M16.5 25.5a10 10 0 0 1 15 0M20 29a5 5 0 0 1 8 0" fill="none" stroke="${ink}" stroke-opacity="${io*1.6}" stroke-width="2.6" stroke-linecap="round"/><circle cx="24" cy="33" r="2.6" fill="${acc}" fill-opacity="${o*1.2}"/></g>`;
+  const ic=(d,x,y,r,sc)=>`<g transform="translate(${x} ${y}) rotate(${r}) scale(${sc}) translate(-12 -12)"><path d="${d}" fill="none" stroke="${ink}" stroke-opacity="${io}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+  const WIFI="M2 9a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0M12 19.5h.01",
+    BARS="M4 20v-3M9 20v-7M14 20v-11M19 20V4",
+    ROUTER="M3 14h18v6H3zM7 17h.01M11 17h.01M8 14l-2-6M16 14l2-6",
+    GLOBE="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18",
+    BOLT="M13 2 4 14h7l-1 8 9-12h-7z",
+    CHAT="M4 5h16v11H9l-5 4z",
+    PIN="M12 21s-6-6-6-11a6 6 0 0 1 12 0c0 5-6 11-6 11M12 10h.01",
+    STAR="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z";
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 280 280">${
+    logo(48,46,-14,1.15)+logo(200,128,18,.95)+logo(86,214,8,1.05)+logo(246,252,-22,.8)+
+    ic(WIFI,150,36,12,1.3)+ic(BARS,250,48,-10,1.2)+ic(ROUTER,24,128,-8,1.3)+ic(GLOBE,118,130,10,1.25)+
+    ic(BOLT,170,212,-18,1.2)+ic(CHAT,264,190,14,1.1)+ic(PIN,30,250,-12,1.15)+ic(STAR,140,262,20,.9)+ic(BARS,100,82,24,.9)+ic(WIFI,214,78,-26,.95)}</svg>`;
+  el.style.backgroundImage=`url("data:image/svg+xml,${encodeURIComponent(svg)}"),radial-gradient(120% 80% at 100% 0%,rgba(var(--acc-rgb),${lt?.10:.09}),transparent 60%),radial-gradient(90% 70% at 0% 100%,rgba(var(--acc-rgb),${lt?.07:.06}),transparent 65%)`;
+  el.style.backgroundSize="280px 280px,auto,auto";
+}
 function openChat(acct,name){
   const admin=ROLE==="admin",me=admin?"a":"m",ref=fs.collection("chats").doc(acct);
   const mk=admin?MK.find(x=>x.id===acct):null;
@@ -3948,7 +3969,7 @@ function openChat(acct,name){
   <form class="ch-in" id="chForm"><div class="ch-field"><textarea id="chT" rows="1" maxlength="2000" placeholder="اكتب رسالة" aria-label="الرسالة"></textarea></div><button class="ch-send" id="chSend" aria-label="إرسال" disabled><svg><use href="#i-send"/></svg></button></form>`);
   const box=$("mbox");box.classList.add("chatbox");
   if(!$("gate").hidden||!$("gLocked").hidden)$("modal").style.zIndex="300";
-  const log=$("chLog"),ta=$("chT"),send=$("chSend");let MSG=[],loaded0=false;
+  const log=$("chLog"),ta=$("chT"),send=$("chSend");chatWall(log);let MSG=[],loaded0=false;
   const meta=()=>(admin?CHATS.find(c=>c.id===acct):MYCHAT)||{};
   const TICK='<svg class="tk" viewBox="0 0 18 12" aria-hidden="true"><path d="M1 6.5 4.5 10 11 2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path class="t2" d="M7 9.2 7.8 10 14.5 2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   const QUICK=["أريد أفعّل حسابي","أريد أجدد الاشتراك","عندي مشكلة بالنظام","شكد سعر الاشتراك؟"];
