@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.07-6">
+<meta name="amnet-build" content="2026.11.07-7">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -4569,6 +4569,36 @@ function boot(){
 boot();
 })();
 </script>
+
+<!-- ===== shared: zoom lock + "add to home screen" invite (Ali Malik sites) ===== -->
+<style>html{touch-action:manipulation;-webkit-text-size-adjust:100%}
+#a2hs{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 86px);z-index:2147483000;max-width:460px;margin:0 auto;display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:18px;background:rgba(20,20,26,.96);color:#f2f3f6;border:1px solid rgba(255,255,255,.12);box-shadow:0 20px 50px -14px rgba(0,0,0,.75);font:500 14px/1.5 "IBM Plex Sans Arabic",system-ui,sans-serif;direction:rtl;animation:a2in .35s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes a2in{from{opacity:0;transform:translateY(20px)}}
+#a2hs img{width:48px;height:48px;border-radius:12px;flex:none;object-fit:cover;background:#222}
+#a2hs b{display:block;font-size:15px}#a2hs small{display:block;color:#b9bdc7;font-size:12.5px}
+#a2hs .a2b{flex:none;border:0;border-radius:11px;padding:9px 14px;font:700 14px inherit;background:#ec1c32;color:#fff;cursor:pointer}
+#a2hs .a2x{position:absolute;top:-8px;left:-8px;width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:#2a2a33;color:#fff;font-size:15px;line-height:1;cursor:pointer}
+#a2hs .shr{display:inline-block;width:16px;height:16px;vertical-align:-3px}</style>
+<script>(function(){
+  /* zoom lock (iOS ignores user-scalable=no) */
+  try{document.addEventListener("gesturestart",function(e){e.preventDefault()},{passive:false});document.addEventListener("gesturechange",function(e){e.preventDefault()},{passive:false});
+    document.addEventListener("touchmove",function(e){if(e.scale!==undefined&&e.scale!==1)e.preventDefault()},{passive:false})}catch(e){}
+  var standalone=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true;
+  if(standalone||!/^https:/.test(location.protocol))return;
+  var ua=navigator.userAgent,ios=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1),mobile=ios||/android/i.test(ua);
+  if(!mobile)return;
+  var KEY="a2hs_skip_"+location.pathname;try{var t=+localStorage.getItem(KEY)||0;if(Date.now()-t<3*864e5)return}catch(e){}
+  var deferred=null;window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferred=e;show()});
+  var shown=false;
+  function show(){if(shown)return;shown=true;var ic=(document.querySelector('link[rel="apple-touch-icon"]')||{}).href||"",name=document.title||"الموقع";
+    var d=document.createElement("div");d.id="a2hs";d.setAttribute("role","dialog");
+    var share='<svg class="shr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 8l5-5 5 5"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';
+    d.innerHTML=(ic?'<img alt="" onerror="this.remove()" src="'+ic+'">':"")+'<div style="flex:1;min-width:0"><b>ثبّت '+name.replace(/[<>&]/g,"")+' على شاشتك</b><small>'+(deferred?"يفتح مثل تطبيق، أسرع وبدون متصفح":ios?"دوس "+share+" بالأسفل ← «إضافة إلى الشاشة الرئيسية»":"من قائمة المتصفح ⋮ ← «إضافة إلى الشاشة الرئيسية»")+'</small></div>'+(deferred?'<button class="a2b" type="button">تثبيت</button>':"")+'<button class="a2x" type="button" aria-label="إغلاق">×</button>';
+    document.body.appendChild(d);
+    d.querySelector(".a2x").onclick=function(){try{localStorage.setItem(KEY,String(Date.now()))}catch(e){}d.remove()};
+    var b=d.querySelector(".a2b");if(b)b.onclick=function(){deferred.prompt();deferred.userChoice.then(function(){d.remove()})}}
+  setTimeout(function(){if(!shown&&(ios||!deferred))show()},ios?2500:6000);
+})();</script>
 
 </body>
 </html>
