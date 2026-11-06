@@ -2,7 +2,7 @@
 <html lang="ar">
 <head>
 <meta charset="utf-8">
-<meta name="dz-build" content="84">
+<meta name="dz-build" content="86">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -2606,7 +2606,7 @@ function render(){renderTop();renderCats();renderGrid();renderCartBits()}
 
 
 /* storefront texts: written in the system (store control), with marketing defaults */
-const TXD={"eye": "متجر المكملات", "h1": "ابنِ جسمك *بالأصلي*|والتوصيل علينا", "sub": "بروتين، كرياتين، وكل مكمل يحتاجه تمرينك. أصلي ومختوم، يوصلك لباب بيتك، وما تدفع إلا لمن تستلم.", "cta1": "ابدأ التسوّق", "cta2": "سلتي", "p1t": "أصلي 100% ومختوم", "p1s": "من الوكيل لإيدك بدون وسيط", "p2t": "يوصلك لباب البيت", "p3t": "ادفع لمن تستلم", "p3s": "تشوف طلبك بعينك وبعدين تدفع", "p4t": "رد سريع على واتساب", "p4s": "نثبّت طلبك ونجاوب على كل سؤال", "p5t": "اشتري بالقطعة", "p5s": "خذ العلبة الي تحتاجها، لا أكثر ولا أقل", "shop": "اختار مكمّلك", "search": "شنو تدوّر؟ بروتين، كرياتين، نكهة…", "t1t": "الختم شاهد", "t1s": "كل علبة توصلك بختمها الأصلي، مضمونة 100%.", "t2t": "استشارة ببلاش", "t2s": "اسأل كابتن دوزي أو اسألنا، ونختارلك الي يناسب هدفك.", "t3t": "دفع بأمان", "t3s": "ما تدفع ولا دينار إلا لمن يوصلك طلبك.", "t4t": "توصيل سريع", "t4s": "نثبّت طلبك ونوصله بأسرع وقت لكل المحافظات.", "foot": "الدزاز جم • قوتك تبدي من هنا"};
+const TXD=((window.__BRK&&window.__BRK.kind==='general')?window.__BRK.txd:null)||{"eye": "متجر المكملات", "h1": "ابنِ جسمك *بالأصلي*|والتوصيل علينا", "sub": "بروتين، كرياتين، وكل مكمل يحتاجه تمرينك. أصلي ومختوم، يوصلك لباب بيتك، وما تدفع إلا لمن تستلم.", "cta1": "ابدأ التسوّق", "cta2": "سلتي", "p1t": "أصلي 100% ومختوم", "p1s": "من الوكيل لإيدك بدون وسيط", "p2t": "يوصلك لباب البيت", "p3t": "ادفع لمن تستلم", "p3s": "تشوف طلبك بعينك وبعدين تدفع", "p4t": "رد سريع على واتساب", "p4s": "نثبّت طلبك ونجاوب على كل سؤال", "p5t": "اشتري بالقطعة", "p5s": "خذ العلبة الي تحتاجها، لا أكثر ولا أقل", "shop": "اختار مكمّلك", "search": "شنو تدوّر؟ بروتين، كرياتين، نكهة…", "t1t": "الختم شاهد", "t1s": "كل علبة توصلك بختمها الأصلي، مضمونة 100%.", "t2t": "استشارة ببلاش", "t2s": "اسأل كابتن دوزي أو اسألنا، ونختارلك الي يناسب هدفك.", "t3t": "دفع بأمان", "t3s": "ما تدفع ولا دينار إلا لمن يوصلك طلبك.", "t4t": "توصيل سريع", "t4s": "نثبّت طلبك ونوصله بأسرع وقت لكل المحافظات.", "foot": "الدزاز جم • قوتك تبدي من هنا"};
 const TX=Object.assign({},TXD,(DATA.tx&&typeof DATA.tx==='object')?Object.fromEntries(Object.entries(DATA.tx).filter(([k,v])=>typeof v==='string'&&v.trim())):{});
 function applyTx(){
   document.querySelectorAll('[data-tx]').forEach(e=>{e.textContent=TX[e.dataset.tx]||''});
@@ -4099,12 +4099,16 @@ const PRE=(()=>{let out='',on=false;for(const n of document.body.childNodes){if(
 "use strict";
 
 /* ===================== هوية العميل: الاسم والشعار من لوحة AM NET (بدون اسم ثابت للنظام) ===================== */
-const BRAND={name:'',logo:'',ready:false};
-try{const b=window.__BR||JSON.parse(localStorage.getItem('dz-brand')||'null');if(b&&b.name){BRAND.name=b.name;BRAND.logo=b.logo||'';BRAND.ready=true}}catch(e){}
+const BRAND={name:'',logo:'',kind:'sport',bot:'',ready:false};
+try{const b=window.__BR||JSON.parse(localStorage.getItem('dz-brand')||'null');if(b&&b.name){BRAND.name=b.name;BRAND.logo=b.logo||'';BRAND.kind=b.kind==='general'?'general':'sport';BRAND.bot=b.bot||'';BRAND.ready=true}}catch(e){}
+const BOOTKIND=BRAND.kind;
+const TXD_GEN={"eye": "متجرنا الأونلاين", "h1": "كل اللي تحتاجه *بمكان واحد*|والتوصيل علينا", "sub": "منتجات أصلية بأسعار واضحة، توصلك لباب بيتك، وما تدفع إلا لمن تستلم.", "cta1": "ابدأ التسوّق", "cta2": "سلتي", "p1t": "منتجات أصلية", "p1s": "نختار البضاعة بعناية ونضمنها", "p2t": "يوصلك لباب البيت", "p3t": "ادفع لمن تستلم", "p3s": "تشوف طلبك بعينك وبعدين تدفع", "p4t": "رد سريع على واتساب", "p4s": "نثبّت طلبك ونجاوب على كل سؤال", "p5t": "اشتري اللي تحتاجه", "p5s": "قطعة وحدة أو أكثر، مثل ما تريد", "shop": "تصفّح منتجاتنا", "search": "شنو تدوّر؟ اكتب اسم المنتج…", "t1t": "جودة مضمونة", "t1s": "كل منتج نفحصه قبل ما يوصلك.", "t2t": "استشارة ببلاش", "t2s": "اسأل المساعد أو اسألنا، ونختارلك اللي يناسبك.", "t3t": "دفع بأمان", "t3s": "ما تدفع ولا دينار إلا لمن يوصلك طلبك.", "t4t": "توصيل سريع", "t4s": "نثبّت طلبك ونوصله بأسرع وقت لكل المحافظات.", "foot": "شكراً لثقتكم"};
+const brBot=()=>BRAND.bot||(BRAND.kind==='general'?'الدعم':'الكابتن');
+window.__BRK={kind:BRAND.kind,txd:TXD_GEN};
 const brName=()=>BRAND.name||'المتجر';
 const brClean=t=>String(t||'').replace(/[`'"\\<>${}]/g,'').trim().slice(0,40);
-const BR_RX=/الدزاز جم|ALDZAZ\s*·\s*GYM|ALDZAZ GYM|ALDZAZ|الدزاز|DZ-OS|المساعد دازي|دازي|دوزي/g;
-const brTxt=t=>t.replace(BR_RX,m=>m==='DZ-OS'?'SYS':/دازي|دوزي/.test(m)?'المساعد':brName());
+const BR_RX=/الدزاز جم|ALDZAZ\s*·\s*GYM|ALDZAZ GYM|ALDZAZ|الدزاز|DZ-OS|المساعد دازي|كابتن دوزي|دازي|دوزي/g;
+const brTxt=t=>t.replace(BR_RX,m=>m==='DZ-OS'?'SYS':/دازي|دوزي/.test(m)?brBot():brName());
 const brEsc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function brLogo(){return BRAND.logo?`<img class="brlogo" src="${brEsc(BRAND.logo)}" alt="">`:`<span class="brlogo brtx">${brEsc(brName().charAt(0)||'؟')}</span>`}
 function brFix(root){
@@ -4122,11 +4126,11 @@ function brHead(){
   try{const mf={name:brName(),short_name:brName(),start_url:location.pathname+location.search,display:'standalone',dir:'rtl',lang:'ar',background_color:'#060609',theme_color:'#060609',icons:BRAND.logo?[{src:BRAND.logo,sizes:'256x256',type:(BRAND.logo.match(/^data:([^;]+)/)||[])[1]||'image/png',purpose:'any'}]:[]};
     const l=document.querySelector('link[rel="manifest"]');if(l)l.href='data:application/manifest+json,'+encodeURIComponent(JSON.stringify(mf))}catch(e){}
 }
-function brSet(name,logo){
-  name=brClean(name);if(!name)return;const prev=BRAND.ready?BRAND.name:'',ch=name!==BRAND.name||(logo||'')!==BRAND.logo;
-  BRAND.name=name;BRAND.logo=logo||'';window.__BR={name,logo:BRAND.logo};try{localStorage.setItem('dz-brand',JSON.stringify(window.__BR))}catch(e){}
+function brSet(name,logo,kind,bot){
+  name=brClean(name);if(!name)return;kind=kind==='general'?'general':'sport';bot=brClean(bot);const prev=BRAND.ready?BRAND.name:'',ch=name!==BRAND.name||(logo||'')!==BRAND.logo||kind!==BRAND.kind||bot!==BRAND.bot;
+  BRAND.name=name;BRAND.logo=logo||'';BRAND.kind=kind;BRAND.bot=bot;window.__BRK={kind,txd:TXD_GEN};window.__BR={name,logo:BRAND.logo,kind,bot};try{localStorage.setItem('dz-brand',JSON.stringify(window.__BR))}catch(e){}
   /* the screen already shows another shop's name (this device opened another link before): reload once with the right one */
-  if(ch&&prev){let did=false;try{did=sessionStorage.getItem('dz-br-rl')===name;sessionStorage.setItem('dz-br-rl',name)}catch(e){did=true}if(!did){location.reload();return}}
+  if(ch&&(prev||kind!==BOOTKIND)){let did=false;try{did=sessionStorage.getItem('dz-br-rl')===name;sessionStorage.setItem('dz-br-rl',name)}catch(e){did=true}if(!did){location.reload();return}}
   brReady();
 }
 function brReady(){
@@ -4144,8 +4148,14 @@ function brStore(h){
   h=h.replace(/AL<svg class="dzmini"[\s\S]*?<\/svg>ZAZ <em>GYM<\/em>/g,brEsc(nm));
   h=h.replace(/<svg class="dzem-mark"[\s\S]*?<\/svg>/g,()=>`<span class="brlw brem">${lg}</span>`);
   h=h.replace(/<svg([^>]*)viewBox="0 0 272 180"[^>]*>[\s\S]*?<\/svg>/g,(m,a)=>{const c=(a.match(/class="([^"]*)"/)||[])[1]||'';return `<span class="brlw ${c}">${lg}</span>`});
-  h=h.replace(/الدزاز جم|ALDZAZ\s*·\s*GYM|ALDZAZ GYM|ALDZAZ|الدزاز/g,nm).replace(/DZ-OS/g,'SYS').replace(/المساعد دازي|دازي|دوزي/g,'المساعد');
-  return h.replace('</head>','<style>'+BR_CSS+'</style></head>');
+  const bot=brBot().replace(/[$]/g,'');
+  h=h.replace(/الدزاز جم|ALDZAZ\s*·\s*GYM|ALDZAZ GYM|ALDZAZ|الدزاز/g,nm).replace(/DZ-OS/g,'SYS').replace(/المساعد دازي|كابتن دوزي|دازي|دوزي/g,bot);
+  if(BRAND.kind==='general'){
+    h=h.replace(/'كابتن',/g,'').replace(/حبيبي كابتن/g,'حبيبي').replace(/عيوني كابتن/g,'عيوني').replace(/ يا بطل/g,'').replace(/ يا وحش/g,'').replace(/شد حيلك/g,'بالتوفيق').replace(/مدربك ومساعدك/g,'مساعدك').replace(/مدربك/g,'مساعدك').replace(/وعن أي سؤال بالتغذية والمكملات/g,'وعن أي سؤال يخص طلبك').replace(/اريد ثنين كرياتين/g,'اريد قطعتين من هذا')
+       .replace(/(['"`>\n])كابتن[،,]?\s*/g,'$1').replace(/ ?(?<![ا-ي])كابتن(?! أحمد)/g,'');
+  }
+  const head='<style>'+BR_CSS+(BRAND.kind==='general'?'[data-cact="open"]{display:none!important}':'')+'</style><script>window.__BRK='+JSON.stringify({kind:BRAND.kind,txd:TXD_GEN}).replace(/</g,'\\u003c')+'</'+'script>';
+  return h.replace('</head>',head+'</head>');
 }
 const BR_CSS=`.brlw{display:inline-grid;place-items:center;flex:none}.brlw .brlogo{display:block}.brlogo{width:44px;height:44px;object-fit:contain;border-radius:12px}.brtx{display:grid;place-items:center;border-radius:12px;background:var(--cy,#ed1c24);color:#fff;font:800 22px/1 "Noto Kufi Arabic",sans-serif}.dzmark.brlw .brlogo{width:46px;height:46px}.dzmini.brlw{display:none}.brem{position:absolute;inset:0;display:grid!important;place-items:center;z-index:2}.brem .brlogo{width:44%;height:44%;font-size:56px;border-radius:24px}.brlw.dzmark{width:auto!important}`;
 
@@ -4174,10 +4184,10 @@ const VIEWS=[
  {id:'buy',label:'المشتريات',icon:I.buy},
  {id:'sales',label:'المبيعات',icon:I.sales},
  {id:'orders',label:'الطلبات',icon:I.orders},
- {id:'coach',label:'المدرب',icon:I.coach},
+ ...(BRAND.kind==='general'?[]:[{id:'coach',label:'المدرب',icon:I.coach}]),
  {id:'reports',label:'التقارير',icon:I.report}
 ];
-const CATS=['بروتين','كرياتين','أحماض أمينية','ما قبل التمرين','غينر / زيادة وزن','حارق دهون','فيتامينات ومعادن','أوميغا 3','بارات وسناك','إكسسوارات','أخرى'];
+const CATS=BRAND.kind==='general'?["ملابس", "أحذية وحقائب", "إلكترونيات", "موبايلات وإكسسوارات", "عطور وتجميل", "أغذية ومشروبات", "منزل ومطبخ", "ألعاب وهدايا", "قرطاسية", "أخرى"]:['بروتين','كرياتين','أحماض أمينية','ما قبل التمرين','غينر / زيادة وزن','حارق دهون','فيتامينات ومعادن','أوميغا 3','بارات وسناك','إكسسوارات','أخرى'];
 const PAY=['نقد','تحويل','آجل'];
 const ADJ_REASONS=['عدّ فعلي','تالف','مفقود','عينة / هدية','انتهت صلاحيته','تصحيح خطأ'];
 
@@ -5350,7 +5360,7 @@ const FILE=location.protocol==='file:';
 const stCfgSaved=()=>cfgOut(Object.assign({},STORE_DEF,stMeta().cfg||{}));
 const AD_COLORS=['#ed1c24','#f59e0b','#22c55e','#3b82f6','#a855f7'];
 function stAds(){return (stMeta().ads||[]).map(a=>({id:String(a.id||''),t:String(a.t||''),s:String(a.s||''),tag:String(a.tag||''),c:String(a.c||'#ed1c24'),pid:String(a.pid||''),img:String(a.img||''),on:a.on!==false}))}
-const TXD={"eye": "متجر المكملات", "h1": "ابنِ جسمك *بالأصلي*|والتوصيل علينا", "sub": "بروتين، كرياتين، وكل مكمل يحتاجه تمرينك. أصلي ومختوم، يوصلك لباب بيتك، وما تدفع إلا لمن تستلم.", "cta1": "ابدأ التسوّق", "cta2": "سلتي", "p1t": "أصلي 100% ومختوم", "p1s": "من الوكيل لإيدك بدون وسيط", "p2t": "يوصلك لباب البيت", "p3t": "ادفع لمن تستلم", "p3s": "تشوف طلبك بعينك وبعدين تدفع", "p4t": "رد سريع على واتساب", "p4s": "نثبّت طلبك ونجاوب على كل سؤال", "p5t": "اشتري بالقطعة", "p5s": "خذ العلبة الي تحتاجها، لا أكثر ولا أقل", "shop": "اختار مكمّلك", "search": "شنو تدوّر؟ بروتين، كرياتين، نكهة…", "t1t": "الختم شاهد", "t1s": "كل علبة توصلك بختمها الأصلي، مضمونة 100%.", "t2t": "استشارة ببلاش", "t2s": "اسأل كابتن دوزي أو اسألنا، ونختارلك الي يناسب هدفك.", "t3t": "دفع بأمان", "t3s": "ما تدفع ولا دينار إلا لمن يوصلك طلبك.", "t4t": "توصيل سريع", "t4s": "نثبّت طلبك ونوصله بأسرع وقت لكل المحافظات.", "foot": "الدزاز جم • قوتك تبدي من هنا"};
+const TXD=((window.__BRK&&window.__BRK.kind==='general')?window.__BRK.txd:null)||{"eye": "متجر المكملات", "h1": "ابنِ جسمك *بالأصلي*|والتوصيل علينا", "sub": "بروتين، كرياتين، وكل مكمل يحتاجه تمرينك. أصلي ومختوم، يوصلك لباب بيتك، وما تدفع إلا لمن تستلم.", "cta1": "ابدأ التسوّق", "cta2": "سلتي", "p1t": "أصلي 100% ومختوم", "p1s": "من الوكيل لإيدك بدون وسيط", "p2t": "يوصلك لباب البيت", "p3t": "ادفع لمن تستلم", "p3s": "تشوف طلبك بعينك وبعدين تدفع", "p4t": "رد سريع على واتساب", "p4s": "نثبّت طلبك ونجاوب على كل سؤال", "p5t": "اشتري بالقطعة", "p5s": "خذ العلبة الي تحتاجها، لا أكثر ولا أقل", "shop": "اختار مكمّلك", "search": "شنو تدوّر؟ بروتين، كرياتين، نكهة…", "t1t": "الختم شاهد", "t1s": "كل علبة توصلك بختمها الأصلي، مضمونة 100%.", "t2t": "استشارة ببلاش", "t2s": "اسأل كابتن دوزي أو اسألنا، ونختارلك الي يناسب هدفك.", "t3t": "دفع بأمان", "t3s": "ما تدفع ولا دينار إلا لمن يوصلك طلبك.", "t4t": "توصيل سريع", "t4s": "نثبّت طلبك ونوصله بأسرع وقت لكل المحافظات.", "foot": "الدزاز جم • قوتك تبدي من هنا"};
 const TXL=[['واجهة المتجر',[['eye','العنوان الصغير فوق'],['h1','العنوان الرئيسي','حط الكلمة المميزة بالأحمر بين نجمتين *كلمة*، والسطر الثاني بعد علامة |'],['sub','الوصف تحت العنوان','area'],['cta1','زر التسوق'],['cta2','زر السلة']]],
  ['البنرات المتحركة',[['p1t','بنر 1: العنوان'],['p1s','بنر 1: التفاصيل'],['p2t','بنر 2: العنوان','أسعار التوصيل تنكتب تحته وحدها'],['p3t','بنر 3: العنوان'],['p3s','بنر 3: التفاصيل'],['p4t','بنر 4: العنوان'],['p4s','بنر 4: التفاصيل'],['p5t','بنر 5: العنوان'],['p5s','بنر 5: التفاصيل']]],
  ['قسم المنتجات',[['shop','عنوان المنتجات'],['search','نص مربع البحث']]],
@@ -5769,9 +5779,9 @@ function tenFs(raw){return new Proxy(raw,{get(t,k){if(k==='collection')return n=
 function tenSave(){try{localStorage.setItem('dz-ten',JSON.stringify({t:TEN,s:urlSlug()}))}catch(e){}}
 async function tenFromSlug(raw){
   const q=urlSlug();
-  if(q){try{const d=await raw.collection('slugs').doc(q).get();if(d.exists&&d.data().acct&&(d.data().p||'dz')==='dz'){brSet(d.data().biz,d.data().logo);return d.data().acct}}catch(e){}}
+  if(q){try{const d=await raw.collection('slugs').doc(q).get();if(d.exists&&d.data().acct&&(d.data().p||'dz')==='dz'){brSet(d.data().biz,d.data().logo,d.data().kind,d.data().bot);return d.data().acct}}catch(e){}}
   try{const c=JSON.parse(localStorage.getItem('dz-ten')||'null');if(c&&c.t&&(!q||c.s===q))return c.t}catch(e){}
-  if(!q){try{const d=await raw.collection('slugs').doc('main').get();if(d.exists&&d.data().acct){brSet(d.data().biz,d.data().logo);return d.data().acct}}catch(e){}}
+  if(!q){try{const d=await raw.collection('slugs').doc('main').get();if(d.exists&&d.data().acct){brSet(d.data().biz,d.data().logo,d.data().kind,d.data().bot);return d.data().acct}}catch(e){}}
   return '';
 }
 /* signed-in device: the login decides the shop (password from AM NET) */
@@ -5781,7 +5791,7 @@ async function tenFromLogin(u){
   if(!l||!l.acct)return {err:'nolink'};
   let a=null;try{const d=await FB.raw.collection('accounts').doc(l.acct).get();a=d.exists?d.data():null}catch(e){}
   if(a&&a.product&&a.product!=='dz')return {err:'other',a};
-  if(a)brSet(a.biz||a.name,a.logo);
+  if(a)brSet(a.biz||a.name,a.logo,a.kind,a.bot);
   return {acct:l.acct,a,l};
 }
 const tsN=v=>v&&v.toMillis?v.toMillis():v&&v.seconds?v.seconds*1000:+v||0;
@@ -5795,7 +5805,8 @@ function tenWatch(){
 async function fbStart(cfg){
   if(FB)return FB;
   if(!(await fbSDK()))throw {code:'sdk'};
-  const app=window.firebase.apps&&window.firebase.apps.length?window.firebase.app():window.firebase.initializeApp(cfg);
+  /* own app name: the store keeps its own sign-in, so it never signs AM NET (same site, same database) out */
+  const app=(window.firebase.apps||[]).find(a=>a.name==='dz-store')||window.firebase.initializeApp(cfg,'dz-store');
   const fs=window.firebase.firestore(app);try{fs.settings({ignoreUndefinedProperties:true})}catch(e){}
   FB={app,fs:tenFs(fs),raw:fs,auth:window.firebase.auth(app),cfg};
   if(!TEN)TEN=await tenFromSlug(fs);
@@ -7275,7 +7286,7 @@ async function dziSend(v){v=String(v||'').trim();if(!v||DZI.busy||!CUR)return;
 const A_MAXTOK=()=>C()?2600:1500;
 
 /* ---------- التحديث التلقائي: يفحص اذا نزلت نسخة جديدة على الموقع (حتى لو مضاف للشاشة الرئيسية) ---------- */
-const DZ_BUILD=84;
+const DZ_BUILD=86;
 const UPD={last:0,shown:0};
 try{if(/[?&]u=\d+/.test(location.search))history.replaceState(null,'',location.pathname+location.hash)}catch(e){}
 const updLive=()=>location.protocol==='https:'&&!/claude/i.test(location.hostname);
