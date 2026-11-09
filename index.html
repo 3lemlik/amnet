@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.07-7">
+<meta name="amnet-build" content="2026.11.09-1">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1345,6 +1345,139 @@ html[data-theme="light"] .ptag.p-isp{color:#0369a1}html[data-theme="light"] .pta
 .prodseg.k2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .prodseg.k2 button{align-items:flex-start;text-align:start;padding:10px 12px}
 .prodseg.k2 small{font-size:11.5px;color:var(--dim);font-weight:500;line-height:1.4}
+
+/* ================= ACTIVATIONS REPORT PREVIEW ================= */
+#rpv{position:fixed;inset:0;z-index:120;background:var(--void);display:flex;flex-direction:column;color:var(--ink)}
+#rpv[hidden]{display:none!important}
+#rpv .rpv-top{flex:none;padding:calc(10px + var(--sat,0px)) max(14px,env(safe-area-inset-right,0px)) 10px max(14px,env(safe-area-inset-left,0px));background:var(--panel);border-bottom:1px solid var(--line2);display:grid;gap:10px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+#rpv .rpv-hd{display:flex;align-items:center;gap:10px;min-width:0}
+#rpv .rpv-hd .t{flex:1;min-width:0}
+#rpv .rpv-hd .t b{display:block;font:800 17px var(--f-display,inherit);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#rpv .rpv-hd .t small{display:block;color:var(--dim);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#rpv .rpv-x{flex:none;width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:var(--panel2);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+#rpv .rpv-x svg{width:20px;height:20px}
+#rpv .rpv-acts{display:flex;gap:6px;flex:none}
+#rpv .rpv-acts .btn{padding:9px 12px;font-size:13.5px}
+#rpv .rpv-acts .btn svg{width:17px;height:17px}
+#rpv .rpv-flt{display:flex;gap:8px;align-items:center;flex-wrap:wrap;min-width:0}
+#rpv .rpv-flt .seg button{white-space:nowrap;flex:none}
+#rpv .rpv-flt .seg{flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:none}
+#rpv .rpv-flt .seg::-webkit-scrollbar{display:none}
+#rpv .rpv-flt select{width:auto;min-width:0;max-width:100%;flex:1 1 130px;padding:9px 10px;font-size:15px}
+#rpv .rpv-flt .custom input{padding:8px;font-size:15px}
+#rpv .rpv-zoom{position:absolute;left:max(14px,env(safe-area-inset-left,0px));bottom:calc(14px + var(--sab,0px));z-index:4;display:flex;gap:4px;align-items:center;padding:5px;border-radius:14px;background:var(--panel);border:1px solid var(--line2);box-shadow:0 10px 30px rgba(0,0,0,.3)}
+#rpv .rpv-zoom button{width:36px;height:36px;border-radius:10px;border:1px solid var(--line2);background:var(--panel2);color:var(--ink);font:700 18px var(--f-mono,monospace);cursor:pointer}
+#rpv .rpv-zoom span{min-width:46px;text-align:center;font:600 12.5px var(--f-mono,monospace);color:var(--dim);direction:ltr}
+#rpv .rpv-stage{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:18px max(12px,env(safe-area-inset-right,0px)) calc(84px + var(--sab,0px)) max(12px,env(safe-area-inset-left,0px));touch-action:pan-x pan-y;
+  background:radial-gradient(ellipse 70% 40% at 50% 0,var(--accent-glow),transparent 70%),var(--void)}
+#rpv .rpv-pages{display:flex;flex-direction:column;align-items:center;gap:18px;margin:0 auto;width:max-content;min-width:100%}
+#rpv .rp-wrap{position:relative;flex:none;border-radius:6px;box-shadow:0 18px 50px rgba(0,0,0,.35),0 0 0 1px rgba(0,0,0,.06);overflow:hidden;background:#fff}
+#rpv .rp-wrap .rp-page{position:absolute;top:0;left:0;transform-origin:0 0}
+#rpv .rpv-busy{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.35);z-index:3;color:#fff;font-weight:700}
+html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16),0 0 0 1px rgba(16,22,34,.08)}
+
+/* the paper itself: always a white A4 sheet so it prints and shares like a real document */
+.rp-page{--pi:#141821;--pd:#5a6170;--pf:#9aa0ab;--pl:#e6e8ec;--pl2:#d5d8de;--pz:#f6f7f9;--pok:#128a52;--pwarn:#a8690a;--pbad:#c8323f;
+  width:794px;height:1123px;background:#fff;color:var(--pi);direction:rtl;font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;font-size:11.5px;line-height:1.5;
+  padding:40px 44px 34px;-webkit-text-size-adjust:100%;text-size-adjust:100%;display:flex;flex-direction:column;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;position:relative;overflow:hidden}
+.rp-page *{box-sizing:border-box}
+.rp-page .n{font-family:"JetBrains Mono",ui-monospace,monospace;direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+.rp-page .rp-bar{position:absolute;top:0;left:0;right:0;height:6px;background:var(--rpa)}
+.rp-page .rp-wmk{position:absolute;left:-60px;bottom:-60px;width:330px;height:330px;opacity:.035;pointer-events:none}
+.rp-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding-bottom:16px;border-bottom:1.5px solid var(--pi)}
+.rp-brand{display:flex;gap:14px;align-items:center;min-width:0}
+.rp-brand .lg{width:58px;height:58px;flex:none;border-radius:14px;display:grid;place-items:center;background:var(--pz);border:1px solid var(--pl)}
+.rp-brand .lg img{width:100%;height:100%;object-fit:contain;border-radius:14px}
+.rp-brand .lg svg{width:42px;height:42px}
+.rp-brand .nm{font:900 24px/1.25 Cairo,"IBM Plex Sans Arabic",sans-serif;color:var(--pi);word-break:break-word}
+.rp-brand .eb{font:700 10px Orbitron,"JetBrains Mono",monospace;letter-spacing:2.5px;color:var(--rpa);direction:ltr;text-align:right;margin-bottom:4px}
+.rp-brand .ttl{font:700 14px Cairo,"IBM Plex Sans Arabic",sans-serif;color:var(--pd)}
+.rp-meta{display:grid;grid-template-columns:auto auto;gap:3px 12px;font-size:10.5px;flex:none;align-content:start;padding:10px 12px;border:1px solid var(--pl);border-radius:10px;background:var(--pz)}
+.rp-meta span{color:var(--pf)}
+.rp-meta b{font-weight:700;color:var(--pi);text-align:left}
+.rp-meta b.n{font-weight:600}
+.rp-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.rp-chips span{padding:3px 10px;border-radius:999px;background:var(--rpas);color:var(--rpa);font-weight:700;font-size:10.5px}
+.rp-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}
+.rp-kpi{border:1px solid var(--pl);border-radius:12px;padding:11px 13px 10px;position:relative;background:#fff;min-width:0}
+.rp-kpi.hot{border-color:var(--rpa);background:var(--rpas)}
+.rp-kpi .cr{position:absolute;top:-1px;right:-1px;width:12px;height:12px;border-top:2px solid var(--rpa);border-right:2px solid var(--rpa);border-top-right-radius:12px}
+.rp-kpi small{display:block;color:var(--pd);font-weight:700;font-size:10.5px}
+.rp-kpi b{display:block;font:700 21px "JetBrains Mono",ui-monospace,monospace;direction:ltr;text-align:right;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rp-kpi b i{font:700 10px "IBM Plex Sans Arabic",sans-serif;color:var(--pf);font-style:normal;margin-left:4px}
+.rp-kpi em{display:block;font-style:normal;color:var(--pf);font-size:10px;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rp-kpi.ok b{color:var(--pok)}.rp-kpi.warn b{color:var(--pwarn)}
+.rp-fin{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;padding:8px 13px;border-radius:10px;background:var(--pz);border:1px dashed var(--pl2);font-size:10.5px;color:var(--pd)}
+.rp-fin b{color:var(--pi);font-weight:700}.rp-fin b.ok{color:var(--pok)}
+.rp-sec{margin-top:16px}
+.rp-sh{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.rp-sh h3{margin:0;font:800 13px Cairo,"IBM Plex Sans Arabic",sans-serif;color:var(--pi)}
+.rp-sh .dot{flex:none;width:4px;height:15px;border-radius:2px;background:var(--rpa)}
+.rp-sh span{color:var(--pf);font-size:10px;margin-inline-start:auto}
+.rp-two{display:grid;grid-template-columns:1.45fr 1fr;gap:14px}
+.rp-box{border:1px solid var(--pl);border-radius:12px;padding:12px 13px;min-width:0}
+.rp-chart svg{display:block;width:100%;height:auto}
+.rp-split{display:flex;height:12px;border-radius:999px;overflow:hidden;background:var(--pl);margin:6px 0 10px}
+.rp-split i{display:block;height:100%}
+.rp-leg{display:grid;gap:7px}
+.rp-leg div{display:flex;align-items:center;gap:7px;font-size:10.5px}
+.rp-leg div i{flex:none;width:9px;height:9px;border-radius:3px;background:var(--c)}
+.rp-leg span{color:var(--pd)}.rp-leg b{margin-inline-start:auto;font-weight:700}
+.rp-leg em{font-style:normal;color:var(--pf);font-size:9.5px;min-width:30px;text-align:left}
+.rp-mini{width:100%;border-collapse:collapse;font-size:10.5px}
+.rp-mini th{text-align:right;font-weight:700;color:var(--pf);font-size:9.5px;padding:0 4px 5px;border-bottom:1px solid var(--pl)}
+.rp-mini td{padding:5px 4px;border-bottom:1px solid var(--pl);white-space:nowrap}
+.rp-mini td.nm{max-width:150px;overflow:hidden;text-overflow:ellipsis;font-weight:700}
+.rp-mini tr:last-child td{border-bottom:0}
+.rp-mini .bar{display:inline-block;vertical-align:middle;width:46px;height:5px;border-radius:3px;background:var(--pl);overflow:hidden;margin-left:5px}
+.rp-mini .bar i{display:block;height:100%;background:var(--rpa)}
+.rp-body{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+.rp-tbl{width:100%;border-collapse:separate;border-spacing:0;font-size:10.5px;table-layout:fixed}
+.rp-tbl th{background:var(--pi);color:#fff;font-weight:700;font-size:10px;padding:7px 6px;text-align:right;white-space:nowrap}
+.rp-tbl th:first-child{border-radius:0 8px 8px 0}.rp-tbl th:last-child{border-radius:8px 0 0 8px}
+.rp-tbl td{padding:0 6px;height:25px;border-bottom:1px solid var(--pl);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rp-tbl tbody tr:nth-child(even) td{background:var(--pz)}
+.rp-tbl td.i{color:var(--pf);text-align:center}
+.rp-tbl td.nm{font-weight:700}
+.rp-tbl td.am{font-weight:700;text-align:left}
+.rp-tbl .pc{display:inline-block;padding:1px 8px;border-radius:999px;font-weight:700;font-size:9.5px}
+.rp-tbl .pc.c{background:rgba(18,138,82,.1);color:var(--pok)}
+.rp-tbl .pc.a{background:rgba(168,105,10,.12);color:var(--pwarn)}
+.rp-tbl tfoot td{height:30px;background:var(--rpas)!important;font-weight:800;border-bottom:0;color:var(--pi)}
+.rp-tbl tfoot td:first-child{border-radius:0 8px 8px 0}.rp-tbl tfoot td:last-child{border-radius:8px 0 0 8px}
+.rp-empty{padding:40px 10px;text-align:center;color:var(--pf);border:1px dashed var(--pl2);border-radius:12px;font-size:12px}
+.rp-empty b{display:block;color:var(--pi);font-size:14px;margin-bottom:4px}
+.rp-cont{display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;margin-bottom:10px;border-bottom:1.5px solid var(--pi)}
+.rp-cont b{font:800 15px Cairo,"IBM Plex Sans Arabic",sans-serif}
+.rp-cont span{color:var(--pd);font-size:10.5px}
+.rp-sign{display:grid;grid-template-columns:1fr 1fr 96px;gap:22px;margin-top:22px;align-items:end}
+.rp-sign div{border-top:1px solid var(--pi);padding-top:6px;color:var(--pd);font-size:10.5px;text-align:center}
+.rp-sign .stamp{width:96px;height:96px;border:1.5px dashed var(--pl2);border-radius:50%;display:grid;place-items:center;color:var(--pf);border-top:1.5px dashed var(--pl2);padding:0;font-size:10px}
+.rp-note{margin-top:10px;color:var(--pf);font-size:9.5px}
+.rp-foot{flex:none;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;padding-top:9px;border-top:1px solid var(--pl);font-size:9.5px;color:var(--pf)}
+.rp-foot b{color:var(--pd)}
+.rp-foot .wm{font:900 10px Orbitron,monospace;letter-spacing:1.5px;direction:ltr;color:var(--pi)}
+.rp-foot .wm em{font-style:normal;color:var(--rpa)}
+@media (max-width:640px){
+  #rpv .rpv-acts .btn .bl{display:none}
+  #rpv .rpv-acts .btn{padding:9px 10px}
+  #rpv .rpv-flt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  #rpv .rpv-flt .seg,#rpv .rpv-flt .custom{grid-column:1/-1}
+  #rpv .rpv-flt select{padding:8px 6px;font-size:15px;width:100%}
+  #rpv .rpv-top{gap:8px}
+}
+@media print{
+  @page{size:A4;margin:0}
+  html,body{background:#fff!important}
+  body>*:not(#rpv){display:none!important}
+  #rpv{position:static;display:block;background:#fff}
+  #rpv .rpv-top,#rpv .rpv-busy,#rpv .rpv-zoom{display:none!important}
+  #rpv .rpv-stage{overflow:visible;padding:0;background:none}
+  #rpv .rpv-pages{display:block;width:auto;gap:0}
+  #rpv .rp-wrap{width:auto!important;height:auto!important;box-shadow:none;border-radius:0;overflow:visible}
+  #rpv .rp-wrap .rp-page{position:static;transform:none!important;break-after:page;page-break-after:always}
+  #rpv .rp-wrap:last-child .rp-page{break-after:auto;page-break-after:auto}
+}
 </style>
 </head>
 <body>
@@ -1564,7 +1697,7 @@ html[data-theme="light"] .ptag.p-isp{color:#0369a1}html[data-theme="light"] .pta
   <div class="row p-finance" style="justify-content:space-between">
     <div class="seg" id="ptabs" role="group" aria-label="الفترة"></div>
     <div class="custom" id="customBox" hidden><input type="date" id="cFrom" aria-label="من"><span class="muted">إلى</span><input type="date" id="cTo" aria-label="إلى"></div>
-    <button class="btn ghost sm" id="pSave" type="button"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>حفظ كصورة</button>
+    <button class="btn sm rpv-open" data-rpv type="button"><svg><use href="#i-pdf"/></svg>معاينة تقرير التفعيلات</button><button class="btn ghost sm" id="pSave" type="button"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>حفظ كصورة</button>
   </div>
   <div class="pcards p-finance">
     <div class="card br pc hot"><div class="lb">المبيعات</div><div class="v" id="pRev">0</div><div class="s" id="pRevS"></div></div>
@@ -1809,6 +1942,7 @@ html[data-theme="light"] .ptag.p-isp{color:#0369a1}html[data-theme="light"] .pta
   <div><div class="eyebrow"><span>09 · STAFF REPORT</span><b>AM-NET</b></div><h1 class="pg">تقرير الموظفين</h1><div class="muted">عدد التفعيلات والمبلغ المستلم والدين لكل موظف</div></div>
   <div class="row" style="justify-content:space-between">
     <div class="seg" id="rtabs" role="group" aria-label="الفترة"></div>
+    <button class="btn sm" data-rpv="rep" type="button"><svg><use href="#i-pdf"/></svg>معاينة تقرير التفعيلات</button>
     <div class="custom" id="rCustom" hidden><input type="date" id="rFrom" aria-label="من"><span class="muted">إلى</span><input type="date" id="rTo" aria-label="إلى"></div>
   </div>
   <div class="repsum" id="repSum"></div>
@@ -1887,6 +2021,29 @@ html[data-theme="light"] .ptag.p-isp{color:#0369a1}html[data-theme="light"] .pta
 <div id="warp" aria-hidden="true"></div>
 <div class="modal" id="modal" hidden><div class="box" id="mbox" role="dialog" aria-modal="true"></div></div>
 <div class="toast" id="toast" hidden></div>
+</div>
+
+<div id="rpv" hidden role="dialog" aria-modal="true" aria-label="معاينة تقرير التفعيلات">
+  <div class="rpv-top">
+    <div class="rpv-hd">
+      <button class="rpv-x" id="rpvX" type="button" aria-label="رجوع"><svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></svg></button>
+      <div class="t"><b>معاينة تقرير التفعيلات</b><small id="rpvSub"></small></div>
+      <div class="rpv-acts">
+        <button class="btn ghost" id="rpvImg" type="button" title="حفظ كصورة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="2"/><path d="m4 18 5-5 4 4 3-3 4 4"/></svg><span class="bl">صورة</span></button>
+        <button class="btn ghost" id="rpvPrint" type="button" title="طباعة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9V3h10v6M7 17H4v-7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v7h-3"/><rect x="7" y="14" width="10" height="7" rx="1"/></svg><span class="bl">طباعة</span></button>
+        <button class="btn" id="rpvPdf" type="button" title="حفظ PDF"><svg><use href="#i-dl"/></svg><span class="bl">PDF</span></button>
+      </div>
+    </div>
+    <div class="rpv-flt">
+      <div class="seg" id="rpvP" role="group" aria-label="الفترة"></div>
+      <div class="custom" id="rpvC" hidden><input type="date" id="rpvFrom" aria-label="من"><span class="muted">إلى</span><input type="date" id="rpvTo" aria-label="إلى"></div>
+      <select id="rpvEmp" aria-label="الموظف"></select>
+      <select id="rpvPlan" aria-label="الباقة"></select>
+      <select id="rpvPay" aria-label="الدفع"><option value="">كل الدفع</option><option value="c">نقد فقط</option><option value="a">آجل فقط</option></select>
+    </div>
+  </div>
+  <div class="rpv-zoom"><button type="button" data-z="-1" aria-label="تصغير">−</button><span id="rpvZ">100%</span><button type="button" data-z="1" aria-label="تكبير">+</button></div>
+  <div class="rpv-stage" id="rpvStage"><div class="rpv-pages" id="rpvPages"></div></div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -3181,6 +3338,272 @@ function renderReports(){
 }
 function rRangeLabel(){const m={today:"اليوم",yday:"أمس",week:"هذا الأسبوع",month:"هذا الشهر",all:"كل الفترات"};if(RPERIOD!=="custom")return m[RPERIOD]||"";const f=$("rFrom").value,t=$("rTo").value;return f||t?(f||"…")+" ← "+(t||"…"):"فترة مخصصة"}
 $("rtabs").onclick=e=>{const b=e.target.closest("[data-p]");if(b){RPERIOD=b.dataset.p;renderReports()}};
+/* ================= ACTIVATIONS REPORT PREVIEW ================= */
+const RPV={p:"month",emp:"",plan:"",pay:"",z:0,open:false};
+const RPW=794,RPH=1123;
+function rpvRange(){
+  if(RPV.p==="custom"){const f=$("rpvFrom").value?new Date($("rpvFrom").value+"T00:00").getTime():0;const t=$("rpvTo").value?new Date($("rpvTo").value+"T00:00").getTime()+DAY:Infinity;return [f,t]}
+  const save=PERIOD;PERIOD=RPV.p;const r=periodRange();PERIOD=save;return r}
+function rpvEmpKey(x){return x.sid||"none"}
+function rpvEmpName(sid,by){
+  if(sid==="owner")return ((ACCOUNT&&ACCOUNT.name)||(VIEWAS&&VIEWAS.name)||"صاحب الحساب");
+  if(sid==="admin")return "الإدارة";if(sid==="import")return "ملفات الشركة";if(!sid||sid==="none")return "—";
+  const st=(STAFF||[]).find(z=>z.sid===sid);return (st&&st.name)||by||"موظف"}
+function rpvRows(){
+  const [a,b]=rpvRange();
+  return ACTS.filter(x=>x.d>=a&&x.d<b&&(!RPV.emp||rpvEmpKey(x)===RPV.emp)&&(!RPV.plan||x.pl===RPV.plan)&&(!RPV.pay||x.pay===RPV.pay));
+}
+function rpvFillFilters(){
+  $("rpvP").innerHTML=PERIODS.map(([k,l])=>`<button type="button" data-rp="${k}" aria-pressed="${k===RPV.p}">${l}</button>`).join("");
+  $("rpvC").hidden=RPV.p!=="custom";
+  const emps={},plans={};
+  for(const x of ACTS){const k=rpvEmpKey(x);if(!emps[k])emps[k]=rpvEmpName(x.sid,x.by);if(x.pl)plans[x.pl]=1}
+  for(const st of (STAFF||[]))if(st.sid&&!emps[st.sid])emps[st.sid]=st.name||"موظف";
+  if(RPV.emp&&!emps[RPV.emp])RPV.emp="";if(RPV.plan&&!plans[RPV.plan])RPV.plan="";
+  $("rpvEmp").innerHTML=`<option value="">كل الموظفين</option>`+Object.entries(emps).map(([k,n])=>`<option value="${esc(k)}"${k===RPV.emp?" selected":""}>${esc(n==="—"?"بدون موظف":n)}</option>`).join("");
+  $("rpvPlan").innerHTML=`<option value="">كل الباقات</option>`+Object.keys(plans).sort().map(p=>`<option value="${esc(p)}"${p===RPV.plan?" selected":""}>${esc(p)}</option>`).join("");
+  $("rpvPay").value=RPV.pay;
+}
+function rpvLabel(){
+  const [a,b]=rpvRange();const now=Date.now();
+  const from=a>0?a:(ACTS.length?ACTS[0].d:now);const to=isFinite(b)?Math.min(b-1,now):now;
+  const pn=(PERIODS.find(p=>p[0]===RPV.p)||[,""])[1];
+  return {pn:RPV.p==="custom"?"فترة مخصصة":pn,from,to,txt:fdate(from)===fdate(to)?fdate(from):fdate(from)+" — "+fdate(to)};
+}
+function rpvLogo(){
+  const lg=(ACCOUNT&&ACCOUNT.logo)||(VIEWAS&&VIEWAS.logo)||"";
+  if(lg&&/^(data:image|https:)/.test(lg))return `<img src="${esc(lg)}" alt="" crossorigin="anonymous">`;
+  return `<svg viewBox="0 0 48 48"><path d="M24 3 42 13.5v21L24 45 6 34.5v-21Z" fill="none" stroke="var(--rpa)" stroke-width="2.6"/><path d="M13 22a15 15 0 0 1 22 0M16.5 25.5a10 10 0 0 1 15 0M20 29a5 5 0 0 1 8 0" fill="none" stroke="#141821" stroke-width="2.6" stroke-linecap="round"/><circle cx="24" cy="33.5" r="2.4" fill="var(--rpa)"/></svg>`;
+}
+function rpvChart(rows,from,to){
+  const span=Math.max(1,Math.ceil((sod(to)-sod(from))/DAY)+1);const daily=span<=62;
+  const B=[];const idx={};
+  if(daily){for(let i=0;i<span;i++){const t=sod(from)+i*DAY;const d=new Date(t);const k=fdate(t);idx[k]=B.length;B.push({k,l:pad(d.getDate()),n:0,amt:0})}}
+  else{const d0=new Date(from),d1=new Date(to);let y=d0.getFullYear(),m=d0.getMonth();while(y<d1.getFullYear()||(y===d1.getFullYear()&&m<=d1.getMonth())){const k=y+"-"+m;idx[k]=B.length;B.push({k,l:pad(m+1)+"/"+String(y).slice(2),n:0,amt:0});m++;if(m>11){m=0;y++}if(B.length>60)break}}
+  for(const x of rows){const k=daily?fdate(x.d):(new Date(x.d).getFullYear()+"-"+new Date(x.d).getMonth());const i=idx[k];if(i!=null){B[i].n++;B[i].amt+=actSell(x)}}
+  const W=420,H=150,L=26,Bm=20,T=10;const max=Math.max(1,...B.map(b=>b.n));const nice=max<=4?max:Math.ceil(max/4)*4;
+  const bw=(W-L-6)/Math.max(B.length,1);const step=Math.ceil(B.length/(daily?16:12));
+  let g="";for(let i=0;i<=4;i++){const y=T+(H-T-Bm)*(1-i/4);g+=`<line x1="${L}" x2="${W}" y1="${y}" y2="${y}" stroke="#e6e8ec" stroke-width="1"/><text x="${L-5}" y="${y+3}" font-size="8" fill="#9aa0ab" text-anchor="end" font-family="JetBrains Mono,monospace">${Math.round(nice*i/4)}</text>`}
+  let bars="";B.forEach((b,i)=>{const h=(H-T-Bm)*b.n/nice;const x=L+3+i*bw;const w=Math.max(1.5,bw*.62);
+    bars+=`<rect x="${(x+(bw-w)/2).toFixed(1)}" y="${(H-Bm-h).toFixed(1)}" width="${w.toFixed(1)}" height="${Math.max(h,b.n?1.5:0).toFixed(1)}" rx="${Math.min(3,w/2).toFixed(1)}" fill="var(--rpa)" opacity="${b.n?1:0}"/>`;
+    if(i%step===0)bars+=`<text x="${(x+bw/2).toFixed(1)}" y="${H-6}" font-size="8" fill="#9aa0ab" text-anchor="middle" font-family="JetBrains Mono,monospace">${b.l}</text>`});
+  const best=B.reduce((m,b)=>b.n>m.n?b:m,{n:0});
+  return {svg:`<svg viewBox="0 0 ${W} ${H}" direction="ltr">${g}${bars}</svg>`,daily,best};
+}
+function rpvBuild(){
+  const rows=rpvRows().slice().sort((x,y)=>x.d-y.d);const fin=can("finance");const lab=rpvLabel();
+  const cs=getComputedStyle(document.documentElement);let acc=(cs.getPropertyValue("--accent")||"#ec1c32").trim();
+  const rgb=(cs.getPropertyValue("--acc-rgb")||"236,28,50").trim();
+  // keep the accent dark enough to read on white paper
+  try{const [r,g,b]=rgb.split(",").map(Number);const lum=(0.299*r+0.587*g+0.114*b)/255;if(lum>.62){const f=.62/lum;acc=`rgb(${Math.round(r*f)},${Math.round(g*f)},${Math.round(b*f)})`}}catch(e){}
+  const vars=`--rpa:${acc};--rpa2:rgba(${rgb},.55);--rpas:rgba(${rgb},.09)`;
+  let n=rows.length,amt=0,cash=0,cred=0,cost=0,ncred=0;const subs=new Set(),byPl={},byEmp={};
+  for(const x of rows){const sv=actSell(x);amt+=sv;cost+=+x.c||0;subs.add(x.u);
+    if(x.pay==="a"){cred+=sv-(+x.pd||0);cash+=+x.pd||0;ncred++}else cash+=sv;
+    const p=byPl[x.pl||"—"]=byPl[x.pl||"—"]||{n:0,amt:0};p.n++;p.amt+=sv;
+    const ek=rpvEmpKey(x);const e=byEmp[ek]=byEmp[ek]||{nm:rpvEmpName(x.sid,x.by),n:0,amt:0,cred:0};e.n++;e.amt+=sv;if(x.pay==="a")e.cred+=sv-(+x.pd||0)}
+  const profit=amt-cost;
+  const netName=SET.name||(ACCOUNT&&(ACCOUNT.biz||ACCOUNT.name))||"شبكة الإنترنت";
+  const who=($("ownerS")&&$("ownerS").textContent.trim())||"—";
+  const now=new Date();const rno="AMN-"+String(now.getFullYear()).slice(2)+pad(now.getMonth()+1)+pad(now.getDate())+"-"+pad(now.getHours())+pad(now.getMinutes());
+  const chips=[];if(RPV.emp)chips.push("الموظف: "+$("rpvEmp").selectedOptions[0].textContent);if(RPV.plan)chips.push("الباقة: "+RPV.plan);if(RPV.pay)chips.push(RPV.pay==="a"?"الآجل فقط":"النقد فقط");
+  const wmk=`<svg class="rp-wmk" viewBox="0 0 48 48"><path d="M24 3 42 13.5v21L24 45 6 34.5v-21Z" fill="none" stroke="#141821" stroke-width="2"/><path d="M13 22a15 15 0 0 1 22 0M16.5 25.5a10 10 0 0 1 15 0M20 29a5 5 0 0 1 8 0" fill="none" stroke="#141821" stroke-width="2" stroke-linecap="round"/></svg>`;
+  const foot=(i,t)=>`<div class="rp-foot"><span>رقم التقرير <b class="n">${rno}</b> · صفحة <b class="n">${i}</b> من <b class="n">${t}</b></span><span>تصميم وبرمجة <b>علي مالك</b></span><span class="wm">AM<em>NET</em></span></div>`;
+  const ch=rpvChart(rows,lab.from,lab.to);
+  const pls=Object.entries(byPl).sort((a,b)=>b[1].n-a[1].n);const plMax=Math.max(1,...pls.map(p=>p[1].n));
+  const emps=Object.values(byEmp).sort((a,b)=>b.n-a.n);
+  const pct=v=>n?Math.round(v/n*100):0;
+  const mini=(head,list)=>`<table class="rp-mini"><thead><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${list}</tbody></table>`;
+  const plRows=pls.slice(0,7).map(([p,v])=>`<tr><td class="nm">${esc(p)}</td><td class="n">${fmt(v.n)}</td><td class="n">${fmt(v.amt)}</td><td><span class="bar"><i style="width:${Math.round(v.n/plMax*100)}%"></i></span><span class="n">${pct(v.n)}%</span></td></tr>`).join("")+(pls.length>7?`<tr><td colspan="4" style="color:#9aa0ab">+ ${fmt(pls.length-7)} باقات ثانية</td></tr>`:"");
+  const empRows=emps.slice(0,6).map(e=>`<tr><td class="nm">${esc(e.nm)}</td><td class="n">${fmt(e.n)}</td><td class="n">${fmt(e.amt)}</td><td class="n" style="color:${e.cred?"#a8690a":"#9aa0ab"}">${fmt(e.cred)}</td></tr>`).join("")+(emps.length>6?`<tr><td colspan="4" style="color:#9aa0ab">+ ${fmt(emps.length-6)} ثانيين</td></tr>`:"");
+  const cashPart=amt?cash/amt*100:0,credPart=amt?cred/amt*100:0;
+  const summary=`
+    <div class="rp-head">
+      <div class="rp-brand"><div class="lg">${rpvLogo()}</div><div style="min-width:0"><div class="eb">ACTIVATIONS · REPORT</div><div class="nm">${esc(netName)}</div><div class="ttl">تقرير التفعيلات · ${esc(lab.pn)}</div></div></div>
+      <div class="rp-meta"><span>رقم التقرير</span><b class="n">${rno}</b><span>الفترة</span><b class="n">${esc(lab.txt)}</b><span>تاريخ الإصدار</span><b class="n">${fdt(now.getTime())}</b><span>أعدّه</span><b>${esc(who)}</b></div>
+    </div>
+    ${chips.length?`<div class="rp-chips">${chips.map(c=>`<span>${esc(c)}</span>`).join("")}</div>`:""}
+    <div class="rp-kpis">
+      <div class="rp-kpi hot"><i class="cr"></i><small>عدد التفعيلات</small><b>${fmt(n)}</b><em>${fmt(subs.size)} مشترك مختلف</em></div>
+      <div class="rp-kpi"><i class="cr"></i><small>إجمالي المبيعات</small><b>${fmt(amt)}<i>د.ع</i></b><em>متوسط التفعيل ${fmt(n?Math.round(amt/n):0)}</em></div>
+      <div class="rp-kpi ok"><i class="cr"></i><small>المقبوض نقداً</small><b>${fmt(cash)}<i>د.ع</i></b><em>${fmt(n-ncred)} تفعيل نقد</em></div>
+      <div class="rp-kpi warn"><i class="cr"></i><small>الآجل (دين)</small><b>${fmt(cred)}<i>د.ع</i></b><em>${fmt(ncred)} تفعيل آجل</em></div>
+    </div>
+    ${fin?`<div class="rp-fin"><span>تكلفة الشركة <b class="n">${fmt(cost)}</b> د.ع</span><span>صافي الربح <b class="n ok">${fmt(profit)}</b> د.ع</span><span>هامش الربح <b class="n">${amt?Math.round(profit/amt*100):0}%</b></span></div>`:""}
+    ${n?`<div class="rp-sec rp-two">
+      <div class="rp-box rp-chart"><div class="rp-sh"><i class="dot"></i><h3>${ch.daily?"التفعيلات اليومية":"التفعيلات الشهرية"}</h3>${ch.best.n?`<span>أعلى ${ch.daily?"يوم":"شهر"}: <b class="n">${esc(ch.best.l)}</b> · <b class="n">${fmt(ch.best.n)}</b></span>`:""}</div>${ch.svg}</div>
+      <div class="rp-box"><div class="rp-sh"><i class="dot"></i><h3>طريقة الدفع</h3></div>
+        <div class="rp-split"><i style="width:${cashPart.toFixed(1)}%;background:#128a52"></i><i style="width:${credPart.toFixed(1)}%;background:#d9971e"></i></div>
+        <div class="rp-leg"><div style="--c:#128a52"><i></i><span>نقد</span><b class="n">${fmt(cash)}</b><em class="n">${Math.round(cashPart)}%</em></div><div style="--c:#d9971e"><i></i><span>آجل باقي</span><b class="n">${fmt(cred)}</b><em class="n">${Math.round(credPart)}%</em></div><div style="--c:#d5d8de"><i></i><span>مشتركين مختلفين</span><b class="n">${fmt(subs.size)}</b><em></em></div></div>
+      </div>
+    </div>
+    <div class="rp-sec rp-two" style="grid-template-columns:1fr 1fr">
+      <div class="rp-box"><div class="rp-sh"><i class="dot"></i><h3>حسب الباقة</h3><span>${fmt(pls.length)} باقة</span></div>${mini(["الباقة","العدد","المبلغ","النسبة"],plRows)}</div>
+      <div class="rp-box"><div class="rp-sh"><i class="dot"></i><h3>حسب الموظف</h3><span>${fmt(emps.length)}</span></div>${mini(["الموظف","العدد","المبلغ","الآجل"],empRows)}</div>
+    </div>`:""}`;
+  const thead=`<colgroup><col style="width:30px"><col style="width:116px"><col><col style="width:100px"><col style="width:78px"><col style="width:78px"><col style="width:60px"><col style="width:92px"></colgroup><thead><tr><th>#</th><th>التاريخ</th><th>المشترك</th><th>اليوزر</th><th>الباقة</th><th>المبلغ</th><th>الدفع</th><th>الموظف</th></tr></thead>`;
+  const rowHtml=(x,i)=>{const s=SUBS.get(x.u)||{};const sv=actSell(x);const rest=x.pay==="a"?sv-(+x.pd||0):0;
+    return `<tr><td class="i n">${i+1}</td><td class="n">${fdt(x.d)}</td><td class="nm">${esc(s.n||"—")}</td><td class="n">${esc(s.u||x.u)}</td><td>${esc(x.pl||"—")}</td><td class="n am">${fmt(sv)}</td><td>${x.pay==="a"?`<span class="pc a" title="باقي ${fmt(rest)}">آجل</span>`:`<span class="pc c">نقد</span>`}</td><td>${esc(rpvEmpName(x.sid,x.by))}</td></tr>`};
+  const tfoot=`<tfoot><tr><td></td><td colspan="4">المجموع · <span class="n">${fmt(n)}</span> تفعيل</td><td class="n am">${fmt(amt)}</td><td colspan="2" style="font-size:10px;color:#a8690a">${cred?`آجل باقي <span class="n">${fmt(cred)}</span>`:"كله نقد"}</td></tr></tfoot>`;
+  const signs=`<div class="rp-end"><div class="rp-sign"><div>توقيع المسؤول</div><div>توقيع المحاسب</div><div class="stamp">الختم</div></div><div class="rp-note">هذا التقرير صادر من نظام AM NET لإدارة المشتركين بتاريخ ${fdt(now.getTime())}. المبالغ بالدينار العراقي.</div></div>`;
+  // ---- paginate: fill each page until it overflows, measured at real A4 size ----
+  const host=$("rpvPages");host.innerHTML="";const pages=[];
+  const mkPage=first=>{const w=document.createElement("div");w.className="rp-wrap";const p=document.createElement("div");p.className="rp-page";p.setAttribute("style",vars);
+    p.innerHTML=`<i class="rp-bar"></i>`+wmk+(first?summary:`<div class="rp-cont"><b>${esc(netName)} · تقرير التفعيلات</b><span class="n">${esc(lab.txt)}</span></div>`)+`<div class="rp-sec rp-body">${first&&n?`<div class="rp-sh"><i class="dot"></i><h3>تفاصيل التفعيلات</h3><span>${fmt(n)} تفعيل · بالترتيب حسب التاريخ</span></div>`:""}<table class="rp-tbl">${thead}<tbody></tbody></table></div>`+foot(1,1);
+    w.append(p);host.append(w);pages.push(p);return p};
+  const fits=p=>{const b=p.querySelector(".rp-body");const l=b.lastElementChild;if(!l)return true;return (l.offsetTop+l.offsetHeight)-b.offsetTop<=b.clientHeight-4};
+  let p=mkPage(true);
+  if(!n){p.querySelector(".rp-body").innerHTML=`<div class="rp-empty"><b>ماكو تفعيلات بهذي الفترة</b>غيّر الفترة أو الفلاتر من فوك.</div>`+signs}
+  else{
+    let tb=p.querySelector(".rp-tbl tbody");
+    // tiny first page (summary took the space): if not even 3 rows fit start the table on page 2
+    for(let i=0;i<rows.length;i++){
+      const tmp=document.createElement("tbody");tmp.innerHTML=rowHtml(rows[i],i);const tr=tmp.firstElementChild;tb.append(tr);
+      if(!fits(p)){tr.remove();if(!tb.children.length&&pages.length===1){p.querySelector(".rp-body").innerHTML=`<div class="rp-note" style="text-align:center">التفاصيل بالصفحة التالية ←</div>`}
+        p=mkPage(false);tb=p.querySelector(".rp-tbl tbody");tb.append(tr)}
+    }
+    // totals + signatures on the last page (new page if they do not fit)
+    const tbl=tb.closest("table");tbl.insertAdjacentHTML("beforeend",tfoot);
+    if(!fits(p)){tbl.querySelector("tfoot").remove();const last=tb.lastElementChild;const moved=[last];last.remove();
+      p=mkPage(false);tb=p.querySelector(".rp-tbl tbody");moved.forEach(r=>tb.append(r));tb.closest("table").insertAdjacentHTML("beforeend",tfoot)}
+    p.querySelector(".rp-body").insertAdjacentHTML("beforeend",signs);
+    if(!fits(p)){p.querySelector(".rp-end").remove();p=mkPage(false);p.querySelector(".rp-body").innerHTML=signs}
+  }
+  pages.forEach((pg,i)=>pg.querySelector(".rp-foot").outerHTML=foot(i+1,pages.length));
+  $("rpvSub").textContent=lab.pn+" · "+fmt(n)+" تفعيل · "+fmt(pages.length)+(pages.length===1?" صفحة":" صفحات");
+  rpvScale();
+}
+function rpvFit(){const st=$("rpvStage");const w=Math.max(200,st.clientWidth-parseFloat(getComputedStyle(st).paddingLeft)-parseFloat(getComputedStyle(st).paddingRight));return Math.min(1,w/RPW)}
+function rpvScale(){
+  const s=RPV.z||rpvFit();
+  document.querySelectorAll("#rpvPages .rp-wrap").forEach(w=>{w.style.width=Math.round(RPW*s)+"px";w.style.height=Math.round(RPH*s)+"px";w.firstElementChild.style.transform=`scale(${s})`});
+  $("rpvZ").textContent=Math.round(s*100)+"%";
+}
+function openRpv(src){
+  if(!(can("reports")||can("finance")))return;
+  RPV.p=src==="rep"?RPERIOD:(PERIOD||"month");RPV.z=0;
+  if(RPV.p==="custom"){const f=src==="rep"?$("rFrom").value:$("cFrom").value,t=src==="rep"?$("rTo").value:$("cTo").value;$("rpvFrom").value=f;$("rpvTo").value=t}
+  RPV.open=true;$("rpv").hidden=false;document.documentElement.style.overflow="hidden";
+  rpvFillFilters();rpvBuild();$("rpvStage").scrollTop=0;
+}
+function closeRpv(){RPV.open=false;$("rpv").hidden=true;document.documentElement.style.overflow="";$("rpvPages").innerHTML=""}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-rpv]");if(b){e.preventDefault();openRpv(b.dataset.rpv)}});
+$("rpvX").onclick=closeRpv;
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&RPV.open)closeRpv()});
+window.addEventListener("hashchange",()=>{if(RPV.open)closeRpv()});
+$("rpvP").onclick=e=>{const b=e.target.closest("[data-rp]");if(!b)return;RPV.p=b.dataset.rp;rpvFillFilters();rpvBuild()};
+$("rpvFrom").onchange=$("rpvTo").onchange=()=>rpvBuild();
+$("rpvEmp").onchange=e=>{RPV.emp=e.target.value;rpvBuild()};
+$("rpvPlan").onchange=e=>{RPV.plan=e.target.value;rpvBuild()};
+$("rpvPay").onchange=e=>{RPV.pay=e.target.value;rpvBuild()};
+document.querySelector("#rpv .rpv-zoom").onclick=e=>{const b=e.target.closest("[data-z]");if(!b)return;const steps=[.3,.4,.5,.6,.75,.9,1,1.25,1.5];const cur=RPV.z||rpvFit();
+  let i=steps.findIndex(v=>v>=cur-.001);if(i<0)i=steps.length-1;if(+b.dataset.z>0){i=steps[i]>cur+.001?i:i+1}else{i=steps[i]<cur-.001?i:i-1}
+  i=Math.max(0,Math.min(steps.length-1,i));RPV.z=steps[i];rpvScale()};
+window.addEventListener("resize",()=>{if(RPV.open&&!RPV.z)rpvScale()});
+/* pinch to zoom inside the preview only (the rest of the app keeps zoom locked) */
+(function(){const st=$("rpvStage");let d0=0,z0=1;
+  const dist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+  st.addEventListener("touchstart",e=>{if(e.touches.length===2){d0=dist(e.touches);z0=RPV.z||rpvFit()}},{passive:true});
+  st.addEventListener("touchmove",e=>{if(e.touches.length===2&&d0){e.preventDefault();RPV.z=Math.max(.3,Math.min(1.6,z0*dist(e.touches)/d0));rpvScale()}},{passive:false});
+  st.addEventListener("touchend",e=>{if(e.touches.length<2)d0=0},{passive:true})})();
+/* ---- export: image / PDF / print ---- */
+/* own DOM→canvas painter for the report sheet (no libraries; Arabic shaping stays native) */
+function rpvRadii(cs){return ["borderTopRightRadius","borderTopLeftRadius","borderBottomLeftRadius","borderBottomRightRadius"].map(k=>parseFloat(cs[k])||0)}
+function rpvPath(x,X,Y,W,H,rd){const [tr,tl,bl,br]=rd.map(r=>Math.min(r,W/2,H/2));x.beginPath();x.moveTo(X+tl,Y);x.lineTo(X+W-tr,Y);x.arcTo(X+W,Y,X+W,Y+tr,tr);x.lineTo(X+W,Y+H-br);x.arcTo(X+W,Y+H,X+W-br,Y+H,br);x.lineTo(X+bl,Y+H);x.arcTo(X,Y+H,X,Y+H-bl,bl);x.lineTo(X,Y+tl);x.arcTo(X,Y,X+tl,Y,tl);x.closePath()}
+const rpvVis=c=>c&&c!=="transparent"&&!/rgba\([^)]*,\s*0\)$/.test(c);
+async function rpvPaint(pg,S){
+  const cv=document.createElement("canvas");cv.width=Math.round(RPW*S);cv.height=Math.round(RPH*S);const x=cv.getContext("2d");x.scale(S,S);x.fillStyle="#fff";x.fillRect(0,0,RPW,RPH);
+  const R0=pg.getBoundingClientRect(),k=R0.width/RPW;const acc=pg.style.getPropertyValue("--rpa").trim()||"#ec1c32";
+  const P=r=>({x:(r.left-R0.left)/k,y:(r.top-R0.top)/k,w:r.width/k,h:r.height/k});
+  const img=src=>new Promise(ok=>{const i=new Image();i.onload=()=>ok(i);i.onerror=()=>ok(null);i.src=src});
+  const text=(node,cs,host)=>{
+    const raw=node.textContent.replace(/\s+/g," ");if(!raw.trim())return;
+    const rg=document.createRange();rg.selectNodeContents(node);const rects=[...rg.getClientRects()].filter(r=>r.width>.5);if(!rects.length)return;
+    x.font=`${cs.fontStyle} ${cs.fontWeight} ${parseFloat(cs.fontSize)}px ${cs.fontFamily}`;x.fillStyle=cs.color;
+    const dir=cs.direction==="ltr"?"ltr":"rtl";x.direction=dir;try{x.letterSpacing=cs.letterSpacing==="normal"?"0px":cs.letterSpacing}catch(e){}
+    x.textBaseline="middle";
+    const draw=(t,r)=>{const q=P(r);const cands=[t,t.trimStart(),t.trimEnd(),t.trim()];let best=t,bd=1e9;for(const c of cands){const d=Math.abs(x.measureText(c).width-q.w);if(d<bd-.01){bd=d;best=c}}t=best;x.textAlign=dir==="rtl"?"right":"left";x.fillText(t,dir==="rtl"?q.x+q.w:q.x,q.y+q.h/2+.5)};
+    const tops=new Set(rects.map(r=>Math.round(r.top)));
+    if(tops.size===1){
+      let t=raw;const hs=getComputedStyle(host);
+      if(hs.textOverflow==="ellipsis"){const hr=P(host.getBoundingClientRect());const pl=parseFloat(hs.paddingLeft)||0,pr=parseFloat(hs.paddingRight)||0;const avail=hr.w-pl-pr;
+        if(x.measureText(t.trim()).width>avail+1){t=t.trim();while(t.length>1&&x.measureText(t+"…").width>avail)t=t.slice(0,-1);t=t.trim()+"…";
+          const q=P(rects[0]);x.textAlign=dir==="rtl"?"right":"left";x.fillText(t,dir==="rtl"?hr.x+hr.w-pr:hr.x+pl,q.y+q.h/2+.5);return}}
+      const u=rects.reduce((m,r)=>({left:Math.min(m.left,r.left),right:Math.max(m.right,r.right),top:Math.min(m.top,r.top),bottom:Math.max(m.bottom,r.bottom)}),{left:1e9,right:-1e9,top:1e9,bottom:-1e9});
+      draw(t,{left:u.left,top:u.top,width:u.right-u.left,height:u.bottom-u.top});return}
+    // wrapped text: rebuild each line from its words
+    const words=[];const re=/\S+/g;let m;while((m=re.exec(node.textContent))){const r2=document.createRange();r2.setStart(node,m.index);r2.setEnd(node,m.index+m[0].length);const b=r2.getBoundingClientRect();if(b.width>0)words.push({t:m[0],b})}
+    const lines=[];for(const w of words){let L=lines.find(l=>Math.abs(l.top-w.b.top)<3);if(!L){L={top:w.b.top,ws:[],left:1e9,right:-1e9,bottom:0};lines.push(L)}L.ws.push(w.t);L.left=Math.min(L.left,w.b.left);L.right=Math.max(L.right,w.b.right);L.bottom=Math.max(L.bottom,w.b.bottom)}
+    for(const L of lines)draw(L.ws.join(" "),{left:L.left,top:L.top,width:L.right-L.left,height:L.bottom-L.top});
+  };
+  const walk=async el=>{
+    const cs=getComputedStyle(el);if(cs.display==="none"||cs.visibility==="hidden")return;
+    const r=P(el.getBoundingClientRect());const op=+cs.opacity;x.save();if(op<1)x.globalAlpha*=op;
+    if(el.tagName.toLowerCase()==="svg"){
+      const cl=el.cloneNode(true);cl.setAttribute("xmlns","http://www.w3.org/2000/svg");cl.setAttribute("width",r.w);cl.setAttribute("height",r.h);
+      const src=new XMLSerializer().serializeToString(cl).replace(/var\(--rpa\)/g,acc);
+      const im=await img("data:image/svg+xml;charset=utf-8,"+encodeURIComponent(src));if(im)x.drawImage(im,r.x,r.y,r.w,r.h);x.restore();return}
+    if(el.tagName==="IMG"){const im=await img(el.currentSrc||el.src);if(im){try{x.drawImage(im,r.x,r.y,r.w,r.h)}catch(e){}}x.restore();return}
+    const rd=rpvRadii(cs);
+    if(rpvVis(cs.backgroundColor)){rpvPath(x,r.x,r.y,r.w,r.h,rd);x.fillStyle=cs.backgroundColor;x.fill()}
+    const bw=["Top","Right","Bottom","Left"].map(sd=>({w:parseFloat(cs["border"+sd+"Width"])||0,c:cs["border"+sd+"Color"],st:cs["border"+sd+"Style"]}));
+    const on=bw.filter(b=>b.w>0&&b.st!=="none"&&rpvVis(b.c));
+    if(on.length){
+      if(on.length===4&&bw.every(b=>b.w===bw[0].w&&b.c===bw[0].c)){const w=bw[0].w;rpvPath(x,r.x+w/2,r.y+w/2,r.w-w,r.h-w,rd.map(v=>Math.max(0,v-w/2)));x.lineWidth=w;x.strokeStyle=bw[0].c;x.setLineDash(bw[0].st==="dashed"?[4,3]:[]);x.stroke();x.setLineDash([])}
+      else bw.forEach((b,i)=>{if(!(b.w>0&&b.st!=="none"&&rpvVis(b.c)))return;x.fillStyle=b.c;
+        if(i===0)x.fillRect(r.x,r.y,r.w,b.w);if(i===1)x.fillRect(r.x+r.w-b.w,r.y,b.w,r.h);if(i===2)x.fillRect(r.x,r.y+r.h-b.w,r.w,b.w);if(i===3)x.fillRect(r.x,r.y,b.w,r.h)})}
+    if(cs.overflow!=="visible"&&el!==pg){rpvPath(x,r.x,r.y,r.w,r.h,rd);x.clip()}
+    for(const ch of el.childNodes){if(ch.nodeType===3)text(ch,cs,el);else if(ch.nodeType===1)await walk(ch)}
+    x.restore();
+  };
+  try{await document.fonts.ready}catch(e){}
+  await walk(pg);return cv;
+}
+async function rpvCanvases(S,max){const out=[];for(const pg of [...document.querySelectorAll("#rpvPages .rp-page")].slice(0,max||99))out.push(await rpvPaint(pg,S));return out}
+/* minimal PDF writer: one full-page JPEG per A4 page */
+async function rpvPdfBlob(cvs){
+  const enc=new TextEncoder();const parts=[];let len=0;const offs=[];
+  const put=d=>{const u=typeof d==="string"?enc.encode(d):d;parts.push(u);len+=u.length};
+  const obj=(n,body)=>{offs[n]=len;put(n+" 0 obj\n");if(Array.isArray(body))body.forEach(put);else put(body);put("\nendobj\n")};
+  put("%PDF-1.4\n%\xE2\xE3\xCF\xD3\n");
+  const n=cvs.length,kids=[];for(let i=0;i<n;i++)kids.push((3+i*3)+" 0 R");
+  obj(1,"<< /Type /Catalog /Pages 2 0 R >>");
+  obj(2,`<< /Type /Pages /Count ${n} /Kids [${kids.join(" ")}] >>`);
+  for(let i=0;i<n;i++){
+    const c=cvs[i];const jb=new Uint8Array(await (await new Promise(r=>c.toBlob(r,"image/jpeg",.9))).arrayBuffer());
+    const pn=3+i*3,cn=pn+1,im=pn+2;const cmd="q 595.28 0 0 841.89 0 0 cm /Im0 Do Q";
+    obj(pn,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /XObject << /Im0 ${im} 0 R >> >> /Contents ${cn} 0 R >>`);
+    obj(cn,`<< /Length ${cmd.length} >>\nstream\n${cmd}\nendstream`);
+    obj(im,[`<< /Type /XObject /Subtype /Image /Width ${c.width} /Height ${c.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jb.length} >>\nstream\n`,jb,"\nendstream"]);
+  }
+  const total=3+n*3;const xo=len;let xr=`xref\n0 ${total}\n0000000000 65535 f \n`;for(let i=1;i<total;i++)xr+=String(offs[i]).padStart(10,"0")+" 00000 n \n";
+  put(xr+`trailer\n<< /Size ${total} /Root 1 0 R >>\nstartxref\n${xo}\n%%EOF`);
+  return new Blob(parts,{type:"application/pdf"});
+}
+function rpvBusy(on,txt){const st=$("rpvStage");let b=st.querySelector(".rpv-busy");if(on){if(!b){b=document.createElement("div");b.className="rpv-busy";st.append(b)}b.textContent=txt||"دا يجهّز…";b.style.top=st.scrollTop+"px";st.style.overflow="hidden"}else{if(b)b.remove();st.style.overflow=""}
+  ["rpvImg","rpvPdf","rpvPrint"].forEach(id=>$(id).disabled=on)}
+function rpvFname(ext){const l=rpvLabel();return "تقرير-التفعيلات-"+fdate(l.from).replace(/\//g,"-")+(fdate(l.from)!==fdate(l.to)?"_"+fdate(l.to).replace(/\//g,"-"):"")+"."+ext}
+async function rpvShare(blob,name,title){
+  const file=new File([blob],name,{type:blob.type});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title});return true}catch(e){if(e&&e.name==="AbortError")return true}}
+  const u=URL.createObjectURL(blob);const a=document.createElement("a");a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),5000);return false}
+$("rpvImg").onclick=async()=>{
+  const tot=document.querySelectorAll("#rpvPages .rp-page").length;const max=6;
+  rpvBusy(true,"دا يسوي الصورة…");
+  try{const cs=await rpvCanvases(tot<=2?2:1.5,max);const W=cs[0].width,gap=Math.round(W*.02);
+    const c=document.createElement("canvas");c.width=W;c.height=cs.reduce((h,x)=>h+x.height,0)+gap*(cs.length-1);const x=c.getContext("2d");x.fillStyle="#e9ebef";x.fillRect(0,0,c.width,c.height);
+    let y=0;for(const k of cs){x.drawImage(k,0,y);y+=k.height+gap}
+    const blob=await new Promise(r=>c.toBlob(r,"image/png"));const shared=await rpvShare(blob,rpvFname("png"),"تقرير التفعيلات");
+    if(!shared)toast(tot>max?"انحفظت أول "+max+" صفحات كصورة، للكامل استعمل PDF":"انحفظت الصورة")}
+  catch(e){console.error(e);toast("ما گدرت أسوي الصورة")}finally{rpvBusy(false)}};
+$("rpvPdf").onclick=async()=>{
+  rpvBusy(true,"دا يسوي ملف PDF…");
+  try{const cs=await rpvCanvases(2);const blob=await rpvPdfBlob(cs);const shared=await rpvShare(blob,rpvFname("pdf"),"تقرير التفعيلات");if(!shared)toast("انحفظ ملف PDF")}
+  catch(e){console.error(e);toast("ما گدرت أسوي PDF")}finally{rpvBusy(false)}};
+$("rpvPrint").onclick=()=>{try{window.print()}catch(e){toast("الطباعة ما مدعومة هنا، استعمل PDF")}};
+window.addEventListener("beforeprint",()=>{if(RPV.open)document.querySelectorAll("#rpvPages .rp-wrap").forEach(w=>{w.firstElementChild.style.transform="none"})});
+window.addEventListener("afterprint",()=>{if(RPV.open)rpvScale()});
+
 $("rFrom").onchange=renderReports;$("rTo").onchange=renderReports;
 /* ================= DEBTS ================= */
 function renderDebts(){
