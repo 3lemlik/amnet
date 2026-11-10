@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.10-1">
+<meta name="amnet-build" content="2026.11.10-2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1437,7 +1437,7 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
 .rp-tbl th:first-child{border-radius:0 8px 8px 0}.rp-tbl th:last-child{border-radius:8px 0 0 8px}
 .rp-tbl td{padding:0 6px;height:25px;border-bottom:1px solid var(--pl);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rp-tbl tbody tr:nth-child(even) td{background:var(--pz)}
-.rp-tbl td.i{color:var(--pf);text-align:center}
+.rp-tbl td.i{color:var(--pf);text-align:center;padding:0 2px;overflow:visible;text-overflow:clip;font-size:9.5px}
 .rp-tbl td.nm{font-weight:700}
 .rp-tbl td.am{font-weight:700;text-align:left}
 .rp-tbl .pc{display:inline-block;padding:1px 8px;border-radius:999px;font-weight:700;font-size:9.5px}
@@ -3471,7 +3471,7 @@ function rpvBuild(){
       <div class="rp-box"><div class="rp-sh"><i class="dot"></i><h3>حسب الباقة</h3><span>${fmt(pls.length)} باقة</span></div>${mini(["الباقة","العدد","المبلغ","النسبة"],plRows)}</div>
       <div class="rp-box"><div class="rp-sh"><i class="dot"></i><h3>حسب الموظف</h3><span>${fmt(emps.length)}</span></div>${mini(["الموظف","العدد","المبلغ","الآجل"],empRows)}</div>
     </div>`:""}`;
-  const thead=`<colgroup><col style="width:30px"><col style="width:116px"><col><col style="width:100px"><col style="width:78px"><col style="width:78px"><col style="width:60px"><col style="width:92px"></colgroup><thead><tr><th>#</th><th>التاريخ</th><th>المشترك</th><th>اليوزر</th><th>الباقة</th><th>المبلغ</th><th>الدفع</th><th>الموظف</th></tr></thead>`;
+  const thead=`<colgroup><col style="width:42px"><col style="width:116px"><col><col style="width:100px"><col style="width:78px"><col style="width:78px"><col style="width:60px"><col style="width:92px"></colgroup><thead><tr><th>#</th><th>التاريخ</th><th>المشترك</th><th>اليوزر</th><th>الباقة</th><th>المبلغ</th><th>الدفع</th><th>الموظف</th></tr></thead>`;
   const rowHtml=(x,i)=>{const s=SUBS.get(x.u)||{};const sv=actSell(x);const rest=x.pay==="a"?sv-(+x.pd||0):0;
     return `<tr><td class="i n">${i+1}</td><td class="n">${fdt(x.d)}</td><td class="nm">${esc(s.n||"—")}</td><td class="n">${esc(s.u||x.u)}</td><td>${esc(x.pl||"—")}</td><td class="n am">${fmt(sv)}</td><td>${x.pay==="a"?`<span class="pc a" title="باقي ${fmt(rest)}">آجل</span>`:`<span class="pc c">نقد</span>`}</td><td>${esc(rpvEmpName(x.sid,x.by))}</td></tr>`};
   const tfoot=`<tfoot><tr><td></td><td colspan="4">المجموع · <span class="n">${fmt(n)}</span> تفعيل</td><td class="n am">${fmt(amt)}</td><td colspan="2" style="font-size:10px;color:#a8690a">${cred?`آجل باقي <span class="n">${fmt(cred)}</span>`:"كله نقد"}</td></tr></tfoot>`;
@@ -3557,7 +3557,7 @@ function rpvBuildList(){
       <div class="rp-box"><div class="rp-sh"><i class="dot"></i><h3>${near?"حسب الأيام الباقية":"حسب مدة الانقطاع"}</h3></div>${mini([near?"باقي":"منذ","العدد","القيمة","النسبة"],bRows)}</div>
       <div class="rp-box"><div class="rp-sh"><i class="dot"></i><h3>حسب الباقة</h3><span>${fmt(pls.length)} باقة</span></div>${mini(["الباقة","العدد","القيمة","النسبة"],plRows)}</div>
     </div>`:""}`;
-  const thead=`<colgroup><col style="width:26px"><col><col style="width:86px"><col style="width:90px"><col style="width:66px"><col style="width:82px"><col style="width:82px"><col style="width:56px"><col style="width:62px"></colgroup><thead><tr><th>#</th><th>المشترك</th><th>اليوزر</th><th>الهاتف</th><th>الباقة</th><th>آخر تفعيل</th><th>${near?"ينتهي":"انتهى"}</th><th>${near?"باقي":"منذ"}</th><th>الدين</th></tr></thead>`;
+  const thead=`<colgroup><col style="width:42px"><col><col style="width:86px"><col style="width:90px"><col style="width:66px"><col style="width:82px"><col style="width:82px"><col style="width:56px"><col style="width:62px"></colgroup><thead><tr><th>#</th><th>المشترك</th><th>اليوزر</th><th>الهاتف</th><th>الباقة</th><th>آخر تفعيل</th><th>${near?"ينتهي":"انتهى"}</th><th>${near?"باقي":"منذ"}</th><th>الدين</th></tr></thead>`;
   const rowHtml=(r,i)=>`<tr><td class="i n">${i+1}</td><td class="nm">${esc(r.s.n||"—")}</td><td class="n">${esc(r.s.u||r.k)}</td><td class="n">${esc(r.s.p||"—")}</td><td>${esc(r.pl||"—")}</td><td class="n">${r.la.d?fdate(r.la.d):"—"}</td><td class="n">${r.st.exp?fdate(r.st.exp):"—"}</td><td>${r.st.days==null?"—":near?`<span class="pc ${r.st.days<=1?"a":"c"}">${r.st.days<=0?"اليوم":fmt(r.st.days)+" يوم"}</span>`:`<span class="pc a">${fmt(Math.abs(r.st.days))} يوم</span>`}</td><td class="n am" style="color:${r.debt?"#a8690a":"#9aa0ab"}">${r.debt?fmt(r.debt):"—"}</td></tr>`;
   const tfoot=`<tfoot><tr><td></td><td colspan="3">المجموع · <span class="n">${fmt(n)}</span> مشترك</td><td colspan="3" style="font-size:10px">${near?"متوقع":"ضايع"} <span class="n">${fmt(val)}</span> د.ع</td><td></td><td class="n am">${fmt(debt)}</td></tr></tfoot>`;
   const signs=`<div class="rp-end"><div class="rp-sign"><div>توقيع المسؤول</div><div>توقيع الموظف</div><div class="stamp">الختم</div></div><div class="rp-note">هذا التقرير صادر من نظام AM NET لإدارة المشتركين بتاريخ ${fdt(now.getTime())}. ${near?"الأيام الباقية محسوبة من اليوم.":"مدة الانقطاع محسوبة من تاريخ انتهاء الاشتراك."}</div></div>`;
