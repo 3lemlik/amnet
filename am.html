@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.11-7">
+<meta name="app-build" content="2026.11.11-8">
 <title>AM · اطلب نظامك</title>
 <meta name="description" content="AM للحلول التقنية — اختار نظامك واطلبه">
 <meta name="theme-color" content="#0b0c10">
@@ -383,6 +383,48 @@ html[data-theme="light"] .bp{background:linear-gradient(rgba(25,140,180,.1) 1px,
 .fsum b{display:block;font-family:var(--f-display);font-weight:800;font-size:16px;line-height:1.35}
 .fsum .pp{font-family:var(--f-mono);font-weight:800;font-size:14px;direction:ltr;text-align:left;white-space:nowrap}
 .fsum .pp em{font-style:normal;font-family:var(--f-display);font-size:11px;color:var(--dim);display:block;text-align:left}
+
+/* ===== HERO · HOLO PROJECTOR ===== */
+.holo{position:relative;height:262px;margin:10px -18px 0;overflow:hidden}
+.holo .pad{position:absolute;left:50%;bottom:-100px;width:250px;height:250px;margin-left:-125px;transform:perspective(500px) rotateX(74deg);transform-style:preserve-3d}
+.holo .pad i{position:absolute;border-radius:50%;inset:0;border:1.5px solid rgba(var(--acc-rgb),.55);box-shadow:0 0 24px rgba(var(--acc-rgb),.35),inset 0 0 24px rgba(var(--acc-rgb),.25)}
+.holo .pad i:nth-child(2){inset:18%;border:2px dashed rgba(25,195,224,.7);box-shadow:0 0 14px rgba(25,195,224,.4);animation:spin 12s linear infinite}
+.holo .pad i:nth-child(3){inset:30%;border:0;background:radial-gradient(circle,rgba(255,255,255,.95),rgba(var(--acc-rgb),.85) 30%,rgba(var(--acc-rgb),.15) 62%,transparent 70%);box-shadow:none;animation:pu 2.6s ease-in-out infinite}
+.holo .pad i:nth-child(4){inset:-14%;border:1px solid rgba(var(--acc-rgb),.18);box-shadow:none;border-top-color:var(--accent);animation:spin 7s linear infinite reverse}
+.holo .cone{position:absolute;left:50%;bottom:24px;width:240px;height:236px;margin-left:-120px;clip-path:polygon(38% 100%,62% 100%,100% 0,0 0);background:linear-gradient(0deg,rgba(var(--acc-rgb),.42),rgba(25,195,224,.12) 55%,transparent);filter:blur(1px);animation:cone 4s ease-in-out infinite}
+.holo .cone::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.10) 0 1px,transparent 1px 5px);animation:rise2 1.6s linear infinite}
+@keyframes cone{50%{opacity:.75}}
+@keyframes rise2{to{background-position:0 -10px}}
+html[data-theme="light"] .holo .cone{background:linear-gradient(0deg,rgba(var(--acc-rgb),.28),rgba(25,195,224,.10) 55%,transparent)}
+.holo .hm{position:absolute;left:50%;top:22px;width:142px;height:142px;margin-left:-71px;animation:hov 5s ease-in-out infinite}
+.holo .hm svg{position:absolute;inset:0;width:100%;height:100%;color:var(--ink);filter:drop-shadow(0 0 14px rgba(var(--acc-rgb),.6)) drop-shadow(0 0 2px rgba(25,195,224,.6));animation:flk 6s steps(1) infinite}
+.holo .hm svg.gh{color:var(--cy);opacity:.55;filter:none;mix-blend-mode:screen;animation:ghx 6s steps(1) infinite}
+.holo .hm::after{content:"";position:absolute;inset:-6px;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 1px,transparent 1px 3px);-webkit-mask:radial-gradient(circle,#000 55%,transparent 72%);mask:radial-gradient(circle,#000 55%,transparent 72%)}
+html[data-theme="light"] .holo .hm::after{background:repeating-linear-gradient(0deg,rgba(255,255,255,.35) 0 1px,transparent 1px 3px)}
+html[data-theme="light"] .holo .hm svg.gh{mix-blend-mode:multiply;opacity:.35}
+@keyframes hov{50%{transform:translateY(-8px)}}
+@keyframes flk{0%,100%{opacity:1}46%{opacity:.55}47%{opacity:1}78%{opacity:.8}79%{opacity:1}}
+@keyframes ghx{0%,100%{transform:translate(-3px,0)}46%{transform:translate(-9px,1px)}47%{transform:translate(-3px,0)}78%{transform:translate(4px,-1px)}79%{transform:translate(-3px,0)}}
+.holo .sp{position:absolute;inset:0;pointer-events:none}
+.holo .sp i{position:absolute;bottom:40px;width:2px;height:2px;border-radius:50%;background:#fff;box-shadow:0 0 6px var(--cy);opacity:0;animation:rise 4.5s linear infinite}
+.holo .eq{position:absolute;bottom:24px;display:flex;align-items:flex-end;gap:3px;height:46px}
+.holo .eq.l{left:20px}.holo .eq.r{right:20px}
+.holo .eq i{width:3px;background:linear-gradient(0deg,var(--accent),var(--cy));border-radius:1px;opacity:.7;animation:eq 1.2s ease-in-out infinite alternate}
+@keyframes eq{from{height:12%}to{height:100%}}
+.holo .hc{position:absolute;font-family:var(--f-mono);font-size:9.5px;letter-spacing:1px;color:var(--dim);direction:ltr;line-height:1.5}
+.holo .hc b{font-weight:500;color:var(--cy)}
+.holo .hc.tl{top:8px;left:18px}.holo .hc.tr{top:8px;right:18px;text-align:right}
+.holo .hc.tl::before,.holo .hc.tr::before{content:"";position:absolute;top:-2px;width:12px;height:12px;border-color:var(--accent);border-style:solid}
+.holo .hc.tl::before{left:-8px;border-width:1.5px 0 0 1.5px}.holo .hc.tr::before{right:-8px;border-width:1.5px 1.5px 0 0}
+.holo .ring2{position:absolute;left:50%;top:6px;width:178px;height:178px;margin-left:-89px;border-radius:50%;border:1px solid rgba(var(--acc-rgb),.22);animation:hov 5s ease-in-out infinite}
+.holo .ring2::before{content:"";position:absolute;inset:-1px;border-radius:50%;border:2px solid transparent;border-top-color:var(--accent);border-right-color:rgba(var(--acc-rgb),.4);animation:spin 3.4s linear infinite}
+.holo .ring2::after{content:"";position:absolute;inset:-12px;border-radius:50%;border:1px dashed rgba(25,195,224,.35);animation:spin 22s linear infinite reverse}
+.hero .eyebrow{position:relative;z-index:1}
+.hero .lock{margin-top:-4px}
+.hero .lock .mk{font-size:50px;animation:glt 7s steps(1) infinite}
+@keyframes glt{0%,100%{text-shadow:-2px 0 0 var(--cy),0 0 22px var(--accent-glow)}92%{text-shadow:-6px 0 0 var(--cy),5px 0 0 var(--accent),0 0 22px var(--accent-glow)}93%{text-shadow:-2px 0 0 var(--cy),0 0 22px var(--accent-glow)}}
+@media (max-width:360px){.holo{height:236px}.holo .hm{width:124px;height:124px;margin-left:-62px}.holo .ring2{width:156px;height:156px;margin-left:-78px}.holo .eq{display:none}}
+@media (prefers-reduced-motion:reduce){.holo *,.holo *::after,.holo *::before{animation:none!important}}
 @media (prefers-reduced-motion:reduce){#fxbg::before,#fxbg::after,.tick .tr{animation:none}}
 
 </style>
@@ -465,7 +507,13 @@ function render(){const c=PC.company||{},ps=prods(),w=waNum(c.phone),n=String(ps
   $("pub").innerHTML=`<div class="st">
   <section class="card br hero"><i class="hfloor" aria-hidden="true"></i>
    <div class="eyebrow" style="justify-content:center"><span>00 · ORDER TERMINAL</span><b>AM-TECH</b></div>
-   <div class="core" style="width:132px;height:132px;margin-top:22px"><span class="orb"><i></i></span><span class="orb o2"><i></i></span><i class="r r1"></i><i class="r r2"></i><i class="r r3"></i><i class="gl"></i><svg><use href="#i-logo"/></svg></div>
+   <div class="holo" aria-hidden="true">
+    <span class="hc tl">SYS <b>ONLINE</b><br>UPLINK <b>100%</b></span><span class="hc tr"><b id="hclk">--:--:--</b><br>AM · HOLO</span>
+    <span class="eq l">${[7,3,9,5,8,4].map((d,k)=>`<i style="animation-delay:-${d/10}s;animation-duration:${.9+k*.12}s"></i>`).join("")}</span><span class="eq r">${[4,8,2,6,9,5].map((d,k)=>`<i style="animation-delay:-${d/10}s;animation-duration:${1+k*.1}s"></i>`).join("")}</span>
+    <span class="pad"><i></i><i></i><i></i><i></i></span><span class="cone"></span>
+    <span class="sp">${[44,48,52,56,50,46,54].map((l,k)=>`<i style="left:${l}%;animation-delay:-${k*.6}s"></i>`).join("")}</span>
+    <span class="ring2"></span><span class="hm"><svg class="gh"><use href="#i-logo"/></svg><svg><use href="#i-logo"/></svg></span>
+   </div>
    <div style="margin-top:14px"><div class="lock"><div class="mk">${esc(mk)}</div>${enR?`<div class="en">${esc(enR)}</div>`:""}<div class="ar">${esc(arR)}</div></div></div>
    <h1>${esc(PL.title||c.tagline||c.ar||"")}</h1>
    <p>${esc(PL.sub||"اختار النظام اللي يناسب شغلك واطلبه، ونتواصل وياك.")}</p>
@@ -512,7 +560,8 @@ function promoCard(p,i){const no=String(i+1).padStart(2,"0"),fs=p.feats||[],top=
   </div></article>`}
 function leaders(){document.querySelectorAll(".pc").forEach(c=>{const ph=c.querySelector(".ph");if(!ph)return;const pr=ph.getBoundingClientRect().right;c.querySelectorAll(".fc1,.fc2").forEach(f=>f.style.setProperty("--lw",Math.max(10,Math.round(f.getBoundingClientRect().left-pr+6))+"px"))})}
 let ldT;addEventListener("resize",()=>{clearTimeout(ldT);ldT=setTimeout(leaders,150)});
-function deckFx(){const cards=[...document.querySelectorAll(".pc")];requestAnimationFrame(leaders);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(leaders);
+let HCLK;function holoClock(){clearInterval(HCLK);const t=()=>{const e=$("hclk");if(!e)return clearInterval(HCLK);e.textContent=new Date().toLocaleTimeString("en-GB",{hour12:false})};t();HCLK=setInterval(t,1000)}
+function deckFx(){holoClock();const cards=[...document.querySelectorAll(".pc")];requestAnimationFrame(leaders);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(leaders);
   if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});cards.forEach(c=>io.observe(c))}
   setTimeout(()=>cards.forEach(c=>c.classList.add("in")),2500)}
 const TRIAL=()=>/تجريب|تجربة/.test((PC.company||{}).banner||"");
