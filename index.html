@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.11-2">
+<meta name="amnet-build" content="2026.11.11-3">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -361,8 +361,6 @@ body{margin:0;padding-top:var(--sat)}
 #app[data-nomgmt] .mgf{display:none!important}
 #app[data-noamsg] .amsg{display:none!important}
 @media (max-width:900px){#app[data-nomgmt] .bnav{grid-template-columns:repeat(3,minmax(0,1fr)) 70px minmax(0,3fr)!important}}
-#app[data-mode="admin"] .bnav{display:none!important}
-@media (max-width:900px){#app[data-mode="admin"] main{padding-bottom:30px}}
 .vbanner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid rgba(255,176,32,.5);background:var(--warn-soft);padding:10px 14px;border-radius:4px;color:var(--warn);font-weight:600}
 .vbanner .sp{flex:1}
 .ucard-actions{margin-inline-start:auto}
@@ -1506,6 +1504,78 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
 .hubkv{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14.5px}.hubkv>span:first-child{color:var(--dim);flex:none}.hubkv>span:last-child{min-width:0;overflow-wrap:anywhere;text-align:left}
 .hubnote{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;white-space:pre-wrap;overflow-wrap:anywhere}
 #hubCard .sc-acts a.btn{text-decoration:none}
+
+/* ===== admin sections ===== */
+#v-admin[data-sec="home"] [data-as]:not([data-as~="home"]),
+#v-admin[data-sec="clients"] [data-as]:not([data-as~="clients"]),
+#v-admin[data-sec="orders"] [data-as]:not([data-as~="orders"]),
+#v-admin[data-sec="showcase"] [data-as]:not([data-as~="showcase"]),
+#v-admin[data-sec="chat"] [data-as]:not([data-as~="chat"]),
+#v-admin[data-sec="bills"] [data-as]:not([data-as~="bills"]),
+#v-admin[data-sec="settings"] [data-as]:not([data-as~="settings"]){display:none!important}
+#app[data-mode="admin"] .bnav:not(.abnav),#app[data-mode="market"] .abnav{display:none!important}
+@media (max-width:900px){#app[data-mode="admin"] .abnav{grid-template-columns:repeat(3,minmax(0,2fr)) 70px repeat(2,minmax(0,3fr))!important}}
+@media (max-width:370px){#app[data-mode="admin"] .abnav{grid-template-columns:repeat(3,minmax(0,2fr)) 62px repeat(2,minmax(0,3fr))!important}}
+nav.side-nav a .badge+.ix{margin-inline-start:8px}nav.side-nav a .badge{margin-inline-start:auto}
+.aswrap{display:grid;gap:16px}
+#v-admin #billList,#v-admin #chatList{max-height:none}
+.ahome{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:900px){.ahome{grid-template-columns:minmax(0,1fr);gap:14px}}
+.atodo{display:grid;gap:8px}
+.atd{display:grid;grid-template-columns:46px minmax(0,1fr) 18px;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);text-decoration:none;color:var(--ink);position:relative;overflow:hidden}
+.atd::before{content:"";position:absolute;inset-block:10px;inset-inline-start:0;width:3px;border-radius:3px;background:var(--c,var(--accent))}
+.atd .n{display:grid;place-items:center;height:42px;border-radius:10px;font-family:var(--f-mono);font-weight:700;font-size:18px;color:var(--c,var(--accent));background:color-mix(in srgb,var(--c,var(--accent)) 13%,transparent)}
+.atd b{display:block;font-size:14.5px;font-weight:700}.atd small{display:block;font-size:12px;color:var(--dim);margin-top:1px}
+.atd svg{width:16px;height:16px;color:var(--faint)}
+.atd.w{--c:var(--warn)}.atd.b{--c:var(--bad)}.atd.g{--c:var(--ok)}
+.atd:hover{border-color:var(--line2)}.atd:active{background:var(--panel3)}
+.aok{display:flex;align-items:center;gap:12px;padding:14px;border:1px dashed var(--line2);border-radius:12px;color:var(--dim);font-size:14px}
+.aok i{width:10px;height:10px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 5px color-mix(in srgb,var(--ok) 18%,transparent);flex:none}
+.aol{display:grid}
+.aor{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:center;padding:10px 2px;border:0;border-bottom:1px solid var(--line);background:none;color:inherit;text-align:start;cursor:pointer;font:inherit;width:100%}
+.aor:last-child{border-bottom:0}
+.aor b{font-size:14.5px;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.aor small{grid-column:1;font-size:12px;color:var(--dim);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.aor .pill{grid-column:2;grid-row:1/3}
+.atiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.atiles{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.atile{display:grid;grid-template-columns:38px minmax(0,1fr);gap:2px 11px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);text-decoration:none;color:var(--ink);min-width:0}
+.atile .ic{grid-row:1/3;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent)}
+.atile .ic svg{width:19px;height:19px}
+.atile b{font-size:14.5px;font-weight:700;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;align-self:end}
+.atile small{font-size:12px;color:var(--dim);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;align-self:start}
+.atile:hover{border-color:rgba(var(--acc-rgb),.4)}.atile:active{background:var(--panel2)}
+@media (max-width:370px){.atile{grid-template-columns:minmax(0,1fr);padding:11px}.atile .ic{grid-row:auto;width:32px;height:32px;margin-bottom:4px}}
+.ttl-s{font-family:var(--f-display);font-weight:800;font-size:15px;color:var(--dim);display:flex;align-items:center;gap:10px;margin:4px 2px -4px}
+.ttl-s::after{content:"";flex:1;height:1px;background:var(--line)}
+/* labelled values inside cards */
+.kvg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 14px;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--panel3) 55%,transparent);border:1px solid var(--line)}
+.kvg.c3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.kvg>div{min-width:0}.kvg .w{grid-column:1/-1}
+.kvg small{display:block;font-size:11px;color:var(--faint);line-height:1.5}
+.kvg b{display:block;font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.5;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.kvg b.num{font-weight:700;text-align:right;word-break:normal!important}
+.kvg b.wr{white-space:normal}
+.sc-sub{font-size:12.5px;color:var(--dim);margin-top:-4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sc-tags{display:flex;flex-wrap:wrap;gap:6px}
+.sc-when{font-size:11.5px;color:var(--faint);font-weight:500;display:block;margin-top:1px}
+html[data-theme="light"] .kvg{background:var(--panel2)}
+.chv{width:8px;height:8px;border-left:2px solid var(--faint);border-bottom:2px solid var(--faint);transform:rotate(45deg);justify-self:center}
+.mkacts{display:flex!important;gap:6px;justify-content:flex-end;flex-wrap:nowrap}
+#mkTbl td.name,#mkCards .sc-top{cursor:pointer}
+#mkTbl tbody tr:hover td{background:color-mix(in srgb,var(--panel2) 70%,transparent)}
+.mkgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.mkgrid .btn{justify-content:center;min-width:0}
+.mkgrid .btn.w{grid-column:1/-1}
+.swlist{display:grid;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:10px}
+.swrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:11px 13px;background:var(--panel2);border:0;border-bottom:1px solid var(--line);color:var(--ink);font:inherit;font-size:14.5px;font-weight:600;cursor:pointer;text-align:start}
+.swrow:last-child{border-bottom:0}.swrow .sw{pointer-events:none;flex:none}
+.swrow small{display:block;font-size:12px;color:var(--dim);font-weight:400}
+#mkBoxBody .ttl-s{margin:16px 2px 0}
+#mkTbl td.num .muted{font-family:var(--f-body)}
+#mkTbl{min-width:0!important;width:100%}
+#mkTbl td:last-child{width:1%;white-space:nowrap}
+@media (max-width:370px){#v-admin .pc .v{font-size:19px}#v-admin .pc{padding:13px}}
 </style>
 </head>
 <body>
@@ -1546,6 +1616,9 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
   <symbol id="i-reload" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></g></symbol>
   <symbol id="i-ext" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></g></symbol>
   <symbol id="i-cog" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4 5.3 5.3"/></g></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"><path d="M3 13.5 5.6 5.7A1 1 0 0 1 6.6 5h10.8a1 1 0 0 1 1 .7L21 13.5V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Z"/><path d="M3 13.5h5l1.2 2.5h5.6l1.2-2.5h5"/></g></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></g></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6"/></symbol>
   <symbol id="i-more" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></g></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></g></symbol>
   <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
@@ -1603,7 +1676,13 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
   <a class="cta ad" href="#admin" data-mx="add"><svg><use href="#i-plus"/></svg>إضافة عميل</a>
   <div class="navlbl">الأقسام</div>
   <nav class="side-nav" aria-label="الأقسام">
-    <a href="#admin" data-v="admin" class="ad"><svg><use href="#i-users"/></svg>العملاء والحسابات<span class="ix">00</span></a>
+    <a href="#admin" data-asg="home" class="ad"><svg><use href="#i-home"/></svg>الرئيسية<span class="ix">00</span></a>
+    <a href="#a-clients" data-asg="clients" class="ad"><svg><use href="#i-users"/></svg>العملاء والحسابات<span class="ix">01</span></a>
+    <a href="#a-orders" data-asg="orders" class="ad"><svg><use href="#i-inbox"/></svg>طلبات العملاء<span class="badge" data-ab="orders" hidden></span><span class="ix">02</span></a>
+    <a href="#a-showcase" data-asg="showcase" class="ad"><svg><use href="#i-grid"/></svg>معرض المواقع<span class="ix">03</span></a>
+    <a href="#a-chat" data-asg="chat" class="ad"><svg><use href="#i-chat"/></svg>رسائل العملاء<span class="badge" data-ab="chat" hidden></span><span class="ix">04</span></a>
+    <a href="#a-bills" data-asg="bills" class="ad"><svg><use href="#i-wallet"/></svg>سجل الرسوم<span class="ix">05</span></a>
+    <a href="#a-settings" data-asg="settings" class="ad"><svg><use href="#i-cog"/></svg>الإعدادات<span class="ix">06</span></a>
     <a href="#admin" class="vb" data-backadmin><svg><use href="#i-home"/></svg>رجوع للإدارة<span class="ix">←</span></a>
     <a href="#home" data-v="home" class="mk"><svg><use href="#i-home"/></svg>الرئيسية<span class="ix">01</span></a>
     <a href="#activate" data-v="activate" class="mk"><svg><use href="#i-bolt"/></svg>تفعيل سريع<span class="ix">02</span></a>
@@ -1631,36 +1710,42 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
 <!-- ================= ADMIN ================= -->
 <section class="view" id="v-admin" hidden>
   <div class="row" style="justify-content:space-between">
-    <div><div class="eyebrow"><span>00 · ADMIN CONTROL</span><b>AM-NET</b></div><h1 class="pg">العملاء والحسابات</h1><div class="muted" id="aSubs"></div></div>
-    <div class="row"><button class="btn" id="addMk"><svg><use href="#i-plus"/></svg>إضافة عميل</button><button class="btn ghost" id="admBk"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>نسخة احتياطية للكل</button><button class="btn ghost" id="admRs"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg>استرجاع نسخة</button><input type="file" id="admRsF" accept=".json,application/json" hidden><button class="btn ghost" data-logout>خروج</button></div>
+    <div><div class="eyebrow"><span id="asEy">00 · ADMIN CONTROL</span><b>AM-NET</b></div><h1 class="pg" id="asH1">لوحة الإدارة</h1><div class="muted" id="asSub"></div><div class="muted" id="aSubs" data-as="clients"></div></div>
+    <div class="row" data-as="clients"><button class="btn" id="addMk"><svg><use href="#i-plus"/></svg>إضافة عميل</button></div>
   </div>
-  <div class="pcards">
+  <div class="pcards" data-as="home">
     <div class="card br pc"><div class="lb">كل العملاء</div><div class="v" id="aAll">0</div><div class="s">حساب</div></div>
     <div class="card br pc g"><div class="lb">حسابات شغّالة</div><div class="v" id="aOk">0</div><div class="s">قرّب يخلص: <span id="aNear">0</span></div></div>
     <div class="card br pc r"><div class="lb">خالص أو موقوف</div><div class="v" id="aOff">0</div><div class="s">ينتظرون التجديد</div></div>
     <div class="card br pc hot"><div class="lb">رسوم هذا الشهر</div><div class="v" id="aFee">0</div><div class="s" id="aFeeS"></div></div>
   </div>
-  <div class="card br">
+  <div class="ahome" data-as="home">
+    <div class="card br"><div class="chead"><div class="t"><h2>يحتاج انتباهك</h2><div class="muted" id="ahTodoS"></div></div></div><div class="atodo" id="ahTodo"></div></div>
+    <div class="card br"><div class="chead"><div class="t"><h2>آخر الطلبات</h2><div class="muted">من روابط المعرض</div></div><a class="btn ghost sm" href="#a-orders">شوف الكل</a></div><div class="aol" id="ahOrders"></div></div>
+  </div>
+  <div class="ttl-s" data-as="home">الأقسام</div>
+  <div class="atiles" data-as="home" id="ahTiles"></div>
+  <div class="card br" data-as="clients">
     <div class="chead"><div class="t"><h2>الحسابات</h2></div><div style="min-width:min(300px,100%)"><input type="search" id="aq2" placeholder="دوّر بالاسم أو اليوزر أو الهاتف" aria-label="بحث بالمسوقين"></div></div>
     <div class="chips" id="aChips"></div>
     <div class="tbox" id="mkTblBox" style="margin-top:12px;max-height:620px"><table class="t" id="mkTbl"></table></div>
     <div class="scards" id="mkCards" hidden></div>
   </div>
-  <div class="card br" id="hubCard">
-    <div class="chead"><div class="t"><h2>معرض المواقع وطلبات العملاء</h2><div class="muted" id="hubSub">اعرض مواقعك برابط واحد، والعميل يطلب منه ويوصلك الطلب هنا.</div></div><button class="btn" id="hubNew" data-hub="new" hidden><svg><use href="#i-plus"/></svg><span>رابط جديد</span></button></div>
+  <div class="card br" id="hubCard" data-as="orders showcase">
+    <div class="chead"><div class="t"><h2 id="hubH">طلبات العملاء</h2><div class="muted" id="hubSub">اعرض مواقعك برابط واحد، والعميل يطلب منه ويوصلك الطلب هنا.</div></div><button class="btn" id="hubNew" data-hub="new" hidden><svg><use href="#i-plus"/></svg><span>رابط جديد</span></button></div>
     <div class="chips" id="hubTabs"></div>
     <div id="hubBody" style="margin-top:12px"></div>
   </div>
-  <div class="card br" id="chatCard">
+  <div class="card br" id="chatCard" data-as="chat">
     <div class="chead"><div class="t"><h2>رسائل العملاء</h2><div class="muted" id="chatSub">الرسائل اللي يرسلوها المسوقين من داخل النظام</div></div></div>
     <div class="list chatlist" id="chatList" style="margin-top:0"></div>
   </div>
-  <div class="grid2">
-    <div class="card br">
+  <div class="aswrap" data-as="bills settings">
+    <div class="card br" data-as="bills">
       <div class="chead"><div class="t"><h2>سجل الرسوم</h2></div></div>
       <div class="list" id="billList" style="margin-top:0"></div>
     </div>
-    <div class="card br">
+    <div class="card br" data-as="settings">
       <div class="chead"><div class="t"><h2>بيانات التواصل</h2><div class="muted">يطلع للمسوقين زر واتساب يوصلهم إلك إذا خلص أو توقف حسابهم.</div></div></div>
       <div class="fgrid"><div class="field"><label for="cAdminName">اسمك</label><input type="text" id="cAdminName" placeholder="علي مالك"></div><div class="field"><label for="cAdminPhone">رقم الواتساب</label><input type="tel" id="cAdminPhone" dir="ltr"></div></div>
       <div class="field" style="margin-top:12px"><label for="cUrlDz">رابط موقع المتاجر (اللي ترفعه على GitHub)</label><input type="url" id="cUrlDz" dir="ltr" placeholder="https://3lemlik.github.io/amnet/store/"></div>
@@ -1668,16 +1753,23 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
       <div class="row" style="margin-top:12px"><button class="btn" id="saveContact">حفظ</button></div>
     </div>
   </div>
-  <div class="card br">
+  <div class="card br" data-as="settings">
     <div class="chead"><div class="t"><h2>ألوان الموقع</h2><div class="muted">اللون اللي تختاره يتطبق على كل الموقع وعند كل المسوقين والموظفين.</div></div></div>
     <div class="swatches" id="thSw"></div>
     <div class="row" style="margin-top:12px"><label class="row" style="gap:8px;font-size:14px">لون مخصص <input type="color" id="thPick" style="width:52px;height:38px;padding:2px;border-radius:6px;border:1px solid var(--line2);background:var(--panel2)"></label><span style="flex:1"></span><button class="btn ghost" id="thReset">رجّع الأحمر</button><button class="btn" id="thSave">حفظ للكل</button></div>
   </div>
-  <div class="card br">
+  <div class="card br" data-as="settings">
     <div class="chead"><div class="t"><h2>كلمة سر المدير</h2><div class="muted">تدخل بيها للوحة الإدارة.</div></div></div>
     <div class="fgrid"><div class="field"><label for="admPwCur">الحالية</label><input type="password" id="admPwCur" dir="ltr" autocomplete="current-password"></div><div class="field"><label for="admPwNew">الجديدة (6 أحرف أو أكثر)</label><input type="password" id="admPwNew" dir="ltr" autocomplete="new-password"></div></div>
     <div class="err" id="admPwMsg"></div>
     <div class="row"><button class="btn" id="admPwGo">تغيير</button></div>
+  </div>
+  <div class="card br" data-as="settings">
+    <div class="chead"><div class="t"><h2>النسخ الاحتياطي</h2><div class="muted">نزّل نسخة من بيانات كل العملاء واحفظها عندك، أو رجّع نسخة قديمة.</div></div></div>
+    <div class="row"><button class="btn ghost" id="admBk"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>نسخة احتياطية للكل</button><button class="btn ghost" id="admRs"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg>استرجاع نسخة</button><input type="file" id="admRsF" accept=".json,application/json" hidden></div>
+  </div>
+  <div class="card br" data-as="settings">
+    <div class="chead" style="margin-bottom:0"><div class="t"><h2>الخروج</h2><div class="muted">تطلع من لوحة الإدارة على هذا الجهاز.</div></div><button class="btn ghost" data-logout>تسجيل خروج</button></div>
   </div>
 </section>
 
@@ -2052,6 +2144,15 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
   <a href="#activate" data-v="activate" class="mid" aria-label="تفعيل"><span class="c"><svg><use href="#i-bolt"/></svg></span></a>
   <a href="#mgmt" data-v="mgmt" class="mk mgf"><svg><use href="#i-globe"/></svg><span class="bl">المنجمنت</span></a>
   <button type="button" id="moreNav" data-v="more"><svg><use href="#i-more"/></svg><span class="bl">المزيد</span></button>
+</nav>
+
+<nav class="bnav abnav" aria-label="تنقل الإدارة">
+  <a href="#admin" data-asg="home"><svg><use href="#i-home"/></svg><span class="bl">الرئيسية</span></a>
+  <a href="#a-clients" data-asg="clients"><svg><use href="#i-users"/></svg><span class="bl">العملاء</span></a>
+  <a href="#a-orders" data-asg="orders"><svg><use href="#i-inbox"/></svg><span class="bl">الطلبات</span><span class="badge" data-ab="orders" hidden></span></a>
+  <a href="#admin" data-mx="add" class="mid" aria-label="إضافة عميل"><span class="c"><svg><use href="#i-plus"/></svg></span></a>
+  <a href="#a-showcase" data-asg="showcase"><svg><use href="#i-grid"/></svg><span class="bl">المعرض</span></a>
+  <button type="button" id="aMore" data-asg="more"><svg><use href="#i-more"/></svg><span class="bl">المزيد</span><span class="badge" data-ab="chat" hidden></span></button>
 </nav>
 
 <div id="warp" aria-hidden="true"></div>
@@ -4555,7 +4656,7 @@ function renderChatList(){
 document.addEventListener("click",e=>{
   const o=e.target.closest("[data-chatopen]");if(o){const m=MK.find(x=>x.id===o.dataset.chatopen),c=CHATS.find(x=>x.id===o.dataset.chatopen);openChat(o.dataset.chatopen,(m&&m.name)||(c&&c.name)||"مسوق");return}
   const b=e.target.closest("[data-chat]");if(!b)return;e.preventDefault();
-  if(ROLE==="admin"){if(VIEWAS)openChat(VIEWAS.id,VIEWAS.name);else{location.hash="admin";setTimeout(()=>{const c=$("chatCard");if(c)c.scrollIntoView({behavior:"smooth",block:"start"})},80)}}
+  if(ROLE==="admin"){if(VIEWAS)openChat(VIEWAS.id,VIEWAS.name);else location.hash="a-chat"}
   else if(ROLE==="marketer"&&LOGIN&&LOGIN.acct)openChat(LOGIN.acct,"");
 });
 /* telegram-style doodle wallpaper built from the AM NET logo + network icons, tinted with the current accent */
@@ -4729,7 +4830,7 @@ async function onAuth(user){
     unsubBill=fs.collection("billing").orderBy("at","desc").limit(500).onSnapshot(s=>{BILL=s.docs.map(d=>({id:d.id,...d.data()}));renderAdmin()},()=>{});
     unsubChat=fs.collection("chats").onSnapshot(s=>{CHATS=s.docs.map(d=>({id:d.id,...d.data()}));chatBadge();renderChatList();if(ROLE==="admin"&&!VIEWAS)renderAdmin()},()=>{});
     hubStart();
-    location.hash="admin";show("admin");return;
+    location.hash="admin";show("admin");asSet("home",true);return;
   }
   gate("loading");let first=true;
   const evaluate=()=>{
@@ -4808,23 +4909,24 @@ function renderAdmin(){
   const q=($("aq2").value||"").trim().toLowerCase();
   const rows=ms.filter(m=>(MKF==="all"||(MKF==="trial"?!!m.trial:MKF.startsWith("p:")?prodOf(m)===MKF.slice(2):mkState(m).st===MKF))&&(!q||(m.name||"").toLowerCase().includes(q)||(m.biz||"").toLowerCase().includes(q)||(m.phone||"").includes(q))).sort((a,b)=>tsMs(a.expiresAt)-tsMs(b.expiresAt));
   const mobile=matchMedia("(max-width:700px)").matches;
-  const acts=m=>`<button class="btn ghost sm chatmx" data-mx="chat" data-id="${m.id}"><svg><use href="#i-chat"/></svg>${unreadOf(m.id)?`<span class="ubdg">${unreadOf(m.id)}</span>`:""}</button><button class="btn ok sm" data-mx="extend" data-id="${m.id}">${m.trial?"تفعيل":"تمديد"}</button><button class="btn ghost sm" data-mx="toggle" data-id="${m.id}">${m.active?"إيقاف":"تشغيل"}</button>${prodOf(m)==="isp"?`<button class="btn ghost sm" data-mx="open" data-id="${m.id}">فتح لوحته</button>`:""}<button class="btn ghost sm icn" data-mx="links" data-id="${m.id}" title="الرابط ورسالة العميل" aria-label="الرابط"><svg><use href="#i-link"/></svg></button><button class="btn ghost sm" data-mx="edit" data-id="${m.id}">تعديل</button><button class="btn ghost sm icn" data-mx="backup" data-id="${m.id}" title="نسخة احتياطية لهذا العميل" aria-label="نسخة احتياطية"><svg><use href="#i-dl"/></svg></button>`;
+  const acts=m=>`<button class="btn ghost sm chatmx" data-mx="chat" data-id="${m.id}"><svg><use href="#i-chat"/></svg>${unreadOf(m.id)?`<span class="ubdg">${unreadOf(m.id)}</span>`:""}</button><button class="btn ok sm" data-mx="extend" data-id="${m.id}">${m.trial?"تفعيل":"تمديد"}</button><button class="btn ghost sm" data-mkbox="${m.id}">إدارة</button>`;
   const empty=`<div class="empty"><b>ماكو عملاء بعد</b>ضيف أول عميل (شركة انترنت، متجر، أو علي فيجن)، ويطلعلك الرابط وكلمة السر حتى ترسلها له.<div class="row" style="justify-content:center;margin-top:12px"><button class="btn" data-mx="add">إضافة عميل</button></div></div>`;
   $("mkCards").hidden=!mobile;$("mkTblBox").hidden=mobile;
   if(mobile){
-    $("mkCards").innerHTML=ms.length?rows.map(m=>{const s=mkState(m),st=m.stats||{};return `<div class="scard st-${s.cls}"><div class="sc-top"><b class="sc-n">${esc(m.name||"—")}${isLife(m)?VBADGE:""}${m.biz?`<small class="bizn">${esc(m.biz)}</small>`:""}</b><span class="pill ${s.cls}">${s.lbl}</span></div>
-      <div class="sc-meta"><span class="ptag p-${prodOf(m)}" title="${PRODS[prodOf(m)].n}"><svg><use href="#${PRODS[prodOf(m)].ic}"/></svg>${prodOf(m)==="isp"?"انترنت":PRODS[prodOf(m)].n}</span><span class="num">${esc(m.phone||"")}</span><span>ينتهي <span class="num">${s.life?"مدى الحياة":s.exp?fdate(s.exp):"—"}</span></span><span>${fmt(st.subs||0)} مشترك</span>${m.features&&m.features.match===false?'<span class="paytag a">المطابقة مطفية</span>':""}${m.features&&m.features.mgmt===false?'<span class="paytag a">المنجمنت مطفي</span>':""}${m.features&&m.features.actmsg===false?'<span class="paytag a">رسالة التفعيل مطفية</span>':""}</div>
+    $("mkCards").innerHTML=ms.length?rows.map(m=>{const s=mkState(m),st=m.stats||{};return `<div class="scard st-${s.cls}"><div class="sc-top" data-mkbox="${m.id}"><b class="sc-n">${esc(m.name||"—")}${isLife(m)?VBADGE:""}${m.biz?`<small class="bizn">${esc(m.biz)}</small>`:""}</b><span class="pill ${s.cls}">${s.lbl}</span></div>
+      <div class="kvg"><div><small>النظام</small><b>${prodOf(m)==="isp"?"شركة انترنت":PRODS[prodOf(m)].n}</b></div><div><small>الهاتف</small><b class="num">${esc(m.phone||"—")}</b></div><div><small>ينتهي</small><b${s.life?"":` class="num"`}>${s.life?"مدى الحياة":s.exp?fdate(s.exp):"—"}</b></div><div><small>${prodOf(m)==="isp"?"المشتركين":"الرسوم الشهرية"}</small><b class="num">${prodOf(m)==="isp"?fmt(st.subs||0):m.fee?fmt(m.fee):"—"}</b></div></div>
+      ${m.features&&(m.features.match===false||m.features.mgmt===false||m.features.actmsg===false)?`<div class="sc-tags">${m.features&&m.features.match===false?'<span class="paytag a">المطابقة مطفية</span>':""}${m.features&&m.features.mgmt===false?'<span class="paytag a">المنجمنت مطفي</span>':""}${m.features&&m.features.actmsg===false?'<span class="paytag a">رسالة التفعيل مطفية</span>':""}</div>`:""}
       <div class="sc-acts">${acts(m)}</div></div>`}).join("")||`<div class="empty">ماكو نتائج.</div>`:empty;
   }else{
-    $("mkTbl").innerHTML=ms.length?`<thead><tr><th>العميل</th><th>الهاتف</th><th>الحالة</th><th>ينتهي</th><th>المشتركين</th><th>الديون عنده</th><th>الرسوم الشهرية</th><th>الخصائص</th><th></th></tr></thead><tbody>${rows.map(m=>{const s=mkState(m);const st=m.stats||{};const mo=!(m.features&&m.features.match===false);const mg=!(m.features&&m.features.mgmt===false);const am=!(m.features&&m.features.actmsg===false);const ps=!!(m.features&&m.features.phskip===true);const vb=!(m.features&&m.features.viber===false);
-      return `<tr><td class="name"><span class="mkdot" style="--c:${esc(m.accent||APPMETA.accent||"#ec1c32")}"></span><span class="nmw"><span>${esc(m.name||"—")}${isLife(m)?VBADGE:""}</span><small><span class="ptag p-${prodOf(m)}" title="${PRODS[prodOf(m)].n}"><svg><use href="#${PRODS[prodOf(m)].ic}"/></svg>${prodOf(m)==="isp"?"انترنت":PRODS[prodOf(m)].n}</span>${m.biz?esc(m.biz):""}</small></span></td><td class="num">${esc(m.phone||"—")}</td><td><span class="pill ${s.cls}">${s.lbl}</span></td><td${s.life?"":` class="num"`}>${s.life?"مدى الحياة":s.exp?fdate(s.exp):"—"}</td><td class="num">${prodOf(m)!=="isp"?"—":st.subs!=null?fmt(st.subs)+` <span class="muted">(${fmt(st.act||0)} فعّال)</span>`:"—"}</td><td class="num">${st.debt?fmt(st.debt):"—"}</td><td class="num">${m.fee?fmt(m.fee):"—"}</td>
-      <td>${prodOf(m)!=="isp"?'<span class="muted">—</span>':`<div class="ftgs"><button type="button" class="ftg" data-mx="match" data-id="${m.id}" aria-pressed="${mo}">المطابقة</button><button type="button" class="ftg" data-mx="mgmt" data-id="${m.id}" aria-pressed="${mg}">المنجمنت</button><button type="button" class="ftg" data-mx="actmsg" data-id="${m.id}" aria-pressed="${am}">رسالة التفعيل</button><button type="button" class="ftg" data-mx="phskip" data-id="${m.id}" aria-pressed="${ps}">تخطي الرقم</button><button type="button" class="ftg" data-mx="viber" data-id="${m.id}" aria-pressed="${vb}">فايبر</button></div>`}</td>
-      <td><div class="mkacts">${acts(m)}</div></td></tr>`}).join("")||`<tr><td colspan="9" class="empty">ماكو نتائج.</td></tr>`}</tbody>`
+    $("mkTbl").innerHTML=ms.length?`<thead><tr><th>العميل</th><th>الهاتف</th><th>الحالة</th><th>ينتهي</th><th>المشتركين</th><th>الرسوم الشهرية</th><th></th></tr></thead><tbody>${rows.map(m=>{const s=mkState(m);const st=m.stats||{};const mo=!(m.features&&m.features.match===false);const mg=!(m.features&&m.features.mgmt===false);const am=!(m.features&&m.features.actmsg===false);const ps=!!(m.features&&m.features.phskip===true);const vb=!(m.features&&m.features.viber===false);
+      return `<tr><td class="name" data-mkbox="${m.id}"><span class="mkdot" style="--c:${esc(m.accent||APPMETA.accent||"#ec1c32")}"></span><span class="nmw"><span>${esc(m.name||"—")}${isLife(m)?VBADGE:""}</span><small><span class="ptag p-${prodOf(m)}" title="${PRODS[prodOf(m)].n}"><svg><use href="#${PRODS[prodOf(m)].ic}"/></svg>${prodOf(m)==="isp"?"انترنت":PRODS[prodOf(m)].n}</span>${m.biz?esc(m.biz):""}</small></span></td><td class="num">${esc(m.phone||"—")}</td><td><span class="pill ${s.cls}">${s.lbl}</span></td><td${s.life?"":` class="num"`}>${s.life?"مدى الحياة":s.exp?fdate(s.exp):"—"}</td><td class="num">${prodOf(m)!=="isp"?"—":st.subs!=null?fmt(st.subs)+` <span class="muted">(${fmt(st.act||0)} فعّال)</span>`:"—"}</td><td class="num">${m.fee?fmt(m.fee):"—"}</td>
+      <td><div class="mkacts">${acts(m)}</div></td></tr>`}).join("")||`<tr><td colspan="7" class="empty">ماكو نتائج.</td></tr>`}</tbody>`
       :`<tbody><tr><td>${empty}</td></tr></tbody>`;
   }
   $("billList").innerHTML=BILL.slice(0,80).map(b=>`<div class="li"><span class="nm">${esc(b.name||"")}</span><span class="u">${tsMs(b.at)?fdt(tsMs(b.at)):"الآن"}</span><span class="u ph">${b.days?"+"+b.days+" يوم":""}${b.note?" · "+esc(b.note):""}</span><span class="num" style="color:var(--ok);font-weight:700">+${fmt(b.amount||0)}</span></div>`).join("")||`<div class="empty">ماكو رسوم مسجلة بعد.</div>`;
   if(document.activeElement!==$("cAdminName")&&document.activeElement!==$("cAdminPhone")&&document.activeElement!==$("cTrialDays")&&document.activeElement!==$("cUrlDz")){$("cAdminName").value=APPMETA.adminName||"";$("cAdminPhone").value=APPMETA.phone||"";$("cTrialDays").value=APPMETA.trialDays||3;$("cUrlDz").value=APPMETA.urlDz||""}
-  renderChatList();
+  renderChatList();renderAdmHome();
+  const bx=$("mkBoxBody");if(bx){const m=MK.find(x=>x.id===bx.dataset.id);if(m)bx.innerHTML=mkBoxHtml(m)}
 }
 $("aq2").oninput=renderAdmin;
 $("aChips").onclick=e=>{const b=e.target.closest("[data-mkf]");if(b){MKF=b.dataset.mkf;renderAdmin()}};
@@ -5048,7 +5150,7 @@ function viewAs(m){
   Store.attach(m.id);REF="";ASEL=null;
   location.hash="home";show("home");toast("تشاهد لوحة "+VIEWAS.name);
 }
-function backToAdmin(){VIEWAS=null;setTimeout(refreshAccent,0);Store.detach();loaded();setMode();location.hash="admin";show("admin")}
+function backToAdmin(){VIEWAS=null;setTimeout(refreshAccent,0);Store.detach();loaded();setMode();location.hash="admin";show("admin");asSet("home",true)}
 document.addEventListener("click",e=>{if(e.target.closest("[data-backadmin]")){e.preventDefault();closeModal();backToAdmin()}});
 
 /* ================= STAFF (owner) ================= */
@@ -5167,31 +5269,36 @@ const hubSave=async()=>{try{await fs.doc("hub/catalog").set(HUB.cat);return true
 function renderHub(){
   const box=$("hubBody");if(!box||ROLE!=="admin")return;
   const nNew=HUB.orders.filter(o=>o.status==="new").length;
-  $("hubTabs").innerHTML=[["orders","الطلبات",nNew],["links","الروابط",HUB.links.length],["sites","المواقع",hubProds().length],["info","بيانات الصفحة",""]].map(([k,l,n])=>`<button class="chip" data-hub="tab" data-k="${k}" aria-pressed="${HUB.tab===k}">${l}${n!==""?`<span class="n">${n}</span>`:""}</button>`).join("");
+  renderAdmHome();
+  if(ASEC==="orders")HUB.tab="orders";else if(HUB.tab==="orders")HUB.tab="links";
+  $("hubTabs").hidden=HUB.tab==="orders";
+  $("hubH").textContent={orders:"كل الطلبات",links:"روابط المعرض",sites:"المواقع المعروضة",info:"بيانات صفحة العميل"}[HUB.tab];
+  $("hubTabs").innerHTML=[["links","الروابط",HUB.links.length],["sites","المواقع",hubProds().length],["info","بيانات الصفحة",""]].map(([k,l,n])=>`<button class="chip" data-hub="tab" data-k="${k}" aria-pressed="${HUB.tab===k}">${l}${n!==""?`<span class="n">${n}</span>`:""}</button>`).join("");
   $("hubNew").hidden=!(HUB.tab==="links"||HUB.tab==="sites");$("hubNew").lastChild.textContent=HUB.tab==="sites"?"موقع جديد":"رابط جديد";
-  $("hubSub").textContent=nNew?nNew+" طلب جديد ينتظرك":"اعرض مواقعك برابط واحد، والعميل يطلب منه ويوصلك الطلب هنا.";
+  $("hubSub").textContent={orders:fmt(HUB.orders.length)+" طلب"+(nNew?" · "+nNew+" جديد":""),links:"انسخ الرابط وخلّيه بالانستا · كل رابط تختار شنو يطلع بيه",sites:"رتّبها، وطفّي اللي ما تريده يطلع للعميل",info:"هذني تطلع للعميل بصفحة الرابط"}[HUB.tab];
   if(HUB.err){box.innerHTML=`<div class="empty"><b>المعرض يحتاج قواعد Firebase</b>ضيف قواعد المعرض (ملف hub-rules.txt) داخل قواعد Firestore مالتك وانشرها، وبعدها حدّث الصفحة.</div>`;return}
   if(!HUB.cat){box.innerHTML=`<div class="empty">دا يحمّل…</div>`;return}
   if(HUB.tab==="orders"){
     const cnt=k=>HUB.orders.filter(o=>o.status===k).length,list=HUB.of==="all"?HUB.orders:HUB.orders.filter(o=>o.status===HUB.of);
     box.innerHTML=`<div class="chips">${[["all","الكل",HUB.orders.length],...Object.keys(HUB_ST).map(k=>[k,HUB_ST[k][0],cnt(k)])].map(([k,l,n])=>`<button class="chip" data-hub="of" data-k="${k}" aria-pressed="${HUB.of===k}">${l}<span class="n">${n}</span></button>`).join("")}</div>`+
-    (list.length?`<div class="scards hubgrid">${list.map(o=>{const s=HUB_ST[o.status]||HUB_ST.new;return `<div class="scard st-${s[1]}" data-hub="order" data-id="${o.id}"><div class="sc-top"><b class="sc-n">${esc(o.name||"—")}</b><span class="pill ${s[1]}">${s[0]}</span></div>
-      <div class="sc-meta"><span class="num">${esc(o.phone||"")}</span><span>${esc(o.prodName||"")}</span><span>${esc(o.type||"")}</span><span>من رابط: ${esc(o.linkName||"—")}</span><span>${hubAgo(o.at)}</span></div>
+    (list.length?`<div class="scards hubgrid">${list.map(o=>{const s=HUB_ST[o.status]||HUB_ST.new;return `<div class="scard st-${s[1]}" data-hub="order" data-id="${o.id}"><div class="sc-top"><b class="sc-n">${esc(o.name||"—")}<small class="sc-when">${hubAgo(o.at)} · من رابط ${esc(o.linkName||"—")}</small></b><span class="pill ${s[1]}">${s[0]}</span></div>
+      <div class="kvg"><div><small>الموقع المطلوب</small><b>${esc(o.prodName||"—")}</b></div><div><small>الهاتف</small><b class="num">${esc(o.phone||"—")}</b></div><div class="w"><small>نوع الطلب</small><b class="wr">${esc(o.type||"—")}</b></div></div>
       <div class="sc-acts"><a class="btn ok sm" href="https://wa.me/${hubWa(o.phone)}?text=${encodeURIComponent("هلا "+(o.name||"")+"، وياك "+((HUB.cat.company||{}).ar||"AM")+" بخصوص طلبك ("+(o.prodName||"")+").")}" target="_blank" rel="noopener" data-hub="stop"><svg><use href="#i-wa"/></svg>واتساب</a>${o.status==="new"?`<button class="btn ghost sm" data-hub="ost" data-id="${o.id}" data-k="contact">تم التواصل</button>`:""}<button class="btn ghost sm" data-hub="order" data-id="${o.id}">التفاصيل</button></div></div>`}).join("")}</div>`
     :`<div class="empty"><b>ماكو طلبات ${HUB.of==="all"?"لحد الآن":"هنا"}</b>${HUB.of==="all"?"انسخ الرابط من تبويب «الروابط» وخلّيه بالانستا، وتبدي الطلبات توصل.":""}</div>`)}
   else if(HUB.tab==="links"){
     box.innerHTML=HUB.links.length?`<div class="scards hubgrid">${HUB.links.map(l=>{const oc=HUB.orders.filter(o=>o.link===l.id).length,np=(l.prods||[]).length,on=l.on!==false;return `<div class="scard st-${on?"act":"none"}" style="cursor:default"><div class="sc-top"><b class="sc-n">${esc(l.name||"رابط")}</b><button class="sw ${on?"on":""}" data-hub="lon" data-id="${l.id}" aria-label="تشغيل الرابط"><i></i></button></div>
-      <div class="sc-meta"><span><span class="num">${fmt(l.views||0)}</span> زيارة</span><span><span class="num">${oc}</span> طلب</span><span>${np?np+" مواقع مختارة":"كل المواقع"}</span><span>${on?"شغّال":"موقوف"}</span></div>
+      <div class="kvg c3"><div><small>الزيارات</small><b class="num">${fmt(l.views||0)}</b></div><div><small>الطلبات</small><b class="num">${oc}</b></div><div><small>يعرض</small><b>${np?np+" مواقع":"كل المواقع"}</b></div></div>
       <div class="huburl">${esc(hubUrl(l.id))}</div>
       <div class="sc-acts"><button class="btn sm" data-hub="lcopy" data-id="${l.id}"><svg><use href="#i-copy"/></svg>نسخ الرابط</button><a class="btn ghost sm" href="${esc(hubUrl(l.id))}" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>فتح</a><button class="btn ghost sm" data-hub="lform" data-id="${l.id}">تعديل</button><button class="btn danger sm" data-hub="ldel" data-id="${l.id}">حذف</button></div></div>`}).join("")}</div>`
     :`<div class="empty"><b>ماكو روابط</b>دوس «رابط جديد» وتختار المواقع اللي تطلع بيه.</div>`}
   else if(HUB.tab==="sites"){const ps=hubProds();
-    box.innerHTML=ps.length?`<div class="scards hubgrid">${ps.map((p,i)=>`<div class="scard" style="cursor:default"><span class="hubcol" style="background:${esc(p.color||"#ec1c32")}"></span><div class="sc-top"><b class="sc-n">${esc(p.name)}${p.en?`<small class="bizn" dir="ltr">${esc(p.en)}</small>`:""}</b><button class="sw ${p.on!==false?"on":""}" data-hub="son" data-id="${p.id}" aria-label="إظهار الموقع"><i></i></button></div>
-      <div class="sc-meta"><span>${esc(p.tag||"")}</span><span>${(p.feats||[]).length} مزايا</span>${p.price?`<span>${esc(p.price)}</span>`:""}<span>${p.on!==false?"ظاهر بالروابط":"مخفي"}</span></div>
+    box.innerHTML=ps.length?`<div class="scards hubgrid">${ps.map((p,i)=>`<div class="scard" style="cursor:default"><span class="hubcol" style="background:${esc(p.color||"#ec1c32")}"></span><div class="sc-top"><b class="sc-n">${esc(p.name)}${p.en?`<small class="sc-when" style="direction:ltr;text-align:right;letter-spacing:.5px">${esc(p.en)}</small>`:""}</b><button class="sw ${p.on!==false?"on":""}" data-hub="son" data-id="${p.id}" aria-label="إظهار الموقع"><i></i></button></div>
+      ${p.tag?`<div class="sc-sub">${esc(p.tag)}</div>`:""}
+      <div class="kvg c3"><div><small>المزايا</small><b class="num">${(p.feats||[]).length}</b></div><div><small>السعر</small><b>${esc(p.price||"—")}</b></div><div><small>الحالة</small><b style="color:var(--${p.on!==false?"ok":"faint"})">${p.on!==false?"ظاهر":"مخفي"}</b></div></div>
       <div class="sc-acts"><button class="btn sm" data-hub="sform" data-id="${p.id}">تعديل</button><button class="btn ghost sm" data-hub="smv" data-id="${p.id}" data-d="-1" ${i?"":"disabled"}>فوگ</button><button class="btn ghost sm" data-hub="smv" data-id="${p.id}" data-d="1" ${i<ps.length-1?"":"disabled"}>جوه</button><button class="btn danger sm" data-hub="sdel" data-id="${p.id}">حذف</button></div></div>`).join("")}</div>`
     :`<div class="empty"><b>ماكو مواقع</b>دوس «موقع جديد» وضيف أول موقع تعرضه.</div>`}
   else{const c=HUB.cat.company||{};
-    box.innerHTML=`<div class="muted" style="margin-bottom:10px">هذني تطلع للعميل بصفحة الرابط.</div><div class="fgrid"><div class="field"><label for="hcAr">اسم الشركة بالعربي</label><input type="text" id="hcAr" value="${esc(c.ar||"")}"></div><div class="field"><label for="hcEn">الاسم بالإنجليزي</label><input type="text" id="hcEn" dir="ltr" value="${esc(c.en||"")}"></div>
+    box.innerHTML=`<div class="fgrid"><div class="field"><label for="hcAr">اسم الشركة بالعربي</label><input type="text" id="hcAr" value="${esc(c.ar||"")}"></div><div class="field"><label for="hcEn">الاسم بالإنجليزي</label><input type="text" id="hcEn" dir="ltr" value="${esc(c.en||"")}"></div>
     <div class="field"><label for="hcPh">رقم الواتساب</label><input type="tel" id="hcPh" dir="ltr" value="${esc(c.phone||"")}"></div><div class="field"><label for="hcIg">حساب الانستا</label><input type="text" id="hcIg" dir="ltr" value="${esc(c.insta||"")}"></div></div>
     <div class="field" style="margin-top:12px"><label for="hcTag">الجملة التعريفية (عنوان الصفحة)</label><input type="text" id="hcTag" value="${esc(c.tagline||"")}"></div>
     <div class="field" style="margin-top:12px"><label for="hcBan">شريط إعلان بأعلى الصفحة (اختياري)</label><input type="text" id="hcBan" value="${esc(c.banner||"")}" placeholder="اشتراكات تجريبية متوفرة هسه"></div>
@@ -5254,6 +5361,54 @@ document.addEventListener("click",async e=>{
   else if(a==="isave"){HUB.cat.company={ar:$("hcAr").value.trim(),en:$("hcEn").value.trim(),tagline:$("hcTag").value.trim(),phone:hubDigits($("hcPh").value),insta:$("hcIg").value.trim().replace(/^@/,""),about:$("hcAb").value.trim(),banner:$("hcBan").value.trim(),theme:$("hcTheme").value};HUB.cat.types=$("hcTypes").value.split("\n").map(s=>s.trim()).filter(Boolean);if(await hubSave())toast("انحفظت البيانات")}
 });
 
+
+/* ===== admin sections: one page per job instead of one long page ===== */
+const ASECS={home:["00 · ADMIN CONTROL","لوحة الإدارة"],clients:["01 · CLIENTS","العملاء والحسابات"],orders:["02 · ORDERS","طلبات العملاء"],showcase:["03 · SHOWCASE","معرض المواقع"],chat:["04 · MESSAGES","رسائل العملاء"],bills:["05 · BILLING","سجل الرسوم"],settings:["06 · SETTINGS","الإعدادات"]};
+let ASEC="home",ASPEND=null;
+const asHash=()=>{const h=location.hash.slice(1);return h.startsWith("a-")?h.slice(2):"home"};
+function asSet(s,force){
+  if(!ASECS[s])s="home";const ch=s!==ASEC||force;ASEC=s;
+  $("v-admin").dataset.sec=s;$("asEy").textContent=ASECS[s][0];$("asH1").textContent=ASECS[s][1];
+  document.querySelectorAll("[data-asg]").forEach(a=>{const on=a.dataset.asg===s||(a.dataset.asg==="more"&&(s==="chat"||s==="bills"||s==="settings"));a.setAttribute("aria-current",on?"page":"false")});
+  if(ROLE!=="admin"||VIEWAS)return;
+  if(ch){const q=$("aq2");if(q)q.value="";MKF=ASPEND||"all";ASPEND=null;HUB.of="all";HUB.tab=s==="orders"?"orders":"links"}
+  renderAdmin();renderHub();
+  if(ch){window.scrollTo(0,0);if(SHOWN)fxEnter("admin")}
+}
+window.addEventListener("hashchange",()=>{if(ROLE==="admin"&&!VIEWAS)asSet(asHash())});
+document.addEventListener("click",e=>{const j=e.target.closest("[data-asj]");if(j)ASPEND=j.dataset.asj});
+function renderAdmHome(){
+  if(ROLE!=="admin"||VIEWAS||!$("ahTodo"))return;
+  const now=Date.now(),c={ok:0,near:0,expired:0,off:0};MK.forEach(m=>c[mkState(m).st]++);
+  const nNew=HUB.orders.filter(o=>o.status==="new").length,un=CHATS.reduce((a,x)=>a+(x.lastBy==="m"?(+x.unA||0):0),0);
+  document.querySelectorAll("[data-ab]").forEach(b=>{const n=b.dataset.ab==="orders"?nNew:un;b.hidden=!n;b.textContent=n>99?"99+":n});
+  const mk=mkey(now);let feeM=0;BILL.forEach(b=>{if(mkey(tsMs(b.at)||now)===mk)feeM+=+b.amount||0});
+  const sub={home:"نظرة سريعة على شغلك اليوم",clients:"",orders:nNew?nNew+" طلب جديد ينتظر تتواصل وياه":"كل طلب يوصل من روابط المعرض يطلع هنا",showcase:"المواقع اللي تعرضها، روابطها، وبيانات صفحة العميل",chat:un?un+" رسالة ما مقروءة":"الرسائل اللي يرسلوها العملاء من داخل النظام",bills:"رسوم "+mname(mk)+": "+fmt(feeM)+" د.ع",settings:"بيانات التواصل، ألوان الموقع، وكلمة السر"}[ASEC];
+  $("asSub").textContent=sub;$("asSub").hidden=!sub;
+  const todo=[[nNew,"b","طلب جديد من المعرض","ينتظر تتواصل وياه","a-orders",""],[un,"","رسالة ما مقروءة","من العملاء داخل النظام","a-chat",""],[c.near,"w","حساب قرّب يخلص","باقي 5 أيام أو أقل","a-clients","near"],[c.expired,"b","حساب خالص","ينتظر التجديد","a-clients","expired"],[c.off,"","حساب موقوف","متوقف يدوي","a-clients","off"]].filter(r=>r[0]);
+  $("ahTodoS").textContent=todo.length?"دوس على أي سطر حتى تروح له":"";
+  $("ahTodo").innerHTML=todo.map(r=>`<a class="atd ${r[1]}" href="#${r[4]}"${r[5]?` data-asj="${r[5]}"`:""}><span class="n">${fmt(r[0])}</span><span><b>${r[2]}</b><small>${r[3]}</small></span><i class="chv"></i></a>`).join("")||`<div class="aok"><i></i><span>كلشي تمام، ماكو شي ينتظرك هسه.</span></div>`;
+  $("ahOrders").innerHTML=HUB.orders.slice(0,4).map(o=>{const st=HUB_ST[o.status]||HUB_ST.new;return `<button type="button" class="aor" data-hub="order" data-id="${o.id}"><b>${esc(o.name||"—")}</b><span class="pill ${st[1]}">${st[0]}</span><small>${esc(o.prodName||"")} · ${hubAgo(o.at)}</small></button>`}).join("")||`<div class="empty" style="padding:18px 8px">ماكو طلبات لحد الآن.</div>`;
+  const np=hubProds().length;
+  $("ahTiles").innerHTML=[["clients","i-users","العملاء والحسابات",fmt(MK.length)+" حساب"],["orders","i-inbox","طلبات العملاء",HUB.orders.length?fmt(HUB.orders.length)+" طلب"+(nNew?" · "+nNew+" جديد":""):"ماكو طلبات"],["showcase","i-grid","معرض المواقع",np+" موقع · "+HUB.links.length+" رابط"],["chat","i-chat","رسائل العملاء",un?un+" ما مقروءة":"ماكو جديد"],["bills","i-wallet","سجل الرسوم",fmt(feeM)+" د.ع هذا الشهر"],["settings","i-cog","الإعدادات","التواصل · الألوان · كلمة السر"]].map(t=>`<a class="atile" href="#a-${t[0]}"><span class="ic"><svg><use href="#${t[1]}"/></svg></span><b>${t[2]}</b><small>${t[3]}</small></a>`).join("");
+}
+$("aMore").onclick=()=>{const un=CHATS.reduce((a,x)=>a+(x.lastBy==="m"?(+x.unA||0):0),0);modal(`<div class="mhd"><div class="t"><h2>المزيد</h2></div><button class="x" data-close aria-label="إغلاق">×</button></div>
+  <div class="sheetmenu"><a href="#a-chat" data-close><svg><use href="#i-chat"/></svg>رسائل العملاء${un?` <span class="badge">${un}</span>`:""}</a><a href="#a-bills" data-close><svg><use href="#i-wallet"/></svg>سجل الرسوم</a><a href="#a-settings" data-close><svg><use href="#i-cog"/></svg>الإعدادات</a></div>
+  <div class="sheetmenu"><a href="#" data-modepick><svg><use href="#${curMode()==="light"?"i-sun":"i-moon"}"/></svg>المظهر: ${MODE_LBL[MODE]}</a><a href="#" data-snd><svg><use href="#${SND.on?"i-snd":"i-mute"}"/></svg>${SND.on?"الأصوات شغّالة · دوس حتى تطفيها":"الأصوات مطفية · دوس حتى تشغلها"}</a><a href="#" data-logout><svg><use href="#i-more"/></svg>تسجيل خروج</a></div>`)};
+function mkBoxHtml(m){
+  const s=mkState(m),st=m.stats||{},isp=prodOf(m)==="isp",f=m.features||{};
+  const sw=(k,l,d,on)=>`<button type="button" class="swrow" data-mx="${k}" data-id="${m.id}" aria-pressed="${on}"><span>${l}<small>${d}</small></span><span class="sw ${on?"on":""}"><i></i></span></button>`;
+  return `<div class="kvg"><div><small>النظام</small><b>${isp?"شركة انترنت":PRODS[prodOf(m)].n}</b></div><div><small>الحالة</small><b><span class="pill ${s.cls}">${s.lbl}</span></b></div>
+   <div><small>الهاتف</small><b class="num">${esc(m.phone||"—")}</b></div><div><small>ينتهي</small><b${s.life?"":` class="num"`}>${s.life?"مدى الحياة":s.exp?fdate(s.exp):"—"}</b></div>
+   <div><small>الرسوم الشهرية</small><b class="num">${m.fee?fmt(m.fee):"—"}</b></div>${isp?`<div><small>المشتركين</small><b>${st.subs!=null?`<span class="num">${fmt(st.subs)}</span> · <span class="num">${fmt(st.act||0)}</span> فعّال`:"—"}</b></div><div class="w"><small>الديون عنده</small><b>${st.debt?`<span class="num">${fmt(st.debt)}</span> د.ع`:"—"}</b></div>`:"<div></div>"}</div>
+  <div class="mkgrid"><button class="btn ok" data-mx="extend" data-id="${m.id}">${m.trial?"تفعيل الاشتراك":"تمديد الاشتراك"}</button><button class="btn ghost" data-mx="chat" data-id="${m.id}"><svg><use href="#i-chat"/></svg>مراسلة${unreadOf(m.id)?` <span class="ubdg">${unreadOf(m.id)}</span>`:""}</button>
+   <button class="btn ghost" data-mx="links" data-id="${m.id}"><svg><use href="#i-link"/></svg>الرابط والرسالة</button><button class="btn ghost" data-mx="edit" data-id="${m.id}">تعديل البيانات</button>
+   ${isp?`<button class="btn ghost" data-mx="open" data-id="${m.id}">فتح لوحته</button>`:""}<button class="btn ghost" data-mx="backup" data-id="${m.id}"><svg><use href="#i-dl"/></svg>نسخة احتياطية</button>
+   <button class="btn ${m.active?"danger":"ok"} w" data-mx="toggle" data-id="${m.id}">${m.active?"إيقاف الحساب":"تشغيل الحساب"}</button></div>
+  ${isp?`<div class="ttl-s">الخصائص</div><div class="swlist">${sw("match","المطابقة","مقارنة ملفات الشركة",f.match!==false)}${sw("mgmt","المنجمنت","صفحة المنجمنت داخل لوحته",f.mgmt!==false)}${sw("actmsg","رسالة التفعيل","تنرسل للمشترك بعد التفعيل",f.actmsg!==false)}${sw("phskip","تخطي الرقم","يفعّل بدون رقم هاتف",f.phskip===true)}${sw("viber","فايبر","زر فايبر ويه الواتساب",f.viber!==false)}</div>`:""}`}
+function openMkBox(id){const m=MK.find(x=>x.id===id);if(!m)return;
+  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><div class="eyebrow"><span>CLIENT · MANAGE</span></div><h2>${esc(m.name||"—")}${isLife(m)?VBADGE:""}</h2>${m.biz?`<div class="muted">${esc(m.biz)}</div>`:""}</div><button class="x" data-close aria-label="سكّر">×</button></div><div id="mkBoxBody" data-id="${m.id}">${mkBoxHtml(m)}</div>`)}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-mkbox]");if(b&&ROLE==="admin"&&!e.target.closest("[data-mx]"))openMkBox(b.dataset.mkbox)});
 function boot(){
   const cfg=CONFIG.firebase||{};
   if(!window.firebase||!cfg.apiKey||!cfg.projectId||!CONFIG.adminEmail){gate("setup");return}
