@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.11-8">
+<meta name="app-build" content="2026.11.11-9">
 <title>AM · اطلب نظامك</title>
 <meta name="description" content="AM للحلول التقنية — اختار نظامك واطلبه">
 <meta name="theme-color" content="#0b0c10">
@@ -424,6 +424,45 @@ html[data-theme="light"] .holo .hm svg.gh{mix-blend-mode:multiply;opacity:.35}
 .hero .lock .mk{font-size:50px;animation:glt 7s steps(1) infinite}
 @keyframes glt{0%,100%{text-shadow:-2px 0 0 var(--cy),0 0 22px var(--accent-glow)}92%{text-shadow:-6px 0 0 var(--cy),5px 0 0 var(--accent),0 0 22px var(--accent-glow)}93%{text-shadow:-2px 0 0 var(--cy),0 0 22px var(--accent-glow)}}
 @media (max-width:360px){.holo{height:236px}.holo .hm{width:124px;height:124px;margin-left:-62px}.holo .ring2{width:156px;height:156px;margin-left:-78px}.holo .eq{display:none}}
+
+/* ===== PERFORMANCE ===== */
+body{background-attachment:scroll!important}
+#topbar{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:color-mix(in srgb,var(--void) 96%,transparent)!important}
+.hero{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.fc{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--panel)!important;animation:none!important}
+#fxbg::before,#fxbg::after{animation:none!important;inset:0!important}
+.hero .hfloor{animation:none!important}
+.holo .cone{filter:none!important;animation:none!important;opacity:.85}
+.holo .cone::after{animation:none!important}
+.holo .hm svg{filter:none!important}
+.holo .hm svg.gh{mix-blend-mode:normal!important;opacity:.4}
+.holo .hm::before{content:"";position:absolute;inset:4%;border-radius:50%;background:radial-gradient(rgba(var(--acc-rgb),.38),transparent 68%)}
+.holo .eq i{height:100%!important;transform-origin:bottom}
+@keyframes eq{from{transform:scaleY(.12)}to{transform:scaleY(1)}}
+.scr .beam{top:0!important;transform:translateY(-100%)}
+@keyframes beam{0%{transform:translateY(-100%)}55%,100%{transform:translateY(270%)}}
+.sec .ul::after{display:none}
+.tl2::after{top:22px!important}
+@keyframes tlp{0%{transform:translateY(0);opacity:0}10%,90%{opacity:1}100%{transform:translateY(var(--tlh,190px));opacity:0}}
+.pc .cta::after{left:0!important;transform:translateX(-150%) skewX(-20deg)}
+@keyframes shine{0%,60%{transform:translateX(-150%) skewX(-20deg)}100%{transform:translateX(380%) skewX(-20deg)}}
+.stage .halo{animation-duration:60s}
+.holo .pad i:nth-child(2){box-shadow:none!important;will-change:transform}
+.holo .pad i:nth-child(3){animation:none!important}
+.holo .pad i:nth-child(4){animation:none!important}
+.holo .eq,.holo .sp{display:none!important}
+.holo .hm::after{display:none!important}
+.holo .hm{will-change:transform}
+.holo .ring2{animation:none!important}
+.holo .ring2::after{animation:none!important}
+.holo .ring2::before{will-change:transform}
+.holo .hm svg.gh{animation:none!important;transform:translate(-3px,0)}
+.hero .lock .mk{animation:none!important}
+.tick{-webkit-mask:none!important;mask:none!important;position:relative}
+.tick::before,.tick::after{content:"";position:absolute;top:0;bottom:0;width:40px;z-index:1;pointer-events:none}
+.tick::before{left:0;background:linear-gradient(90deg,var(--void),transparent)}.tick::after{right:0;background:linear-gradient(-90deg,var(--void),transparent)}
+.tick .tr{will-change:transform}
+.zz,.zz *,.zz *::before,.zz *::after,html.zzall *,html.zzall *::before,html.zzall *::after{animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){.holo *,.holo *::after,.holo *::before{animation:none!important}}
 @media (prefers-reduced-motion:reduce){#fxbg::before,#fxbg::after,.tick .tr{animation:none}}
 
@@ -511,7 +550,7 @@ function render(){const c=PC.company||{},ps=prods(),w=waNum(c.phone),n=String(ps
     <span class="hc tl">SYS <b>ONLINE</b><br>UPLINK <b>100%</b></span><span class="hc tr"><b id="hclk">--:--:--</b><br>AM · HOLO</span>
     <span class="eq l">${[7,3,9,5,8,4].map((d,k)=>`<i style="animation-delay:-${d/10}s;animation-duration:${.9+k*.12}s"></i>`).join("")}</span><span class="eq r">${[4,8,2,6,9,5].map((d,k)=>`<i style="animation-delay:-${d/10}s;animation-duration:${1+k*.1}s"></i>`).join("")}</span>
     <span class="pad"><i></i><i></i><i></i><i></i></span><span class="cone"></span>
-    <span class="sp">${[44,48,52,56,50,46,54].map((l,k)=>`<i style="left:${l}%;animation-delay:-${k*.6}s"></i>`).join("")}</span>
+    <span class="sp">${[45,50,55,48].map((l,k)=>`<i style="left:${l}%;animation-delay:-${k*.6}s"></i>`).join("")}</span>
     <span class="ring2"></span><span class="hm"><svg class="gh"><use href="#i-logo"/></svg><svg><use href="#i-logo"/></svg></span>
    </div>
    <div style="margin-top:14px"><div class="lock"><div class="mk">${esc(mk)}</div>${enR?`<div class="en">${esc(enR)}</div>`:""}<div class="ar">${esc(arR)}</div></div></div>
@@ -541,7 +580,7 @@ function mini(p){const k=((p.id||"")+" "+(p.en||"")+" "+(p.name||"")).toLowerCas
 function promoCard(p,i){const no=String(i+1).padStart(2,"0"),fs=p.feats||[],top=fs.slice(0,3),rest=fs.slice(3),hasMore=rest.length||p.desc;
   return `<article class="card br pc" style="--c:${col(p.color)}" data-card="${p.id}">
   <div class="stage"><i class="floor"></i><i class="halo"></i><span class="no">${no}</span><span class="lbl"><i></i>LIVE · READY</span>
-   <i class="pts">${[12,30,46,64,80,92].map((l,k)=>`<i style="left:${l}%;animation-delay:${-k*1.1}s"></i>`).join("")}</i><div class="ret"><i></i><i></i><i></i><i></i><b>SCR-${no} · LIVE PREVIEW</b><b>390×844</b></div><div class="ph"><div class="scr">${mini(p)}<i class="beam"></i></div></div>
+   <i class="pts">${[18,52,86].map((l,k)=>`<i style="left:${l}%;animation-delay:${-k*1.1}s"></i>`).join("")}</i><div class="ret"><i></i><i></i><i></i><i></i><b>SCR-${no} · LIVE PREVIEW</b><b>390×844</b></div><div class="ph"><div class="scr">${mini(p)}<i class="beam"></i></div></div>
    <div class="fc fc1"><span class="ck">${ic("bolt")}</span><span><small>// BRAND</small>باسمك وشعارك</span></div>
    <div class="fc fc2"><span class="ck">${ic("check")}</span><span><small>// DEVICES</small>موبايل وحاسبة</span></div>
    <div class="fc fc3"><i></i>BRANDED</div>
@@ -560,8 +599,13 @@ function promoCard(p,i){const no=String(i+1).padStart(2,"0"),fs=p.feats||[],top=
   </div></article>`}
 function leaders(){document.querySelectorAll(".pc").forEach(c=>{const ph=c.querySelector(".ph");if(!ph)return;const pr=ph.getBoundingClientRect().right;c.querySelectorAll(".fc1,.fc2").forEach(f=>f.style.setProperty("--lw",Math.max(10,Math.round(f.getBoundingClientRect().left-pr+6))+"px"))})}
 let ldT;addEventListener("resize",()=>{clearTimeout(ldT);ldT=setTimeout(leaders,150)});
-let HCLK;function holoClock(){clearInterval(HCLK);const t=()=>{const e=$("hclk");if(!e)return clearInterval(HCLK);e.textContent=new Date().toLocaleTimeString("en-GB",{hour12:false})};t();HCLK=setInterval(t,1000)}
-function deckFx(){holoClock();const cards=[...document.querySelectorAll(".pc")];requestAnimationFrame(leaders);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(leaders);
+let HCLK;function holoClock(){clearInterval(HCLK);const t=()=>{const e=$("hclk");if(!e)return clearInterval(HCLK);if(!HERO_ON||document.hidden)return;e.textContent=new Date().toLocaleTimeString("en-GB",{hour12:false})};t();HCLK=setInterval(t,1000)}
+let VIS_IO,HERO_ON=true;function pauseFx(){if(VIS_IO)VIS_IO.disconnect();if(!("IntersectionObserver" in window))return;
+  VIS_IO=new IntersectionObserver(es=>es.forEach(e=>{e.target.classList.toggle("zz",!e.isIntersecting);if(e.target.classList.contains("hero"))HERO_ON=e.isIntersecting}),{rootMargin:"80px 0px"});
+  document.querySelectorAll("#pub .hero,#pub .tick,#pub .pc,#pub .sec,#pub .tl2,#pub .bp,#pub .comm").forEach(x=>{x.classList.add("zz");VIS_IO.observe(x)});
+  const t=document.querySelector(".tl2");if(t)t.style.setProperty("--tlh",Math.max(60,t.offsetHeight-52)+"px")}
+document.addEventListener("visibilitychange",()=>document.documentElement.classList.toggle("zzall",document.hidden));
+function deckFx(){holoClock();pauseFx();const cards=[...document.querySelectorAll(".pc")];requestAnimationFrame(leaders);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(leaders);
   if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});cards.forEach(c=>io.observe(c))}
   setTimeout(()=>cards.forEach(c=>c.classList.add("in")),2500)}
 const TRIAL=()=>/تجريب|تجربة/.test((PC.company||{}).banner||"");
@@ -575,7 +619,8 @@ function priceBox(p){const pp=priceParts(p.price),tr=TRIAL()?`<span class="tri">
   return `<div class="price2"><span class="pk">PRICE · السعر</span><span class="pv"><b>${esc(pp.num)}</b><em>${esc(pp.cur)}</em></span><span class="seal"><span>BEST<b>DEAL</b></span></span>${pp.rest?`<span class="pu">${esc(pp.rest)}</span>`:""}${tr}</div>`}
 let TYT;function typer(ps){clearTimeout(TYT);const el=$("typer");if(!el)return;const L=["> "+String(ps.length).padStart(2,"0")+" MODULES ONLINE",...ps.map(p=>"> LOADING "+String(p.en||"MODULE").toUpperCase()+" …"),"> READY TO DEPLOY"];let i=0,j=0,del=false;
   if(matchMedia("(prefers-reduced-motion:reduce)").matches){el.innerHTML=esc(L[L.length-1])+"<i></i>";return}
-  const step=()=>{const w=L[i];if(!del){j++;if(j>=w.length){del=true;TYT=setTimeout(step,1500);el.innerHTML=esc(w)+"<i></i>";return}}else{j-=2;if(j<=2){del=false;i=(i+1)%L.length;j=2}}el.innerHTML=esc(w.slice(0,j))+"<i></i>";TYT=setTimeout(step,del?18:45)};step()}
+  el.innerHTML="<span></span><i></i>";const tx=el.firstChild;
+  const step=()=>{if(!HERO_ON||document.hidden){TYT=setTimeout(step,700);return}const w=L[i];if(!del){j++;if(j>=w.length){del=true;TYT=setTimeout(step,1500);tx.textContent=w;return}}else{j-=2;if(j<=2){del=false;i=(i+1)%L.length;j=2}}tx.textContent=w.slice(0,j);TYT=setTimeout(step,del?30:70)};step()}
 function fsum(){const el=$("f_sum");if(!el)return;const id=$("f_prod").value,p=(prods().find(x=>x.id===id));
   if(!p){el.style.setProperty("--c","#19c3e0");el.innerHTML=`<span class="ic2">NEW</span><span><small>CUSTOM BUILD</small><b>موقع خاص من الصفر</b></span><span class="pp">—<em>حسب الفكرة</em></span>`;return}
   const pp=priceParts(p.price),en=String(p.en||"AM").trim().split(/\s+/).pop().slice(0,4).toUpperCase();el.style.setProperty("--c",col(p.color));
