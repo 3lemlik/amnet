@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.11-2">
+<meta name="app-build" content="2026.11.11-3">
 <title>AM · اطلب نظامك</title>
 <meta name="description" content="AM للحلول التقنية — اختار نظامك واطلبه">
 <meta name="theme-color" content="#0b0c10">
@@ -37,6 +37,17 @@ label{display:block;font-size:13px;color:var(--dim);margin:13px 0 5px;font-weigh
 svg.i{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .num{font-family:var(--f-mono);direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
 .wm{font-family:var(--f-tech);direction:ltr;unicode-bidi:isolate;letter-spacing:2px}.wm em{font-style:normal;color:var(--accent)}
+.lock{direction:ltr;display:inline-flex;flex-direction:column;align-items:center;line-height:1}
+.lock .mk{font-family:var(--f-tech);font-size:44px;letter-spacing:8px;margin-right:-8px;color:var(--ink);text-shadow:-2px 0 0 var(--cy),0 0 22px var(--accent-glow)}
+.lock .en{font-family:var(--f-tech);font-size:11px;letter-spacing:6px;margin-right:-6px;color:var(--accent);margin-top:9px;white-space:nowrap}
+.lock .ar{display:flex;align-items:center;gap:10px;margin-top:9px;font-family:var(--f-display);font-weight:800;font-size:17px;color:var(--ink);direction:rtl;white-space:nowrap}
+.lock .ar::before,.lock .ar::after{content:"";width:26px;height:1.5px;background:var(--cy);opacity:.8}
+.tlock{direction:ltr;min-width:0;line-height:1.05}
+.tlock .l1{display:flex;align-items:baseline;gap:8px;white-space:nowrap}
+.tlock .mk{font-family:var(--f-tech);font-size:20px;letter-spacing:3px;color:var(--ink);text-shadow:-1.5px 0 0 var(--cy)}
+.tlock .en{font-family:var(--f-tech);font-size:8.5px;letter-spacing:2.6px;color:var(--accent)}
+.tlock .ar{font-family:var(--f-display);font-weight:800;font-size:12.5px;color:var(--dim);direction:rtl;text-align:left;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:400px){.tlock .en{display:none}}
 .eyebrow{font-family:var(--f-tech);font-size:10.5px;letter-spacing:2.5px;color:var(--accent);direction:ltr;display:flex;gap:10px;align-items:center;justify-content:flex-end}
 .eyebrow::before{content:"";width:26px;height:1px;background:var(--line2);order:2}
 .eyebrow b{order:3;color:var(--dim);font-weight:400}
@@ -85,7 +96,7 @@ html[data-theme="light"] .card{box-shadow:0 10px 30px rgba(16,22,34,.08)}
 .hero{padding:22px 18px 18px;text-align:center;overflow:hidden}
 .hero::after{content:"";position:absolute;inset:0;border-radius:var(--r);background:repeating-linear-gradient(rgba(255,255,255,.022) 0 1px,transparent 1px 4px);pointer-events:none}
 html[data-theme="light"] .hero::after{background:repeating-linear-gradient(rgba(16,22,34,.022) 0 1px,transparent 1px 4px)}
-.hero h1{font-family:var(--f-display);font-weight:900;font-size:clamp(27px,7.4vw,40px);line-height:1.25;margin-top:12px;text-wrap:balance;text-shadow:-2px 0 0 rgba(25,195,224,.55)}
+.hero h1{font-family:var(--f-display);font-weight:900;font-size:clamp(23px,6.2vw,34px);line-height:1.3;margin-top:16px;text-wrap:balance;text-shadow:-2px 0 0 rgba(25,195,224,.55)}
 .hero p{color:var(--dim);margin-top:6px;font-size:15.5px}
 .status{font-family:var(--f-mono);font-size:11.5px;color:var(--cy);direction:ltr;margin-top:8px;letter-spacing:.5px}
 .status i{display:inline-block;width:7px;height:13px;background:var(--cy);vertical-align:-2px;margin-left:4px;animation:bl 1s steps(2) infinite}
@@ -170,14 +181,14 @@ html[data-theme="light"] .hero::after{background:repeating-linear-gradient(rgba(
 <div id="warp"></div>
 <div id="gate"><div>
  <div class="core"><i class="r r1"></i><i class="r r2"></i><i class="r r3"></i><i class="gl"></i><svg><use href="#i-logo"/></svg></div>
- <div class="wm" style="font-size:24px;margin-top:14px">AM <em>TECH</em></div>
+ <div style="margin-top:16px"><div class="lock"><div class="mk">AM</div><div class="en">TECH SOLUTIONS</div><div class="ar">للحلول التقنية</div></div></div>
  <div class="boot" id="gmsg">&gt; ORDER TERMINAL · BOOTING…</div>
  <div class="bar" id="gbar"><b></b></div>
 </div></div>
 
 <header id="topbar" hidden>
  <svg class="lg"><use href="#i-logo"/></svg>
- <div class="grow"><div class="wm" style="font-size:17px;line-height:1.1">AM <em>TECH</em></div><div class="muted" style="font-size:11.5px" id="tbsub">حلول تقنية</div></div>
+ <div class="grow tlock" id="tlock"><div class="l1"><span class="mk">AM</span><span class="en">TECH SOLUTIONS</span></div><div class="ar">للحلول التقنية</div></div>
  <button class="xbtn" data-a="mode" aria-label="تغيير المظهر"><svg class="i"><use id="modeic" href="#i-sun"/></svg></button>
  <button class="cta" data-a="porder" data-id="" style="min-height:40px;padding:8px 16px;font-size:14px">اطلب</button>
 </header>
@@ -216,11 +227,13 @@ async function boot(){
   render();$("gate").hidden=true;$("topbar").hidden=false;$("pub").hidden=false;warp()}
 function prods(){let ps=Object.entries(PC.products||{}).map(([id,p])=>Object.assign({id},p)).filter(p=>p.on!==false).sort((a,b)=>(a.ord||0)-(b.ord||0));if((PL.prods||[]).length)ps=ps.filter(p=>PL.prods.includes(p.id));return ps}
 function render(){const c=PC.company||{},ps=prods(),w=waNum(c.phone),n=String(ps.length).padStart(2,"0");
-  document.title=(c.ar||"AM")+" · اطلب نظامك";$("tbsub").textContent=c.ar||"حلول تقنية";
+  const en=String(c.en||"AM TECH SOLUTIONS").trim(),mk=en.split(/\s+/)[0]||"AM",enR=en.slice(mk.length).trim(),arR=String(c.ar||"للحلول التقنية").trim().replace(new RegExp("^"+mk.replace(/[^\w]/g,"")+"\\s*","i"),"")||String(c.ar||"");
+  document.title=(c.ar||"AM")+" · اطلب نظامك";$("tlock").innerHTML=`<div class="l1"><span class="mk">${esc(mk)}</span>${enR?`<span class="en">${esc(enR)}</span>`:""}</div><div class="ar">${esc(arR)}</div>`;
   $("pub").innerHTML=`<div class="st">
   <section class="card br hero">
    <div class="eyebrow" style="justify-content:center"><span>00 · ORDER TERMINAL</span><b>AM-TECH</b></div>
    <div class="core" style="width:132px;height:132px;margin-top:12px"><i class="r r1"></i><i class="r r2"></i><i class="r r3"></i><i class="gl"></i><svg><use href="#i-logo"/></svg></div>
+   <div style="margin-top:14px"><div class="lock"><div class="mk">${esc(mk)}</div>${enR?`<div class="en">${esc(enR)}</div>`:""}<div class="ar">${esc(arR)}</div></div></div>
    <h1>${esc(PL.title||c.tagline||c.ar||"")}</h1>
    <p>${esc(PL.sub||"اختار النظام اللي يناسب شغلك واطلبه، ونتواصل وياك.")}</p>
    <div class="status">&gt; ${n} MODULES ONLINE · READY TO DEPLOY<i></i></div>
