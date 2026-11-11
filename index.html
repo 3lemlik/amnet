@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.10-2">
+<meta name="amnet-build" content="2026.11.11-1">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1495,6 +1495,18 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
 .mdsum{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:6px 2px;color:var(--dim)}
 .mdsum b{color:var(--bad)}
 </style>
+<style id="hubcss">
+.hubgrid{grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}
+.huburl{font-family:var(--f-mono);font-size:12px;direction:ltr;text-align:left;background:var(--panel2);border:1px dashed var(--line2);border-radius:8px;padding:7px 10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.hubcol{position:absolute;inset-block:10px;inset-inline-start:0;width:3px;border-radius:0 3px 3px 0}
+.scard.st-none::before{background:var(--faint)}
+.hubsw{width:36px;height:36px;border-radius:50%;border:3px solid transparent;box-shadow:0 0 0 1px var(--line2);cursor:pointer;padding:0}.hubsw.on{border-color:var(--ink)}
+.hubck{display:flex;align-items:center;gap:10px;padding:9px 12px;border:1px solid var(--line2);border-radius:10px;margin-top:8px;background:var(--panel2);font-size:14.5px;color:var(--ink);cursor:pointer}
+.hubck input{width:20px;height:20px;accent-color:var(--accent);flex:none}
+.hubkv{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14.5px}.hubkv>span:first-child{color:var(--dim);flex:none}.hubkv>span:last-child{min-width:0;overflow-wrap:anywhere;text-align:left}
+.hubnote{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;white-space:pre-wrap;overflow-wrap:anywhere}
+#hubCard .sc-acts a.btn{text-decoration:none}
+</style>
 </head>
 <body>
 
@@ -1633,6 +1645,11 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
     <div class="chips" id="aChips"></div>
     <div class="tbox" id="mkTblBox" style="margin-top:12px;max-height:620px"><table class="t" id="mkTbl"></table></div>
     <div class="scards" id="mkCards" hidden></div>
+  </div>
+  <div class="card br" id="hubCard">
+    <div class="chead"><div class="t"><h2>معرض المواقع وطلبات العملاء</h2><div class="muted" id="hubSub">اعرض مواقعك برابط واحد، والعميل يطلب منه ويوصلك الطلب هنا.</div></div><button class="btn" id="hubNew" data-hub="new" hidden><svg><use href="#i-plus"/></svg><span>رابط جديد</span></button></div>
+    <div class="chips" id="hubTabs"></div>
+    <div id="hubBody" style="margin-top:12px"></div>
   </div>
   <div class="card br" id="chatCard">
     <div class="chead"><div class="t"><h2>رسائل العملاء</h2><div class="muted" id="chatSub">الرسائل اللي يرسلوها المسوقين من داخل النظام</div></div></div>
@@ -4701,7 +4718,7 @@ function renderUserCard(){
   $("ownerSub").textContent=sub;
 }
 let unsubChat=null,CHATS=[],MYCHAT=null,CHATN=-1;
-function clearSubs(){[unsubLogin,unsubAcct,unsubAccts,unsubBill,unsubMeta,unsubStaff,unsubChat].forEach(u=>{try{u&&u()}catch(e){}});unsubLogin=unsubAcct=unsubAccts=unsubBill=unsubMeta=unsubStaff=unsubChat=null;CHATS=[];MYCHAT=null;CHATN=-1;Store.detach();chatBadge()}
+function clearSubs(){[unsubLogin,unsubAcct,unsubAccts,unsubBill,unsubMeta,unsubStaff,unsubChat].forEach(u=>{try{u&&u()}catch(e){}});unsubLogin=unsubAcct=unsubAccts=unsubBill=unsubMeta=unsubStaff=unsubChat=null;CHATS=[];MYCHAT=null;CHATN=-1;Store.detach();chatBadge();hubStop()}
 async function onAuth(user){
   clearSubs();ME=user;ACCOUNT=null;LOGIN=null;ACCT=null;VIEWAS=null;MK=[];BILL=[];STAFF=[];ROLE=null;
   if(!user){setMode();loaded();gate("login");if(LGMSG){$("lgErr").textContent=LGMSG;LGMSG=""}return}
@@ -4711,6 +4728,7 @@ async function onAuth(user){
     unsubAccts=fs.collection("accounts").onSnapshot(s=>{MK=s.docs.map(d=>({id:d.id,...d.data()}));renderAdmin();if(VIEWAS){const m=MK.find(x=>x.id===VIEWAS.id);if(!m)backToAdmin();else{VIEWAS.acc=m;setMode()}}},e=>toast("ما گدرنا نقرأ الحسابات، تأكد من قواعد Firebase"));
     unsubBill=fs.collection("billing").orderBy("at","desc").limit(500).onSnapshot(s=>{BILL=s.docs.map(d=>({id:d.id,...d.data()}));renderAdmin()},()=>{});
     unsubChat=fs.collection("chats").onSnapshot(s=>{CHATS=s.docs.map(d=>({id:d.id,...d.data()}));chatBadge();renderChatList();if(ROLE==="admin"&&!VIEWAS)renderAdmin()},()=>{});
+    hubStart();
     location.hash="admin";show("admin");return;
   }
   gate("loading");let first=true;
@@ -5116,6 +5134,123 @@ if("serviceWorker" in navigator&&location.protocol!=="file:"){
 /* no zoom (iOS gestures) */
 ["gesturestart","gesturechange","gestureend"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
 document.addEventListener("touchmove",e=>{if(e.touches&&e.touches.length>1)e.preventDefault()},{passive:false});
+
+
+/* ================= AM HUB: معرض المواقع + روابط الطلب + طلبات العملاء (للمدير) ================= */
+const HUB_ST={new:["جديد","exp"],contact:["تم التواصل","near"],work:["قيد التنفيذ","none"],done:["مكتمل","act"],cancel:["ملغي","none"]};
+const HUB_COL=["#ec1c32","#19c3e0","#ffb627","#3ccf82","#8b5cf6","#ff6b35"];
+const HUB_DEF={company:{ar:"AM للحلول التقنية",en:"AM TECH SOLUTIONS",tagline:"أنظمة ومواقع تشتغل باسمك وشعارك",phone:"07804505005",insta:"am.tech404",about:""},
+ types:["نظام جاهز مثل المعروض","نظام جاهز مع تعديلات","موقع أو نظام خاص من الصفر","استفسار عن الأسعار"],
+ products:{
+  net:{ord:1,on:true,color:"#19c3e0",name:"نظام شركات الإنترنت",en:"AM NET",tag:"مشتركينك وديونك ومسوّقينك بمكان واحد",desc:"نظام كامل لإدارة مشتركين الإنترنت: تفعيل، ديون، تقارير، وحسابات للمسوّقين والموظفين.",feats:["إضافة المشتركين يدوي أو استيراد من تقارير PDF","تفعيل نقدي أو آجل وصفحة ديون كاملة","تنبيه بالمشتركين القريب ينتهي اشتراكهم","حسابات للمسوّقين والموظفين بصلاحيات","مقارنة الأشهر ومعرفة منو ترك","يتثبّت عالموبايل مثل التطبيق"],price:"",demo:""},
+  store:{ord:2,on:true,color:"#ec1c32",name:"المتجر الإلكتروني",en:"AM STORE",tag:"متجر باسمك وشعارك والطلبات توصل لنظامك",desc:"متجر أونلاين لزباينك مربوط بنظام المبيعات، كل طلب يوصلك مباشرة.",feats:["واجهة متجر باسمك وشعارك","الزبون يطلب بضغطة","الطلبات توصل لنظامك مباشرة","يشتغل عالموبايل والحاسبة"],price:"",demo:""},
+  sales:{ord:3,on:true,color:"#ffb627",name:"نظام المبيعات والجرد",en:"AM SALES",tag:"بيع وجرد ومشتريات وأرباح بنظام واحد",desc:"نظام لإدارة المحل: مبيعات، مشتريات، جرد، ومستخدمين بصلاحيات.",feats:["بيع وفواتير بسرعة","جرد ومخزون ومشتريات","مستخدمين متعددين وصلاحيات لكل واحد","الأرباح يشوفها المدير بس","بياناتك أونلاين على كل الأجهزة","نستورد بياناتك القديمة"],price:"",demo:""},
+  vision:{ord:4,on:true,color:"#8b5cf6",name:"علي فيجن",en:"ALI VISION",tag:"موقع يجمع فيديوهاتك بأقسام وتشغيل داخل الموقع",desc:"موقع فيديوهات: تضيف روابط يوتيوب وترتبها بأقسام وتشتغل داخل الموقع.",feats:["أقسام للفيديوهات","تشغيل الفيديو داخل الموقع","إعدادات للألوان والتصميم"],price:"",demo:""},
+  chat:{ord:5,on:true,color:"#3ccf82",name:"AM CHAT",en:"MESSAGING",tag:"موقع مراسلة يتثبّت عالموبايل مثل التطبيق",desc:"موقع مراسلة بتصميم خاص: محادثات، ستوري، وإشعارات.",feats:["محادثات ومجموعات","ستوري ومنشورات","رسائل صوتية","إشعارات حتى والموقع مسدود"],price:"",demo:""}}};
+let HUB={cat:null,links:[],orders:[],tab:"orders",of:"all",un:[],lo:false,ll:false,err:false};
+const hubRid=n=>{const a="abcdefghjkmnpqrstuvwxyz23456789";let s="";for(const b of crypto.getRandomValues(new Uint8Array(n)))s+=a[b%a.length];return s};
+const hubUrl=id=>new URL("am.html",location.origin+location.pathname.replace(/index\.html$/,"")).href+"?l="+id;
+const hubDigits=s=>String(s||"").replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[^\d+]/g,"");
+const hubWa=p=>{let d=hubDigits(p).replace(/^\+/,"");if(d.startsWith("00"))d=d.slice(2);if(d.startsWith("0"))d="964"+d.slice(1);return d};
+function hubAgo(t){const d=Math.max(0,Date.now()-(tsMs(t)||Date.now())),m=Math.floor(d/60000);if(m<1)return"هسه";if(m<60)return"قبل "+m+" د";const h=Math.floor(m/60);if(h<24)return"قبل "+h+" س";const dd=Math.floor(h/24);return dd<30?"قبل "+dd+" يوم":fdate(tsMs(t))}
+const hubProds=()=>Object.entries((HUB.cat&&HUB.cat.products)||{}).map(([id,p])=>({id,...p})).sort((a,b)=>(a.ord||0)-(b.ord||0));
+const hubFail=e=>{console.error(e);toast(e&&e.code==="permission-denied"?"ماكو صلاحية — ضيف قواعد المعرض بـ Firebase":"ما انحفظ، تأكد من النت")};
+function hubStop(){HUB.un.forEach(u=>{try{u()}catch(e){}});HUB={cat:null,links:[],orders:[],tab:HUB.tab,of:"all",un:[],lo:false,ll:false,err:false}}
+function hubStart(){
+  hubStop();const bad=()=>{HUB.err=true;renderHub()};
+  HUB.un.push(fs.doc("hub/catalog").onSnapshot(async s=>{if(!s.exists){try{await fs.doc("hub/catalog").set(HUB_DEF)}catch(e){bad()}return}HUB.cat={company:{},products:{},types:[],...s.data()};HUB.err=false;renderHub()},bad));
+  HUB.un.push(fs.collection("hub_links").orderBy("at").onSnapshot(async s=>{HUB.links=s.docs.map(d=>({id:d.id,...d.data()}));if(!HUB.ll&&!HUB.links.length&&!localStorage.getItem("amnet_hubseed")){localStorage.setItem("amnet_hubseed","1");try{await fs.doc("hub_links/"+hubRid(6)).set({name:"انستا",title:"",sub:"",prods:[],on:true,views:0,at:firebase.firestore.FieldValue.serverTimestamp()})}catch(e){}}HUB.ll=true;renderHub()},bad));
+  HUB.un.push(fs.collection("hub_orders").orderBy("at","desc").limit(500).onSnapshot(s=>{if(HUB.lo){const add=s.docChanges().filter(c=>c.type==="added");if(add.length){toast("وصل طلب جديد: "+(add[0].doc.data().name||""));play("alert")}}HUB.orders=s.docs.map(d=>({id:d.id,...d.data()}));HUB.lo=true;renderHub()},bad));
+  renderHub();
+}
+const hubSave=async()=>{try{await fs.doc("hub/catalog").set(HUB.cat);return true}catch(e){hubFail(e);return false}};
+function renderHub(){
+  const box=$("hubBody");if(!box||ROLE!=="admin")return;
+  const nNew=HUB.orders.filter(o=>o.status==="new").length;
+  $("hubTabs").innerHTML=[["orders","الطلبات",nNew],["links","الروابط",HUB.links.length],["sites","المواقع",hubProds().length],["info","بيانات الصفحة",""]].map(([k,l,n])=>`<button class="chip" data-hub="tab" data-k="${k}" aria-pressed="${HUB.tab===k}">${l}${n!==""?`<span class="n">${n}</span>`:""}</button>`).join("");
+  $("hubNew").hidden=!(HUB.tab==="links"||HUB.tab==="sites");$("hubNew").lastChild.textContent=HUB.tab==="sites"?"موقع جديد":"رابط جديد";
+  $("hubSub").textContent=nNew?nNew+" طلب جديد ينتظرك":"اعرض مواقعك برابط واحد، والعميل يطلب منه ويوصلك الطلب هنا.";
+  if(HUB.err){box.innerHTML=`<div class="empty"><b>المعرض يحتاج قواعد Firebase</b>ضيف قواعد المعرض (ملف hub-rules.txt) داخل قواعد Firestore مالتك وانشرها، وبعدها حدّث الصفحة.</div>`;return}
+  if(!HUB.cat){box.innerHTML=`<div class="empty">دا يحمّل…</div>`;return}
+  if(HUB.tab==="orders"){
+    const cnt=k=>HUB.orders.filter(o=>o.status===k).length,list=HUB.of==="all"?HUB.orders:HUB.orders.filter(o=>o.status===HUB.of);
+    box.innerHTML=`<div class="chips">${[["all","الكل",HUB.orders.length],...Object.keys(HUB_ST).map(k=>[k,HUB_ST[k][0],cnt(k)])].map(([k,l,n])=>`<button class="chip" data-hub="of" data-k="${k}" aria-pressed="${HUB.of===k}">${l}<span class="n">${n}</span></button>`).join("")}</div>`+
+    (list.length?`<div class="scards hubgrid">${list.map(o=>{const s=HUB_ST[o.status]||HUB_ST.new;return `<div class="scard st-${s[1]}" data-hub="order" data-id="${o.id}"><div class="sc-top"><b class="sc-n">${esc(o.name||"—")}</b><span class="pill ${s[1]}">${s[0]}</span></div>
+      <div class="sc-meta"><span class="num">${esc(o.phone||"")}</span><span>${esc(o.prodName||"")}</span><span>${esc(o.type||"")}</span><span>من رابط: ${esc(o.linkName||"—")}</span><span>${hubAgo(o.at)}</span></div>
+      <div class="sc-acts"><a class="btn ok sm" href="https://wa.me/${hubWa(o.phone)}?text=${encodeURIComponent("هلا "+(o.name||"")+"، وياك "+((HUB.cat.company||{}).ar||"AM")+" بخصوص طلبك ("+(o.prodName||"")+").")}" target="_blank" rel="noopener" data-hub="stop"><svg><use href="#i-wa"/></svg>واتساب</a>${o.status==="new"?`<button class="btn ghost sm" data-hub="ost" data-id="${o.id}" data-k="contact">تم التواصل</button>`:""}<button class="btn ghost sm" data-hub="order" data-id="${o.id}">التفاصيل</button></div></div>`}).join("")}</div>`
+    :`<div class="empty"><b>ماكو طلبات ${HUB.of==="all"?"لحد الآن":"هنا"}</b>${HUB.of==="all"?"انسخ الرابط من تبويب «الروابط» وخلّيه بالانستا، وتبدي الطلبات توصل.":""}</div>`)}
+  else if(HUB.tab==="links"){
+    box.innerHTML=HUB.links.length?`<div class="scards hubgrid">${HUB.links.map(l=>{const oc=HUB.orders.filter(o=>o.link===l.id).length,np=(l.prods||[]).length,on=l.on!==false;return `<div class="scard st-${on?"act":"none"}" style="cursor:default"><div class="sc-top"><b class="sc-n">${esc(l.name||"رابط")}</b><button class="sw ${on?"on":""}" data-hub="lon" data-id="${l.id}" aria-label="تشغيل الرابط"><i></i></button></div>
+      <div class="sc-meta"><span><span class="num">${fmt(l.views||0)}</span> زيارة</span><span><span class="num">${oc}</span> طلب</span><span>${np?np+" مواقع مختارة":"كل المواقع"}</span><span>${on?"شغّال":"موقوف"}</span></div>
+      <div class="huburl">${esc(hubUrl(l.id))}</div>
+      <div class="sc-acts"><button class="btn sm" data-hub="lcopy" data-id="${l.id}"><svg><use href="#i-copy"/></svg>نسخ الرابط</button><a class="btn ghost sm" href="${esc(hubUrl(l.id))}" target="_blank" rel="noopener"><svg><use href="#i-ext"/></svg>فتح</a><button class="btn ghost sm" data-hub="lform" data-id="${l.id}">تعديل</button><button class="btn danger sm" data-hub="ldel" data-id="${l.id}">حذف</button></div></div>`}).join("")}</div>`
+    :`<div class="empty"><b>ماكو روابط</b>دوس «رابط جديد» وتختار المواقع اللي تطلع بيه.</div>`}
+  else if(HUB.tab==="sites"){const ps=hubProds();
+    box.innerHTML=ps.length?`<div class="scards hubgrid">${ps.map((p,i)=>`<div class="scard" style="cursor:default"><span class="hubcol" style="background:${esc(p.color||"#ec1c32")}"></span><div class="sc-top"><b class="sc-n">${esc(p.name)}${p.en?`<small class="bizn" dir="ltr">${esc(p.en)}</small>`:""}</b><button class="sw ${p.on!==false?"on":""}" data-hub="son" data-id="${p.id}" aria-label="إظهار الموقع"><i></i></button></div>
+      <div class="sc-meta"><span>${esc(p.tag||"")}</span><span>${(p.feats||[]).length} مزايا</span>${p.price?`<span>${esc(p.price)}</span>`:""}<span>${p.on!==false?"ظاهر بالروابط":"مخفي"}</span></div>
+      <div class="sc-acts"><button class="btn sm" data-hub="sform" data-id="${p.id}">تعديل</button><button class="btn ghost sm" data-hub="smv" data-id="${p.id}" data-d="-1" ${i?"":"disabled"}>فوگ</button><button class="btn ghost sm" data-hub="smv" data-id="${p.id}" data-d="1" ${i<ps.length-1?"":"disabled"}>جوه</button><button class="btn danger sm" data-hub="sdel" data-id="${p.id}">حذف</button></div></div>`).join("")}</div>`
+    :`<div class="empty"><b>ماكو مواقع</b>دوس «موقع جديد» وضيف أول موقع تعرضه.</div>`}
+  else{const c=HUB.cat.company||{};
+    box.innerHTML=`<div class="muted" style="margin-bottom:10px">هذني تطلع للعميل بصفحة الرابط.</div><div class="fgrid"><div class="field"><label for="hcAr">اسم الشركة بالعربي</label><input type="text" id="hcAr" value="${esc(c.ar||"")}"></div><div class="field"><label for="hcEn">الاسم بالإنجليزي</label><input type="text" id="hcEn" dir="ltr" value="${esc(c.en||"")}"></div>
+    <div class="field"><label for="hcPh">رقم الواتساب</label><input type="tel" id="hcPh" dir="ltr" value="${esc(c.phone||"")}"></div><div class="field"><label for="hcIg">حساب الانستا</label><input type="text" id="hcIg" dir="ltr" value="${esc(c.insta||"")}"></div></div>
+    <div class="field" style="margin-top:12px"><label for="hcTag">الجملة التعريفية (عنوان الصفحة)</label><input type="text" id="hcTag" value="${esc(c.tagline||"")}"></div>
+    <div class="field" style="margin-top:12px"><label for="hcAb">نبذة (اختياري)</label><textarea id="hcAb" rows="3">${esc(c.about||"")}</textarea></div>
+    <div class="field" style="margin-top:12px"><label for="hcTypes">أنواع الطلب (كل سطر نوع يختاره العميل)</label><textarea id="hcTypes" rows="5">${esc((HUB.cat.types||[]).join("\n"))}</textarea></div>
+    <div class="row" style="margin-top:12px"><button class="btn" data-hub="isave">حفظ</button></div>`}
+}
+function hubSiteForm(id){const p=id?HUB.cat.products[id]:{color:HUB_COL[0],feats:[]};
+  modal(`<div class="mhd"><div class="t"><h2>${id?"تعديل موقع":"موقع جديد"}</h2><div class="muted">يطلع بصفحة الرابط ويه شرحه.</div></div><button class="x" data-close aria-label="سدّها">×</button></div>
+  <div class="field"><label for="hpName">اسم الموقع</label><input type="text" id="hpName" value="${esc(p.name||"")}"></div>
+  <div class="fgrid"><div class="field"><label for="hpEn">الاسم بالإنجليزي (اختياري)</label><input type="text" id="hpEn" dir="ltr" value="${esc(p.en||"")}"></div><div class="field"><label for="hpPrice">السعر (اختياري)</label><input type="text" id="hpPrice" value="${esc(p.price||"")}" placeholder="يبدأ من 150,000"></div></div>
+  <div class="field"><label for="hpTag">وصف بسطر واحد</label><input type="text" id="hpTag" value="${esc(p.tag||"")}"></div>
+  <div class="field"><label for="hpDesc">الشرح</label><textarea id="hpDesc" rows="3">${esc(p.desc||"")}</textarea></div>
+  <div class="field"><label for="hpFeats">المزايا (كل سطر ميزة)</label><textarea id="hpFeats" rows="6">${esc((p.feats||[]).join("\n"))}</textarea></div>
+  <div class="field"><label for="hpDemo">رابط تجربة (اختياري)</label><input type="url" id="hpDemo" dir="ltr" value="${esc(p.demo||"")}"></div>
+  <div class="field"><label>اللون</label><div class="row" id="hpCol" data-v="${esc(p.color||HUB_COL[0])}" style="gap:10px;flex-wrap:wrap">${HUB_COL.map(c=>`<button type="button" class="hubsw ${c===(p.color||HUB_COL[0])?"on":""}" style="background:${c}" data-hub="pcol" data-c="${c}" aria-label="لون"></button>`).join("")}</div></div>
+  <div class="row"><button class="btn" data-hub="ssave" data-id="${id||""}">حفظ</button><button class="btn ghost" data-close>رجوع</button></div>`)}
+function hubLinkForm(id){const l=id?HUB.links.find(x=>x.id===id):{prods:[]},sel=new Set(l.prods||[]);
+  modal(`<div class="mhd"><div class="t"><h2>${id?"تعديل رابط":"رابط جديد"}</h2><div class="muted">اختار المواقع اللي تطلع بهذا الرابط.</div></div><button class="x" data-close aria-label="سدّها">×</button></div>
+  <div class="field"><label for="hlName">اسم الرابط (إلك بس، مثلاً: انستا)</label><input type="text" id="hlName" value="${esc(l.name||"")}"></div>
+  <div class="field"><label for="hlTitle">عنوان الصفحة (اختياري)</label><input type="text" id="hlTitle" value="${esc(l.title||"")}" placeholder="${esc((HUB.cat.company||{}).tagline||"")}"></div>
+  <div class="field"><label for="hlSub">جملة تحت العنوان (اختياري)</label><input type="text" id="hlSub" value="${esc(l.sub||"")}"></div>
+  <div class="field"><label>المواقع المتاحة بهذا الرابط</label><div class="muted" style="font-size:12.5px">إذا ما تختار شي تطلع كل المواقع الظاهرة.</div>${hubProds().map(p=>`<label class="hubck"><input type="checkbox" class="hlP" value="${p.id}" ${sel.has(p.id)?"checked":""}><span>${esc(p.name)}</span>${p.on===false?'<span class="muted" style="font-size:12px">(مخفي)</span>':""}</label>`).join("")}</div>
+  <div class="row"><button class="btn" data-hub="lsave" data-id="${id||""}">${id?"حفظ":"أنشئ الرابط"}</button><button class="btn ghost" data-close>رجوع</button></div>`)}
+function hubOrderBox(id){const o=HUB.orders.find(x=>x.id===id);if(!o)return;const s=HUB_ST[o.status]||HUB_ST.new;
+  modal(`<div class="mhd"><div class="t"><div class="eyebrow"><span>ORDER</span><b>${esc(o.no||"")}</b></div><h2>${esc(o.name||"—")}</h2><div class="muted">${fdt(tsMs(o.at)||Date.now())}</div></div><button class="x" data-close aria-label="سدّها">×</button></div>
+  <div class="hubkv"><span>الحالة</span><span class="pill ${s[1]}">${s[0]}</span></div><div class="hubkv"><span>الهاتف</span><span class="num">${esc(o.phone||"")}</span></div><div class="hubkv"><span>الموقع المطلوب</span><span>${esc(o.prodName||"—")}</span></div><div class="hubkv"><span>نوع الطلب</span><span>${esc(o.type||"—")}</span></div><div class="hubkv"><span>جاي من رابط</span><span>${esc(o.linkName||"—")}</span></div>
+  ${o.note?`<div class="field"><label>تفاصيل العميل</label><div class="hubnote">${esc(o.note)}</div></div>`:""}
+  <div class="row"><a class="btn ok" href="https://wa.me/${hubWa(o.phone)}?text=${encodeURIComponent("هلا "+(o.name||"")+"، وياك "+((HUB.cat.company||{}).ar||"AM")+" بخصوص طلبك ("+(o.prodName||"")+").")}" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>واتساب</a><a class="btn ghost" href="tel:${esc(hubDigits(o.phone))}">اتصال</a></div>
+  <div class="field"><label>غيّر الحالة</label><div class="chips">${Object.keys(HUB_ST).map(k=>`<button class="chip" data-hub="ost" data-id="${o.id}" data-k="${k}" data-re="1" aria-pressed="${o.status===k}">${HUB_ST[k][0]}</button>`).join("")}</div></div>
+  <div class="field"><label for="hoNote">ملاحظاتك (إلك بس)</label><textarea id="hoNote" rows="3">${esc(o.adminNote||"")}</textarea></div>
+  <div class="row"><button class="btn" data-hub="onote" data-id="${o.id}">حفظ الملاحظة</button><button class="btn danger" data-hub="odel" data-id="${o.id}">حذف الطلب</button></div>`)}
+document.addEventListener("click",async e=>{
+  const t=e.target.closest("[data-hub]");if(!t||ROLE!=="admin")return;const a=t.dataset.hub,id=t.dataset.id;
+  if(a==="stop")return;if(t.tagName!=="A")e.preventDefault();
+  if(a==="order"&&e.target.closest("[data-hub]")!==t)return;
+  if(a==="tab"){HUB.tab=t.dataset.k;renderHub()}
+  else if(a==="of"){HUB.of=t.dataset.k;renderHub()}
+  else if(a==="new"){HUB.tab==="sites"?hubSiteForm():hubLinkForm()}
+  else if(a==="order")hubOrderBox(id);
+  else if(a==="ost"){e.stopPropagation();try{await fs.doc("hub_orders/"+id).update({status:t.dataset.k});toast("تغيّرت الحالة");if(t.dataset.re){const o=HUB.orders.find(x=>x.id===id);if(o){o.status=t.dataset.k;hubOrderBox(id)}}}catch(x){hubFail(x)}}
+  else if(a==="onote"){try{await fs.doc("hub_orders/"+id).update({adminNote:$("hoNote").value.trim()});toast("انحفظت الملاحظة");closeModal()}catch(x){hubFail(x)}}
+  else if(a==="odel")confirmBox("حذف الطلب","تحذف هذا الطلب نهائياً؟","حذف",async()=>{try{await fs.doc("hub_orders/"+id).delete();toast("انحذف الطلب")}catch(x){hubFail(x)}});
+  else if(a==="lcopy")copyPlain(hubUrl(id),"انتسخ الرابط، خلّيه بالانستا");
+  else if(a==="lform")hubLinkForm(id);
+  else if(a==="lsave"){const d={name:$("hlName").value.trim()||"رابط",title:$("hlTitle").value.trim(),sub:$("hlSub").value.trim(),prods:[...document.querySelectorAll(".hlP:checked")].map(c=>c.value)};
+    try{if(id){await fs.doc("hub_links/"+id).update(d);toast("انحفظ الرابط")}else{const nid=hubRid(6);await fs.doc("hub_links/"+nid).set({...d,on:true,views:0,at:firebase.firestore.FieldValue.serverTimestamp()});copyPlain(hubUrl(nid),"صار الرابط جاهز وانتسخ")}closeModal()}catch(x){hubFail(x)}}
+  else if(a==="lon"){const l=HUB.links.find(x=>x.id===id);try{await fs.doc("hub_links/"+id).update({on:l.on===false})}catch(x){hubFail(x)}}
+  else if(a==="ldel")confirmBox("حذف الرابط","اللي يفتح هذا الرابط بعدين ما راح يشتغل عنده. تحذفه؟","حذف",async()=>{try{await fs.doc("hub_links/"+id).delete();toast("انحذف الرابط")}catch(x){hubFail(x)}});
+  else if(a==="sform")hubSiteForm(id);
+  else if(a==="pcol"){$("hpCol").dataset.v=t.dataset.c;$("hpCol").querySelectorAll(".hubsw").forEach(b=>b.classList.toggle("on",b===t))}
+  else if(a==="ssave"){const name=$("hpName").value.trim();if(!name){toast("اكتب اسم الموقع");return}let demo=$("hpDemo").value.trim();if(demo&&!/^https?:\/\//i.test(demo))demo="https://"+demo;
+    const pid=id||("p"+hubRid(5)),old=HUB.cat.products[pid]||{},mx=Math.max(0,...hubProds().map(p=>p.ord||0));
+    HUB.cat.products[pid]={ord:old.ord||mx+1,on:old.on!==false,color:$("hpCol").dataset.v,name,en:$("hpEn").value.trim(),tag:$("hpTag").value.trim(),desc:$("hpDesc").value.trim(),feats:$("hpFeats").value.split("\n").map(s=>s.trim()).filter(Boolean),price:$("hpPrice").value.trim(),demo};
+    if(await hubSave()){toast("انحفظ الموقع");closeModal()}}
+  else if(a==="son"){const p=HUB.cat.products[id];p.on=p.on===false;await hubSave()}
+  else if(a==="smv"){const ps=hubProds(),i=ps.findIndex(p=>p.id===id),j=i+ +t.dataset.d;if(j<0||j>=ps.length)return;[ps[i],ps[j]]=[ps[j],ps[i]];ps.forEach((p,k)=>HUB.cat.products[p.id].ord=k+1);await hubSave()}
+  else if(a==="sdel")confirmBox("حذف الموقع","تحذف «"+esc(HUB.cat.products[id].name)+"» من المعرض؟","حذف",async()=>{delete HUB.cat.products[id];if(await hubSave())toast("انحذف الموقع")});
+  else if(a==="isave"){HUB.cat.company={ar:$("hcAr").value.trim(),en:$("hcEn").value.trim(),tagline:$("hcTag").value.trim(),phone:hubDigits($("hcPh").value),insta:$("hcIg").value.trim().replace(/^@/,""),about:$("hcAb").value.trim()};HUB.cat.types=$("hcTypes").value.split("\n").map(s=>s.trim()).filter(Boolean);if(await hubSave())toast("انحفظت البيانات")}
+});
 
 function boot(){
   const cfg=CONFIG.firebase||{};
