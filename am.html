@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.11-9">
+<meta name="app-build" content="2026.11.11-11">
 <title>AM · اطلب نظامك</title>
 <meta name="description" content="AM للحلول التقنية — اختار نظامك واطلبه">
 <meta name="theme-color" content="#0b0c10">
@@ -462,6 +462,34 @@ body{background-attachment:scroll!important}
 .tick::before,.tick::after{content:"";position:absolute;top:0;bottom:0;width:40px;z-index:1;pointer-events:none}
 .tick::before{left:0;background:linear-gradient(90deg,var(--void),transparent)}.tick::after{right:0;background:linear-gradient(-90deg,var(--void),transparent)}
 .tick .tr{will-change:transform}
+
+/* ===== calm logo motion ===== */
+.holo .hm{animation:hmIn 1.4s cubic-bezier(.2,.7,.2,1) both,hov2 7s 1.4s ease-in-out infinite!important}
+@keyframes hmIn{from{opacity:0;transform:translateY(10px) scale(.94)}}
+@keyframes hov2{50%{transform:translateY(-4px)}}
+.holo .hm svg{animation:none!important}
+.holo .hm svg.gh{display:none!important}
+.holo .hm::before{animation:brth 5s ease-in-out infinite;will-change:opacity}
+@keyframes brth{50%{opacity:.55}}
+.holo .ring2::before{animation:spin 14s linear infinite!important;border-top-color:rgba(var(--acc-rgb),.85)!important;border-right-color:transparent!important}
+.holo .pad i:nth-child(2){animation:spin 40s linear infinite!important}
+.holo .cone{opacity:.7}
+.core .r2{animation-duration:9s!important}
+.core .r3{animation-duration:16s!important}
+.core .r1{animation-duration:40s!important}
+.core .gl{animation:brth 5s ease-in-out infinite!important}
+
+/* ===== clean logo presentation ===== */
+.holo{height:206px!important}
+.holo .pad,.holo .cone,.holo .eq,.holo .sp,.holo .hc{display:none!important}
+.holo .hm{top:34px!important;width:124px!important;height:124px!important;margin-left:-62px!important}
+.holo .hm::before{inset:-30%!important;background:radial-gradient(circle,rgba(var(--acc-rgb),.22),transparent 62%)!important}
+html[data-theme="light"] .holo .hm::before{background:radial-gradient(circle,rgba(var(--acc-rgb),.12),transparent 62%)!important}
+.holo .ring2{top:13px!important;width:166px!important;height:166px!important;margin-left:-83px!important;border:1px solid var(--line2)!important}
+.holo .ring2::before{inset:-1px!important;border:1px solid transparent!important;border-top-color:rgba(var(--acc-rgb),.7)!important;animation:spin 18s linear infinite!important}
+.holo .ring2::after{inset:-3px!important;border:0!important;border-radius:50%;background:radial-gradient(circle at 50% 0,var(--cy) 2.5px,transparent 3.5px);animation:spin 18s linear infinite!important}
+.holo::after{content:"";position:absolute;left:50%;bottom:12px;width:120px;height:14px;margin-left:-60px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);opacity:.9}
+html[data-theme="light"] .holo::after{background:radial-gradient(closest-side,rgba(16,22,34,.16),transparent)}
 .zz,.zz *,.zz *::before,.zz *::after,html.zzall *,html.zzall *::before,html.zzall *::after{animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){.holo *,.holo *::after,.holo *::before{animation:none!important}}
 @media (prefers-reduced-motion:reduce){#fxbg::before,#fxbg::after,.tick .tr{animation:none}}
