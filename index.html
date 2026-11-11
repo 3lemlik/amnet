@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.11-3">
+<meta name="amnet-build" content="2026.11.11-4">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1576,6 +1576,11 @@ html[data-theme="light"] .kvg{background:var(--panel2)}
 #mkTbl{min-width:0!important;width:100%}
 #mkTbl td:last-child{width:1%;white-space:nowrap}
 @media (max-width:370px){#v-admin .pc .v{font-size:19px}#v-admin .pc{padding:13px}}
+.hpsec{border:1px solid var(--line2);border-radius:12px;padding:12px 12px 2px;margin:4px 0 14px;background:var(--panel2)}
+.hpst{display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:var(--f-display);font-weight:800;font-size:14.5px;margin-bottom:10px}
+.hpnote{font-size:12.5px;margin:-6px 0 10px;color:var(--ok)}.hpnote:empty{display:none}
+#hpOffBox .hpoff{display:none}#hpOffBox.on .hpoff{display:block}#hpOffBox:not(.on){padding-bottom:4px}
+#hpOffBox.on{border-color:color-mix(in srgb,var(--warn) 45%,transparent)}
 </style>
 </head>
 <body>
@@ -5293,8 +5298,8 @@ function renderHub(){
     :`<div class="empty"><b>ماكو روابط</b>دوس «رابط جديد» وتختار المواقع اللي تطلع بيه.</div>`}
   else if(HUB.tab==="sites"){const ps=hubProds();
     box.innerHTML=ps.length?`<div class="scards hubgrid">${ps.map((p,i)=>`<div class="scard" style="cursor:default"><span class="hubcol" style="background:${esc(p.color||"#ec1c32")}"></span><div class="sc-top"><b class="sc-n">${esc(p.name)}${p.en?`<small class="sc-when" style="direction:ltr;text-align:right;letter-spacing:.5px">${esc(p.en)}</small>`:""}</b><button class="sw ${p.on!==false?"on":""}" data-hub="son" data-id="${p.id}" aria-label="إظهار الموقع"><i></i></button></div>
-      ${p.tag?`<div class="sc-sub">${esc(p.tag)}</div>`:""}
-      <div class="kvg c3"><div><small>المزايا</small><b class="num">${(p.feats||[]).length}</b></div><div><small>السعر</small><b>${esc(p.price||"—")}</b></div><div><small>الحالة</small><b style="color:var(--${p.on!==false?"ok":"faint"})">${p.on!==false?"ظاهر":"مخفي"}</b></div></div>
+      ${p.tag?`<div class="sc-sub">${esc(p.tag)}</div>`:""}${hubOffOn(p)?`<div><span class="pill near">${esc(p.off.lbl||"عرض")} · خصم ${p.off.pct}%${p.off.until?" · لحد "+esc(p.off.until.split("-").reverse().join("/")):""}</span></div>`:""}
+      <div class="kvg c3"><div><small>المزايا</small><b class="num">${(p.feats||[]).length}</b></div><div><small>السعر</small><b>${esc(hubPriceTxt(p))}</b></div><div><small>الحالة</small><b style="color:var(--${p.on!==false?"ok":"faint"})">${p.on!==false?"ظاهر":"مخفي"}</b></div></div>
       <div class="sc-acts"><button class="btn sm" data-hub="sform" data-id="${p.id}">تعديل</button><button class="btn ghost sm" data-hub="smv" data-id="${p.id}" data-d="-1" ${i?"":"disabled"}>فوگ</button><button class="btn ghost sm" data-hub="smv" data-id="${p.id}" data-d="1" ${i<ps.length-1?"":"disabled"}>جوه</button><button class="btn danger sm" data-hub="sdel" data-id="${p.id}">حذف</button></div></div>`).join("")}</div>`
     :`<div class="empty"><b>ماكو مواقع</b>دوس «موقع جديد» وضيف أول موقع تعرضه.</div>`}
   else{const c=HUB.cat.company||{};
@@ -5310,13 +5315,32 @@ function renderHub(){
 function hubSiteForm(id){const p=id?HUB.cat.products[id]:{color:HUB_COL[0],feats:[]};
   modal(`<div class="mhd"><div class="t"><h2>${id?"تعديل موقع":"موقع جديد"}</h2><div class="muted">يطلع بصفحة الرابط ويه شرحه.</div></div><button class="x" data-close aria-label="سدّها">×</button></div>
   <div class="field"><label for="hpName">اسم الموقع</label><input type="text" id="hpName" value="${esc(p.name||"")}"></div>
-  <div class="fgrid"><div class="field"><label for="hpEn">الاسم بالإنجليزي (اختياري)</label><input type="text" id="hpEn" dir="ltr" value="${esc(p.en||"")}"></div><div class="field"><label for="hpPrice">السعر (اختياري)</label><input type="text" id="hpPrice" value="${esc(p.price||"")}" placeholder="يبدأ من 150,000"></div></div>
+  <div class="fgrid"><div class="field"><label for="hpEn">الاسم بالإنجليزي (اختياري)</label><input type="text" id="hpEn" dir="ltr" value="${esc(p.en||"")}"></div><div class="field"><label for="hpDemo">رابط تجربة (اختياري)</label><input type="url" id="hpDemo" dir="ltr" value="${esc(p.demo||"")}"></div></div>
   <div class="field"><label for="hpTag">وصف بسطر واحد</label><input type="text" id="hpTag" value="${esc(p.tag||"")}"></div>
   <div class="field"><label for="hpDesc">الشرح</label><textarea id="hpDesc" rows="3">${esc(p.desc||"")}</textarea></div>
   <div class="field"><label for="hpFeats">المزايا (كل سطر ميزة)</label><textarea id="hpFeats" rows="6">${esc((p.feats||[]).join("\n"))}</textarea></div>
-  <div class="field"><label for="hpDemo">رابط تجربة (اختياري)</label><input type="url" id="hpDemo" dir="ltr" value="${esc(p.demo||"")}"></div>
+  <div class="hpsec"><div class="hpst">الأسعار</div>
+   <div class="fgrid"><div class="field"><label for="hpPm">اشتراك شهري (د.ع)</label><input type="text" inputmode="numeric" id="hpPm" dir="ltr" value="${p.pm?fmt(p.pm):""}" placeholder="مثلاً 25,000"></div><div class="field"><label for="hpPy">اشتراك سنوي (د.ع)</label><input type="text" inputmode="numeric" id="hpPy" dir="ltr" value="${p.py?fmt(p.py):""}" placeholder="مثلاً 250,000"></div></div>
+   <div class="muted hpnote" id="hpSave"></div>
+   <div class="field"><label for="hpPrice">أو سعر بالكتابة (يطلع إذا ما حاط أرقام فوگ)</label><input type="text" id="hpPrice" value="${esc(p.price||"")}" placeholder="مثلاً: حسب الطلب"></div>
+  </div>
+  <div class="hpsec ${p.off&&p.off.on?"on":""}" id="hpOffBox"><div class="hpst"><span>عرض وتخفيض</span><button type="button" class="sw ${p.off&&p.off.on?"on":""}" id="hpOffOn" data-hub="offtog" aria-label="تفعيل العرض"><i></i></button></div>
+   <div class="hpoff">
+    <div class="fgrid"><div class="field"><label for="hpOffPct">نسبة الخصم %</label><input type="text" inputmode="numeric" id="hpOffPct" dir="ltr" value="${p.off&&p.off.pct||""}" placeholder="20"></div><div class="field"><label for="hpOffTo">ينتهي بتاريخ (اختياري)</label><input type="date" id="hpOffTo" dir="ltr" value="${esc(p.off&&p.off.until||"")}"></div></div>
+    <div class="field"><label for="hpOffLbl">اسم العرض (اختياري)</label><input type="text" id="hpOffLbl" maxlength="40" value="${esc(p.off&&p.off.lbl||"")}" placeholder="مثلاً: عرض الافتتاح"></div>
+    <div class="muted hpnote" id="hpOffPrev"></div>
+   </div>
+  </div>
   <div class="field"><label>اللون</label><div class="row" id="hpCol" data-v="${esc(p.color||HUB_COL[0])}" style="gap:10px;flex-wrap:wrap">${HUB_COL.map(c=>`<button type="button" class="hubsw ${c===(p.color||HUB_COL[0])?"on":""}" style="background:${c}" data-hub="pcol" data-c="${c}" aria-label="لون"></button>`).join("")}</div></div>
-  <div class="row"><button class="btn" data-hub="ssave" data-id="${id||""}">حفظ</button><button class="btn ghost" data-close>رجوع</button></div>`)}
+  <div class="row"><button class="btn" data-hub="ssave" data-id="${id||""}">حفظ</button><button class="btn ghost" data-close>رجوع</button></div>`);hubPriceHint()}
+const hubNum=v=>{const d=String(v||"").replace(/[٠-٩]/g,c=>"٠١٢٣٤٥٦٧٨٩".indexOf(c)).replace(/[^\d]/g,"");return d?+d:0};
+const hubRound=v=>Math.round(v/250)*250;
+function hubPriceHint(){const pm=hubNum($("hpPm")&&$("hpPm").value),py=hubNum($("hpPy")&&$("hpPy").value),pct=Math.min(90,hubNum($("hpOffPct")&&$("hpOffPct").value)),on=$("hpOffOn")&&$("hpOffOn").classList.contains("on");
+  if($("hpSave"))$("hpSave").textContent=pm&&py?(py<pm*12?"السنوي يوفّر للعميل "+fmt(pm*12-py)+" د.ع ("+Math.round((1-py/(pm*12))*100)+"%) مقارنة بالشهري.":"انتبه: السنوي مو أرخص من 12 شهر."):"";
+  if($("hpOffPrev"))$("hpOffPrev").textContent=on&&pct?("بعد الخصم: "+(pm?fmt(hubRound(pm*(1-pct/100)))+" د.ع شهري":"")+(pm&&py?" · ":"")+(py?fmt(hubRound(py*(1-pct/100)))+" د.ع سنوي":"")+(pm||py?"":"حط سعر شهري أو سنوي حتى ينطبق الخصم")):""}
+document.addEventListener("input",e=>{if(e.target&&/^hp(Pm|Py|OffPct)$/.test(e.target.id))hubPriceHint()});
+function hubPriceTxt(p){if(!p.pm&&!p.py)return p.price||"—";return p.pm?fmt(p.pm)+" /شهر":fmt(p.py)+" /سنة"}
+function hubOffOn(p){const o=p.off;if(!o||!o.on||!(o.pct>0))return false;if(o.until){const t=new Date(o.until+"T23:59:59");if(Date.now()>t)return false}return true}
 function hubLinkForm(id){const l=id?HUB.links.find(x=>x.id===id):{prods:[]},sel=new Set(l.prods||[]);
   modal(`<div class="mhd"><div class="t"><h2>${id?"تعديل رابط":"رابط جديد"}</h2><div class="muted">اختار المواقع اللي تطلع بهذا الرابط.</div></div><button class="x" data-close aria-label="سدّها">×</button></div>
   <div class="field"><label for="hlName">اسم الرابط (إلك بس، مثلاً: انستا)</label><input type="text" id="hlName" value="${esc(l.name||"")}"></div>
@@ -5353,8 +5377,11 @@ document.addEventListener("click",async e=>{
   else if(a==="pcol"){$("hpCol").dataset.v=t.dataset.c;$("hpCol").querySelectorAll(".hubsw").forEach(b=>b.classList.toggle("on",b===t))}
   else if(a==="ssave"){const name=$("hpName").value.trim();if(!name){toast("اكتب اسم الموقع");return}let demo=$("hpDemo").value.trim();if(demo&&!/^https?:\/\//i.test(demo))demo="https://"+demo;
     const pid=id||("p"+hubRid(5)),old=HUB.cat.products[pid]||{},mx=Math.max(0,...hubProds().map(p=>p.ord||0));
-    HUB.cat.products[pid]={ord:old.ord||mx+1,on:old.on!==false,color:$("hpCol").dataset.v,name,en:$("hpEn").value.trim(),tag:$("hpTag").value.trim(),desc:$("hpDesc").value.trim(),feats:$("hpFeats").value.split("\n").map(s=>s.trim()).filter(Boolean),price:$("hpPrice").value.trim(),demo};
+    HUB.cat.products[pid]={ord:old.ord||mx+1,on:old.on!==false,color:$("hpCol").dataset.v,name,en:$("hpEn").value.trim(),tag:$("hpTag").value.trim(),desc:$("hpDesc").value.trim(),feats:$("hpFeats").value.split("\n").map(s=>s.trim()).filter(Boolean),price:$("hpPrice").value.trim(),demo,pm:hubNum($("hpPm").value),py:hubNum($("hpPy").value),
+      off:{on:$("hpOffOn").classList.contains("on"),pct:Math.min(90,hubNum($("hpOffPct").value)),lbl:$("hpOffLbl").value.trim().slice(0,40),until:$("hpOffTo").value||""}};
+    if(HUB.cat.products[pid].off.on&&!HUB.cat.products[pid].off.pct){toast("اكتب نسبة الخصم");return}
     if(await hubSave()){toast("انحفظ الموقع");closeModal()}}
+  else if(a==="offtog"){t.classList.toggle("on");$("hpOffBox").classList.toggle("on",t.classList.contains("on"));hubPriceHint()}
   else if(a==="son"){const p=HUB.cat.products[id];p.on=p.on===false;await hubSave()}
   else if(a==="smv"){const ps=hubProds(),i=ps.findIndex(p=>p.id===id),j=i+ +t.dataset.d;if(j<0||j>=ps.length)return;[ps[i],ps[j]]=[ps[j],ps[i]];ps.forEach((p,k)=>HUB.cat.products[p.id].ord=k+1);await hubSave()}
   else if(a==="sdel")confirmBox("حذف الموقع","تحذف «"+esc(HUB.cat.products[id].name)+"» من المعرض؟","حذف",async()=>{delete HUB.cat.products[id];if(await hubSave())toast("انحذف الموقع")});

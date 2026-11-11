@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.11-11">
+<meta name="app-build" content="2026.11.11-12">
 <title>AM · اطلب نظامك</title>
 <meta name="description" content="AM للحلول التقنية — اختار نظامك واطلبه">
 <meta name="theme-color" content="#0b0c10">
@@ -490,6 +490,34 @@ html[data-theme="light"] .holo .hm::before{background:radial-gradient(circle,rgb
 .holo .ring2::after{inset:-3px!important;border:0!important;border-radius:50%;background:radial-gradient(circle at 50% 0,var(--cy) 2.5px,transparent 3.5px);animation:spin 18s linear infinite!important}
 .holo::after{content:"";position:absolute;left:50%;bottom:12px;width:120px;height:14px;margin-left:-60px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);opacity:.9}
 html[data-theme="light"] .holo::after{background:radial-gradient(closest-side,rgba(16,22,34,.16),transparent)}
+
+/* ===== plans & offers ===== */
+.plans .tri{display:inline-flex;align-items:center;gap:7px;justify-self:start;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:700;background:color-mix(in srgb,var(--ok) 14%,transparent);color:var(--ok);border:1px solid color-mix(in srgb,var(--ok) 35%,transparent)}
+.plans .tri i{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+.pln .nm small{display:none}
+.fsum .pp em{direction:rtl;unicode-bidi:isolate;text-align:left}
+.plans{margin-top:14px;display:grid;gap:10px}
+.plans .pk2{display:flex;align-items:center;gap:8px;font-family:var(--f-tech);font-size:9px;letter-spacing:2px;color:var(--c);direction:ltr;justify-content:flex-end}
+.plans .pk2::before{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--c) 40%,transparent))}
+.pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pgrid.one{grid-template-columns:minmax(0,1fr)}
+.pln{position:relative;padding:12px 12px 11px;border-radius:14px;background:var(--panel2);border:1px solid var(--line2);display:flex;flex-direction:column;gap:2px;min-width:0;overflow:hidden}
+.pln.yr{background:linear-gradient(150deg,color-mix(in srgb,var(--c) 20%,transparent),color-mix(in srgb,var(--c) 5%,transparent) 75%);border-color:color-mix(in srgb,var(--c) 50%,transparent)}
+.pln.yr::after{content:"";position:absolute;top:0;inset-inline-start:0;width:60%;height:2px;background:linear-gradient(90deg,var(--c),transparent)}
+.pln .nm{font-family:var(--f-display);font-weight:800;font-size:13.5px;color:var(--dim)}
+.pln .nm small{font-family:var(--f-tech);font-weight:400;font-size:8px;letter-spacing:1.5px;color:var(--faint);margin-inline-start:6px}
+.pln s{font-family:var(--f-mono);font-size:12.5px;color:var(--faint);direction:ltr;text-align:right;text-decoration-color:var(--bad);text-decoration-thickness:1.5px}
+.pln b{font-family:var(--f-mono);font-weight:800;font-size:23px;line-height:1.15;direction:ltr;text-align:right;color:var(--ink);letter-spacing:-.5px;white-space:nowrap}
+.pln.yr b{text-shadow:0 0 16px color-mix(in srgb,var(--c) 45%,transparent)}
+.pln em{font-style:normal;font-size:12px;color:var(--dim)}
+.pln .eqv{font-size:11.5px;color:var(--c);font-weight:700;margin-top:3px}
+.pln .sv{position:absolute;top:9px;inset-inline-end:9px;font-size:10.5px;font-weight:800;padding:2px 7px;border-radius:999px;background:var(--ok);color:#06140c}
+.ofr{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:linear-gradient(90deg,color-mix(in srgb,var(--warn) 22%,transparent),color-mix(in srgb,var(--warn) 6%,transparent));border:1px solid color-mix(in srgb,var(--warn) 45%,transparent)}
+.ofr .pc2{font-family:var(--f-mono);font-weight:800;font-size:15px;color:#1a1100;background:var(--warn);border-radius:8px;padding:3px 8px;direction:ltr;flex:none}
+.ofr b{display:block;font-size:14px;font-weight:800}
+.ofr small{display:block;font-size:12px;color:var(--dim)}
+.ofrb{position:absolute;top:14px;left:-34px;z-index:3;transform:rotate(-45deg);width:130px;text-align:center;padding:4px 0;font-family:var(--f-mono);font-weight:800;font-size:12px;color:#1a1100;background:var(--warn);box-shadow:0 4px 14px rgba(0,0,0,.35);direction:ltr}
+@media (max-width:360px){.pln b{font-size:19px}.pgrid{gap:8px}}
 .zz,.zz *,.zz *::before,.zz *::after,html.zzall *,html.zzall *::before,html.zzall *::after{animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){.holo *,.holo *::after,.holo *::before{animation:none!important}}
 @media (prefers-reduced-motion:reduce){#fxbg::before,#fxbg::after,.tick .tr{animation:none}}
@@ -607,7 +635,7 @@ function mini(p){const k=((p.id||"")+" "+(p.en||"")+" "+(p.name||"")).toLowerCas
   return head+`<div class="tl"><div><small>اليوم</small><b class="c">128</b></div><div><small>الكل</small><b>3.2K</b></div></div>${row("g")}${row("g")}${row("w")}${row("g")}`}
 function promoCard(p,i){const no=String(i+1).padStart(2,"0"),fs=p.feats||[],top=fs.slice(0,3),rest=fs.slice(3),hasMore=rest.length||p.desc;
   return `<article class="card br pc" style="--c:${col(p.color)}" data-card="${p.id}">
-  <div class="stage"><i class="floor"></i><i class="halo"></i><span class="no">${no}</span><span class="lbl"><i></i>LIVE · READY</span>
+  <div class="stage">${offOn(p)?`<span class="ofrb">-${offOn(p).pct}%</span>`:""}<i class="floor"></i><i class="halo"></i><span class="no">${no}</span><span class="lbl"><i></i>LIVE · READY</span>
    <i class="pts">${[18,52,86].map((l,k)=>`<i style="left:${l}%;animation-delay:${-k*1.1}s"></i>`).join("")}</i><div class="ret"><i></i><i></i><i></i><i></i><b>SCR-${no} · LIVE PREVIEW</b><b>390×844</b></div><div class="ph"><div class="scr">${mini(p)}<i class="beam"></i></div></div>
    <div class="fc fc1"><span class="ck">${ic("bolt")}</span><span><small>// BRAND</small>باسمك وشعارك</span></div>
    <div class="fc fc2"><span class="ck">${ic("check")}</span><span><small>// DEVICES</small>موبايل وحاسبة</span></div>
@@ -641,29 +669,40 @@ function priceParts(t){t=String(t||"").trim();if(!t)return null;const a=t.replac
   if(!m)return{text:t};const raw=m[0].trim(),num=+raw.replace(/[,\s]/g,""),cur=/\$|دولار|usd/i.test(a)?"$":/د\.?\s?ع|دينار|iqd/i.test(a)?"د.ع":"",
   rest=a.replace(m[0],"").replace(/\$|دولار|usd|د\.?\s?ع|دينار|iqd/ig,"").replace(/^[\s\-–/·,]+|[\s\-–/·,]+$/g,"").trim();
   return{num:isFinite(num)&&num>=1000?num.toLocaleString("en-US"):raw,cur:cur||"د.ع",rest}}
-function priceBox(p){const pp=priceParts(p.price),tr=TRIAL()?`<span class="tri"><i></i>اشتراك تجريبي متوفر</span>`:"";
-  if(!pp)return `<div class="price2"><span class="pk">PRICE · QUOTE</span><span class="pv"><span class="pt">السعر حسب طلبك</span></span><span class="seal"><span>GET<b>QUOTE</b></span></span><span class="pu">اطلب ونرسلك عرض سعر يناسب شغلك</span>${tr}</div>`;
-  if(pp.text)return `<div class="price2"><span class="pk">PRICE · السعر</span><span class="pv"><span class="pt">${esc(pp.text)}</span></span><span class="seal"><span>AM<b>PRICE</b></span></span>${tr}</div>`;
-  return `<div class="price2"><span class="pk">PRICE · السعر</span><span class="pv"><b>${esc(pp.num)}</b><em>${esc(pp.cur)}</em></span><span class="seal"><span>BEST<b>DEAL</b></span></span>${pp.rest?`<span class="pu">${esc(pp.rest)}</span>`:""}${tr}</div>`}
+const pNum=v=>+v||0,pR=v=>Math.round(v/250)*250,f0=v=>Math.round(v).toLocaleString("en-US");
+function offOn(p){const o=p.off;if(!o||!o.on||!(o.pct>0))return null;let left=null;if(o.until){const t=new Date(o.until+"T23:59:59");if(Date.now()>t)return null;left=Math.ceil((t-Date.now())/864e5)}return{pct:Math.min(90,o.pct),lbl:o.lbl||"عرض خاص",left}}
+function plans(p){const pm=pNum(p.pm),py=pNum(p.py);if(!pm&&!py)return null;const o=offOn(p),k=o?1-o.pct/100:1;
+  return{o,pm,py,npm:pm?pR(pm*k):0,npy:py?pR(py*k):0}}
+function priceBox(p){const P=plans(p),tr=TRIAL()?`<span class="tri" style="justify-self:start"><i></i>اشتراك تجريبي متوفر</span>`:"";
+  if(!P){const pp=priceParts(p.price);const old=(()=>{if(!pp)return `<div class="price2"><span class="pk">PRICE · QUOTE</span><span class="pv"><span class="pt">السعر حسب طلبك</span></span><span class="seal"><span>GET<b>QUOTE</b></span></span><span class="pu">اطلب ونرسلك عرض سعر يناسب شغلك</span>${tr}</div>`;
+    if(pp.text)return `<div class="price2"><span class="pk">PRICE · السعر</span><span class="pv"><span class="pt">${esc(pp.text)}</span></span><span class="seal"><span>AM<b>PRICE</b></span></span>${tr}</div>`;
+    return `<div class="price2"><span class="pk">PRICE · السعر</span><span class="pv"><b>${esc(pp.num)}</b><em>${esc(pp.cur)}</em></span><span class="seal"><span>BEST<b>DEAL</b></span></span>${pp.rest?`<span class="pu">${esc(pp.rest)}</span>`:""}${tr}</div>`})();return old}
+  const {o,pm,py,npm,npy}=P,save=pm&&py&&npy<npm*12?Math.round((1-npy/(npm*12))*100):0;
+  const tile=(yr,v,nv)=>`<div class="pln ${yr?"yr":""}">${yr&&save?`<span class="sv">وفّر ${save}%</span>`:""}<span class="nm">${yr?"سنوي":"شهري"}<small>${yr?"YEARLY":"MONTHLY"}</small></span>${o?`<s>${f0(v)}</s>`:""}<b>${f0(nv)}</b><em>د.ع / ${yr?"سنة":"شهر"}</em>${yr&&pm?`<span class="eqv">يعني ${f0(pR(nv/12))} د.ع بالشهر</span>`:""}</div>`;
+  return `<div class="plans"><span class="pk2">PLANS · الاشتراك</span>
+   ${o?`<div class="ofr"><span class="pc2">-${o.pct}%</span><span><b>${esc(o.lbl)}</b><small>${o.left==null?"لفترة محدودة":o.left<=1?"ينتهي اليوم":"باقي "+o.left+" أيام على نهاية العرض"}</small></span></div>`:""}
+   <div class="pgrid ${pm&&py?"":"one"}">${pm?tile(0,pm,npm):""}${py?tile(1,py,npy):""}</div>${tr}</div>`}
 let TYT;function typer(ps){clearTimeout(TYT);const el=$("typer");if(!el)return;const L=["> "+String(ps.length).padStart(2,"0")+" MODULES ONLINE",...ps.map(p=>"> LOADING "+String(p.en||"MODULE").toUpperCase()+" …"),"> READY TO DEPLOY"];let i=0,j=0,del=false;
   if(matchMedia("(prefers-reduced-motion:reduce)").matches){el.innerHTML=esc(L[L.length-1])+"<i></i>";return}
   el.innerHTML="<span></span><i></i>";const tx=el.firstChild;
   const step=()=>{if(!HERO_ON||document.hidden){TYT=setTimeout(step,700);return}const w=L[i];if(!del){j++;if(j>=w.length){del=true;TYT=setTimeout(step,1500);tx.textContent=w;return}}else{j-=2;if(j<=2){del=false;i=(i+1)%L.length;j=2}}tx.textContent=w.slice(0,j);TYT=setTimeout(step,del?30:70)};step()}
 function fsum(){const el=$("f_sum");if(!el)return;const id=$("f_prod").value,p=(prods().find(x=>x.id===id));
-  if(!p){el.style.setProperty("--c","#19c3e0");el.innerHTML=`<span class="ic2">NEW</span><span><small>CUSTOM BUILD</small><b>موقع خاص من الصفر</b></span><span class="pp">—<em>حسب الفكرة</em></span>`;return}
+  if(!p){if($("f_planw"))$("f_planw").hidden=true;el.style.setProperty("--c","#19c3e0");el.innerHTML=`<span class="ic2">NEW</span><span><small>CUSTOM BUILD</small><b>موقع خاص من الصفر</b></span><span class="pp">—<em>حسب الفكرة</em></span>`;return}
+  const P=plans(p),pw=$("f_planw"),ps=$("f_plan");if(pw){pw.hidden=!P;if(P){const cur=ps.value;ps.innerHTML=(P.pm?`<option value="m">شهري · ${f0(P.npm)} د.ع</option>`:"")+(P.py?`<option value="y">سنوي · ${f0(P.npy)} د.ع</option>`:"");if([...ps.options].some(x=>x.value===cur))ps.value=cur}}
   const pp=priceParts(p.price),en=String(p.en||"AM").trim().split(/\s+/).pop().slice(0,4).toUpperCase();el.style.setProperty("--c",col(p.color));
-  el.innerHTML=`<span class="ic2">${esc(en)}</span><span><small>SELECTED MODULE</small><b>${esc(p.name)}</b></span><span class="pp">${pp?(pp.text?`<em>${esc(pp.text)}</em>`:`${esc(pp.num)}<em>${esc(pp.cur)}${pp.rest?" · "+esc(pp.rest):""}</em>`):`<em>حسب طلبك</em>`}</span>`}
-document.addEventListener("change",e=>{if(e.target&&e.target.id==="f_prod")fsum()});
+  el.innerHTML=`<span class="ic2">${esc(en)}</span><span><small>SELECTED MODULE</small><b>${esc(p.name)}</b></span><span class="pp">${P?(()=>{const y=ps&&ps.value==="y";return `${f0(y?P.npy:P.npm)}<em>د.ع / ${y?"سنة":"شهر"}${P.o?" · خصم "+P.o.pct+"%":""}</em>`})():pp?(pp.text?`<em>${esc(pp.text)}</em>`:`${esc(pp.num)}<em>${esc(pp.cur)}${pp.rest?" · "+esc(pp.rest):""}</em>`):`<em>حسب طلبك</em>`}</span>`}
+document.addEventListener("change",e=>{if(e.target&&(e.target.id==="f_prod"||e.target.id==="f_plan"))fsum()});
 function orderForm(id){const ps=prods(),types=(PC.types&&PC.types.length?PC.types:DEF_TYPES),custom=!id;
   sheet(`<span>NEW ORDER</span><b>AM-TECH</b>`,"طلب جديد",`<div class="fsum" id="f_sum"></div><label for="f_name" style="margin-top:4px">اسمك</label><input id="f_name" autocomplete="name" maxlength="80"><label for="f_phone">رقم الهاتف</label><input id="f_phone" inputmode="tel" dir="ltr" placeholder="07xxxxxxxxx" autocomplete="tel" maxlength="20">
   <label for="f_prod">النظام المطلوب</label><select id="f_prod">${ps.map(p=>`<option value="${p.id}" ${p.id===id?"selected":""}>${esc(p.name)}</option>`).join("")}<option value="" ${custom?"selected":""}>موقع خاص (غير المعروض)</option></select>
+  <div id="f_planw"><label for="f_plan">الاشتراك</label><select id="f_plan"></select></div>
   <label for="f_type">نوع الطلب</label><select id="f_type">${types.map(t=>`<option ${custom&&/خاص|صفر/.test(t)?"selected":""}>${esc(t)}</option>`).join("")}</select>
   <label for="f_note">تفاصيل (اختياري)</label><textarea id="f_note" maxlength="1500" placeholder="اسم شغلك، شنو تحتاج بالضبط…"></textarea><div id="f_err" style="color:var(--bad);margin-top:8px;font-size:13.5px" hidden></div>`,
   `<button class="btn gh" data-a="close">رجوع</button><button class="cta grow" id="f_send" data-a="psend">${ic("send")}<span>إرسال الطلب</span></button>`);fsum()}
 async function send(){const name=$("f_name").value.trim(),ph=digits($("f_phone").value),e=$("f_err"),bad=m=>{e.textContent=m;e.hidden=false};
   if(name.length<2)return bad("اكتب اسمك");if(!/^(\+?964|0)?7\d{9}$/.test(ph))return bad("رقم الهاتف مو صحيح، اكتبه مثل 07xxxxxxxxx");
   const pid=$("f_prod").value,p=(PC.products||{})[pid],pn=p?p.name:"موقع خاص",no="AM-"+String(Date.now()).slice(-6),b=$("f_send");b.disabled=true;b.lastElementChild.textContent="دا يرسل…";
-  try{await fs.collection("hub_orders").add({no,name,phone:ph,prod:pid,prodName:pn,type:$("f_type").value,note:$("f_note").value.trim().slice(0,1500),link:PL.id,linkName:PL.name||"",status:"new",at:firebase.firestore.FieldValue.serverTimestamp()});
+  try{await fs.collection("hub_orders").add({no,name,phone:ph,prod:pid,prodName:pn,type:($("f_type").value+(!$("f_planw").hidden&&$("f_plan").value?" · اشتراك "+($("f_plan").value==="y"?"سنوي":"شهري"):"")).slice(0,120),note:$("f_note").value.trim().slice(0,1500),link:PL.id,linkName:PL.name||"",status:"new",at:firebase.firestore.FieldValue.serverTimestamp()});
     const c=PC.company||{},w=waNum(c.phone),msg=encodeURIComponent("هلا، آني "+name+" طلبت ("+pn+") ورقم طلبي "+no);
     sheet(`<span>ORDER SENT</span><b>${no}</b>`,"وصل طلبك",`<div class="okbox"><div class="ring">${ic("check")}</div><b style="font-family:var(--f-display);font-size:22px">انثبت طلبك، شكراً</b><div class="code">${no}</div><p class="muted">نتواصل وياك بأقرب وقت على رقمك.</p></div>`,
     `${c.phone?`<a class="btn gh grow" href="https://wa.me/${w}?text=${msg}" target="_blank" rel="noopener">${ic("wa")}راسلنا واتساب</a>`:""}<button class="cta grow" data-a="close">زين، سدّها</button>`);warp()}
