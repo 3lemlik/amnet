@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.11-3">
+<meta name="app-build" content="2026.11.11-5">
 <title>AM · اطلب نظامك</title>
 <meta name="description" content="AM للحلول التقنية — اختار نظامك واطلبه">
 <meta name="theme-color" content="#0b0c10">
@@ -152,6 +152,100 @@ html[data-theme="light"] .hero::after{background:repeating-linear-gradient(rgba(
 }
 @media (max-width:360px){.steps b{font-size:13px}.hud .v{font-size:13.5px}.mod .no{font-size:28px}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ===== PROMO SHOWCASE CARDS ===== */
+.deck{display:grid;gap:20px}
+@media (min-width:760px){.deck{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}}
+.pc{--c:#ec1c32;padding:0!important;overflow:hidden;opacity:0;transform:translateY(22px)}
+.pc.in{opacity:1;transform:none;transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.pc::before,.pc::after{border-color:var(--c)!important}
+/* stage */
+.stage{position:relative;height:310px;overflow:hidden;isolation:isolate;
+ background:radial-gradient(60% 70% at 50% 108%,color-mix(in srgb,var(--c) 42%,transparent),transparent 70%),radial-gradient(50% 50% at 85% 0%,color-mix(in srgb,var(--c) 16%,transparent),transparent 70%),linear-gradient(180deg,#0f1117,#0b0c10);border-bottom:1px solid color-mix(in srgb,var(--c) 30%,var(--line))}
+html[data-theme="light"] .stage{background:radial-gradient(60% 70% at 50% 108%,color-mix(in srgb,var(--c) 26%,transparent),transparent 70%),radial-gradient(50% 50% at 85% 0%,color-mix(in srgb,var(--c) 10%,transparent),transparent 70%),linear-gradient(180deg,#f7f8fb,#eceef3)}
+.stage .floor{position:absolute;inset-inline:-30%;bottom:-6%;height:52%;z-index:-1;background:linear-gradient(color-mix(in srgb,var(--c) 45%,transparent) 1px,transparent 1px) 0 0/100% 26px,linear-gradient(90deg,color-mix(in srgb,var(--c) 45%,transparent) 1px,transparent 1px) 0 0/26px 100%;transform:perspective(260px) rotateX(62deg);transform-origin:bottom;-webkit-mask:linear-gradient(180deg,transparent,#000 70%);mask:linear-gradient(180deg,transparent,#000 70%);opacity:.55}
+.stage .no{position:absolute;top:36px;right:14px;font-family:var(--f-tech);font-size:54px;line-height:1;direction:ltr;color:transparent;-webkit-text-stroke:1.2px color-mix(in srgb,var(--c) 70%,transparent);opacity:.55;z-index:-1}
+.stage .lbl{position:absolute;top:16px;right:16px;font-family:var(--f-tech);font-size:9.5px;letter-spacing:2.5px;color:var(--c);direction:ltr;display:flex;align-items:center;gap:7px}
+.stage .lbl i{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:bl 1.8s infinite}
+.stage .halo{position:absolute;left:-36px;bottom:-80px;width:260px;height:260px;border-radius:50%;border:1px dashed color-mix(in srgb,var(--c) 45%,transparent);z-index:-1;animation:spin 40s linear infinite}
+.stage .halo::after{content:"";position:absolute;inset:26px;border-radius:50%;border:1px solid color-mix(in srgb,var(--c) 25%,transparent)}
+/* phone */
+.ph{position:absolute;left:22px;bottom:-58px;width:156px;height:318px;border-radius:28px;background:linear-gradient(145deg,#2a2d36,#07080b 40%,#1b1d24);padding:5px;
+ box-shadow:0 0 0 1px rgba(255,255,255,.08),0 30px 60px -10px rgba(0,0,0,.6),0 0 50px -6px color-mix(in srgb,var(--c) 55%,transparent);transform:perspective(900px) rotateY(-14deg) rotateX(5deg);animation:phf 6s ease-in-out infinite}
+@keyframes phf{50%{transform:perspective(900px) rotateY(-10deg) rotateX(3deg) translateY(-7px)}}
+.scr{position:relative;height:100%;border-radius:23px;overflow:hidden;background:#0c0e13;padding:24px 9px 9px;display:flex;flex-direction:column;gap:6px;color:#e9ecf1;font-size:7.5px;line-height:1.35;direction:rtl}
+.scr::after{content:"";position:absolute;inset:0;background:linear-gradient(125deg,rgba(255,255,255,.09),transparent 35%);pointer-events:none}
+.scr .nt{position:absolute;top:6px;left:50%;width:44px;height:11px;margin-left:-22px;border-radius:8px;background:#000}
+.scr .sb{position:absolute;top:7px;inset-inline:14px;display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:6.5px;color:#9aa1ad;direction:ltr}
+.scr .ah{display:flex;align-items:center;gap:5px;font-family:var(--f-tech);font-size:8px;letter-spacing:.8px;direction:ltr;justify-content:flex-end}
+.scr .ah i{width:12px;height:12px;border-radius:4px;background:var(--c);box-shadow:0 0 8px var(--c)}
+.scr .tt{font-family:var(--f-display);font-weight:800;font-size:10px}
+.scr .tl{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.scr .tl>div{background:#171a22;border-radius:7px;padding:5px 6px;border:1px solid rgba(255,255,255,.05)}
+.scr .tl small{display:block;color:#8a919d;font-size:6.5px}
+.scr .tl b{display:block;font-family:var(--f-mono);font-size:11px;direction:ltr;text-align:right}
+.scr .tl b.c{color:var(--c)}
+.scr .ln{height:4px;border-radius:3px;background:#2a2e39}
+.scr .rw{display:flex;align-items:center;gap:5px;background:#14161d;border-radius:7px;padding:4px 5px}
+.scr .rw .av{width:14px;height:14px;border-radius:50%;flex:none;background:color-mix(in srgb,var(--c) 35%,#222);border:1px solid var(--c)}
+.scr .rw .tx{flex:1;display:grid;gap:3px}
+.scr .rw .pl{width:20px;height:8px;border-radius:5px;flex:none}
+.g{background:#2ecc71}.w{background:#f2b03d}.r{background:#f2596a}
+.scr .ch{display:flex;align-items:flex-end;gap:3px;height:38px;padding:4px;background:#14161d;border-radius:7px}
+.scr .ch i{flex:1;border-radius:2px 2px 0 0;background:linear-gradient(180deg,var(--c),color-mix(in srgb,var(--c) 30%,transparent));animation:grow 1.4s cubic-bezier(.2,.7,.2,1) both}
+@keyframes grow{from{transform:scaleY(.1);transform-origin:bottom}}
+.scr .pg{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.scr .pi{background:#171a22;border-radius:7px;padding:4px;display:grid;gap:3px}
+.scr .pi .im{height:36px;border-radius:5px;background:linear-gradient(135deg,color-mix(in srgb,var(--c) 70%,#fff 0%),color-mix(in srgb,var(--c) 25%,#111))}
+.scr .pi b{font-family:var(--f-mono);font-size:7px;color:var(--c);direction:ltr;text-align:right}
+.scr .bn{height:46px;border-radius:8px;background:linear-gradient(120deg,var(--c),color-mix(in srgb,var(--c) 30%,#000));display:flex;align-items:center;padding:0 8px;font-family:var(--f-display);font-weight:800;font-size:9px;color:#fff}
+.scr .big{font-family:var(--f-mono);font-size:15px;font-weight:700;direction:ltr;text-align:right;color:#fff}
+.scr .big small{font-size:7px;color:#8a919d}
+.scr .bb{max-width:78%;padding:5px 7px;border-radius:9px;font-size:7.5px}
+.scr .bb.o{background:#1d2029;align-self:flex-start;border-bottom-left-radius:2px}
+.scr .bb.m{background:var(--c);color:#fff;align-self:flex-end;border-bottom-right-radius:2px}
+.scr .ib{margin-top:auto;height:18px;border-radius:9px;background:#171a22;border:1px solid rgba(255,255,255,.06)}
+.scr .vt{height:74px;border-radius:9px;position:relative;background:linear-gradient(135deg,color-mix(in srgb,var(--c) 60%,#111),#111 80%);display:grid;place-items:center}
+.scr .vt::after{content:"";width:0;height:0;border-style:solid;border-width:7px 0 7px 11px;border-color:transparent transparent transparent #fff;margin-left:3px}
+.scr .vt::before{content:"";position:absolute;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.4);left:50%;top:50%;margin:-13px 0 0 -13px}
+.scr .vr{display:flex;gap:5px;align-items:center}
+.scr .vr .th{width:38px;height:24px;border-radius:5px;flex:none;background:linear-gradient(135deg,color-mix(in srgb,var(--c) 45%,#111),#15171d)}
+/* floating chips */
+.fc{position:absolute;z-index:2;right:14px;display:flex;align-items:center;gap:7px;width:max-content;max-width:calc(100% - 212px);padding:7px 10px 7px 8px;border-radius:12px;font-size:12px;font-weight:700;line-height:1.35;color:var(--ink);
+ background:color-mix(in srgb,var(--panel) 82%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid color-mix(in srgb,var(--c) 30%,var(--line2));box-shadow:0 10px 24px -10px rgba(0,0,0,.5);animation:fcf 5s ease-in-out infinite}
+.fc span{overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.fc .ck{width:20px;height:20px;border-radius:7px;flex:none;display:grid;place-items:center;background:var(--c);color:#fff;box-shadow:0 0 12px color-mix(in srgb,var(--c) 60%,transparent)}
+.fc .ck svg{width:12px;height:12px}
+.fc1{top:122px}
+.fc2{top:172px;animation-delay:-2.5s}
+.fc3{top:226px;animation-delay:-1.2s;font-family:var(--f-tech);font-weight:400;font-size:10px;letter-spacing:1.5px;direction:ltr}
+.fc3 i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+@keyframes fcf{50%{transform:translateY(-6px)}}
+html[data-theme="light"] .fc{box-shadow:0 10px 24px -12px rgba(16,22,34,.25)}
+/* body */
+.pbd{padding:18px 18px 18px}
+.pbd .ey{display:flex;align-items:center;gap:8px;font-family:var(--f-tech);font-size:10.5px;letter-spacing:2.5px;color:var(--c);direction:ltr;justify-content:flex-end}
+.pbd .ey::before{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--c) 50%,transparent))}
+.pbd h3{font-family:var(--f-display);font-weight:900;font-size:24px;line-height:1.3;margin-top:4px}
+.pbd .hl{color:var(--dim);font-size:15px;line-height:1.7;margin-top:2px}
+.ben{list-style:none;display:grid;gap:8px;margin:14px 0 0}
+.ben li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:10px;align-items:start;font-size:14.5px;line-height:1.6}
+.ben li .ck{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 14%,transparent);color:var(--c);border:1px solid color-mix(in srgb,var(--c) 30%,transparent)}
+.ben li .ck svg{width:13px;height:13px}
+.pmore{margin-top:8px;animation:in .35s both}
+.pmore p{color:var(--dim);font-size:14px;line-height:1.75;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line2)}
+.mtog{display:inline-flex;align-items:center;gap:6px;margin-top:10px;color:var(--c);font-weight:700;font-size:13.5px;background:none;border:0;padding:4px 0;cursor:pointer;font-family:inherit}
+.mtog svg{width:15px;height:15px}
+.pmeta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.pmeta span{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border-radius:999px;font-size:12.5px;font-weight:700;background:var(--panel2);border:1px solid var(--line2)}
+.pmeta span.pr{background:color-mix(in srgb,var(--c) 12%,transparent);border-color:color-mix(in srgb,var(--c) 35%,transparent);color:var(--ink)}
+.pmeta span i{width:6px;height:6px;border-radius:50%;background:var(--c)}
+.pacts{display:flex;gap:10px;margin-top:16px}
+.pacts>*{flex:1 1 0;min-width:0}
+.pacts .cta{flex:1.4 1 0}
+@media (max-width:400px){.ph{width:136px;height:280px;left:14px;bottom:-40px}.fc{max-width:calc(100% - 172px);font-size:11.5px;padding:6px 8px 6px 7px}.stage .no{font-size:46px}}
+@media (max-width:360px){.stage{height:290px}.fc1{top:112px}.fc2{top:160px}.fc3{top:210px}.pbd h3{font-size:21px}}
+@media (prefers-reduced-motion:reduce){.pc{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -240,17 +334,44 @@ function render(){const c=PC.company||{},ps=prods(),w=waNum(c.phone),n=String(ps
    ${c.banner?`<div class="banner"><span class="bolt">${ic("bolt")}</span><span class="grow">${esc(c.banner)}</span></div>`:""}
    <div class="hud"><div><div class="k">MODULES</div><div class="v num">${n}</div></div><div><div class="k">STATUS</div><div class="v" style="color:var(--ok)"><span class="pill p-ok" style="padding:0;background:none;font-size:14px"><span class="dot"></span>متاحة</span></div></div><div><div class="k">BRANDING</div><div class="v">باسمك</div></div></div>
   </section>
-  <div class="sec"><div class="eyebrow"><span>01 · MODULES</span><b>SELECT</b></div><h2>الأنظمة المتاحة</h2></div>
-  <div>${ps.map((p,i)=>`<article class="card br mod" style="--c:${col(p.color)};animation-delay:${.08*i}s"><span class="glowbar"></span>
-   <div class="hd"><div class="no">${String(i+1).padStart(2,"0")}</div><div class="grow"><div class="mt"><span class="pill p-ok"><span class="dot"></span>متاح</span>${p.en?`<span class="en">${esc(p.en)}</span>`:""}</div><h3>${esc(p.name)}</h3><div class="muted">${esc(p.tag||"")}</div></div></div>
-   <div class="det" id="det_${p.id}" hidden>${p.desc?`<p>${esc(p.desc)}</p>`:""}${(p.feats||[]).length?`<ul>${p.feats.map(f=>`<li>${ic("check")}<span>${esc(f)}</span></li>`).join("")}</ul>`:""}${p.price?`<div class="price"><span class="muted" style="font-weight:500">السعر</span>${esc(p.price)}</div>`:""}${p.demo?`<div style="margin-top:10px"><a class="btn gh" style="min-height:40px;font-size:14px" href="${esc(p.demo)}" target="_blank" rel="noopener">${ic("ext")}شوف الموقع</a></div>`:""}</div>
-   <div class="ft"><button class="btn gh" data-a="ptoggle" data-id="${p.id}" aria-expanded="false">التفاصيل${ic("down")}</button><button class="cta" data-a="porder" data-id="${p.id}">${ic("bolt")}اطلبه هسه</button></div></article>`).join("")}</div>
+  <div class="sec"><div class="eyebrow"><span>01 · SHOWCASE</span><b>${n} SYSTEMS</b></div><h2>الأنظمة المتاحة</h2></div>
+  <div class="deck">${ps.map((p,i)=>promoCard(p,i)).join("")}</div>
   <section class="card custom"><div class="eyebrow" style="justify-content:center"><span>CUSTOM BUILD</span></div><h2 style="font-family:var(--f-display);font-weight:800;font-size:20px;margin-top:4px">تريد موقع أو نظام خاص بيك؟</h2><div class="muted" style="margin:4px 0 14px">گلنا فكرتك ونسويها إلك من الصفر.</div><button class="cta" data-a="porder" data-id="">${ic("send")}اطلب موقع خاص</button></section>
   <div class="sec"><div class="eyebrow"><span>02 · PROCESS</span><b>3 STEPS</b></div><h2>شلون تطلب؟</h2></div>
   <div class="steps"><div class="card"><div class="n">01</div><b>اختار النظام</b></div><div class="card"><div class="n">02</div><b>ارسل الطلب</b></div><div class="card"><div class="n">03</div><b>نتواصل وياك</b></div></div>
   ${c.about?`<p class="muted" style="text-align:center;margin-top:20px;white-space:pre-wrap">${esc(c.about)}</p>`:""}
   <div class="pfoot">${c.phone?`<a class="btn gh" href="https://wa.me/${w}" target="_blank" rel="noopener">${ic("wa")}واتساب</a>`:""}${c.insta?`<a class="btn gh" href="https://instagram.com/${encodeURIComponent(c.insta)}" target="_blank" rel="noopener">${ic("insta")}<span dir="ltr">@${esc(c.insta)}</span></a>`:""}</div>
-  <div class="credit">تصميم وبرمجة <b>علي مالك</b></div></div>`}
+  <div class="credit">تصميم وبرمجة <b>علي مالك</b></div></div>`;deckFx()}
+function mini(p){const k=((p.id||"")+" "+(p.en||"")+" "+(p.name||"")).toLowerCase(),L=(w)=>`<div class="ln" style="width:${w}%"></div>`,
+  row=(c)=>`<div class="rw"><span class="av"></span><span class="tx">${L(70)}${L(40)}</span><span class="pl ${c}"></span></div>`,
+  head=`<span class="nt"></span><div class="sb"><span>9:41</span><span>▮▮▮</span></div><div class="ah">${esc((p.en||"AM").toUpperCase().slice(0,14))}<i></i></div>`;
+  if(/chat|مراسل|messag/.test(k))return head+`<div class="tt">المحادثات</div><div class="bb o">هلا، شلونك؟</div><div class="bb m">هلا بيك، تمام 👋</div><div class="bb o">شوفت الملف؟</div><div class="bb m">اي، وصلني</div><div class="bb o">${L(60)}</div><div class="ib"></div>`;
+  if(/store|shop|متجر|مكمل/.test(k))return head+`<div class="bn">عروض اليوم 🔥</div><div class="pg">${[1,2,3,4].map(i=>`<div class="pi"><div class="im" style="opacity:${1-i*.12}"></div>${L(80)}<b>${(15+i*5)},000</b></div>`).join("")}</div>`;
+  if(/sale|مبيع|جرد|pos/.test(k))return head+`<div class="tl"><div><small>مبيعات اليوم</small><b class="c">2.45M</b></div><div><small>الربح</small><b>640K</b></div></div><div class="ch">${[40,62,48,80,58,92,70].map((h,i)=>`<i style="height:${h}%;animation-delay:${i*.07}s"></i>`).join("")}</div>${row("g")}${row("g")}${row("w")}`;
+  if(/vision|video|فيجن|فيديو|youtube/.test(k))return head+`<div class="vt"></div>${L(75)}${L(45)}${[1,2,3].map(()=>`<div class="vr"><span class="th"></span><span style="flex:1;display:grid;gap:3px">${L(85)}${L(50)}</span></div>`).join("")}`;
+  if(/net|isp|انترنت|إنترنت/.test(k))return head+`<div class="tl"><div><small>المشتركين</small><b class="c">412</b></div><div><small>فعّال</small><b>380</b></div></div><div class="ch">${[55,70,62,88,75,95].map((h,i)=>`<i style="height:${h}%;animation-delay:${i*.07}s"></i>`).join("")}</div>${row("g")}${row("w")}${row("r")}${row("g")}`;
+  return head+`<div class="tl"><div><small>اليوم</small><b class="c">128</b></div><div><small>الكل</small><b>3.2K</b></div></div>${row("g")}${row("g")}${row("w")}${row("g")}`}
+function promoCard(p,i){const no=String(i+1).padStart(2,"0"),fs=p.feats||[],top=fs.slice(0,3),rest=fs.slice(3),hasMore=rest.length||p.desc;
+  return `<article class="card br pc" style="--c:${col(p.color)}" data-card="${p.id}">
+  <div class="stage"><i class="floor"></i><i class="halo"></i><span class="no">${no}</span><span class="lbl"><i></i>LIVE · READY</span>
+   <div class="ph"><div class="scr">${mini(p)}</div></div>
+   <div class="fc fc1"><span class="ck">${ic("bolt")}</span><span>باسمك وشعارك</span></div>
+   <div class="fc fc2"><span class="ck">${ic("check")}</span><span>موبايل وحاسبة</span></div>
+   <div class="fc fc3"><i></i>BRANDED</div>
+  </div>
+  <div class="pbd">
+   ${p.en?`<div class="ey">${esc(p.en)}</div>`:""}
+   <h3>${esc(p.name)}</h3>
+   ${p.tag?`<p class="hl">${esc(p.tag)}</p>`:""}
+   ${top.length?`<ul class="ben">${top.map(f=>`<li><span class="ck">${ic("check")}</span><span>${esc(f)}</span></li>`).join("")}</ul>`:""}
+   ${hasMore?`<div class="pmore" id="pm_${p.id}" hidden>${p.desc?`<p>${esc(p.desc)}</p>`:""}${rest.length?`<ul class="ben">${rest.map(f=>`<li><span class="ck">${ic("check")}</span><span>${esc(f)}</span></li>`).join("")}</ul>`:""}</div>
+   <button class="mtog" data-a="pmore" data-id="${p.id}">${rest.length?"كل المزايا ("+fs.length+")":"اقرأ أكثر"}${ic("down")}</button>`:""}
+   ${p.price?`<div class="pmeta"><span class="pr">${esc(p.price)}</span></div>`:""}
+   <div class="pacts"><button class="cta" data-a="porder" data-id="${p.id}">${ic("bolt")}اطلبه هسه</button>${p.demo?`<a class="btn gh" href="${esc(p.demo)}" target="_blank" rel="noopener">${ic("ext")}جرّبه</a>`:""}</div>
+  </div></article>`}
+function deckFx(){const cards=[...document.querySelectorAll(".pc")];
+  if("IntersectionObserver" in window){const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});cards.forEach(c=>io.observe(c))}
+  setTimeout(()=>cards.forEach(c=>c.classList.add("in")),2500)}
 function orderForm(id){const ps=prods(),types=(PC.types&&PC.types.length?PC.types:DEF_TYPES),custom=!id;
   sheet(`<span>NEW ORDER</span><b>AM-TECH</b>`,"طلب جديد",`<label for="f_name" style="margin-top:4px">اسمك</label><input id="f_name" autocomplete="name" maxlength="80"><label for="f_phone">رقم الهاتف</label><input id="f_phone" inputmode="tel" dir="ltr" placeholder="07xxxxxxxxx" autocomplete="tel" maxlength="20">
   <label for="f_prod">النظام المطلوب</label><select id="f_prod">${ps.map(p=>`<option value="${p.id}" ${p.id===id?"selected":""}>${esc(p.name)}</option>`).join("")}<option value="" ${custom?"selected":""}>موقع خاص (غير المعروض)</option></select>
@@ -266,7 +387,7 @@ async function send(){const name=$("f_name").value.trim(),ph=digits($("f_phone")
     `${c.phone?`<a class="btn gh grow" href="https://wa.me/${w}?text=${msg}" target="_blank" rel="noopener">${ic("wa")}راسلنا واتساب</a>`:""}<button class="cta grow" data-a="close">زين، سدّها</button>`);warp()}
   catch(x){b.disabled=false;b.lastElementChild.textContent="إرسال الطلب";bad("ما انرسل الطلب، تأكد من النت وحاول مرة ثانية")}}
 const ACT={close:closeSheet,mode:()=>{setMode(document.documentElement.dataset.theme==="dark"?"light":"dark",true)},
-  ptoggle:t=>{const d=$("det_"+t.dataset.id),o=d.hidden;d.hidden=!o;t.setAttribute("aria-expanded",o);t.innerHTML=(o?"سدّ التفاصيل":"التفاصيل")+ic(o?"up":"down")},
+  pmore:t=>{const d=$("pm_"+t.dataset.id),o=d.hidden,n=t.closest(".pc").querySelectorAll(".ben li").length;d.hidden=!o;t.innerHTML=(o?"سدّ":(n>3?"كل المزايا ("+n+")":"اقرأ أكثر"))+ic(o?"up":"down")},
   porder:t=>{if(PC)orderForm(t.dataset.id)},psend:send};
 document.addEventListener("click",e=>{const t=e.target.closest("[data-a]");if(t&&ACT[t.dataset.a]){if(t.tagName!=="A")e.preventDefault();ACT[t.dataset.a](t)}else if(e.target.id==="sw")closeSheet()});
 window.addEventListener("focusout",()=>setTimeout(()=>{if(!document.activeElement||!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))window.scrollTo(window.scrollX,window.scrollY)},60));
