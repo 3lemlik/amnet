@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.11-1">
+<meta name="amnet-build" content="2026.11.11-2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -5139,7 +5139,7 @@ document.addEventListener("touchmove",e=>{if(e.touches&&e.touches.length>1)e.pre
 /* ================= AM HUB: معرض المواقع + روابط الطلب + طلبات العملاء (للمدير) ================= */
 const HUB_ST={new:["جديد","exp"],contact:["تم التواصل","near"],work:["قيد التنفيذ","none"],done:["مكتمل","act"],cancel:["ملغي","none"]};
 const HUB_COL=["#ec1c32","#19c3e0","#ffb627","#3ccf82","#8b5cf6","#ff6b35"];
-const HUB_DEF={company:{ar:"AM للحلول التقنية",en:"AM TECH SOLUTIONS",tagline:"أنظمة ومواقع تشتغل باسمك وشعارك",phone:"07804505005",insta:"am.tech404",about:""},
+const HUB_DEF={company:{ar:"AM للحلول التقنية",en:"AM TECH SOLUTIONS",tagline:"أنظمة ومواقع تشتغل باسمك وشعارك",phone:"07804505005",insta:"am.tech404",about:"",banner:"اشتراكات تجريبية متوفرة هسه",theme:"dark"},
  types:["نظام جاهز مثل المعروض","نظام جاهز مع تعديلات","موقع أو نظام خاص من الصفر","استفسار عن الأسعار"],
  products:{
   net:{ord:1,on:true,color:"#19c3e0",name:"نظام شركات الإنترنت",en:"AM NET",tag:"مشتركينك وديونك ومسوّقينك بمكان واحد",desc:"نظام كامل لإدارة مشتركين الإنترنت: تفعيل، ديون، تقارير، وحسابات للمسوّقين والموظفين.",feats:["إضافة المشتركين يدوي أو استيراد من تقارير PDF","تفعيل نقدي أو آجل وصفحة ديون كاملة","تنبيه بالمشتركين القريب ينتهي اشتراكهم","حسابات للمسوّقين والموظفين بصلاحيات","مقارنة الأشهر ومعرفة منو ترك","يتثبّت عالموبايل مثل التطبيق"],price:"",demo:""},
@@ -5194,6 +5194,8 @@ function renderHub(){
     box.innerHTML=`<div class="muted" style="margin-bottom:10px">هذني تطلع للعميل بصفحة الرابط.</div><div class="fgrid"><div class="field"><label for="hcAr">اسم الشركة بالعربي</label><input type="text" id="hcAr" value="${esc(c.ar||"")}"></div><div class="field"><label for="hcEn">الاسم بالإنجليزي</label><input type="text" id="hcEn" dir="ltr" value="${esc(c.en||"")}"></div>
     <div class="field"><label for="hcPh">رقم الواتساب</label><input type="tel" id="hcPh" dir="ltr" value="${esc(c.phone||"")}"></div><div class="field"><label for="hcIg">حساب الانستا</label><input type="text" id="hcIg" dir="ltr" value="${esc(c.insta||"")}"></div></div>
     <div class="field" style="margin-top:12px"><label for="hcTag">الجملة التعريفية (عنوان الصفحة)</label><input type="text" id="hcTag" value="${esc(c.tagline||"")}"></div>
+    <div class="field" style="margin-top:12px"><label for="hcBan">شريط إعلان بأعلى الصفحة (اختياري)</label><input type="text" id="hcBan" value="${esc(c.banner||"")}" placeholder="اشتراكات تجريبية متوفرة هسه"></div>
+    <div class="field" style="margin-top:12px"><label for="hcTheme">مظهر صفحة العميل</label><select id="hcTheme"><option value="dark"${c.theme!=="light"?" selected":""}>غامق (خيال علمي)</option><option value="light"${c.theme==="light"?" selected":""}>فاتح</option></select></div>
     <div class="field" style="margin-top:12px"><label for="hcAb">نبذة (اختياري)</label><textarea id="hcAb" rows="3">${esc(c.about||"")}</textarea></div>
     <div class="field" style="margin-top:12px"><label for="hcTypes">أنواع الطلب (كل سطر نوع يختاره العميل)</label><textarea id="hcTypes" rows="5">${esc((HUB.cat.types||[]).join("\n"))}</textarea></div>
     <div class="row" style="margin-top:12px"><button class="btn" data-hub="isave">حفظ</button></div>`}
@@ -5249,7 +5251,7 @@ document.addEventListener("click",async e=>{
   else if(a==="son"){const p=HUB.cat.products[id];p.on=p.on===false;await hubSave()}
   else if(a==="smv"){const ps=hubProds(),i=ps.findIndex(p=>p.id===id),j=i+ +t.dataset.d;if(j<0||j>=ps.length)return;[ps[i],ps[j]]=[ps[j],ps[i]];ps.forEach((p,k)=>HUB.cat.products[p.id].ord=k+1);await hubSave()}
   else if(a==="sdel")confirmBox("حذف الموقع","تحذف «"+esc(HUB.cat.products[id].name)+"» من المعرض؟","حذف",async()=>{delete HUB.cat.products[id];if(await hubSave())toast("انحذف الموقع")});
-  else if(a==="isave"){HUB.cat.company={ar:$("hcAr").value.trim(),en:$("hcEn").value.trim(),tagline:$("hcTag").value.trim(),phone:hubDigits($("hcPh").value),insta:$("hcIg").value.trim().replace(/^@/,""),about:$("hcAb").value.trim()};HUB.cat.types=$("hcTypes").value.split("\n").map(s=>s.trim()).filter(Boolean);if(await hubSave())toast("انحفظت البيانات")}
+  else if(a==="isave"){HUB.cat.company={ar:$("hcAr").value.trim(),en:$("hcEn").value.trim(),tagline:$("hcTag").value.trim(),phone:hubDigits($("hcPh").value),insta:$("hcIg").value.trim().replace(/^@/,""),about:$("hcAb").value.trim(),banner:$("hcBan").value.trim(),theme:$("hcTheme").value};HUB.cat.types=$("hcTypes").value.split("\n").map(s=>s.trim()).filter(Boolean);if(await hubSave())toast("انحفظت البيانات")}
 });
 
 function boot(){
