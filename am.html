@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.11-12">
+<meta name="app-build" content="2026.11.11-13">
 <title>AM · اطلب نظامك</title>
 <meta name="description" content="AM للحلول التقنية — اختار نظامك واطلبه">
 <meta name="theme-color" content="#0b0c10">
@@ -464,7 +464,7 @@ body{background-attachment:scroll!important}
 .tick .tr{will-change:transform}
 
 /* ===== calm logo motion ===== */
-.holo .hm{animation:hmIn 1.4s cubic-bezier(.2,.7,.2,1) both,hov2 7s 1.4s ease-in-out infinite!important}
+.holo .hm{animation:hmIn 1.4s cubic-bezier(.2,.7,.2,1) both!important;will-change:auto!important}
 @keyframes hmIn{from{opacity:0;transform:translateY(10px) scale(.94)}}
 @keyframes hov2{50%{transform:translateY(-4px)}}
 .holo .hm svg{animation:none!important}
@@ -518,7 +518,18 @@ html[data-theme="light"] .holo::after{background:radial-gradient(closest-side,rg
 .ofr small{display:block;font-size:12px;color:var(--dim)}
 .ofrb{position:absolute;top:14px;left:-34px;z-index:3;transform:rotate(-45deg);width:130px;text-align:center;padding:4px 0;font-family:var(--f-mono);font-weight:800;font-size:12px;color:#1a1100;background:var(--warn);box-shadow:0 4px 14px rgba(0,0,0,.35);direction:ltr}
 @media (max-width:360px){.pln b{font-size:19px}.pgrid{gap:8px}}
-.zz,.zz *,.zz *::before,.zz *::after,html.zzall *,html.zzall *::before,html.zzall *::after{animation-play-state:paused!important}
+
+/* ===== neon features (static glow, no animation) ===== */
+.ben li{position:relative;border-color:color-mix(in srgb,var(--c) 38%,transparent)!important;background:linear-gradient(90deg,color-mix(in srgb,var(--c) 4%,transparent),color-mix(in srgb,var(--c) 11%,transparent))!important;box-shadow:0 0 14px -4px color-mix(in srgb,var(--c) 55%,transparent),inset 0 0 12px -6px color-mix(in srgb,var(--c) 60%,transparent)}
+.ben li::before{content:"";position:absolute;inset-block:9px;inset-inline-start:-1px;width:2px;border-radius:2px;background:var(--c);box-shadow:0 0 6px var(--c),0 0 14px var(--c)}
+.ben li .ck{background:color-mix(in srgb,var(--c) 18%,transparent)!important;border-color:var(--c)!important;box-shadow:0 0 8px color-mix(in srgb,var(--c) 70%,transparent),inset 0 0 6px color-mix(in srgb,var(--c) 45%,transparent);color:#fff!important}
+.ben li .ck svg{stroke-width:3}
+.ben li>span:nth-child(2){text-shadow:0 0 12px color-mix(in srgb,var(--c) 35%,transparent)}
+.ben li .ix{color:var(--c)!important;text-shadow:0 0 6px color-mix(in srgb,var(--c) 70%,transparent)}
+html[data-theme="light"] .ben li{box-shadow:0 0 12px -6px color-mix(in srgb,var(--c) 50%,transparent)}
+html[data-theme="light"] .ben li .ck{color:var(--c)!important;box-shadow:0 0 6px color-mix(in srgb,var(--c) 45%,transparent)}
+html[data-theme="light"] .ben li>span:nth-child(2){text-shadow:none}
+#pub .zz,#pub .zz *,#pub .zz *::before,#pub .zz *::after,html.zzall *,html.zzall *::before,html.zzall *::after{animation-play-state:paused!important}
 @media (prefers-reduced-motion:reduce){.holo *,.holo *::after,.holo *::before{animation:none!important}}
 @media (prefers-reduced-motion:reduce){#fxbg::before,#fxbg::after,.tick .tr{animation:none}}
 
