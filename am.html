@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.12-1">
+<meta name="app-build" content="2026.11.12-3">
 <title>AM · اطلب نظامك</title>
 <meta name="description" content="AM للحلول التقنية — اختار نظامك واطلبه">
 <meta name="theme-color" content="#0b0c10">
@@ -533,58 +533,103 @@ html[data-theme="light"] .ben li>span:nth-child(2){text-shadow:none}
 @media (prefers-reduced-motion:reduce){.holo *,.holo *::after,.holo *::before{animation:none!important}}
 @media (prefers-reduced-motion:reduce){#fxbg::before,#fxbg::after,.tick .tr{animation:none}}
 
-/* ===== علي فيجن ===== */
+/* ===== علي فيجن v2 ===== */
 #avRoot{--avcy:#19c3e0;font-family:var(--f-body,inherit)}
-#avRoot .av-fab{position:fixed;z-index:50;left:16px;bottom:calc(var(--avb,18px) + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:50%;border:0;padding:5px;background:radial-gradient(circle at 50% 35%,#1d2130,#0a0b10 70%);box-shadow:0 0 0 1px rgba(255,255,255,.08),0 10px 26px -6px rgba(0,0,0,.55),0 0 22px -4px rgba(var(--acc-rgb,236,28,50),.55);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .2s}
-#avRoot .av-fab:active{transform:scale(.94)}
-#avRoot .av-fab svg{width:100%;height:100%;display:block}
-#avRoot .av-ring{position:absolute;inset:-4px;border-radius:50%;border:1.5px solid transparent;border-top-color:var(--avcy);border-left-color:rgba(25,195,224,.35);animation:avspin 6s linear infinite;pointer-events:none}
-#avRoot .av-fab.on{transform:scale(.9);opacity:.0;pointer-events:none}
-#avRoot .av-eyes{transform-origin:24px 25.5px;animation:avblink 6s infinite}
-@keyframes avblink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+#avRoot .av-a{--s:64px;position:relative;display:inline-block;width:var(--s);height:var(--s);flex:none}
+#avRoot .av-a.xs{--s:30px}#avRoot .av-a.sm{--s:46px}#avRoot .av-a.lg{--s:136px}#avRoot .av-a.xl{--s:132px}
+#avRoot .av-rgw,#avRoot .av-prw{position:absolute;display:block}
+#avRoot .av-rgw{inset:-9%;animation:avspin 24s linear infinite;will-change:transform}
+#avRoot .av-prw{inset:0;animation:avbob 4.8s ease-in-out infinite;will-change:transform;filter:drop-shadow(0 6px 10px rgba(236,28,50,.28))}
+#avRoot .av-rg,#avRoot .av-pr{width:100%;height:100%;display:block;overflow:visible}
+#avRoot .av-rg text{direction:ltr;unicode-bidi:normal;font-family:var(--f-tech,monospace),Cairo,sans-serif;font-size:7.4px;letter-spacing:.6px;fill:var(--avcy);fill-opacity:.8}
+#avRoot .av-a.xs .av-rgw,#avRoot .av-a.sm .av-rgw{display:none}
+#avRoot .av-a.xs .av-prw{animation:none;filter:none}
+#avRoot .av-eye{transform-box:fill-box;transform-origin:center;animation:avblink 5.6s infinite}
+#avRoot .av-iris{transition:transform .25s ease-out}
+#avRoot .av-happy,#avRoot .av-scan{opacity:0}
+#avRoot .av-ant{animation:avant 2.4s ease-in-out infinite}
+#avRoot[data-st="think"] .av-iris,#avRoot[data-st="think"] .av-happy{opacity:0}
+#avRoot[data-st="think"] .av-scan{opacity:1;animation:avsc 1s ease-in-out infinite alternate}
+#avRoot[data-st="talk"] .av-iris,#avRoot .av-intro.talk .av-iris{opacity:0}
+#avRoot[data-st="talk"] .av-happy,#avRoot .av-intro.talk .av-happy{opacity:1}
+#avRoot .av-a.xs .av-ant{animation:none}
+@keyframes avant{50%{opacity:.35}}
+@keyframes avsc{from{transform:translateX(-4px)}to{transform:translateX(4px)}}
 @keyframes avspin{to{transform:rotate(360deg)}}
-#avRoot .av-tip{position:fixed;z-index:50;left:84px;bottom:calc(var(--avb,18px) + 12px + env(safe-area-inset-bottom,0px));max-width:min(230px,calc(100vw - 110px));padding:9px 13px;border-radius:14px 14px 14px 4px;background:var(--panel,#14161d);border:1px solid rgba(25,195,224,.45);color:var(--ink,#fff);font-size:13.5px;font-weight:700;box-shadow:0 10px 26px -10px rgba(0,0,0,.5);animation:avtip .4s cubic-bezier(.2,.8,.2,1) both}
-@keyframes avtip{from{opacity:0;transform:translateY(8px)}}
-#avRoot .av-pan{position:fixed;z-index:95;left:0;right:0;bottom:0;height:min(80vh,640px);height:min(80dvh,640px);display:flex;flex-direction:column;background:var(--panel,#121319);border:1px solid var(--line2,rgba(255,255,255,.11));border-bottom:0;border-radius:22px 22px 0 0;box-shadow:0 -18px 50px -10px rgba(0,0,0,.55);overflow:hidden;animation:avup .32s cubic-bezier(.2,.8,.2,1) both;padding-bottom:env(safe-area-inset-bottom,0px)}
+@keyframes avbob{50%{transform:translateY(-3px)}}
+@keyframes avblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.08)}}
+/* fab */
+#avRoot .av-fab{position:fixed;z-index:50;left:12px;bottom:calc(var(--avb,16px) + env(safe-area-inset-bottom,0px));width:76px;height:76px;padding:6px;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .2s,opacity .3s}
+#avRoot .av-fab::before{content:"";position:absolute;left:14px;right:14px;bottom:2px;height:10px;border-radius:50%;background:radial-gradient(closest-side,rgba(25,195,224,.45),transparent)}
+#avRoot .av-fab:active{transform:scale(.92)}
+#avRoot .av-fab .av-a{--s:64px}
+#avRoot .av-dot{position:absolute;top:12px;right:12px;width:11px;height:11px;border-radius:50%;background:var(--ok,#3ccf82);border:2px solid var(--void,#0b0c10);box-shadow:0 0 8px var(--ok,#3ccf82)}
+#avRoot.isopen .av-fab,#avRoot:has(.av-intro:not(.out)) .av-fab{opacity:0;pointer-events:none}
+/* intro */
+#avRoot .av-intro{position:fixed;z-index:52;left:10px;bottom:calc(var(--avb,16px) + env(safe-area-inset-bottom,0px));display:flex;align-items:flex-end;gap:6px;max-width:calc(100vw - 20px);cursor:pointer;transform-origin:44px 100%}
+#avRoot .av-intro .av-a{animation:avin 1.25s cubic-bezier(.2,.9,.25,1.25) both}
+@keyframes avin{0%{opacity:0;transform:translateY(60px) scale(.15) rotate(-140deg)}55%{opacity:1;transform:translateY(-10px) scale(1.12) rotate(14deg)}80%{transform:translateY(2px) scale(.97) rotate(-4deg)}100%{transform:none}}
+#avRoot .av-say{margin-bottom:62px;padding:12px 15px;border-radius:18px 18px 18px 6px;background:var(--panel,#14161d);border:1px solid rgba(25,195,224,.45);box-shadow:0 18px 40px -14px rgba(0,0,0,.6),0 0 24px -10px rgba(25,195,224,.6);min-width:0;max-width:250px;animation:avsay .45s 1.15s cubic-bezier(.2,.9,.3,1.2) both;transform-origin:0 100%}
+#avRoot .av-say b{display:block;font-family:var(--f-display,inherit);font-weight:900;font-size:16px;color:var(--ink,#fff)}
+#avRoot .av-say span{display:block;font-size:14px;line-height:1.65;color:var(--dim,#99a0ab);min-height:23px}
+@keyframes avsay{from{opacity:0;transform:scale(.6) translateY(10px)}}
+#avRoot .av-intro.out{animation:avout .45s ease-in both}
+@keyframes avout{to{opacity:0;transform:scale(.45) translateY(20px)}}
+/* full screen chat */
+#avRoot .av-pan{position:fixed;inset:0;z-index:95;display:flex;flex-direction:column;background:var(--void,#0b0c10);color:var(--ink,#fff);animation:avopen .35s cubic-bezier(.2,.8,.2,1) both;overscroll-behavior:contain}
 #avRoot .av-pan[hidden]{display:none}
-@keyframes avup{from{transform:translateY(40px);opacity:0}}
-@media (min-width:700px){#avRoot .av-pan{left:20px;right:auto;bottom:20px;width:390px;height:min(600px,calc(100vh - 40px));border-radius:20px;border-bottom:1px solid var(--line2,rgba(255,255,255,.11))}}
-#avRoot .av-pan::before{content:"";position:absolute;top:0;inset-inline:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--avcy),transparent)}
-#avRoot .av-hd{display:flex;align-items:center;gap:11px;padding:14px 14px 12px;border-bottom:1px solid var(--line,rgba(255,255,255,.07));background:linear-gradient(180deg,rgba(var(--acc-rgb,236,28,50),.08),transparent)}
-#avRoot .av-av{width:44px;height:44px;flex:none;border-radius:50%;box-shadow:0 0 16px -2px rgba(var(--acc-rgb,236,28,50),.5)}
-#avRoot .av-av svg,#avRoot .av-mi svg{width:100%;height:100%;display:block}
+@keyframes avopen{from{opacity:0;transform:translateY(24px) scale(.985)}}
+#avRoot .av-bg{position:absolute;inset:0;pointer-events:none;background:radial-gradient(60% 40% at 50% 0%,rgba(25,195,224,.14),transparent 70%),radial-gradient(50% 35% at 100% 100%,rgba(var(--acc-rgb,236,28,50),.12),transparent 70%),radial-gradient(rgba(255,255,255,.06) 1px,transparent 1.2px) 0 0/22px 22px}
+html[data-theme="light"] #avRoot .av-bg{background:radial-gradient(60% 40% at 50% 0%,rgba(25,195,224,.12),transparent 70%),radial-gradient(50% 35% at 100% 100%,rgba(var(--acc-rgb,236,28,50),.08),transparent 70%),radial-gradient(rgba(16,22,34,.08) 1px,transparent 1.2px) 0 0/22px 22px}
+#avRoot .av-hd,#avRoot .av-body,#avRoot .av-in,#avRoot .av-ft{position:relative}
+#avRoot .av-hd{display:flex;align-items:center;gap:11px;padding:calc(10px + env(safe-area-inset-top,0px)) max(12px,calc(50% - 390px)) 10px;border-bottom:1px solid var(--line,rgba(255,255,255,.07));background:color-mix(in srgb,var(--void,#0b0c10) 88%,transparent)}
+#avRoot .av-x,#avRoot .av-new{width:42px;height:42px;flex:none;border-radius:13px;border:1px solid var(--line2,rgba(255,255,255,.11));background:var(--panel2,#171920);color:var(--ink,#fff);font-size:28px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
+#avRoot .av-new svg{width:19px;height:19px}
 #avRoot .av-t{flex:1;min-width:0}
-#avRoot .av-t b{display:flex;align-items:center;gap:6px;font-family:var(--f-display,inherit);font-weight:900;font-size:17px;color:var(--ink,#fff)}
+#avRoot .av-t b{display:flex;align-items:center;gap:6px;font-family:var(--f-display,inherit);font-weight:900;font-size:18px}
 #avRoot .av-vf{font-style:normal;display:inline-grid;place-items:center;width:17px;height:17px;border-radius:50%;background:#1d9bf0;color:#fff;font-size:10px}
-#avRoot .av-t small{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--dim,#99a0ab)}
+#avRoot .av-t small{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--dim,#99a0ab)}
 #avRoot .av-t small i{width:7px;height:7px;border-radius:50%;background:var(--ok,#3ccf82);box-shadow:0 0 8px var(--ok,#3ccf82)}
-#avRoot .av-x{width:36px;height:36px;border-radius:10px;border:1px solid var(--line2,rgba(255,255,255,.11));background:var(--panel2,#171920);color:var(--ink,#fff);font-size:22px;line-height:1;cursor:pointer}
-#avRoot .av-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:14px 12px;display:flex;flex-direction:column;gap:10px}
-#avRoot .av-m{display:flex;gap:8px;align-items:flex-end;max-width:92%}
+#avRoot[data-st="think"] .av-t small i,#avRoot[data-st="talk"] .av-t small i{background:var(--avcy);box-shadow:0 0 8px var(--avcy)}
+#avRoot .av-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:18px max(12px,calc(50% - 390px)) 12px;display:flex;flex-direction:column;gap:12px}
+/* welcome */
+#avRoot .av-wel{margin:auto 0;display:flex;flex-direction:column;align-items:center;text-align:center;padding:16px 4px}
+#avRoot .av-wel>b{font-family:var(--f-display,inherit);font-weight:900;font-size:24px;margin-top:22px;line-height:1.35}
+#avRoot .av-wel>p{color:var(--dim,#99a0ab);font-size:15px;margin-top:4px;max-width:360px;line-height:1.7}
+#avRoot .av-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;width:100%;max-width:520px;margin-top:22px}
+#avRoot .av-cards button{display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:right;padding:13px 13px 14px;border-radius:16px;border:1px solid var(--line2,rgba(255,255,255,.11));background:color-mix(in srgb,var(--panel,#121319) 80%,transparent);color:var(--ink,#fff);font:inherit;font-size:14px;font-weight:700;line-height:1.5;cursor:pointer;min-width:0}
+#avRoot .av-cards button i{font-style:normal;font-family:var(--f-tech,monospace);font-size:10px;letter-spacing:1px;color:var(--avcy)}
+#avRoot .av-cards button:active{transform:scale(.98)}
+/* messages */
+#avRoot .av-m{display:flex;gap:8px;align-items:flex-end;max-width:88%;animation:avmsg .28s ease-out both}
+@keyframes avmsg{from{opacity:0;transform:translateY(8px)}}
 #avRoot .av-m.bot{align-self:flex-start}
 #avRoot .av-m.me{align-self:flex-end}
-#avRoot .av-mi{width:26px;height:26px;flex:none}
-#avRoot .av-bb{padding:9px 12px;border-radius:16px;font-size:14.5px;line-height:1.7;color:var(--ink,#fff);word-break:break-word;min-width:0}
-#avRoot .av-m.bot .av-bb{background:var(--panel2,#171920);border:1px solid var(--line,rgba(255,255,255,.07));border-bottom-right-radius:5px}
-#avRoot .av-m.me .av-bb{background:var(--accent);color:#fff;border-bottom-left-radius:5px}
-#avRoot .av-m.err .av-bb{border-color:rgba(242,176,61,.45)}
-#avRoot .av-err{display:block;margin-top:4px;font-size:11px;color:var(--faint,#5d636e);direction:ltr;text-align:right;font-family:var(--f-mono,monospace)}
-#avRoot .av-act{display:inline-flex;margin-top:8px;padding:7px 12px;border-radius:10px;border:1px solid rgba(25,195,224,.5);background:rgba(25,195,224,.12);color:var(--avcy);font:inherit;font-weight:800;font-size:13.5px;cursor:pointer}
-#avRoot .av-ty{display:inline-flex;gap:4px;padding:4px 2px}
+#avRoot .av-bb{position:relative;padding:10px 13px 6px;border-radius:20px;min-width:0}
+#avRoot .av-m.bot .av-bb{background:color-mix(in srgb,var(--panel2,#171920) 92%,transparent);border:1px solid var(--line2,rgba(255,255,255,.1));border-bottom-right-radius:6px}
+#avRoot .av-m.me .av-bb{background:linear-gradient(135deg,var(--accent2,#ff4a5e),var(--accent,#ec1c32));color:#fff;border-bottom-left-radius:6px;box-shadow:0 8px 20px -10px rgba(var(--acc-rgb,236,28,50),.8)}
+#avRoot .av-tx{font-size:15.5px;line-height:1.8;word-break:break-word}
+#avRoot .av-tm{display:block;font-size:10.5px;opacity:.55;margin-top:2px;text-align:left;font-family:var(--f-mono,monospace);direction:ltr}
+#avRoot .av-m.err .av-bb{border-color:rgba(242,176,61,.5)}
+#avRoot .av-err{display:block;margin-top:4px;font-size:11px;opacity:.6;direction:ltr;text-align:right;font-family:var(--f-mono,monospace)}
+#avRoot .av-act{display:inline-flex;align-items:center;gap:8px;margin:8px 0 4px;padding:9px 14px;border-radius:12px;border:1px solid rgba(25,195,224,.55);background:rgba(25,195,224,.13);color:var(--avcy);font:inherit;font-weight:800;font-size:14px;cursor:pointer}
+#avRoot .av-act i{font-style:normal;font-size:18px;line-height:1}
+html[data-theme="light"] #avRoot .av-act{color:#0b7f95}
+#avRoot .av-ty{display:inline-flex;gap:5px;padding:6px 2px}
 #avRoot .av-ty i{width:7px;height:7px;border-radius:50%;background:var(--avcy);animation:avdot 1s infinite}
 #avRoot .av-ty i:nth-child(2){animation-delay:.15s}#avRoot .av-ty i:nth-child(3){animation-delay:.3s}
 @keyframes avdot{0%,100%{opacity:.25;transform:translateY(0)}50%{opacity:1;transform:translateY(-3px)}}
-#avRoot .av-sug{display:flex;gap:7px;overflow-x:auto;padding:0 12px 10px;scrollbar-width:none}
-#avRoot .av-sug::-webkit-scrollbar{display:none}
-#avRoot .av-sug[hidden]{display:none}
-#avRoot .av-sug button{flex:none;padding:7px 12px;border-radius:999px;border:1px solid var(--line2,rgba(255,255,255,.11));background:var(--panel2,#171920);color:var(--ink,#fff);font:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
-#avRoot .av-in{display:flex;gap:8px;padding:10px 12px;border-top:1px solid var(--line,rgba(255,255,255,.07))}
-#avRoot .av-in input{flex:1;min-width:0;height:46px;border-radius:14px;border:1px solid var(--line2,rgba(255,255,255,.11));background:var(--panel2,#171920);color:var(--ink,#fff);padding:0 14px;font:inherit;font-size:16px;outline:none}
-#avRoot .av-in input:focus{border-color:var(--avcy)}
-#avRoot .av-in button{width:46px;height:46px;flex:none;border-radius:14px;border:0;background:var(--accent);color:#fff;display:grid;place-items:center;cursor:pointer}
-#avRoot .av-in button svg{width:20px;height:20px;transform:scaleX(-1)}
-#avRoot .av-ft{text-align:center;font-family:var(--f-tech,monospace);font-size:8.5px;letter-spacing:2px;color:var(--faint,#5d636e);padding:0 0 8px;direction:ltr}
-html[data-theme="light"] #avRoot .av-tip{border-color:rgba(25,140,180,.45)}
+#avRoot .av-cr{display:inline-block;width:2px;height:1.05em;margin-inline-start:2px;vertical-align:-2px;background:var(--avcy);animation:avcr .8s steps(2) infinite}
+@keyframes avcr{50%{opacity:0}}
+/* input */
+#avRoot .av-in{display:flex;gap:10px;padding:10px max(12px,calc(50% - 390px)) calc(8px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line,rgba(255,255,255,.07));background:color-mix(in srgb,var(--void,#0b0c10) 90%,transparent)}
+#avRoot .av-in input{flex:1;min-width:0;height:52px;border-radius:26px;border:1px solid var(--line2,rgba(255,255,255,.12));background:var(--panel,#121319);color:var(--ink,#fff);padding:0 18px;font:inherit;font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s}
+#avRoot .av-in input:focus{border-color:var(--avcy);box-shadow:0 0 0 4px rgba(25,195,224,.14)}
+#avRoot .av-in button{width:52px;height:52px;flex:none;border-radius:50%;border:0;background:linear-gradient(135deg,var(--accent2,#ff4a5e),var(--accent,#ec1c32));color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 20px -8px rgba(var(--acc-rgb,236,28,50),.9)}
+#avRoot .av-in button:disabled{opacity:.5}
+#avRoot .av-in button svg{width:22px;height:22px;transform:scaleX(-1)}
+#avRoot .av-ft{text-align:center;font-family:var(--f-tech,monospace);font-size:8.5px;letter-spacing:2.5px;color:var(--faint,#5d636e);padding:0 0 calc(4px + env(safe-area-inset-bottom,0px));direction:ltr;display:none}
+html.av-open,html.av-open body{overflow:hidden}
 @media (prefers-reduced-motion:reduce){#avRoot *{animation:none!important}}
 </style>
 </head>
@@ -756,55 +801,112 @@ function fsum(){const el=$("f_sum");if(!el)return;const id=$("f_prod").value,p=(
   const pp=priceParts(p.price),en=String(p.en||"AM").trim().split(/\s+/).pop().slice(0,4).toUpperCase();el.style.setProperty("--c",col(p.color));
   el.innerHTML=`<span class="ic2">${esc(en)}</span><span><small>SELECTED MODULE</small><b>${esc(p.name)}</b></span><span class="pp">${P?(()=>{const y=ps&&ps.value==="y";return `${f0(y?P.npy:P.npm)}<em>د.ع / ${y?"سنة":"شهر"}${P.o?" · خصم "+P.o.pct+"%":""}</em>`})():pp?(pp.text?`<em>${esc(pp.text)}</em>`:`${esc(pp.num)}<em>${esc(pp.cur)}${pp.rest?" · "+esc(pp.rest):""}</em>`):`<em>حسب طلبك</em>`}</span>`}
 document.addEventListener("change",e=>{if(e.target&&(e.target.id==="f_prod"||e.target.id==="f_plan"))fsum()});
-/* ===== علي فيجن · AM smart assistant (shared by AM NET + showcase) ===== */
+/* ===== علي فيجن v2 · AM smart assistant ===== */
 window.AVBOT=(function(){
 const DZ_FB={"apiKey":"AIzaSyCp5pevCnVAJRcdf3fJGN07696jUWVQsms","authDomain":"dazzaz-gym.firebaseapp.com","projectId":"dazzaz-gym","storageBucket":"dazzaz-gym.firebasestorage.app","messagingSenderId":"976814535447","appId":"1:976814535447:web:6987ffd01bef48576efd52"};
-const MODELS=['gemini-flash-lite-latest','gemini-flash-latest','gemini-2.5-flash-lite','gemini-3.8-flash'];
+const MODELS=['gemini-flash-lite-latest','gemini-2.5-flash-lite','gemini-flash-latest','gemini-3.8-flash'];
 const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let CORE=null,GOOD='',O=null,TURNS=[],BUSY=false,COUNT=0,EL=null;
-async function core(key,fb){const cfg=fb&&fb.apiKey&&fb.projectId&&fb.appId?fb:DZ_FB,id=key+'|'+cfg.projectId;if(CORE&&CORE.id===id)return CORE;let err;
-  for(const v of ['12.6.0','12.0.0','11.10.0']){try{const B='https://www.gstatic.com/firebasejs/'+v+'/';
-    const [A,C,G]=await Promise.all([import(B+'firebase-app.js'),import(B+'firebase-app-check.js'),import(B+'firebase-ai.js')]);
-    const nm='av-ai-'+cfg.projectId,app=A.getApps().find(a=>a.name===nm)||A.initializeApp(cfg,nm);
-    try{C.initializeAppCheck(app,{provider:new C.ReCaptchaEnterpriseProvider(key),isTokenAutoRefreshEnabled:true})}catch(e){}
-    CORE={id,G,ai:G.getAI(app,{backend:new G.GoogleAIBackend()})};return CORE}catch(e){err=e}}
-  throw err||{code:'sdk'}}
-const lim=(p,ms)=>Promise.race([p,new Promise((_,j)=>setTimeout(()=>j({code:'timeout',message:'timeout'}),ms))]);
-async function ask(p){const {G,ai}=await core(String(p.key||''),p.fb);const list=GOOD?[GOOD]:[...new Set([p.model,...MODELS].filter(Boolean))];let last;
-  for(const m of list){try{const md=G.getGenerativeModel(ai,{model:m,systemInstruction:p.sys,generationConfig:{temperature:p.temp==null?.6:p.temp,maxOutputTokens:p.max||700}},{timeout:30000});
-      const r=await lim(md.generateContent({contents:p.turns}),30000),t=r&&r.response&&r.response.text?r.response.text():'';if(!t)throw{code:'empty',message:'empty'};GOOD=m;return{t,m}}
-    catch(e){last=e;if(GOOD===m)GOOD='';if(!/not.?found|404|not supported|unsupported|is not available|timeout|empty|deprecated|retired/i.test(String((e&&e.code||'')+' '+(e&&e.message||''))))throw e}}
+const LS={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+const SS={get:k=>{try{return JSON.parse(sessionStorage.getItem(k)||'null')}catch(e){return null}},set:(k,v)=>{try{sessionStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let CORE=null,CORE_P=null,GOOD=LS.get('av_good')||'',NOTHINK={},O=null,TURNS=[],MSGS=[],BUSY=false,COUNT=0,EL=null,RAF=0;
+/* ---------- engine ---------- */
+function core(key,fb){const cfg=fb&&fb.apiKey&&fb.projectId&&fb.appId?fb:DZ_FB,id=key+'|'+cfg.projectId;if(CORE&&CORE.id===id)return Promise.resolve(CORE);if(CORE_P&&CORE_P.id===id)return CORE_P.p;
+  const p=(async()=>{let err;for(const v of ['12.6.0','12.0.0','11.10.0']){try{const B='https://www.gstatic.com/firebasejs/'+v+'/';
+      const [A,C,G]=await Promise.all([import(B+'firebase-app.js'),import(B+'firebase-app-check.js'),import(B+'firebase-ai.js')]);
+      const nm='av-ai-'+cfg.projectId,app=A.getApps().find(a=>a.name===nm)||A.initializeApp(cfg,nm);let ac=null;
+      try{ac=C.initializeAppCheck(app,{provider:new C.ReCaptchaEnterpriseProvider(key),isTokenAutoRefreshEnabled:true})}catch(e){}
+      try{if(ac&&C.getToken)C.getToken(ac).catch(()=>{})}catch(e){}
+      CORE={id,G,ai:G.getAI(app,{backend:new G.GoogleAIBackend()})};return CORE}catch(e){err=e}}
+    CORE_P=null;throw err||{code:'sdk'}})();
+  CORE_P={id,p};return p}
+const lim=(p,ms,code)=>Promise.race([p,new Promise((_,j)=>setTimeout(()=>j({code:code||'timeout',message:code||'timeout'}),ms))]);
+const SKIP=/not.?found|404|not supported|unsupported|is not available|timeout|empty|deprecated|retired/i;
+async function run(G,ai,m,p,onTok,think){const gc={temperature:p.temp==null?.8:p.temp,maxOutputTokens:p.max||600};if(!think)gc.thinkingConfig={thinkingBudget:0};
+  const md=G.getGenerativeModel(ai,{model:m,systemInstruction:p.sys,generationConfig:gc},{timeout:40000});let full='';
+  if(onTok&&md.generateContentStream){const r=await lim(md.generateContentStream({contents:p.turns}),20000,'first-timeout');
+    const it=r.stream[Symbol.asyncIterator]();let first=true;
+    while(true){const nx=await lim(it.next(),first?20000:15000,'stream-timeout');first=false;if(nx.done)break;let t='';try{t=nx.value.text()}catch(e){}if(t){full+=t;onTok(full)}}}
+  else{const r=await lim(md.generateContent({contents:p.turns}),30000);full=r&&r.response&&r.response.text?r.response.text():''}
+  if(!full)throw{code:'empty',message:'empty'};return full}
+async function ask(p,onTok){const {G,ai}=await core(String(p.key||''),p.fb);const list=[...new Set([GOOD,p.model,...MODELS].filter(Boolean))];let last;
+  for(const m of list){try{let t;try{t=await run(G,ai,m,p,onTok,NOTHINK[m])}
+      catch(e){if(!NOTHINK[m]&&/think/i.test(String(e&&e.message||''))){NOTHINK[m]=1;t=await run(G,ai,m,p,onTok,1)}else throw e}
+      if(GOOD!==m){GOOD=m;LS.set('av_good',m)}return{t,m}}
+    catch(e){last=e;if(GOOD===m){GOOD='';LS.set('av_good','')}if(!SKIP.test(String((e&&e.code||'')+' '+(e&&e.message||''))))throw e}}
   throw last}
-const FACE='<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 7V2.5" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/><circle cx="24" cy="2.8" r="2.2" fill="var(--accent)"/><circle cx="24" cy="26" r="19" fill="#10121a" stroke="var(--accent)" stroke-width="1.6"/><rect x="11" y="19.5" width="26" height="12" rx="6" fill="#04060a" stroke="#19c3e0" stroke-opacity=".55"/><g class="av-eyes"><circle cx="18.5" cy="25.5" r="2.6" fill="#19c3e0"/><circle cx="29.5" cy="25.5" r="2.6" fill="#19c3e0"/></g><path d="M19 37.5q5 2.6 10 0" stroke="#19c3e0" stroke-opacity=".5" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>';
-const SEND='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4 3.5 11.2l6.6 2.3m9.9-9.5-5.6 16.1-4.3-6.6m9.9-9.5L10.1 13.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const SYS_BASE=`انت "علي فيجن"، مساعد ذكي بالذكاء الاصطناعي تابع لشركة AM للحلول التقنية (تصميم وبرمجة علي مالك).
-- تحچي باللهجة العراقية، بأسلوب مهذب وودود ومختصر (من سطرين لخمس أسطر غالباً)، وايموجي قليل.
-- اعتمد بس على البيانات اللي تحت. لا تخترع أسعار أو مزايا أو أرقام مو موجودة. إذا ما عندك المعلومة گول بصراحة واقترح التواصل.
-- لا تطلب كلمات سر ولا معلومات حساسة، ولا تعطي وعود ما مذكورة بالبيانات.
-- تگدر تستخدم **نص** للتأكيد، و"- " للقوائم القصيرة.`;
-function md(t){let h=E(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/^\s*[-•]\s+/gm,'• ').replace(/\n/g,'<br>');
-  h=h.replace(/\[\[(ORDER|GO):([\w-]*)\]\]/g,(m,k,a)=>{if(k==='ORDER'&&!O.orderLabel||k==='GO'&&!(O.goLabels||{})[a])return '';const lb=k==='ORDER'?(O.orderLabel?O.orderLabel(a):'اطلب هسه'):((O.goLabels||{})[a]||'روح للصفحة');return `<button type="button" class="av-act" data-avk="${k}" data-ava="${E(a)}">${E(lb)} ›</button>`});return h}
-function add(who,html,cls){const b=EL.body,d=document.createElement('div');d.className='av-m '+who+(cls?' '+cls:'');d.innerHTML=(who==='bot'?'<span class="av-mi">'+FACE+'</span>':'')+'<div class="av-bb">'+html+'</div>';b.appendChild(d);b.scrollTop=b.scrollHeight;return d}
-function sugg(list){EL.sug.innerHTML=(list||[]).map(s=>`<button type="button" data-avs="${E(s)}">${E(s)}</button>`).join('');EL.sug.hidden=!(list&&list.length)}
-async function send(q){q=String(q||'').trim();if(!q||BUSY)return;if(O.maxMsgs&&COUNT>=O.maxMsgs){add('bot','وصلت للحد هالمرة 🙏 إذا تحتاج شي ثاني تواصل ويانا مباشرة.');return}
-  COUNT++;BUSY=true;sugg([]);add('me',E(q));EL.inp.value='';TURNS.push({role:'user',parts:[{text:q}]});TURNS=TURNS.slice(-12);
-  const ty=add('bot','<span class="av-ty"><i></i><i></i><i></i></span>','typing');
+/* ---------- avatar: "the prism eye" ---------- */
+const DEFS='<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="avgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6b7c"/><stop offset=".55" stop-color="#ec1c32"/><stop offset="1" stop-color="#5c0712"/></linearGradient><linearGradient id="avgB" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ef0ff"/><stop offset=".5" stop-color="#19c3e0"/><stop offset="1" stop-color="#05394a"/></linearGradient><linearGradient id="avgC" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#2a0910"/><stop offset="1" stop-color="#8a1222"/></linearGradient><radialGradient id="avgI" cx=".42" cy=".38" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".22" stop-color="#9ff6ff"/><stop offset=".55" stop-color="#19c3e0"/><stop offset="1" stop-color="#033a4a"/></radialGradient><radialGradient id="avgG" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#19c3e0" stop-opacity=".55"/><stop offset="1" stop-color="#19c3e0" stop-opacity="0"/></radialGradient></defs></svg>';
+const RING='<svg viewBox="0 0 100 100" class="av-rg"><path id="avgR" d="M50 50m-44 0a44 44 0 1 1 88 0a44 44 0 1 1 -88 0" fill="none"/><circle cx="50" cy="50" r="48.5" fill="none" stroke="#19c3e0" stroke-opacity=".22" stroke-width=".6" stroke-dasharray="1 3"/><text><textPath href="#avgR">ع ✦ ل ✦ ي ✦ ف ✦ ي ✦ ج ✦ ن ✦ V I S I O N ✦ ع ✦ ل ✦ ي ✦ ف ✦ ي ✦ ج ✦ ن ✦ A M ✦</textPath></text></svg>';
+const PRISM='<svg viewBox="0 0 100 100" class="av-pr"><ellipse cx="50" cy="90" rx="22" ry="3.2" fill="#19c3e0" fill-opacity=".28"/><polygon points="50,12 88,80 50,68" fill="url(#avgA)"/><polygon points="50,12 12,80 50,68" fill="url(#avgB)"/><polygon points="12,80 88,80 50,68" fill="url(#avgC)"/><polyline points="50,12 50,40" stroke="#fff" stroke-opacity=".5" stroke-width=".8" fill="none"/><polygon points="50,12 88,80 12,80" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1" stroke-linejoin="round"/><path d="M50 12 L63 35" stroke="#fff" stroke-opacity=".75" stroke-width="1.6" stroke-linecap="round"/><circle class="av-ant" cx="50" cy="8" r="2.6" fill="#fff"/>'
+  +'<polygon points="33,46 67,46 74,60 26,60" fill="#04060a" stroke="#9ff6ff" stroke-opacity=".55" stroke-width="1" stroke-linejoin="round"/><g class="av-eye"><g class="av-iris"><rect class="av-e1" x="38" y="48.5" width="7" height="9" rx="3.5" fill="url(#avgI)"/><rect class="av-e2" x="55" y="48.5" width="7" height="9" rx="3.5" fill="url(#avgI)"/></g><g class="av-happy" fill="none" stroke="#9ff6ff" stroke-width="2.2" stroke-linecap="round"><path d="M38 55q3.5-5 7 0"/><path d="M55 55q3.5-5 7 0"/></g></g><g class="av-scan" fill="#19c3e0"><circle cx="40" cy="53" r="1.6"/><circle cx="46" cy="53" r="1.6"/><circle cx="52" cy="53" r="1.6"/><circle cx="58" cy="53" r="1.6"/></g></svg>';
+const AV=(cls)=>`<span class="av-a ${cls||''}"><span class="av-rgw">${RING}</span><span class="av-prw">${PRISM}</span></span>`;
+const SEND='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const NEWI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+/* ---------- voice ---------- */
+const SYS_BASE=`انت "فيجن" واسمك الكامل "علي فيجن"، مساعد ذكي من شركة AM للحلول التقنية (تصميم وبرمجة علي مالك).
+طريقة حچيك (مهمة جداً):
+- عراقي بغدادي 100٪ مثل شاب عراقي طبيعي وذكي وودود. استخدم كلمات مثل: هلا، هلا بيك، شلونك، شكو ماكو، هسه، شنو، ليش، اكو، ماكو، گول، يعني، خوش، زين، والله، عيني، أگدر، أريد، چا، هواية، شوية، بلكي، لعد، ترة، صدگ، يمعود، تدلل، على راسي، ولا يهمك.
+- ممنوع الفصحى الرسمية، وممنوع اللهجات الثانية (لا تگول: ازيك، كده، عايز، وش، ايش، الحين، أبغى، زي، برضو).
+- احچي مثل انسان، مو روبوت: لا تبدي بـ "بالتأكيد" ولا "كمساعد ذكاء اصطناعي" ولا "يسعدني مساعدتك". ادخل بالموضوع مباشرة.
+- انطي نصيحة عملية ورأيك بصراحة مثل صديق يفتهم، واسأل سؤال قصير إذا تحتاج تفهم أكثر.
+- ردودك قصيرة: من سطر لأربع أسطر غالباً. طوّل بس إذا انطلب منك شرح.
+- ايموجي واحد أو اثنين بالكثير، مو بكل جملة.
+- لا تخترع أسعار أو مزايا أو أرقام مو موجودة بالبيانات. إذا ما تعرف گول "والله ما عندي هالمعلومة" واقترح التواصل.
+- لا تطلب كلمات سر ولا معلومات حساسة.
+أمثلة على أسلوبك:
+س: شلونك؟ → هلا عيني، الحمد لله زين 😄 انت شلونك؟ شكو عندك اليوم؟
+س: شنو الفرق بين الشهري والسنوي؟ → الشهري تدفعه كل شهر بشهره، والسنوي تدفعه مرة وحدة وترة يطلع أوفر. إذا ناوي تكمل، نصيحتي خذ السنوي وريّح راسك.
+س: غالي؟ → صدگ أفهمك، بس خلي نحسبها سوا: …`;
+function md(t,live){let h=E(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/^\s*[-•*]\s+/gm,'• ').replace(/\n/g,'<br>');
+  h=h.replace(/\[\[(ORDER|GO):([\w-]*)\]\]/g,(m,k,a)=>{if(live)return '';if(k==='ORDER'&&!O.orderLabel||k==='GO'&&!(O.goLabels||{})[a])return '';const lb=k==='ORDER'?O.orderLabel(a):O.goLabels[a];return `<button type="button" class="av-act" data-avk="${k}" data-ava="${E(a)}">${E(lb)}<i>‹</i></button>`});
+  if(live)h=h.replace(/\[\[[^\]]*$/,'');return h}
+/* ---------- ui ---------- */
+const tm=()=>new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
+function bubble(m){const d=document.createElement('div');d.className='av-m '+m.who;d.innerHTML=(m.who==='bot'?AV('xs'):'')+`<div class="av-bb"><div class="av-tx">${m.who==='bot'?md(m.text):E(m.text)}</div><span class="av-tm">${m.t||''}</span></div>`;return d}
+function render(){const b=EL.body;b.innerHTML='';EL.root.classList.toggle('empty',!MSGS.length);if(!MSGS.length){b.innerHTML=`<div class="av-wel">${AV('xl')}<b>${E(O.welTitle||'هلا بيك، آني فيجن')}</b><p>${E(O.welSub||'اسألني أي شي، وآني حاضر')}</p><div class="av-cards">${(O.sugg||[]).map((s,i)=>`<button type="button" data-avs="${E(s)}"><i>${String(i+1).padStart(2,'0')}</i>${E(s)}</button>`).join('')}</div></div>`;return}
+  MSGS.forEach(m=>b.appendChild(bubble(m)));b.scrollTop=b.scrollHeight}
+function save(){SS.set('av_'+O.place,{t:TURNS.slice(-12),m:MSGS.slice(-40),c:COUNT})}
+function state(s){if(!EL)return;EL.root.dataset.st=s||'';EL.stx.textContent=s==='think'?'دا يفكر…':s==='talk'?'دا يكتب…':'متصل هسه'}
+async function send(q){q=String(q||'').trim();if(!q||BUSY)return;
+  if(O.maxMsgs&&COUNT>=O.maxMsgs){MSGS.push({who:'bot',text:'وصلنا للحد هالمرة 🙏 إذا تحتاج شي ثاني راسلنا واتساب وتدلل.',t:tm()});render();return}
+  COUNT++;BUSY=true;EL.btn.disabled=true;if(!MSGS.length)EL.body.innerHTML='';EL.root.classList.remove('empty');
+  const um={who:'me',text:q,t:tm()};MSGS.push(um);EL.body.appendChild(bubble(um));EL.inp.value='';TURNS.push({role:'user',parts:[{text:q}]});TURNS=TURNS.slice(-12);
+  const bm={who:'bot',text:'',t:tm()},node=bubble(bm),tx=node.querySelector('.av-tx');tx.innerHTML='<span class="av-ty"><i></i><i></i><i></i></span>';EL.body.appendChild(node);EL.body.scrollTop=EL.body.scrollHeight;state('think');
   let sys=SYS_BASE+'\n\n'+(O.role||'')+(O.extra?'\n\nمعلومات إضافية من الإدارة:\n'+O.extra:'');try{sys+='\n\nالبيانات الحالية:\n'+(O.ctx?O.ctx():'')}catch(e){}
-  try{while(TURNS.length&&TURNS[0].role!=='user')TURNS.shift();const r=await ask({key:O.key,model:O.model,fb:O.fb,sys,turns:TURNS});
-    ty.remove();TURNS.push({role:'model',parts:[{text:r.t}]});add('bot',md(r.t))}
-  catch(e){ty.remove();TURNS.pop();COUNT--;const code=String(e&&(e.code||e.message)||e);add('bot','ما گدرت أوصل للعقل الذكي هسه 😕 جرّب بعد شوية.'+(O.debug?'<small class="av-err">'+E(code.slice(0,160))+'</small>':''),'err')}
-  BUSY=false;EL.inp.focus({preventScroll:true})}
-function open(v){if(!EL)return;EL.pan.hidden=!v;EL.fab.classList.toggle('on',v);document.documentElement.classList.toggle('av-open',v);if(v){EL.tip.hidden=true;if(!EL.body.children.length){add('bot',md(O.hello||'هلا بيك 👋 شلون أگدر أساعدك؟'));sugg(O.sugg)}setTimeout(()=>{EL.body.scrollTop=EL.body.scrollHeight;if(matchMedia('(hover:hover)').matches)EL.inp.focus({preventScroll:true})},50)}}
-function mount(o){const key=String(o.key||'')+'|'+o.place;if(EL&&EL.key===key){O=Object.assign(O,o);return}unmount();O=o;TURNS=[];COUNT=0;
-  const w=document.createElement('div');w.id='avRoot';w.dataset.place=o.place;w.innerHTML=`<button type="button" class="av-fab" aria-label="علي فيجن · المساعد الذكي"><span class="av-ring"></span>${FACE}</button><div class="av-tip" hidden>${E(o.tip||'اسألني أي شي 👋')}</div>
-  <div class="av-pan" hidden role="dialog" aria-label="علي فيجن"><div class="av-hd"><span class="av-av">${FACE}</span><div class="av-t"><b>علي فيجن<i class="av-vf" title="موثّق">✓</i></b><small><i></i>متصل · عقل ذكي</small></div><button type="button" class="av-x" aria-label="سدّ">×</button></div>
-  <div class="av-body"></div><div class="av-sug" hidden></div><form class="av-in"><input type="text" placeholder="اكتب سؤالك…" maxlength="500" autocomplete="off" enterkeyhint="send"><button type="submit" aria-label="إرسال">${SEND}</button></form><div class="av-ft">علي فيجن · AM TECH</div></div>`;
-  document.body.appendChild(w);EL={key,root:w,fab:w.querySelector('.av-fab'),tip:w.querySelector('.av-tip'),pan:w.querySelector('.av-pan'),body:w.querySelector('.av-body'),sug:w.querySelector('.av-sug'),inp:w.querySelector('.av-in input')};
-  EL.fab.onclick=()=>open(EL.pan.hidden);w.querySelector('.av-x').onclick=()=>open(false);
+  let shown='';const onTok=full=>{shown=full;if(!RAF)RAF=requestAnimationFrame(()=>{RAF=0;state('talk');tx.innerHTML=md(shown,true)+'<span class="av-cr"></span>';const b=EL.body;if(b.scrollHeight-b.scrollTop-b.clientHeight<140)b.scrollTop=b.scrollHeight})};
+  try{while(TURNS.length&&TURNS[0].role!=='user')TURNS.shift();const r=await ask({key:O.key,model:O.model,fb:O.fb,sys,turns:TURNS},onTok);
+    cancelAnimationFrame(RAF);RAF=0;bm.text=r.t.trim();tx.innerHTML=md(bm.text);TURNS.push({role:'model',parts:[{text:bm.text}]});MSGS.push(bm)}
+  catch(e){cancelAnimationFrame(RAF);RAF=0;TURNS.pop();COUNT--;const code=String(e&&(e.code||e.message)||e);node.classList.add('err');tx.innerHTML='يمعود النت أو العقل الذكي ما رد هسه 😕 جرّب مرة ثانية بعد شوية.'+(O.debug?'<small class="av-err">'+E(code.slice(0,160))+'</small>':'')}
+  EL.body.scrollTop=EL.body.scrollHeight;state('');BUSY=false;EL.btn.disabled=false;save();if(matchMedia('(hover:hover)').matches)EL.inp.focus({preventScroll:true})}
+function open(v){if(!EL)return;EL.pan.hidden=!v;document.documentElement.classList.toggle('av-open',v);EL.root.classList.toggle('isopen',v);
+  if(v){endIntro();render();warm();setTimeout(()=>{EL.body.scrollTop=EL.body.scrollHeight;if(matchMedia('(hover:hover)').matches)EL.inp.focus({preventScroll:true})},60)}}
+function warm(){if(O&&O.key)core(String(O.key),O.fb).catch(()=>{})}
+/* eye follows the finger / mouse */
+let LOOK=0,LX=0,LY=0;function look(e){LX=e.clientX;LY=e.clientY;if(LOOK)return;LOOK=requestAnimationFrame(()=>{LOOK=0;if(!EL)return;document.querySelectorAll('#avRoot .av-a:not(.xs) .av-iris').forEach(ir=>{const r=ir.closest('.av-a').getBoundingClientRect();if(!r.width)return;const dx=LX-(r.left+r.width/2),dy=LY-(r.top+r.height*.56),d=Math.hypot(dx,dy)||1,k=Math.min(1,d/260)*3.4;ir.style.transform=`translate(${(dx/d*k).toFixed(2)}px,${(dy/d*k*.75).toFixed(2)}px)`})})}
+/* welcome intro (once per session per place) */
+let INTRO_T=[];function endIntro(){INTRO_T.forEach(clearTimeout);INTRO_T=[];if(EL&&EL.intro){const n=EL.intro;EL.intro=null;n.classList.add('out');setTimeout(()=>n.remove(),500)}}
+function intro(){if(!O.welcome||SS.get('av_in_'+O.place)||matchMedia('(prefers-reduced-motion:reduce)').matches)return;SS.set('av_in_'+O.place,1);
+  const n=document.createElement('div');n.className='av-intro';n.innerHTML=`${AV('lg')}<div class="av-say"><b>${E(O.welTitle||'هلا بيك')}</b><span></span></div>`;EL.root.appendChild(n);EL.intro=n;
+  const sp=n.querySelector('.av-say span'),txt=O.welcome;let i=0;
+  INTRO_T.push(setTimeout(()=>{n.classList.add('talk');const ty=()=>{i+=2;sp.textContent=txt.slice(0,i);if(i<txt.length)INTRO_T.push(setTimeout(ty,28))};ty()},1300));
+  INTRO_T.push(setTimeout(endIntro,8200));n.addEventListener('click',()=>open(true))}
+function mount(o){const key=String(o.key||'')+'|'+o.place;if(EL&&EL.key===key){Object.assign(O,o);return}unmount();O=o;
+  const st=SS.get('av_'+o.place)||{};TURNS=st.t||[];MSGS=st.m||[];COUNT=st.c||0;
+  const w=document.createElement('div');w.id='avRoot';w.dataset.place=o.place;w.innerHTML=DEFS+`<button type="button" class="av-fab" aria-label="علي فيجن · المساعد الذكي">${AV('md')}<span class="av-dot"></span></button>
+  <div class="av-pan" hidden role="dialog" aria-label="علي فيجن"><div class="av-bg" aria-hidden="true"></div>
+   <header class="av-hd"><button type="button" class="av-x" aria-label="رجوع">›</button>${AV('sm')}<div class="av-t"><b>علي فيجن<i class="av-vf">✓</i></b><small><i></i><span class="av-stx">متصل هسه</span></small></div><button type="button" class="av-new" aria-label="محادثة جديدة" title="محادثة جديدة">${NEWI}</button></header>
+   <div class="av-body"></div>
+   <form class="av-in"><input type="text" placeholder="اكتب لفيجن…" maxlength="500" autocomplete="off" enterkeyhint="send"><button type="submit" aria-label="إرسال">${SEND}</button></form>
+   <div class="av-ft">VISION · AM TECH</div></div>`;
+  document.body.appendChild(w);EL={key,root:w,fab:w.querySelector('.av-fab'),pan:w.querySelector('.av-pan'),body:w.querySelector('.av-body'),inp:w.querySelector('.av-in input'),btn:w.querySelector('.av-in button'),stx:w.querySelector('.av-stx'),intro:null};
+  EL.fab.onclick=()=>open(true);w.querySelector('.av-x').onclick=()=>open(false);
+  w.querySelector('.av-new').onclick=()=>{if(BUSY)return;TURNS=[];MSGS=[];save();render()};
   w.querySelector('.av-in').onsubmit=e=>{e.preventDefault();send(EL.inp.value)};
   w.addEventListener('click',e=>{const s=e.target.closest('[data-avs]');if(s)return send(s.dataset.avs);const a=e.target.closest('.av-act');if(a){if(O.onAction&&O.onAction(a.dataset.avk,a.dataset.ava)!==false)open(false)}});
-  if(o.tip){setTimeout(()=>{if(EL&&EL.pan.hidden){EL.tip.hidden=false;setTimeout(()=>{if(EL)EL.tip.hidden=true},6000)}},2500)}}
-function unmount(){if(EL){EL.root.remove();EL=null;document.documentElement.classList.remove('av-open')}}
+  document.addEventListener('keydown',onKey);addEventListener('pointermove',look,{passive:true});addEventListener('pointerdown',look,{passive:true});
+  setTimeout(intro,900);(window.requestIdleCallback||setTimeout)(()=>warm(),{timeout:4000})}
+function onKey(e){if(e.key==='Escape'&&EL&&!EL.pan.hidden)open(false)}
+function unmount(){if(EL){endIntro();EL.root.remove();EL=null;document.documentElement.classList.remove('av-open');document.removeEventListener('keydown',onKey);removeEventListener('pointermove',look);removeEventListener('pointerdown',look)}}
 async function test(o){return ask({key:o.key,model:o.model,fb:o.fb,sys:'جاوب بكلمة وحدة.',turns:[{role:'user',parts:[{text:'گول: تمام'}]}],max:20})}
 return{mount,unmount,open,test,models:MODELS,mounted:()=>!!EL}
 })();
@@ -814,10 +916,10 @@ function avCtxShow(){const c=PC.company||{},L=["الشركة: "+(c.ar||"AM لل�
     L.push("\n## "+p.name+" ["+p.id+"]"+(p.en?" — "+p.en:""),p.tag?"وصف: "+p.tag:"",p.desc?"شرح: "+p.desc:"",(p.feats||[]).length?"مزايا: "+p.feats.join("؛ "):"","السعر: "+pr,p.demo?"رابط تجربة: "+p.demo:"")});
   return L.filter(Boolean).join("\n")}
 function avShow(){const a=PC.ai||{};if(!a.key||!(a.on&&a.on.show)){if(window.AVBOT&&AVBOT.mounted())AVBOT.unmount();return}
-  const ps=prods();AVBOT.mount({place:"show",key:a.key,model:a.model,fb:a.fb,extra:a.extra,maxMsgs:25,ctx:avCtxShow,tip:"هلا 👋 محتار شنو تختار؟ اسألني",
+  const ps=prods();AVBOT.mount({place:"show",key:a.key,model:a.model,fb:a.fb,extra:a.extra,maxMsgs:25,ctx:avCtxShow,
     orderLabel:id=>{const p=ps.find(x=>x.id===id);return p?"اطلب "+p.name:"اطلب موقع خاص"},
-    role:"انت بصفحة معرض الأنظمة اللي يشوفها الزبون. هدفك تفهم شغل الزبون، تشرحله الأنظمة والأسعار والعروض بوضوح، وتنصحه بالأنسب، وتشجعه يطلب. لما تنصح بنظام أو الزبون يريد يطلب، حط بآخر ردك رمز واحد [[ORDER:المعرّف]] بمعرّف النظام، ولموقع خاص من الصفر [[ORDER:]]. لا تذكر المعرّفات بالكلام. إذا سأل عن شي مو موجود بالبيانات اقترح يتواصل واتساب.",
-    hello:"هلا بيك 👋 آني **علي فيجن** من AM للحلول التقنية.\nگلي شنو شغلك وآني أساعدك تختار النظام المناسب.",sugg:["عندي شركة انترنت، شنو يناسبني؟","شگد الأسعار؟","اكو عروض هسه؟","أريد موقع خاص"],
+    role:"انت بصفحة معرض الأنظمة وتحچي ويه زبون. احچي وياه مثل بياع عراقي شاطر وصادق، مو ملحاح. هدفك تفهم شغل الزبون، تشرحله الأنظمة والأسعار والعروض بوضوح، وتنصحه بالأنسب، وتشجعه يطلب. لما تنصح بنظام أو الزبون يريد يطلب، حط بآخر ردك رمز واحد [[ORDER:المعرّف]] بمعرّف النظام، ولموقع خاص من الصفر [[ORDER:]]. لا تذكر المعرّفات بالكلام. إذا سأل عن شي مو موجود بالبيانات اقترح يتواصل واتساب.",
+    welTitle:"هلا بيك، نورتنا 👋",welSub:"آني فيجن من AM. گلي شنو شغلك وأنصحك بالنظام اللي يناسبك",welcome:"هلا والله نورتنا! آني فيجن، محتار شنو تختار؟ دوس عليّ وأساعدك 😉",sugg:["عندي شركة انترنت، شنو يناسبني؟","شگد الأسعار؟","اكو عروض هسه؟","أريد موقع خاص"],
     onAction:(k,v)=>{if(k==="ORDER"){orderForm(v);return true}}})}
 function orderForm(id){const ps=prods(),types=(PC.types&&PC.types.length?PC.types:DEF_TYPES),custom=!id;
   sheet(`<span>NEW ORDER</span><b>AM-TECH</b>`,"طلب جديد",`<div class="fsum" id="f_sum"></div><label for="f_name" style="margin-top:4px">اسمك</label><input id="f_name" autocomplete="name" maxlength="80"><label for="f_phone">رقم الهاتف</label><input id="f_phone" inputmode="tel" dir="ltr" placeholder="07xxxxxxxxx" autocomplete="tel" maxlength="20">
