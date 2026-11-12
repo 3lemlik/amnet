@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.12-4">
+<meta name="amnet-build" content="2026.11.12-5">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1730,6 +1730,62 @@ html[data-theme="light"] #avRoot .av-kb button{background:#fff;box-shadow:0 1px 
 #avRoot .av-in button svg{width:21px;height:21px;transform:scaleX(-1)}
 html.av-open,html.av-open body{overflow:hidden}
 @media (prefers-reduced-motion:reduce){#avRoot *{animation:none!important}}
+/* ===== action cards & reports ===== */
+#avRoot .av-m.wide{max-width:96%;width:100%}
+#avRoot .av-m.wide .av-bb{flex:1}
+#avRoot .av-srch{font-size:12.5px;color:var(--avcy)}
+#avRoot .av-card,#avRoot .av-rep{margin:8px 0 4px;border-radius:14px;overflow:hidden;border:1px solid transparent;background:linear-gradient(#121722,#121722) padding-box,linear-gradient(130deg,rgba(25,195,224,.8),rgba(25,195,224,.05) 40%,rgba(236,28,50,.05) 60%,rgba(236,28,50,.8)) border-box}
+html[data-theme="light"] #avRoot .av-card,html[data-theme="light"] #avRoot .av-rep{background:linear-gradient(#f7f9fb,#f7f9fb) padding-box,linear-gradient(130deg,rgba(25,195,224,.8),rgba(25,195,224,.1) 40%,rgba(236,28,50,.1) 60%,rgba(236,28,50,.8)) border-box}
+#avRoot .av-ch{display:flex;align-items:center;gap:9px;padding:10px 12px;border-bottom:1px solid var(--line,rgba(255,255,255,.07))}
+#avRoot .av-ci{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(236,28,50,.16);color:#ff5a6e;font-size:15px;flex:none}
+#avRoot .av-ci.c{background:rgba(25,195,224,.16);color:var(--avcy)}#avRoot .av-ci.g{background:rgba(60,207,130,.16);color:var(--ok,#3ccf82)}
+#avRoot .av-ch b{font-family:var(--f-display,inherit);font-weight:800;font-size:15px;flex:1}
+#avRoot .av-ch small{font-family:var(--f-tech,monospace);font-size:8px;letter-spacing:1.5px;color:var(--faint,#5d636e);direction:ltr}
+#avRoot .av-kv{display:grid;grid-template-columns:auto minmax(0,1fr);gap:7px 12px;padding:10px 12px;font-size:13.5px}
+#avRoot .av-kv span{color:var(--dim,#99a0ab)}
+#avRoot .av-kv b{font-weight:700;text-align:left;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#avRoot .av-kv b.n{font-family:var(--f-mono,monospace);direction:ltr}
+#avRoot .av-kv b.ok{color:var(--ok,#3ccf82)}#avRoot .av-kv b.wr{color:var(--warn,#f2b03d)}#avRoot .av-kv b.bd{color:var(--bad,#f2596a)}
+#avRoot .av-cb{display:flex;gap:8px;padding:0 12px 12px}
+#avRoot .av-cb button{flex:1;min-height:40px;border-radius:11px;border:1px solid var(--line2,rgba(255,255,255,.12));background:var(--panel2,#171920);color:var(--ink,#fff);font:inherit;font-size:13.5px;font-weight:800;cursor:pointer}
+#avRoot .av-cb button.ok{border:0;color:#fff;background:linear-gradient(135deg,#2fd67f,#16a35c);box-shadow:0 8px 18px -10px rgba(47,214,127,.9)}
+#avRoot .av-cb button:disabled{opacity:.45}
+#avRoot .av-res{padding:10px 12px;font-size:13.5px;font-weight:700;border-top:1px dashed var(--line2,rgba(255,255,255,.12))}
+#avRoot .av-res.ok{color:var(--ok,#3ccf82)}#avRoot .av-res.wr{color:var(--warn,#f2b03d)}
+#avRoot .av-pick{display:grid;gap:6px;padding:10px 12px}
+#avRoot .av-pick button{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 11px;border-radius:10px;border:1px solid var(--line2,rgba(255,255,255,.12));background:var(--panel2,#171920);color:var(--ink,#fff);font:inherit;font-size:13.5px;text-align:right;cursor:pointer}
+#avRoot .av-pick button small{font-family:var(--f-mono,monospace);color:var(--dim,#99a0ab);direction:ltr}
+/* report */
+#avRoot .av-rh{position:relative;padding:12px 12px 10px;background:radial-gradient(80% 120% at 100% 0,rgba(25,195,224,.16),transparent 60%),radial-gradient(70% 120% at 0 0,rgba(236,28,50,.14),transparent 60%)}
+#avRoot .av-rh span{display:block;font-family:var(--f-tech,monospace);font-size:8.5px;letter-spacing:2px;color:var(--avcy);direction:ltr;text-align:right}
+#avRoot .av-rh b{display:block;font-family:var(--f-display,inherit);font-weight:900;font-size:17px;margin-top:2px}
+#avRoot .av-rh small{display:block;font-size:12px;color:var(--dim,#99a0ab)}
+#avRoot .av-rt{display:flex;gap:6px;overflow-x:auto;padding:0 12px 10px;scrollbar-width:none}
+#avRoot .av-rt::-webkit-scrollbar{display:none}
+#avRoot .av-rt button{flex:none;padding:5px 11px;border-radius:999px;border:1px solid var(--line2,rgba(255,255,255,.12));background:none;color:var(--dim,#99a0ab);font:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+#avRoot .av-rt button[aria-pressed="true"]{background:var(--avcy);border-color:var(--avcy);color:#031318}
+#avRoot .av-kpi{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line,rgba(255,255,255,.07));border-block:1px solid var(--line,rgba(255,255,255,.07))}
+#avRoot .av-kpi>div{background:#121722;padding:10px 12px;min-width:0}
+html[data-theme="light"] #avRoot .av-kpi>div{background:#f7f9fb}
+#avRoot .av-kpi small{display:block;font-size:11.5px;color:var(--dim,#99a0ab)}
+#avRoot .av-kpi b{display:block;font-family:var(--f-mono,monospace);font-weight:800;font-size:19px;direction:ltr;text-align:right;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#avRoot .av-kpi em{display:block;font-style:normal;font-size:11px;color:var(--faint,#5d636e);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#avRoot .av-kpi .k1 b{color:var(--avcy)}#avRoot .av-kpi .k2 b{color:var(--ok,#3ccf82)}#avRoot .av-kpi .k3 b{color:var(--warn,#f2b03d)}#avRoot .av-kpi .k4 b{color:#ff6b7c}
+#avRoot .av-sec{padding:10px 12px;border-bottom:1px solid var(--line,rgba(255,255,255,.07))}
+#avRoot .av-sec>b{display:block;font-size:12.5px;color:var(--dim,#99a0ab);font-weight:700;margin-bottom:7px}
+#avRoot .av-bar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px;align-items:center;margin-bottom:8px;font-size:13px}
+#avRoot .av-bar:last-child{margin-bottom:0}
+#avRoot .av-bar span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700}
+#avRoot .av-bar em{font-style:normal;font-family:var(--f-mono,monospace);font-size:12px;color:var(--dim,#99a0ab);direction:ltr}
+#avRoot .av-bar i{grid-column:1/-1;height:6px;border-radius:4px;background:var(--line2,rgba(255,255,255,.1));overflow:hidden;display:block}
+#avRoot .av-bar i::after{content:"";display:block;height:100%;width:var(--w);border-radius:4px;background:linear-gradient(90deg,var(--avcy),#ec1c32)}
+#avRoot .av-split{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--line2,rgba(255,255,255,.1))}
+#avRoot .av-split i:first-child{background:var(--ok,#3ccf82)}#avRoot .av-split i:last-child{background:var(--warn,#f2b03d)}
+#avRoot .av-leg{display:flex;justify-content:space-between;gap:10px;margin-top:6px;font-size:12px;color:var(--dim,#99a0ab)}
+#avRoot .av-leg b{font-family:var(--f-mono,monospace);color:var(--ink,#fff);direction:ltr}
+html[data-theme="light"] #avRoot .av-leg b{color:#161a22}
+#avRoot .av-rf{display:flex;justify-content:space-between;padding:8px 12px;font-family:var(--f-tech,monospace);font-size:8.5px;letter-spacing:1.5px;color:var(--faint,#5d636e);direction:ltr}
+#avRoot .av-lock{padding:14px 12px;font-size:13.5px;color:var(--dim,#99a0ab)}
 
 #app[data-mode] ~ #avRoot{}
 @media (max-width:900px){#avRoot{--avb:calc(var(--bnav,64px) + 12px)}}
@@ -5120,7 +5176,7 @@ document.addEventListener("click",e=>{
   else if(a==="actmsg"){const on=!(m.features&&m.features.actmsg===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),actmsg:!on}}),(on?"انطفت":"اشتغلت")+" رسالة التفعيل عند "+m.name)}
   else if(a==="mgmt"){const on=!(m.features&&m.features.mgmt===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),mgmt:!on}}),(on?"انطفى":"اشتغل")+" المنجمنت عند "+m.name)}
   else if(a==="match"){const on=!(m.features&&m.features.match===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),match:!on}}),(on?"انطفت":"اشتغلت")+" المطابقة عند "+m.name)}
-  else if(a==="open")viewAs(m);
+  else if(a==="open"){if(!$("modal").hidden)closeModal();viewAs(m)}
   else if(a==="edit")openEditMk(m);
   else if(a==="chat")openChat(m.id,m.name);
   else if(a==="backup")admBackupOne(m);
@@ -5670,32 +5726,38 @@ const SYS_BASE=`انت "فيجن" واسمك الكامل "علي فيجن"، م
 س: غالي؟ → صدگ أفهمك، بس خلي نحسبها سوا: …`;
 function md(t,live){let h=E(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/^\s*[-•*]\s+/gm,'• ').replace(/\n/g,'<br>');
   h=h.replace(/\[\[(ORDER|GO):([\w-]*)\]\]/g,(m,k,a)=>{if(live)return '';if(k==='ORDER'&&!O.orderLabel||k==='GO'&&!(O.goLabels||{})[a])return '';const lb=k==='ORDER'?O.orderLabel(a):O.goLabels[a];return `<button type="button" class="av-act" data-avk="${k}" data-ava="${E(a)}">${E(lb)}<i>‹</i></button>`});
-  if(live)h=h.replace(/\[\[[^\]]*$/,'');return h}
+  h=h.replace(/\[\[[A-Z]+:[\s\S]*?\]\]/g,'');if(live)h=h.replace(/\[\[[^\]]*$/,'');return h.replace(/(<br>\s*)+$/,'')}
 /* ---------- ui (telegram style) ---------- */
 const PLANE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 10.9c-.9.4-.9 1.6 0 1.9l4.6 1.6 1.8 5.6c.3.8 1.3 1 1.9.4l2.6-2.5 4.6 3.4c.7.5 1.7.1 1.9-.7l3.1-15.1c.2-1-.8-1.8-1.9-1.4Z" fill="currentColor"/><path d="m7.6 14.3 10.6-7.1-8.6 8.2" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="1.2"/></svg>';
 const TICK='<svg viewBox="0 0 18 12" aria-hidden="true"><path d="M1 6.5 4.6 10 11 2M7 9.6l.6.4L14 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const tm=()=>new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
-function bubble(m,prev){const d=document.createElement('div'),grp=prev&&prev.who===m.who;d.className='av-m '+m.who+(grp?' grp':'');
-  d.innerHTML=(m.who==='bot'?`<span class="av-mav">${AV('xs')}</span>`:'')+`<div class="av-bb">${m.who==='bot'&&!grp?'<b class="av-nm">علي فيجن</b>':''}<div class="av-tx">${m.who==='bot'?md(m.text):E(m.text)}</div><span class="av-tm">${m.t||''}${m.who==='me'?TICK:''}</span></div>`;return d}
+function bubble(m,prev){const d=document.createElement('div'),grp=prev&&prev.who===m.who;d.className='av-m '+m.who+(grp?' grp':'')+(m.x?' wide':'');
+  d.innerHTML=(m.who==='bot'?`<span class="av-mav">${AV('xs')}</span>`:'')+`<div class="av-bb">${m.who==='bot'&&!grp?'<b class="av-nm">علي فيجن</b>':''}<div class="av-tx">${m.who==='bot'?md(m.text):E(m.text)}</div>${m.x||''}<span class="av-tm">${m.t||''}${m.who==='me'?TICK:''}</span></div>`;return d}
 function intro_card(){return `<div class="av-info"><span class="av-ia">${AV('xl')}</span><b>علي فيجن <i class="av-vf">✓</i></b><small>مساعد ذكي · AM TECH</small><p>${E(O.welSub||'اسألني أي شي، وآني حاضر')}</p><ul>${(O.can||[]).map(x=>`<li>${E(x)}</li>`).join('')}</ul></div>`}
 function render(){const b=EL.body;b.innerHTML='<div class="av-day"><span>اليوم</span></div>';EL.root.classList.toggle('empty',!MSGS.length);
   if(!MSGS.length){b.insertAdjacentHTML('beforeend',intro_card())}else{let pv=null;MSGS.forEach(m=>{b.appendChild(bubble(m,pv));pv=m})}
-  EL.kb.innerHTML=(O.sugg||[]).map(s=>`<button type="button" data-avs="${E(s)}">${E(s)}</button>`).join('');EL.kb.hidden=!!MSGS.length;b.scrollTop=b.scrollHeight}
+  EL.rn=MSGS.length;EL.kb.innerHTML=(O.sugg||[]).map(s=>`<button type="button" data-avs="${E(s)}">${E(s)}</button>`).join('');EL.kb.hidden=!!MSGS.length;b.scrollTop=b.scrollHeight}
+function sync(){if(!EL)return;const ns=[...EL.body.querySelectorAll('.av-m')];if(ns.length!==MSGS.length)return;ns.forEach((n,i)=>{if(MSGS[i].x){const h=[...n.querySelectorAll('.av-bb>.av-card,.av-bb>.av-rep')].map(c=>c.outerHTML).join('');if(h)MSGS[i].x=h}});save()}
 function save(){SS.set('av_'+O.place,{t:TURNS.slice(-12),m:MSGS.slice(-40),c:COUNT})}
 function state(s){if(!EL)return;EL.root.dataset.st=s||'';EL.stx.innerHTML=s==='think'?'يفكر<span class="av-dd"><i></i><i></i><i></i></span>':s==='talk'?'يكتب<span class="av-dd"><i></i><i></i><i></i></span>':'متصل'}
 async function send(q){q=String(q||'').trim();if(!q||BUSY)return;
   if(O.maxMsgs&&COUNT>=O.maxMsgs){MSGS.push({who:'bot',text:'وصلنا للحد هالمرة 🙏 إذا تحتاج شي ثاني راسلنا واتساب وتدلل.',t:tm()});render();return}
   COUNT++;BUSY=true;EL.btn.disabled=true;EL.kb.hidden=true;if(!MSGS.length){EL.body.querySelector('.av-info')&&EL.body.querySelector('.av-info').remove()}EL.root.classList.remove('empty');
-  const prev=MSGS[MSGS.length-1],um={who:'me',text:q,t:tm()};MSGS.push(um);EL.body.appendChild(bubble(um,prev));EL.inp.value='';EL.root.classList.remove('typing');TURNS.push({role:'user',parts:[{text:q}]});TURNS=TURNS.slice(-12);
+  const prev=MSGS[MSGS.length-1],um={who:'me',text:q,t:tm()};MSGS.push(um);EL.rn=MSGS.length;EL.body.appendChild(bubble(um,prev));EL.inp.value='';EL.root.classList.remove('typing');TURNS.push({role:'user',parts:[{text:q}]});TURNS=TURNS.slice(-12);
   const bm={who:'bot',text:'',t:tm()},node=bubble(bm,um),tx=node.querySelector('.av-tx');tx.innerHTML='<span class="av-ty"><i></i><i></i><i></i></span>';EL.body.appendChild(node);EL.body.scrollTop=EL.body.scrollHeight;state('think');
   let sys=SYS_BASE+'\n\n'+(O.role||'')+(O.extra?'\n\nمعلومات إضافية من الإدارة:\n'+O.extra:'');try{sys+='\n\nالبيانات الحالية:\n'+(O.ctx?O.ctx():'')}catch(e){}
   let shown='';const onTok=full=>{shown=full;if(!RAF)RAF=requestAnimationFrame(()=>{RAF=0;state('talk');tx.innerHTML=md(shown,true)+'<span class="av-cr"></span>';const b=EL.body;if(b.scrollHeight-b.scrollTop-b.clientHeight<160)b.scrollTop=b.scrollHeight})};
   try{while(TURNS.length&&TURNS[0].role!=='user')TURNS.shift();const r=await ask({key:O.key,model:O.model,fb:O.fb,sys,turns:TURNS},onTok);
-    cancelAnimationFrame(RAF);RAF=0;bm.text=r.t.trim();tx.innerHTML=md(bm.text);TURNS.push({role:'model',parts:[{text:bm.text}]});MSGS.push(bm)}
+    let text=r.t.trim();
+    for(let i=0;i<2&&O.find;i++){const fm=text.match(/\[\[FIND:([^\]]+)\]\]/);if(!fm)break;cancelAnimationFrame(RAF);RAF=0;state('think');tx.innerHTML='<span class="av-ty"><i></i><i></i><i></i></span> <small class="av-srch">دا أدوّر بالنظام…</small>';
+      let res='';try{res=O.find(fm[1].trim())}catch(x){res='صار خطأ بالبحث'}TURNS.push({role:'model',parts:[{text}]});TURNS.push({role:'user',parts:[{text:'[نتيجة البحث داخل النظام، مو كلام المستخدم. جاوب سؤاله الأصلي بالاعتماد عليها]\n'+res}]});
+      const r2=await ask({key:O.key,model:O.model,fb:O.fb,sys,turns:TURNS},onTok);text=r2.t.trim()}
+    cancelAnimationFrame(RAF);RAF=0;bm.text=text;let x='';try{x=O.post?O.post(text)||'':''}catch(err){console.warn(err)}if(x){bm.x=x;node.classList.add('wide');node.querySelector('.av-bb').insertAdjacentHTML('beforeend',x)}
+    tx.innerHTML=md(bm.text);if(!tx.textContent.trim()&&x)tx.style.display='none';TURNS.push({role:'model',parts:[{text:bm.text}]});MSGS.push(bm);EL.rn=MSGS.length}
   catch(e){cancelAnimationFrame(RAF);RAF=0;TURNS.pop();COUNT--;const code=String(e&&(e.code||e.message)||e);node.classList.add('err');tx.innerHTML='يمعود ما گدرت أرد هسه 😕 جرّب مرة ثانية بعد شوية.<small class="av-err">'+E(code.slice(0,120))+'</small>'}
   EL.body.scrollTop=EL.body.scrollHeight;state('');BUSY=false;EL.btn.disabled=false;save();if(matchMedia('(hover:hover)').matches)EL.inp.focus({preventScroll:true})}
 function open(v){if(!EL)return;EL.pan.hidden=!v;document.documentElement.classList.toggle('av-open',v);EL.root.classList.toggle('isopen',v);
-  if(v){endIntro();render();warm();setTimeout(()=>{EL.body.scrollTop=EL.body.scrollHeight;if(matchMedia('(hover:hover)').matches)EL.inp.focus({preventScroll:true})},60)}}
+  if(v){endIntro();if(EL.rn!==MSGS.length||!EL.body.children.length)render();warm();setTimeout(()=>{EL.body.scrollTop=EL.body.scrollHeight;if(matchMedia('(hover:hover)').matches)EL.inp.focus({preventScroll:true})},60)}}
 function warm(){if(O&&O.key)core(String(O.key),O.fb).catch(()=>{})}
 /* eyes follow the finger / mouse */
 let LOOK=0,LX=0,LY=0;function look(e){LX=e.clientX;LY=e.clientY;if(LOOK)return;LOOK=requestAnimationFrame(()=>{LOOK=0;if(!EL)return;document.querySelectorAll('#avRoot .av-a:not(.xs) .av-iris').forEach(ir=>{const r=ir.closest('.av-a').getBoundingClientRect();if(!r.width)return;const dx=LX-(r.left+r.width/2),dy=LY-(r.top+r.height*.53),d=Math.hypot(dx,dy)||1,k=Math.min(1,d/260)*3;ir.style.transform=`translate(${(dx/d*k).toFixed(2)}px,${(dy/d*k*.6).toFixed(2)}px)`})})}
@@ -5721,13 +5783,13 @@ function mount(o){const key=String(o.key||'')+'|'+o.place;if(EL&&EL.key===key){O
   w.querySelector('.av-new').onclick=()=>{if(BUSY)return;TURNS=[];MSGS=[];COUNT=COUNT;save();render()};
   w.querySelector('.av-in').onsubmit=e=>{e.preventDefault();send(EL.inp.value)};
   EL.inp.addEventListener('input',()=>EL.root.classList.toggle('typing',!!EL.inp.value.trim()));
-  w.addEventListener('click',e=>{const s=e.target.closest('[data-avs]');if(s)return send(s.dataset.avs);const a=e.target.closest('.av-act');if(a){if(O.onAction&&O.onAction(a.dataset.avk,a.dataset.ava)!==false)open(false)}});
+  w.addEventListener('click',e=>{const s=e.target.closest('[data-avs]');if(s)return send(s.dataset.avs);const a=e.target.closest('.av-act,[data-avk]');if(a&&!a.disabled){if(O.onAction&&O.onAction(a.dataset.avk,a.dataset.ava,a)===true)open(false)}});
   document.addEventListener('keydown',onKey);addEventListener('pointermove',look,{passive:true});addEventListener('pointerdown',look,{passive:true});
   setTimeout(intro,1200);(window.requestIdleCallback||setTimeout)(()=>warm(),{timeout:4000})}
 function onKey(e){if(e.key==='Escape'&&EL&&!EL.pan.hidden)open(false)}
 function unmount(){if(EL){endIntro();EL.root.remove();EL=null;document.documentElement.classList.remove('av-open');document.removeEventListener('keydown',onKey);removeEventListener('pointermove',look);removeEventListener('pointerdown',look)}}
 async function test(o){return ask({key:o.key,model:o.model,fb:o.fb,sys:'جاوب بكلمة وحدة.',turns:[{role:'user',parts:[{text:'گول: تمام'}]}],max:20})}
-return{mount,unmount,open,test,models:MODELS,mounted:()=>!!EL}
+return{mount,unmount,open,test,sync,models:MODELS,mounted:()=>!!EL}
 })();
 
 let AVDIRTY=false,AVCAT=null,AVCATT=0,AVON={admin:false,clients:false,show:false};
@@ -5754,6 +5816,77 @@ function avCtxAdmin(){const now=Date.now(),c={ok:0,near:0,expired:0,off:0};MK.fo
   return L.join("\n")}
 function avCtxClient(){const now=Date.now();let c={act:0,near:0,exp:0,none:0};try{for(const k of SUBS.keys())c[status(k,now).st]++}catch(e){}let tot=0;try{for(const k in DEBT)tot+=debtOf(k)}catch(e){}
   const AC=ACCOUNT||(VIEWAS&&VIEWAS.acc);return["الحساب: "+((AC&&(AC.biz||AC.name))||"—"),"المستخدم الحالي: "+(ROLE==="staff"?"موظف":"صاحب الحساب"),"المشتركين: "+SUBS.size+" (فعّال "+c.act+"، قرّب يخلص "+c.near+"، خالص أو بدون "+(c.exp+c.none)+")","مجموع الديون: "+fmt(tot)+" د.ع"].join("\n")}
+/* ===== فيجن · أوامر وتقارير داخل لوحة العميل ===== */
+let AVREG={},AVRID=0;
+const avStL={act:"شغّال",near:"قرّب يخلص",exp:"خالص",none:"بدون اشتراك"};
+function avSubLine(k){const s=SUBS.get(k)||{},st=status(k,Date.now()),d=debtOf(k);return [s.u||k,s.n||"بدون اسم",s.p||"",s.pl?"باقة "+s.pl:"",avStL[st.st]+(st.exp?" · ينتهي "+fdate(st.exp)+(st.st!=="none"?" ("+(st.days>=0?"باقي "+st.days+" يوم":"خالص من "+(-st.days)+" يوم")+")":""):""),d?"دين "+fmt(d)+" د.ع":"ماكو دين"].filter(Boolean).join(" | ")}
+function avFind(q){const ks=searchSubs(String(q||""),6);if(!ks.length)return "ماكو مشترك يطابق: "+q;return ks.map(avSubLine).join("\n")}
+function avPlan(want,k){const P=Object.keys(SET.plans||{});if(!P.length)return "";const w=String(want||"").trim().toLowerCase();if(w){const ex=P.find(p=>p.toLowerCase()===w)||P.find(p=>p.toLowerCase().includes(w)||w.includes(p.toLowerCase()));if(ex)return ex}const s=SUBS.get(k)||{};return s.pl&&SET.plans[s.pl]?s.pl:P[0]}
+function avJ(t){try{return JSON.parse(t)}catch(e){try{return JSON.parse(t.replace(/[“”]/g,'"'))}catch(x){return null}}}
+function avResolve(q){q=String(q||"").trim();const ks=searchSubs(q,5);if(!ks.length)return{none:1};const ql=q.toLowerCase();const ex=ks.filter(k=>{const s=SUBS.get(k)||{};return (s.u||"").toLowerCase()===ql||(s.n||"").toLowerCase()===ql||(s.p||"")===q});if(ex.length===1)return{k:ex[0]};if(ks.length===1)return{k:ks[0]};return{many:ks}}
+function avActCard(k,o){const s=SUBS.get(k)||{},st=status(k,Date.now()),pl=avPlan(o.pl,k),sell=planSell(pl),pay=o.pay==="a"?"a":"c",pd=pay==="a"?Math.max(0,Math.min(sell,+o.pd||0)):0,id="r"+(++AVRID);
+  AVREG[id]={t:"act",k,pl,pay,pd};const ext=st.exp&&st.exp>Date.now()&&st.st!=="none";
+  return `<div class="av-card" data-rid="${id}"><div class="av-ch"><span class="av-ci">⚡</span><b>تأكيد ${ext?"التجديد":"التفعيل"}</b><small>CONFIRM</small></div><div class="av-kv">
+   <span>المشترك</span><b>${esc(s.n||"بدون اسم")}</b><span>اليوزر</span><b class="n">${esc(s.u||k)}</b>
+   <span>الحالة الحالية</span><b class="${st.st==="act"?"ok":st.st==="near"?"wr":"bd"}">${avStL[st.st]}${st.exp?" · "+fdate(st.exp):""}</b>
+   <span>الباقة</span><b>${esc(pl||"—")}</b><span>السعر</span><b class="n">${fmt(sell)} د.ع</b>
+   <span>الدفع</span><b class="${pay==="a"?"wr":"ok"}">${pay==="a"?"آجل"+(pd?" · واصل "+fmt(pd):""):"نقدي"}</b>${debtOf(k)?`<span>دينه الحالي</span><b class="bd n">${fmt(debtOf(k))}</b>`:""}</div>
+   <div class="av-cb"><button type="button" class="ok" data-avk="DO" data-ava="${id}">${ext?"جدّد":"فعّل"} هسه</button><button type="button" data-avk="EDIT" data-ava="${id}">افتح النافذة</button></div></div>`}
+function avPayCard(k,o){const s=SUBS.get(k)||{},d=debtOf(k),amt=Math.max(0,Math.round(+o.amt||d)),id="r"+(++AVRID);AVREG[id]={t:"pay",k,amt};
+  if(!d)return `<div class="av-card"><div class="av-ch"><span class="av-ci g">✓</span><b>${esc(s.n||s.u||k)}</b></div><div class="av-lock">ماكو عليه دين حالياً.</div></div>`;
+  return `<div class="av-card" data-rid="${id}"><div class="av-ch"><span class="av-ci g">💵</span><b>تأكيد تسديد دين</b><small>PAYMENT</small></div><div class="av-kv"><span>المشترك</span><b>${esc(s.n||"بدون اسم")}</b><span>اليوزر</span><b class="n">${esc(s.u||k)}</b><span>الدين الحالي</span><b class="bd n">${fmt(d)}</b><span>المبلغ المستلم</span><b class="ok n">${fmt(amt)}</b><span>يبقى عليه</span><b class="n">${fmt(Math.max(0,d-amt))}</b></div>
+   <div class="av-cb"><button type="button" class="ok" data-avk="DO" data-ava="${id}">سجّل التسديد</button><button type="button" data-avk="EDIT" data-ava="${id}">افتح النافذة</button></div></div>`}
+function avPick(ks,t,o){return `<div class="av-card"><div class="av-ch"><span class="av-ci c">؟</span><b>لگيت أكثر من مشترك، منو تقصد؟</b></div><div class="av-pick">${ks.map(k=>{const s=SUBS.get(k)||{},id="r"+(++AVRID);AVREG[id]={t:"pick",k,act:t,o};return `<button type="button" data-avk="PICK" data-ava="${id}"><span>${esc(s.n||"بدون اسم")}</span><small>${esc(s.u||k)}</small></button>`}).join("")}</div></div>`}
+const AVPER=[["today","اليوم"],["yesterday","أمس"],["week","آخر 7 أيام"],["month","هذا الشهر"],["lastmonth","الشهر الماضي"]];
+function avRange(p){const d=new Date();d.setHours(0,0,0,0);const t0=d.getTime();if(p==="yesterday")return[t0-DAY,t0];if(p==="week")return[t0-6*DAY,t0+DAY];if(p==="month"){const m=new Date(d.getFullYear(),d.getMonth(),1).getTime();return[m,t0+DAY]}if(p==="lastmonth"){const a=new Date(d.getFullYear(),d.getMonth()-1,1).getTime(),b=new Date(d.getFullYear(),d.getMonth(),1).getTime();return[a,b]}return[t0,t0+DAY]}
+function avReport(p){if(!AVPER.some(x=>x[0]===p))p="today";const fin=can("finance");
+  if(!can("reports")&&!fin)return `<div class="av-rep"><div class="av-rh"><span>FINANCIAL REPORT</span><b>التقرير المالي</b></div><div class="av-lock">🔒 ما عندك صلاحية تشوف التقارير. اطلبها من صاحب الحساب.</div></div>`;
+  const [a,b]=avRange(p);let n=0,amt=0,cash=0,cred=0,col=0,profit=0,nc=0,na=0;const PL={};
+  for(const x of ACTS){if(x.d<a||x.d>=b)continue;const sv=actSell(x);n++;amt+=sv;profit+=sv-(+x.c||0);if(x.pay==="a"){cred+=sv-(+x.pd||0);cash+=+x.pd||0;na++}else{cash+=sv;nc++}const r=PL[x.pl||"—"]||(PL[x.pl||"—"]={n:0,amt:0});r.n++;r.amt+=sv}
+  for(const y of PAYS){if(y.d<a||y.d>=b)continue;col+=y.amt}
+  const got=cash+col,pls=Object.entries(PL).sort((x,y)=>y[1].amt-x[1].amt).slice(0,6),mx=Math.max(1,...pls.map(x=>x[1].amt)),lbl=AVPER.find(x=>x[0]===p)[1];
+  let debts="";if(fin){const top=[...SUBS.keys()].map(k=>[k,debtOf(k)]).filter(x=>x[1]>0).sort((x,y)=>y[1]-x[1]);const tot=top.reduce((s,x)=>s+x[1],0);
+    debts=`<div class="av-sec"><b>الديون الكلية: <span style="font-family:var(--f-mono);color:var(--bad)">${fmt(tot)}</span> د.ع · ${top.length} مشترك</b>${top.slice(0,5).map(([k,v])=>{const s=SUBS.get(k)||{};return `<div class="av-bar"><span>${esc(s.n||s.u||k)}</span><em>${fmt(v)}</em><i style="--w:${Math.round(v/Math.max(1,top[0][1])*100)}%"></i></div>`}).join("")||'<div class="av-lock" style="padding:0">ماكو ديون 👌</div>'}</div>`}
+  const id="r"+(++AVRID);AVREG[id]={t:"rep"};
+  return `<div class="av-rep" data-rid="${id}"><div class="av-rh"><span>FINANCIAL REPORT · ${esc(((ACCOUNT||VIEWAS&&VIEWAS.acc||{}).biz||"").toUpperCase()||"AM NET")}</span><b>التقرير المالي · ${lbl}</b><small>${fdate(a)}${b-a>DAY?" ← "+fdate(b-1):""}</small></div>
+   <div class="av-rt">${AVPER.map(([k,l])=>`<button type="button" data-avk="REP" data-ava="${k}" aria-pressed="${k===p}">${l}</button>`).join("")}</div>
+   <div class="av-kpi"><div class="k1"><small>التفعيلات</small><b>${fmt(n)}</b><em>نقدي ${nc} · آجل ${na}</em></div><div class="k2"><small>المبلغ المستلم</small><b>${fmt(got)}</b><em>تفعيل ${fmt(cash)} · تسديد ${fmt(col)}</em></div><div class="k3"><small>الآجل (دين جديد)</small><b>${fmt(cred)}</b><em>بقى على المشتركين</em></div>${fin?`<div class="k4"><small>الربح</small><b>${fmt(profit)}</b><em>من مبيعات ${fmt(amt)}</em></div>`:`<div><small>المبيعات</small><b>🔒</b><em>تحتاج صلاحية الأرباح</em></div>`}</div>
+   ${n?`<div class="av-sec"><b>نقدي مقابل آجل</b><div class="av-split"><i style="width:${Math.round(cash/Math.max(1,cash+cred)*100)}%"></i><i style="flex:1"></i></div><div class="av-leg"><span>نقدي <b>${fmt(cash)}</b></span><span>آجل <b>${fmt(cred)}</b></span></div></div>
+   <div class="av-sec"><b>حسب الباقة</b>${pls.map(([k,v])=>`<div class="av-bar"><span>${esc(k)} · ${v.n}</span><em>${fmt(v.amt)}</em><i style="--w:${Math.round(v.amt/mx*100)}%"></i></div>`).join("")}</div>`:`<div class="av-sec"><div class="av-lock" style="padding:0">ماكو تفعيلات بهالفترة.</div></div>`}
+   ${debts}<div class="av-rf"><span>AM NET · VISION</span><span>${new Date().toLocaleString("en-GB",{hour:"2-digit",minute:"2-digit",day:"2-digit",month:"2-digit"})}</span></div></div>`}
+function avPost(text){let out="";const re=/\[\[(ACT|PAY|REPORT):([\s\S]*?)\]\]/g;let m,c=0;
+  while((m=re.exec(text))&&c<3){c++;const [_,t,arg]=m;
+    if(t==="REPORT"){out+=avReport(arg.trim());continue}
+    const o=avJ(arg)||{q:arg};const r=avResolve(o.q);
+    if(r.none){out+=`<div class="av-card"><div class="av-ch"><span class="av-ci c">؟</span><b>ما لگيت "${esc(o.q||"")}"</b></div><div class="av-lock">تأكد من الاسم أو اليوزر وگلي مرة ثانية.</div></div>`;continue}
+    if(r.many){out+=avPick(r.many,t,o);continue}
+    out+=t==="ACT"?avActCard(r.k,o):avPayCard(r.k,o)}
+  return out}
+function avCardDone(el,cls,msg){const c=el.closest(".av-card");if(!c)return;c.querySelectorAll(".av-cb button").forEach(b=>b.disabled=true);let r=c.querySelector(".av-res");if(!r){r=document.createElement("div");c.appendChild(r)}r.className="av-res "+cls;r.textContent=msg;try{AVBOT.sync()}catch(e){}}
+async function avDo(k,v,el){const r=AVREG[v];
+  if(k==="REP"){const box=el.closest(".av-rep");if(box){box.outerHTML=avReport(v);try{AVBOT.sync()}catch(e){}}return false}
+  if(!r){toast("هذا الطلب قديم، اطلبه من فيجن مرة ثانية");return false}
+  if(k==="PICK"){const card=el.closest(".av-card");card.outerHTML=r.act==="ACT"?avActCard(r.k,r.o):avPayCard(r.k,r.o);try{AVBOT.sync()}catch(e){}return false}
+  if(r.used){toast("تنفذ من قبل");return false}
+  if(r.t==="act"){if(k==="EDIT"){openRenewSheet(r.k,{pl:r.pl});AST.pay=r.pay;AST.pd=r.pay==="a"?String(r.pd):"";renderAPanel();return true}
+    AVBOT.open(false);openRenewSheet(r.k,{pl:r.pl});AST.pay=r.pay;AST.pd=r.pay==="a"?String(r.pd):"";renderAPanel();await doActivate();
+    if(AST.done){r.used=1;avCardDone(el,"ok","✅ تم "+(r.pay==="a"?"التفعيل بالآجل":"التفعيل")+" · ينتهي "+fdate(AST.done.exp))}else avCardDone(el,"wr","⚠️ كمّل البيانات الناقصة بالنافذة (الاسم أو الرقم) ودوس تفعيل");return false}
+  if(r.t==="pay"){if(k==="EDIT"){openPay(r.k);setTimeout(()=>{const i=$("pAmt");if(i)i.value=r.amt},30);return true}
+    el.disabled=true;const t=Date.now(),p={k:r.k+"|p"+t,u:r.k,d:t,amt:r.amt,note:"عن طريق فيجن",sid:mySid(),byn:displayName()};
+    const ok=await guard(()=>savePays([p]));if(ok){r.used=1;play("cash");avCardDone(el,"ok","✅ انسجل التسديد · يبقى عليه "+fmt(debtOf(r.k)))}else el.disabled=false;return false}
+  return false}
+function avPlansTxt(){return Object.entries(SET.plans||{}).map(([n,p])=>n+" ("+fmt(+p.s||0)+" د.ع)").join("، ")||"ماكو باقات محددة"}
+function avToolsTxt(){return `
+
+أدوات تگدر تستخدمها داخل النظام (اكتب الرمز بآخر ردك، ولا تشرح الرمز للمستخدم):
+- [[FIND:اسم أو يوزر أو رقم]]: تدوّر على مشترك وتشوف حالته وانتهائه وديونه. استخدمه قبل ما تجاوب عن أي مشترك معين. لما تستخدمه اكتب الرمز بس بدون أي كلام.
+- [[ACT:{"q":"اسم أو يوزر","pl":"الباقة إذا ذكرها","pay":"c"}]]: لما يطلب تفعيل أو تجديد مشترك. pay = c نقدي، a آجل (دين)، وإذا آجل ودفع جزء أضف "pd":المبلغ. يطلع كارت تأكيد والمستخدم هو اللي يأكد، فگول جملة قصيرة مثل "جهزتلك التفعيل، أكد من الكارت 👇".
+- [[PAY:{"q":"...","amt":25000}]]: لما يگول فلان سدد أو دفع من دينه. إذا ما ذكر مبلغ لا تكتب amt (يعني كامل الدين).
+- [[REPORT:today|yesterday|week|month|lastmonth]]: لما يطلب تقرير أو حسابات أو مبالغ أو أرباح أو "شگد بعنا". التقرير يطلع كارت مرتب بالأرقام، فلا تكتب أرقام من عندك، بس جملة قصيرة.
+- تگدر تكتب أكثر من أمر بنفس الرد (مثلاً تفعيل أكثر من مشترك).
+- ما تگدر تحذف أو تعدّل تفعيلات أو تغير الإعدادات والباقات؛ إذا طلب هيچ شي گله يسويها يدوي ووديه للصفحة بـ GO.
+الباقات المتوفرة: ${avPlansTxt()}
+صلاحية التقارير المالية: ${can("reports")||can("finance")?"اي":"لا (إذا طلب تقرير گله ما عندك صلاحية)"}، صلاحية الأرباح: ${can("finance")?"اي":"لا"}.`}
 async function avTick(){let place=null;if(ROLE==="admin")place=VIEWAS?"clients":"admin";else if(ROLE==="marketer"||ROLE==="staff")place="clients";
   if(place==="clients"&&ROLE!=="admin"&&(!AVCAT||Date.now()-AVCATT>60000)){AVCATT=Date.now();try{const d=await fs.doc("hub/catalog").get();AVCAT=d.exists?d.data():{}}catch(e){AVCAT=AVCAT||{}}}
   const a=(ROLE==="admin"?HUB.cat&&HUB.cat.ai:AVCAT&&AVCAT.ai)||{};
@@ -5761,11 +5894,11 @@ async function avTick(){let place=null;if(ROLE==="admin")place=VIEWAS?"clients":
   if(place==="admin")AVBOT.mount({place,key:a.key,model:a.model,fb:a.fb,extra:a.extra,debug:true,ctx:avCtxAdmin,goLabels:AVGO_A,
     role:"انت ويه علي مالك (صاحب الشركة) داخل لوحة إدارة AM NET، احچي وياه مثل زميل شغل قريب. انطيه ملاحظات ونصايح عملية عن شغله. ساعده يحلل حسابات العملاء والطلبات والرسوم، يكتب رسائل واتساب للعملاء (تذكير تجديد، رد على طلب، عروض)، ويقترح أفكار. تگدر توديه لقسم بكتابة رمز واحد بآخر ردك مثل [[GO:orders]] والأقسام: "+Object.keys(AVGO_A).join("، ")+".",
     welTitle:"هلا علي، نورت 👋",welSub:"آني فيجن، مساعدك بالإدارة. اسألني عن العملاء والطلبات أو خليني أكتبلك رسالة",welcome:"نورت الإدارة يا علي! إذا تريد تحليل سريع أو رسالة للعملاء، آني حاضر 😉",can:["يلخصلك وضع العملاء والطلبات","يكتبلك رسائل تذكير وعروض","ينطيك نصايح تطوّر شغلك"],sugg:["شنو اللي يحتاج انتباهي اليوم؟","منو حساباتهم قرّبت تخلص؟","اكتبلي رسالة تذكير تجديد","لخصلي آخر الطلبات"],
-    onAction:(k,v)=>{if(k==="GO")location.hash=v==="home"?"admin":"a-"+v}});
+    onAction:(k,v)=>{if(k==="GO"){location.hash=v==="home"?"admin":"a-"+v;return true}}});
   else AVBOT.mount({place,key:a.key,model:a.model,fb:a.fb,extra:a.extra,ctx:avCtxClient,goLabels:AVGO_C,
-    role:"انت داخل نظام AM NET لإدارة مشتركين شركات الإنترنت، تساعد صاحب الحساب أو موظفه يستخدم النظام مثل صديق يفتهم، وتنطيه نصايح تفيد شغله (متابعة الديون، التجديد بوقته، تنظيم المشتركين). صفحات النظام: "+Object.entries(AVGO_C).map(([k,v])=>v+" ["+k+"]").join("، ")+". تگدر توديه لصفحة بكتابة رمز واحد بآخر ردك مثل [[GO:subs]]. إذا سأل عن مشكلة بالنظام أو الاشتراك مالته بالنظام، وجّهه يراسل الإدارة من زر الرسائل. لا تعطي معلومات عن عملاء ثانيين.",
+    role:"انت داخل نظام AM NET لإدارة مشتركين شركات الإنترنت، تساعد صاحب الحساب أو موظفه يستخدم النظام مثل صديق يفتهم، وتنطيه نصايح تفيد شغله (متابعة الديون، التجديد بوقته، تنظيم المشتركين). صفحات النظام: "+Object.entries(AVGO_C).map(([k,v])=>v+" ["+k+"]").join("، ")+". تگدر توديه لصفحة بكتابة رمز واحد بآخر ردك مثل [[GO:subs]]. إذا سأل عن مشكلة بالنظام أو الاشتراك مالته بالنظام، وجّهه يراسل الإدارة من زر الرسائل. لا تعطي معلومات عن عملاء ثانيين."+avToolsTxt(),
     welTitle:"هلا بيك 👋",welSub:"آني فيجن، أساعدك تشتغل بالنظام بسهولة. اسألني أي شي",welcome:"هلا والله! آني فيجن، إذا علگت بأي شي بالنظام أدلّك خطوة بخطوة 👌",can:["يشرحلك شلون تفعّل وتستورد","يتابع وياك الديون والتجديد","يدلّك على أي صفحة بالنظام"],sugg:["شلون أفعّل مشترك؟","شلون أستورد ملف PDF؟","وين أشوف الديون؟","شنو وضع مشتركيني؟"],
-    onAction:(k,v)=>{if(k==="GO")location.hash=v}})}
+    find:avFind,post:avPost,onAction:(k,v,el)=>{if(k==="GO"){location.hash=v;return true}if(["DO","EDIT","PICK","REP"].includes(k)){avDo(k,v,el).then(c=>{if(c===true)AVBOT.open(false)});return false}}})}
 setInterval(avTick,2500);
 function boot(){
   const cfg=CONFIG.firebase||{};
