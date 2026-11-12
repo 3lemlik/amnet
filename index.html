@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.12-5">
+<meta name="amnet-build" content="2026.11.12-6">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1984,7 +1984,8 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
     <div class="row"><button class="btn" id="admPwGo">تغيير</button></div>
   </div>
   <div class="card br" data-as="settings" id="avCard">
-    <div class="chead"><div class="t"><h2>المساعد الذكي · علي فيجن</h2><div class="muted">روبوت بعقل ذكي، يشتغل بنفس مفتاح كابتن دوزي.</div></div></div>
+    <div class="chead"><div class="t"><h2>المساعد الذكي</h2><div class="muted">روبوت بعقل ذكي، يشتغل بنفس مفتاح كابتن دوزي.</div></div></div>
+    <div class="field"><label for="avName">اسم الروبوت</label><input type="text" id="avName" maxlength="24" placeholder="علي فيجن"></div>
     <div class="field"><label for="avKey">مفتاح reCAPTCHA (Site key) — نفس مفتاح الدزاز جم</label><input type="text" id="avKey" dir="ltr" placeholder="6Lc…" autocomplete="off"></div>
     <div class="field"><label for="avModel">الموديل</label><select id="avModel"><option value="">تلقائي (ينصح بيه)</option></select></div>
     <label style="display:block;font-size:13px;color:var(--dim);margin-bottom:6px">وين يطلع الروبوت؟</label>
@@ -5703,14 +5704,15 @@ async function ask(p,onTok){const {G,ai}=await core(String(p.key||''),p.fb);cons
   throw last}
 /* ---------- avatar: "the prism eye" ---------- */
 const DEFS='<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="avgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6b7c"/><stop offset=".55" stop-color="#ec1c32"/><stop offset="1" stop-color="#5c0712"/></linearGradient><linearGradient id="avgB" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ef0ff"/><stop offset=".5" stop-color="#19c3e0"/><stop offset="1" stop-color="#05394a"/></linearGradient><linearGradient id="avgC" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#2a0910"/><stop offset="1" stop-color="#8a1222"/></linearGradient><radialGradient id="avgI" cx=".42" cy=".38" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".22" stop-color="#9ff6ff"/><stop offset=".55" stop-color="#19c3e0"/><stop offset="1" stop-color="#033a4a"/></radialGradient><radialGradient id="avgG" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#19c3e0" stop-opacity=".55"/><stop offset="1" stop-color="#19c3e0" stop-opacity="0"/></radialGradient></defs></svg>';
-const RING='<svg viewBox="0 0 100 100" class="av-rg"><path id="avgR" d="M50 50m-44 0a44 44 0 1 1 88 0a44 44 0 1 1 -88 0" fill="none"/><circle cx="50" cy="50" r="48.5" fill="none" stroke="#19c3e0" stroke-opacity=".22" stroke-width=".6" stroke-dasharray="1 3"/><text><textPath href="#avgR">ع ✦ ل ✦ ي ✦ ف ✦ ي ✦ ج ✦ ن ✦ V I S I O N ✦ ع ✦ ل ✦ ي ✦ ف ✦ ي ✦ ج ✦ ن ✦ A M ✦</textPath></text></svg>';
+const RING=()=>{const L=[...NM().replace(/\s+/g,'')].join(' ')+' ✦ A I ✦ ';return '<svg viewBox="0 0 100 100" class="av-rg"><path id="avgR" d="M50 50m-44 0a44 44 0 1 1 88 0a44 44 0 1 1 -88 0" fill="none"/><circle cx="50" cy="50" r="48.5" fill="none" stroke="#19c3e0" stroke-opacity=".22" stroke-width=".6" stroke-dasharray="1 3"/><text><textPath href="#avgR">'+E(L.repeat(4))+'</textPath></text></svg>'};
 const PRISM='<svg viewBox="0 0 100 100" class="av-pr"><ellipse cx="50" cy="90" rx="22" ry="3.2" fill="#19c3e0" fill-opacity=".28"/><polygon points="50,12 88,80 50,68" fill="url(#avgA)"/><polygon points="50,12 12,80 50,68" fill="url(#avgB)"/><polygon points="12,80 88,80 50,68" fill="url(#avgC)"/><polyline points="50,12 50,40" stroke="#fff" stroke-opacity=".5" stroke-width=".8" fill="none"/><polygon points="50,12 88,80 12,80" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1" stroke-linejoin="round"/><path d="M50 12 L63 35" stroke="#fff" stroke-opacity=".75" stroke-width="1.6" stroke-linecap="round"/><circle class="av-ant" cx="50" cy="8" r="2.6" fill="#fff"/>'
   +'<polygon points="33,46 67,46 74,60 26,60" fill="#04060a" stroke="#9ff6ff" stroke-opacity=".55" stroke-width="1" stroke-linejoin="round"/><g class="av-eye"><g class="av-iris"><rect class="av-e1" x="38" y="48.5" width="7" height="9" rx="3.5" fill="url(#avgI)"/><rect class="av-e2" x="55" y="48.5" width="7" height="9" rx="3.5" fill="url(#avgI)"/></g><g class="av-happy" fill="none" stroke="#9ff6ff" stroke-width="2.2" stroke-linecap="round"><path d="M38 55q3.5-5 7 0"/><path d="M55 55q3.5-5 7 0"/></g></g><g class="av-scan" fill="#19c3e0"><circle cx="40" cy="53" r="1.6"/><circle cx="46" cy="53" r="1.6"/><circle cx="52" cy="53" r="1.6"/><circle cx="58" cy="53" r="1.6"/></g></svg>';
-const AV=(cls)=>`<span class="av-a ${cls||''}"><span class="av-rgw">${RING}</span><span class="av-prw">${PRISM}</span></span>`;
+const AV=(cls)=>`<span class="av-a ${cls||''}"><span class="av-rgw">${RING()}</span><span class="av-prw">${PRISM}</span></span>`;
 const SEND='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const NEWI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 /* ---------- voice ---------- */
-const SYS_BASE=`انت "فيجن" واسمك الكامل "علي فيجن"، مساعد ذكي من شركة AM للحلول التقنية (تصميم وبرمجة علي مالك).
+const NM=()=>String(O&&O.name||'علي فيجن').trim()||'علي فيجن',SH=()=>{const w=NM().split(/\s+/);return w[w.length-1]};
+const SYS_BASE=()=>`انت "${SH()}" واسمك الكامل "${NM()}"، مساعد ذكي من شركة AM للحلول التقنية (تصميم وبرمجة علي مالك).
 طريقة حچيك (مهمة جداً):
 - عراقي بغدادي 100٪ مثل شاب عراقي طبيعي وذكي وودود. استخدم كلمات مثل: هلا، هلا بيك، شلونك، شكو ماكو، هسه، شنو، ليش، اكو، ماكو، گول، يعني، خوش، زين، والله، عيني، أگدر، أريد، چا، هواية، شوية، بلكي، لعد، ترة، صدگ، يمعود، تدلل، على راسي، ولا يهمك.
 - ممنوع الفصحى الرسمية، وممنوع اللهجات الثانية (لا تگول: ازيك، كده، عايز، وش، ايش، الحين، أبغى، زي، برضو).
@@ -5732,8 +5734,8 @@ const PLANE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 
 const TICK='<svg viewBox="0 0 18 12" aria-hidden="true"><path d="M1 6.5 4.6 10 11 2M7 9.6l.6.4L14 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const tm=()=>new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
 function bubble(m,prev){const d=document.createElement('div'),grp=prev&&prev.who===m.who;d.className='av-m '+m.who+(grp?' grp':'')+(m.x?' wide':'');
-  d.innerHTML=(m.who==='bot'?`<span class="av-mav">${AV('xs')}</span>`:'')+`<div class="av-bb">${m.who==='bot'&&!grp?'<b class="av-nm">علي فيجن</b>':''}<div class="av-tx">${m.who==='bot'?md(m.text):E(m.text)}</div>${m.x||''}<span class="av-tm">${m.t||''}${m.who==='me'?TICK:''}</span></div>`;return d}
-function intro_card(){return `<div class="av-info"><span class="av-ia">${AV('xl')}</span><b>علي فيجن <i class="av-vf">✓</i></b><small>مساعد ذكي · AM TECH</small><p>${E(O.welSub||'اسألني أي شي، وآني حاضر')}</p><ul>${(O.can||[]).map(x=>`<li>${E(x)}</li>`).join('')}</ul></div>`}
+  d.innerHTML=(m.who==='bot'?`<span class="av-mav">${AV('xs')}</span>`:'')+`<div class="av-bb">${m.who==='bot'&&!grp?'<b class="av-nm">'+E(NM())+'</b>':''}<div class="av-tx">${m.who==='bot'?md(m.text):E(m.text)}</div>${m.x||''}<span class="av-tm">${m.t||''}${m.who==='me'?TICK:''}</span></div>`;return d}
+function intro_card(){return `<div class="av-info"><span class="av-ia">${AV('xl')}</span><b>${E(NM())} <i class="av-vf">✓</i></b><small>مساعد ذكي · AM TECH</small><p>${E(O.welSub||'اسألني أي شي، وآني حاضر')}</p><ul>${(O.can||[]).map(x=>`<li>${E(x)}</li>`).join('')}</ul></div>`}
 function render(){const b=EL.body;b.innerHTML='<div class="av-day"><span>اليوم</span></div>';EL.root.classList.toggle('empty',!MSGS.length);
   if(!MSGS.length){b.insertAdjacentHTML('beforeend',intro_card())}else{let pv=null;MSGS.forEach(m=>{b.appendChild(bubble(m,pv));pv=m})}
   EL.rn=MSGS.length;EL.kb.innerHTML=(O.sugg||[]).map(s=>`<button type="button" data-avs="${E(s)}">${E(s)}</button>`).join('');EL.kb.hidden=!!MSGS.length;b.scrollTop=b.scrollHeight}
@@ -5745,7 +5747,7 @@ async function send(q){q=String(q||'').trim();if(!q||BUSY)return;
   COUNT++;BUSY=true;EL.btn.disabled=true;EL.kb.hidden=true;if(!MSGS.length){EL.body.querySelector('.av-info')&&EL.body.querySelector('.av-info').remove()}EL.root.classList.remove('empty');
   const prev=MSGS[MSGS.length-1],um={who:'me',text:q,t:tm()};MSGS.push(um);EL.rn=MSGS.length;EL.body.appendChild(bubble(um,prev));EL.inp.value='';EL.root.classList.remove('typing');TURNS.push({role:'user',parts:[{text:q}]});TURNS=TURNS.slice(-12);
   const bm={who:'bot',text:'',t:tm()},node=bubble(bm,um),tx=node.querySelector('.av-tx');tx.innerHTML='<span class="av-ty"><i></i><i></i><i></i></span>';EL.body.appendChild(node);EL.body.scrollTop=EL.body.scrollHeight;state('think');
-  let sys=SYS_BASE+'\n\n'+(O.role||'')+(O.extra?'\n\nمعلومات إضافية من الإدارة:\n'+O.extra:'');try{sys+='\n\nالبيانات الحالية:\n'+(O.ctx?O.ctx():'')}catch(e){}
+  let sys=SYS_BASE()+'\n\n'+(O.role||'')+(O.extra?'\n\nمعلومات إضافية من الإدارة:\n'+O.extra:'');try{sys+='\n\nالبيانات الحالية:\n'+(O.ctx?O.ctx():'')}catch(e){}
   let shown='';const onTok=full=>{shown=full;if(!RAF)RAF=requestAnimationFrame(()=>{RAF=0;state('talk');tx.innerHTML=md(shown,true)+'<span class="av-cr"></span>';const b=EL.body;if(b.scrollHeight-b.scrollTop-b.clientHeight<160)b.scrollTop=b.scrollHeight})};
   try{while(TURNS.length&&TURNS[0].role!=='user')TURNS.shift();const r=await ask({key:O.key,model:O.model,fb:O.fb,sys,turns:TURNS},onTok);
     let text=r.t.trim();
@@ -5765,16 +5767,16 @@ let LOOK=0,LX=0,LY=0;function look(e){LX=e.clientX;LY=e.clientY;if(LOOK)return;L
 let INTRO_T=[];function endIntro(){INTRO_T.forEach(clearTimeout);INTRO_T=[];if(EL&&EL.intro){const n=EL.intro;EL.intro=null;n.classList.add('out');setTimeout(()=>n.remove(),550)}}
 function intro(){if(!O.welcome||SS.get('av_in_'+O.place)||matchMedia('(prefers-reduced-motion:reduce)').matches)return;SS.set('av_in_'+O.place,1);
   const n=document.createElement('div');n.className='av-intro';
-  n.innerHTML=`<div class="av-ip">${AV('lg')}<i class="av-scanl"></i><i class="av-base"></i></div><div class="av-say"><div class="av-sh"><i></i>VISION · AI ONLINE<em>${tm()}</em></div><b>${E(O.welTitle||'هلا بيك')}</b><p><span></span><i class="av-cr"></i></p><div class="av-sbt"><button type="button" class="go">${PLANE}احچي ويه فيجن</button><button type="button" class="lt">بعدين</button></div></div>`;
+  n.innerHTML=`<div class="av-ip">${AV('lg')}<i class="av-scanl"></i><i class="av-base"></i></div><div class="av-say"><div class="av-sh"><i></i>VISION · AI ONLINE<em>${tm()}</em></div><b>${E(O.welTitle||'هلا بيك')}</b><p><span></span><i class="av-cr"></i></p><div class="av-sbt"><button type="button" class="go">${PLANE}احچي ويه ${E(SH())}</button><button type="button" class="lt">بعدين</button></div></div>`;
   EL.root.appendChild(n);EL.intro=n;const sp=n.querySelector('.av-say p span'),txt=O.welcome;let i=0;
   INTRO_T.push(setTimeout(()=>{n.classList.add('talk');const ty=()=>{i+=1;sp.textContent=txt.slice(0,i);if(i<txt.length)INTRO_T.push(setTimeout(ty,/[\s،.!؟]/.test(txt[i-1])?55:24));else{n.classList.add('done');n.classList.remove('talk')}};ty()},1500));
   INTRO_T.push(setTimeout(endIntro,11000));
   n.querySelector('.go').onclick=()=>open(true);n.querySelector('.lt').onclick=e=>{e.stopPropagation();endIntro()}}
-function mount(o){const key=String(o.key||'')+'|'+o.place;if(EL&&EL.key===key){Object.assign(O,o);return}unmount();O=o;
+function mount(o){const key=String(o.key||'')+'|'+o.place+'|'+(o.name||'');if(EL&&EL.key===key){Object.assign(O,o);return}unmount();O=o;
   const st=SS.get('av_'+o.place)||{};TURNS=st.t||[];MSGS=st.m||[];COUNT=st.c||0;
-  const w=document.createElement('div');w.id='avRoot';w.dataset.place=o.place;w.innerHTML=DEFS+`<button type="button" class="av-fab" aria-label="علي فيجن · المساعد الذكي">${AV('md')}<span class="av-dot"></span></button>
-  <div class="av-pan" hidden role="dialog" aria-label="علي فيجن"><div class="av-wall" aria-hidden="true"></div>
-   <header class="av-hd"><button type="button" class="av-x" aria-label="رجوع"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="av-hav">${AV('sm')}</span><div class="av-t"><b>علي فيجن<i class="av-vf">✓</i></b><small class="av-stx">متصل</small></div><button type="button" class="av-new" aria-label="محادثة جديدة" title="محادثة جديدة">${NEWI}</button></header>
+  const w=document.createElement('div');w.id='avRoot';w.dataset.place=o.place;w.innerHTML=DEFS+`<button type="button" class="av-fab" aria-label="${E(NM())} · المساعد الذكي">${AV('md')}<span class="av-dot"></span></button>
+  <div class="av-pan" hidden role="dialog" aria-label="${E(NM())}"><div class="av-wall" aria-hidden="true"></div>
+   <header class="av-hd"><button type="button" class="av-x" aria-label="رجوع"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="av-hav">${AV('sm')}</span><div class="av-t"><b>${E(NM())}<i class="av-vf">✓</i></b><small class="av-stx">متصل</small></div><button type="button" class="av-new" aria-label="محادثة جديدة" title="محادثة جديدة">${NEWI}</button></header>
    <div class="av-body"></div>
    <div class="av-kb" hidden></div>
    <form class="av-in"><div class="av-fld"><input type="text" placeholder="رسالة…" maxlength="500" autocomplete="off" enterkeyhint="send"></div><button type="submit" aria-label="إرسال">${PLANE}</button></form></div>`;
@@ -5796,14 +5798,14 @@ let AVDIRTY=false,AVCAT=null,AVCATT=0,AVON={admin:false,clients:false,show:false
 function avParseFb(t){t=String(t||"");if(!t.trim())return null;const o={};["apiKey","authDomain","projectId","storageBucket","messagingSenderId","appId"].forEach(k=>{const m=t.match(new RegExp('["\']?'+k+'["\']?\\s*:\\s*["\']([^"\']+)["\']'));if(m)o[k]=m[1].trim()});return o.apiKey&&o.projectId&&o.appId?o:false}
 function avForm(){const a=(HUB.cat&&HUB.cat.ai)||{};if(AVDIRTY||!$("avKey"))return;
   const sel=$("avModel");if(sel.options.length<2)sel.innerHTML+=AVBOT.models.map(m=>`<option value="${m}">${m}</option>`).join("");
-  $("avKey").value=a.key||"";sel.value=a.model||"";$("avExtra").value=a.extra||"";$("avFb").value=a.fb?JSON.stringify(a.fb,null,1):"";
+  $("avKey").value=a.key||"";$("avName").value=a.name||"";sel.value=a.model||"";$("avExtra").value=a.extra||"";$("avFb").value=a.fb?JSON.stringify(a.fb,null,1):"";
   AVON=Object.assign({admin:false,clients:false,show:false},a.on||{});document.querySelectorAll("[data-avon]").forEach(b=>{const on=!!AVON[b.dataset.avon];b.setAttribute("aria-pressed",on);b.querySelector(".sw").classList.toggle("on",on)})}
 function avRead(){const fb=avParseFb($("avFb").value);if(fb===false){toast("إعدادات Firebase مو صحيحة");return null}
-  return{key:$("avKey").value.trim(),model:$("avModel").value,extra:$("avExtra").value.trim().slice(0,2000),fb:fb||null,on:Object.assign({},AVON)}}
+  return{name:$("avName").value.trim().slice(0,24),key:$("avKey").value.trim(),model:$("avModel").value,extra:$("avExtra").value.trim().slice(0,2000),fb:fb||null,on:Object.assign({},AVON)}}
 document.addEventListener("input",e=>{if(e.target&&e.target.closest&&e.target.closest("#avCard"))AVDIRTY=true});
 document.addEventListener("click",async e=>{const b=e.target.closest("[data-avon]");if(b){AVDIRTY=true;const k=b.dataset.avon;AVON[k]=!AVON[k];b.setAttribute("aria-pressed",AVON[k]);b.querySelector(".sw").classList.toggle("on",AVON[k]);return}
   if(e.target.closest("#avSave")){const a=avRead();if(!a)return;if((a.on.admin||a.on.clients||a.on.show)&&!a.key){toast("الصق المفتاح أول");return}
-    HUB.cat.ai=a;if(await hubSave()){AVDIRTY=false;toast("انحفظ إعداد علي فيجن");avTick()}}
+    HUB.cat.ai=a;if(await hubSave()){AVDIRTY=false;toast("انحفظ إعداد المساعد الذكي");avTick()}}
   if(e.target.closest("#avTest")){const a=avRead();if(!a)return;if(!a.key){toast("الصق المفتاح أول");return}const st=$("avSt");st.className="avst";st.textContent="جاري الاتصال بالعقل الذكي…";
     try{const r=await AVBOT.test(a);st.className="avst ok";st.textContent="✅ تمام، العقل الذكي يشتغل (الموديل: "+r.m+")"}catch(x){st.className="avst bad";st.textContent="❌ ما اشتغل: "+String(x&&(x.code||x.message)||x).slice(0,160)}}});
 const AVGO_A={home:"الرئيسية",clients:"العملاء والحسابات",orders:"طلبات العملاء",showcase:"معرض المواقع",chat:"رسائل العملاء",bills:"سجل الرسوم",settings:"الإعدادات"};
@@ -5865,14 +5867,14 @@ function avPost(text){let out="";const re=/\[\[(ACT|PAY|REPORT):([\s\S]*?)\]\]/g
 function avCardDone(el,cls,msg){const c=el.closest(".av-card");if(!c)return;c.querySelectorAll(".av-cb button").forEach(b=>b.disabled=true);let r=c.querySelector(".av-res");if(!r){r=document.createElement("div");c.appendChild(r)}r.className="av-res "+cls;r.textContent=msg;try{AVBOT.sync()}catch(e){}}
 async function avDo(k,v,el){const r=AVREG[v];
   if(k==="REP"){const box=el.closest(".av-rep");if(box){box.outerHTML=avReport(v);try{AVBOT.sync()}catch(e){}}return false}
-  if(!r){toast("هذا الطلب قديم، اطلبه من فيجن مرة ثانية");return false}
+  if(!r){toast("هذا الطلب قديم، اطلبه مرة ثانية");return false}
   if(k==="PICK"){const card=el.closest(".av-card");card.outerHTML=r.act==="ACT"?avActCard(r.k,r.o):avPayCard(r.k,r.o);try{AVBOT.sync()}catch(e){}return false}
   if(r.used){toast("تنفذ من قبل");return false}
   if(r.t==="act"){if(k==="EDIT"){openRenewSheet(r.k,{pl:r.pl});AST.pay=r.pay;AST.pd=r.pay==="a"?String(r.pd):"";renderAPanel();return true}
     AVBOT.open(false);openRenewSheet(r.k,{pl:r.pl});AST.pay=r.pay;AST.pd=r.pay==="a"?String(r.pd):"";renderAPanel();await doActivate();
     if(AST.done){r.used=1;avCardDone(el,"ok","✅ تم "+(r.pay==="a"?"التفعيل بالآجل":"التفعيل")+" · ينتهي "+fdate(AST.done.exp))}else avCardDone(el,"wr","⚠️ كمّل البيانات الناقصة بالنافذة (الاسم أو الرقم) ودوس تفعيل");return false}
   if(r.t==="pay"){if(k==="EDIT"){openPay(r.k);setTimeout(()=>{const i=$("pAmt");if(i)i.value=r.amt},30);return true}
-    el.disabled=true;const t=Date.now(),p={k:r.k+"|p"+t,u:r.k,d:t,amt:r.amt,note:"عن طريق فيجن",sid:mySid(),byn:displayName()};
+    el.disabled=true;const t=Date.now(),p={k:r.k+"|p"+t,u:r.k,d:t,amt:r.amt,note:"عن طريق المساعد الذكي",sid:mySid(),byn:displayName()};
     const ok=await guard(()=>savePays([p]));if(ok){r.used=1;play("cash");avCardDone(el,"ok","✅ انسجل التسديد · يبقى عليه "+fmt(debtOf(r.k)))}else el.disabled=false;return false}
   return false}
 function avPlansTxt(){return Object.entries(SET.plans||{}).map(([n,p])=>n+" ("+fmt(+p.s||0)+" د.ع)").join("، ")||"ماكو باقات محددة"}
@@ -5889,15 +5891,15 @@ function avToolsTxt(){return `
 صلاحية التقارير المالية: ${can("reports")||can("finance")?"اي":"لا (إذا طلب تقرير گله ما عندك صلاحية)"}، صلاحية الأرباح: ${can("finance")?"اي":"لا"}.`}
 async function avTick(){let place=null;if(ROLE==="admin")place=VIEWAS?"clients":"admin";else if(ROLE==="marketer"||ROLE==="staff")place="clients";
   if(place==="clients"&&ROLE!=="admin"&&(!AVCAT||Date.now()-AVCATT>60000)){AVCATT=Date.now();try{const d=await fs.doc("hub/catalog").get();AVCAT=d.exists?d.data():{}}catch(e){AVCAT=AVCAT||{}}}
-  const a=(ROLE==="admin"?HUB.cat&&HUB.cat.ai:AVCAT&&AVCAT.ai)||{};
+  const a=(ROLE==="admin"?HUB.cat&&HUB.cat.ai:AVCAT&&AVCAT.ai)||{};const avNm=String(a.name||"علي فيجن").trim()||"علي فيجن",avSh=avNm.split(/\s+/).pop();
   if(!place||!a.key||!(a.on&&a.on[place])){if(AVBOT.mounted())AVBOT.unmount();return}
   if(place==="admin")AVBOT.mount({place,key:a.key,model:a.model,fb:a.fb,extra:a.extra,debug:true,ctx:avCtxAdmin,goLabels:AVGO_A,
     role:"انت ويه علي مالك (صاحب الشركة) داخل لوحة إدارة AM NET، احچي وياه مثل زميل شغل قريب. انطيه ملاحظات ونصايح عملية عن شغله. ساعده يحلل حسابات العملاء والطلبات والرسوم، يكتب رسائل واتساب للعملاء (تذكير تجديد، رد على طلب، عروض)، ويقترح أفكار. تگدر توديه لقسم بكتابة رمز واحد بآخر ردك مثل [[GO:orders]] والأقسام: "+Object.keys(AVGO_A).join("، ")+".",
-    welTitle:"هلا علي، نورت 👋",welSub:"آني فيجن، مساعدك بالإدارة. اسألني عن العملاء والطلبات أو خليني أكتبلك رسالة",welcome:"نورت الإدارة يا علي! إذا تريد تحليل سريع أو رسالة للعملاء، آني حاضر 😉",can:["يلخصلك وضع العملاء والطلبات","يكتبلك رسائل تذكير وعروض","ينطيك نصايح تطوّر شغلك"],sugg:["شنو اللي يحتاج انتباهي اليوم؟","منو حساباتهم قرّبت تخلص؟","اكتبلي رسالة تذكير تجديد","لخصلي آخر الطلبات"],
+    name:avNm,welTitle:"هلا علي، نورت 👋",welSub:"آني "+avSh+"، مساعدك بالإدارة. اسألني عن العملاء والطلبات أو خليني أكتبلك رسالة",welcome:"نورت الإدارة يا علي! إذا تريد تحليل سريع أو رسالة للعملاء، آني حاضر 😉",can:["يلخصلك وضع العملاء والطلبات","يكتبلك رسائل تذكير وعروض","ينطيك نصايح تطوّر شغلك"],sugg:["شنو اللي يحتاج انتباهي اليوم؟","منو حساباتهم قرّبت تخلص؟","اكتبلي رسالة تذكير تجديد","لخصلي آخر الطلبات"],
     onAction:(k,v)=>{if(k==="GO"){location.hash=v==="home"?"admin":"a-"+v;return true}}});
   else AVBOT.mount({place,key:a.key,model:a.model,fb:a.fb,extra:a.extra,ctx:avCtxClient,goLabels:AVGO_C,
     role:"انت داخل نظام AM NET لإدارة مشتركين شركات الإنترنت، تساعد صاحب الحساب أو موظفه يستخدم النظام مثل صديق يفتهم، وتنطيه نصايح تفيد شغله (متابعة الديون، التجديد بوقته، تنظيم المشتركين). صفحات النظام: "+Object.entries(AVGO_C).map(([k,v])=>v+" ["+k+"]").join("، ")+". تگدر توديه لصفحة بكتابة رمز واحد بآخر ردك مثل [[GO:subs]]. إذا سأل عن مشكلة بالنظام أو الاشتراك مالته بالنظام، وجّهه يراسل الإدارة من زر الرسائل. لا تعطي معلومات عن عملاء ثانيين."+avToolsTxt(),
-    welTitle:"هلا بيك 👋",welSub:"آني فيجن، أساعدك تشتغل بالنظام بسهولة. اسألني أي شي",welcome:"هلا والله! آني فيجن، إذا علگت بأي شي بالنظام أدلّك خطوة بخطوة 👌",can:["يشرحلك شلون تفعّل وتستورد","يتابع وياك الديون والتجديد","يدلّك على أي صفحة بالنظام"],sugg:["شلون أفعّل مشترك؟","شلون أستورد ملف PDF؟","وين أشوف الديون؟","شنو وضع مشتركيني؟"],
+    name:avNm,welTitle:"هلا بيك 👋",welSub:"آني "+avSh+"، أساعدك تشتغل بالنظام بسهولة. اسألني أي شي",welcome:"هلا والله! آني "+avSh+"، إذا علگت بأي شي بالنظام أدلّك خطوة بخطوة 👌",can:["يشرحلك شلون تفعّل وتستورد","يتابع وياك الديون والتجديد","يدلّك على أي صفحة بالنظام"],sugg:["شلون أفعّل مشترك؟","شلون أستورد ملف PDF؟","وين أشوف الديون؟","شنو وضع مشتركيني؟"],
     find:avFind,post:avPost,onAction:(k,v,el)=>{if(k==="GO"){location.hash=v;return true}if(["DO","EDIT","PICK","REP"].includes(k)){avDo(k,v,el).then(c=>{if(c===true)AVBOT.open(false)});return false}}})}
 setInterval(avTick,2500);
 function boot(){

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.12-5">
+<meta name="app-build" content="2026.11.12-6">
 <title>AM · اطلب نظامك</title>
 <meta name="description" content="AM للحلول التقنية — اختار نظامك واطلبه">
 <meta name="theme-color" content="#0b0c10">
@@ -944,14 +944,15 @@ async function ask(p,onTok){const {G,ai}=await core(String(p.key||''),p.fb);cons
   throw last}
 /* ---------- avatar: "the prism eye" ---------- */
 const DEFS='<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="avgA" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff6b7c"/><stop offset=".55" stop-color="#ec1c32"/><stop offset="1" stop-color="#5c0712"/></linearGradient><linearGradient id="avgB" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ef0ff"/><stop offset=".5" stop-color="#19c3e0"/><stop offset="1" stop-color="#05394a"/></linearGradient><linearGradient id="avgC" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#2a0910"/><stop offset="1" stop-color="#8a1222"/></linearGradient><radialGradient id="avgI" cx=".42" cy=".38" r=".7"><stop offset="0" stop-color="#ffffff"/><stop offset=".22" stop-color="#9ff6ff"/><stop offset=".55" stop-color="#19c3e0"/><stop offset="1" stop-color="#033a4a"/></radialGradient><radialGradient id="avgG" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#19c3e0" stop-opacity=".55"/><stop offset="1" stop-color="#19c3e0" stop-opacity="0"/></radialGradient></defs></svg>';
-const RING='<svg viewBox="0 0 100 100" class="av-rg"><path id="avgR" d="M50 50m-44 0a44 44 0 1 1 88 0a44 44 0 1 1 -88 0" fill="none"/><circle cx="50" cy="50" r="48.5" fill="none" stroke="#19c3e0" stroke-opacity=".22" stroke-width=".6" stroke-dasharray="1 3"/><text><textPath href="#avgR">ع ✦ ل ✦ ي ✦ ف ✦ ي ✦ ج ✦ ن ✦ V I S I O N ✦ ع ✦ ل ✦ ي ✦ ف ✦ ي ✦ ج ✦ ن ✦ A M ✦</textPath></text></svg>';
+const RING=()=>{const L=[...NM().replace(/\s+/g,'')].join(' ')+' ✦ A I ✦ ';return '<svg viewBox="0 0 100 100" class="av-rg"><path id="avgR" d="M50 50m-44 0a44 44 0 1 1 88 0a44 44 0 1 1 -88 0" fill="none"/><circle cx="50" cy="50" r="48.5" fill="none" stroke="#19c3e0" stroke-opacity=".22" stroke-width=".6" stroke-dasharray="1 3"/><text><textPath href="#avgR">'+E(L.repeat(4))+'</textPath></text></svg>'};
 const PRISM='<svg viewBox="0 0 100 100" class="av-pr"><ellipse cx="50" cy="90" rx="22" ry="3.2" fill="#19c3e0" fill-opacity=".28"/><polygon points="50,12 88,80 50,68" fill="url(#avgA)"/><polygon points="50,12 12,80 50,68" fill="url(#avgB)"/><polygon points="12,80 88,80 50,68" fill="url(#avgC)"/><polyline points="50,12 50,40" stroke="#fff" stroke-opacity=".5" stroke-width=".8" fill="none"/><polygon points="50,12 88,80 12,80" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1" stroke-linejoin="round"/><path d="M50 12 L63 35" stroke="#fff" stroke-opacity=".75" stroke-width="1.6" stroke-linecap="round"/><circle class="av-ant" cx="50" cy="8" r="2.6" fill="#fff"/>'
   +'<polygon points="33,46 67,46 74,60 26,60" fill="#04060a" stroke="#9ff6ff" stroke-opacity=".55" stroke-width="1" stroke-linejoin="round"/><g class="av-eye"><g class="av-iris"><rect class="av-e1" x="38" y="48.5" width="7" height="9" rx="3.5" fill="url(#avgI)"/><rect class="av-e2" x="55" y="48.5" width="7" height="9" rx="3.5" fill="url(#avgI)"/></g><g class="av-happy" fill="none" stroke="#9ff6ff" stroke-width="2.2" stroke-linecap="round"><path d="M38 55q3.5-5 7 0"/><path d="M55 55q3.5-5 7 0"/></g></g><g class="av-scan" fill="#19c3e0"><circle cx="40" cy="53" r="1.6"/><circle cx="46" cy="53" r="1.6"/><circle cx="52" cy="53" r="1.6"/><circle cx="58" cy="53" r="1.6"/></g></svg>';
-const AV=(cls)=>`<span class="av-a ${cls||''}"><span class="av-rgw">${RING}</span><span class="av-prw">${PRISM}</span></span>`;
+const AV=(cls)=>`<span class="av-a ${cls||''}"><span class="av-rgw">${RING()}</span><span class="av-prw">${PRISM}</span></span>`;
 const SEND='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const NEWI='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 /* ---------- voice ---------- */
-const SYS_BASE=`انت "فيجن" واسمك الكامل "علي فيجن"، مساعد ذكي من شركة AM للحلول التقنية (تصميم وبرمجة علي مالك).
+const NM=()=>String(O&&O.name||'علي فيجن').trim()||'علي فيجن',SH=()=>{const w=NM().split(/\s+/);return w[w.length-1]};
+const SYS_BASE=()=>`انت "${SH()}" واسمك الكامل "${NM()}"، مساعد ذكي من شركة AM للحلول التقنية (تصميم وبرمجة علي مالك).
 طريقة حچيك (مهمة جداً):
 - عراقي بغدادي 100٪ مثل شاب عراقي طبيعي وذكي وودود. استخدم كلمات مثل: هلا، هلا بيك، شلونك، شكو ماكو، هسه، شنو، ليش، اكو، ماكو، گول، يعني، خوش، زين، والله، عيني، أگدر، أريد، چا، هواية، شوية، بلكي، لعد، ترة، صدگ، يمعود، تدلل، على راسي، ولا يهمك.
 - ممنوع الفصحى الرسمية، وممنوع اللهجات الثانية (لا تگول: ازيك، كده، عايز، وش، ايش، الحين، أبغى، زي، برضو).
@@ -973,8 +974,8 @@ const PLANE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 3.6 2.9 
 const TICK='<svg viewBox="0 0 18 12" aria-hidden="true"><path d="M1 6.5 4.6 10 11 2M7 9.6l.6.4L14 2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 const tm=()=>new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});
 function bubble(m,prev){const d=document.createElement('div'),grp=prev&&prev.who===m.who;d.className='av-m '+m.who+(grp?' grp':'')+(m.x?' wide':'');
-  d.innerHTML=(m.who==='bot'?`<span class="av-mav">${AV('xs')}</span>`:'')+`<div class="av-bb">${m.who==='bot'&&!grp?'<b class="av-nm">علي فيجن</b>':''}<div class="av-tx">${m.who==='bot'?md(m.text):E(m.text)}</div>${m.x||''}<span class="av-tm">${m.t||''}${m.who==='me'?TICK:''}</span></div>`;return d}
-function intro_card(){return `<div class="av-info"><span class="av-ia">${AV('xl')}</span><b>علي فيجن <i class="av-vf">✓</i></b><small>مساعد ذكي · AM TECH</small><p>${E(O.welSub||'اسألني أي شي، وآني حاضر')}</p><ul>${(O.can||[]).map(x=>`<li>${E(x)}</li>`).join('')}</ul></div>`}
+  d.innerHTML=(m.who==='bot'?`<span class="av-mav">${AV('xs')}</span>`:'')+`<div class="av-bb">${m.who==='bot'&&!grp?'<b class="av-nm">'+E(NM())+'</b>':''}<div class="av-tx">${m.who==='bot'?md(m.text):E(m.text)}</div>${m.x||''}<span class="av-tm">${m.t||''}${m.who==='me'?TICK:''}</span></div>`;return d}
+function intro_card(){return `<div class="av-info"><span class="av-ia">${AV('xl')}</span><b>${E(NM())} <i class="av-vf">✓</i></b><small>مساعد ذكي · AM TECH</small><p>${E(O.welSub||'اسألني أي شي، وآني حاضر')}</p><ul>${(O.can||[]).map(x=>`<li>${E(x)}</li>`).join('')}</ul></div>`}
 function render(){const b=EL.body;b.innerHTML='<div class="av-day"><span>اليوم</span></div>';EL.root.classList.toggle('empty',!MSGS.length);
   if(!MSGS.length){b.insertAdjacentHTML('beforeend',intro_card())}else{let pv=null;MSGS.forEach(m=>{b.appendChild(bubble(m,pv));pv=m})}
   EL.rn=MSGS.length;EL.kb.innerHTML=(O.sugg||[]).map(s=>`<button type="button" data-avs="${E(s)}">${E(s)}</button>`).join('');EL.kb.hidden=!!MSGS.length;b.scrollTop=b.scrollHeight}
@@ -986,7 +987,7 @@ async function send(q){q=String(q||'').trim();if(!q||BUSY)return;
   COUNT++;BUSY=true;EL.btn.disabled=true;EL.kb.hidden=true;if(!MSGS.length){EL.body.querySelector('.av-info')&&EL.body.querySelector('.av-info').remove()}EL.root.classList.remove('empty');
   const prev=MSGS[MSGS.length-1],um={who:'me',text:q,t:tm()};MSGS.push(um);EL.rn=MSGS.length;EL.body.appendChild(bubble(um,prev));EL.inp.value='';EL.root.classList.remove('typing');TURNS.push({role:'user',parts:[{text:q}]});TURNS=TURNS.slice(-12);
   const bm={who:'bot',text:'',t:tm()},node=bubble(bm,um),tx=node.querySelector('.av-tx');tx.innerHTML='<span class="av-ty"><i></i><i></i><i></i></span>';EL.body.appendChild(node);EL.body.scrollTop=EL.body.scrollHeight;state('think');
-  let sys=SYS_BASE+'\n\n'+(O.role||'')+(O.extra?'\n\nمعلومات إضافية من الإدارة:\n'+O.extra:'');try{sys+='\n\nالبيانات الحالية:\n'+(O.ctx?O.ctx():'')}catch(e){}
+  let sys=SYS_BASE()+'\n\n'+(O.role||'')+(O.extra?'\n\nمعلومات إضافية من الإدارة:\n'+O.extra:'');try{sys+='\n\nالبيانات الحالية:\n'+(O.ctx?O.ctx():'')}catch(e){}
   let shown='';const onTok=full=>{shown=full;if(!RAF)RAF=requestAnimationFrame(()=>{RAF=0;state('talk');tx.innerHTML=md(shown,true)+'<span class="av-cr"></span>';const b=EL.body;if(b.scrollHeight-b.scrollTop-b.clientHeight<160)b.scrollTop=b.scrollHeight})};
   try{while(TURNS.length&&TURNS[0].role!=='user')TURNS.shift();const r=await ask({key:O.key,model:O.model,fb:O.fb,sys,turns:TURNS},onTok);
     let text=r.t.trim();
@@ -1006,16 +1007,16 @@ let LOOK=0,LX=0,LY=0;function look(e){LX=e.clientX;LY=e.clientY;if(LOOK)return;L
 let INTRO_T=[];function endIntro(){INTRO_T.forEach(clearTimeout);INTRO_T=[];if(EL&&EL.intro){const n=EL.intro;EL.intro=null;n.classList.add('out');setTimeout(()=>n.remove(),550)}}
 function intro(){if(!O.welcome||SS.get('av_in_'+O.place)||matchMedia('(prefers-reduced-motion:reduce)').matches)return;SS.set('av_in_'+O.place,1);
   const n=document.createElement('div');n.className='av-intro';
-  n.innerHTML=`<div class="av-ip">${AV('lg')}<i class="av-scanl"></i><i class="av-base"></i></div><div class="av-say"><div class="av-sh"><i></i>VISION · AI ONLINE<em>${tm()}</em></div><b>${E(O.welTitle||'هلا بيك')}</b><p><span></span><i class="av-cr"></i></p><div class="av-sbt"><button type="button" class="go">${PLANE}احچي ويه فيجن</button><button type="button" class="lt">بعدين</button></div></div>`;
+  n.innerHTML=`<div class="av-ip">${AV('lg')}<i class="av-scanl"></i><i class="av-base"></i></div><div class="av-say"><div class="av-sh"><i></i>VISION · AI ONLINE<em>${tm()}</em></div><b>${E(O.welTitle||'هلا بيك')}</b><p><span></span><i class="av-cr"></i></p><div class="av-sbt"><button type="button" class="go">${PLANE}احچي ويه ${E(SH())}</button><button type="button" class="lt">بعدين</button></div></div>`;
   EL.root.appendChild(n);EL.intro=n;const sp=n.querySelector('.av-say p span'),txt=O.welcome;let i=0;
   INTRO_T.push(setTimeout(()=>{n.classList.add('talk');const ty=()=>{i+=1;sp.textContent=txt.slice(0,i);if(i<txt.length)INTRO_T.push(setTimeout(ty,/[\s،.!؟]/.test(txt[i-1])?55:24));else{n.classList.add('done');n.classList.remove('talk')}};ty()},1500));
   INTRO_T.push(setTimeout(endIntro,11000));
   n.querySelector('.go').onclick=()=>open(true);n.querySelector('.lt').onclick=e=>{e.stopPropagation();endIntro()}}
-function mount(o){const key=String(o.key||'')+'|'+o.place;if(EL&&EL.key===key){Object.assign(O,o);return}unmount();O=o;
+function mount(o){const key=String(o.key||'')+'|'+o.place+'|'+(o.name||'');if(EL&&EL.key===key){Object.assign(O,o);return}unmount();O=o;
   const st=SS.get('av_'+o.place)||{};TURNS=st.t||[];MSGS=st.m||[];COUNT=st.c||0;
-  const w=document.createElement('div');w.id='avRoot';w.dataset.place=o.place;w.innerHTML=DEFS+`<button type="button" class="av-fab" aria-label="علي فيجن · المساعد الذكي">${AV('md')}<span class="av-dot"></span></button>
-  <div class="av-pan" hidden role="dialog" aria-label="علي فيجن"><div class="av-wall" aria-hidden="true"></div>
-   <header class="av-hd"><button type="button" class="av-x" aria-label="رجوع"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="av-hav">${AV('sm')}</span><div class="av-t"><b>علي فيجن<i class="av-vf">✓</i></b><small class="av-stx">متصل</small></div><button type="button" class="av-new" aria-label="محادثة جديدة" title="محادثة جديدة">${NEWI}</button></header>
+  const w=document.createElement('div');w.id='avRoot';w.dataset.place=o.place;w.innerHTML=DEFS+`<button type="button" class="av-fab" aria-label="${E(NM())} · المساعد الذكي">${AV('md')}<span class="av-dot"></span></button>
+  <div class="av-pan" hidden role="dialog" aria-label="${E(NM())}"><div class="av-wall" aria-hidden="true"></div>
+   <header class="av-hd"><button type="button" class="av-x" aria-label="رجوع"><svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button><span class="av-hav">${AV('sm')}</span><div class="av-t"><b>${E(NM())}<i class="av-vf">✓</i></b><small class="av-stx">متصل</small></div><button type="button" class="av-new" aria-label="محادثة جديدة" title="محادثة جديدة">${NEWI}</button></header>
    <div class="av-body"></div>
    <div class="av-kb" hidden></div>
    <form class="av-in"><div class="av-fld"><input type="text" placeholder="رسالة…" maxlength="500" autocomplete="off" enterkeyhint="send"></div><button type="submit" aria-label="إرسال">${PLANE}</button></form></div>`;
@@ -1037,11 +1038,11 @@ function avCtxShow(){const c=PC.company||{},L=["الشركة: "+(c.ar||"AM لل�
   prods().forEach(p=>{const P=plans(p),o=offOn(p);let pr="";if(P){pr=(P.pm?"شهري "+f0(P.npm)+" د.ع":"")+(P.pm&&P.py?"، ":"")+(P.py?"سنوي "+f0(P.npy)+" د.ع":"");if(o)pr+=" (بعد خصم "+o.pct+"% — "+o.lbl+(o.left!=null?"، باقي "+o.left+" يوم":"")+"؛ قبل الخصم: "+(P.pm?"شهري "+f0(P.pm):"")+(P.pm&&P.py?"، ":"")+(P.py?"سنوي "+f0(P.py):"")+")"}else pr=p.price||"حسب الطلب (ما محدد)";
     L.push("\n## "+p.name+" ["+p.id+"]"+(p.en?" — "+p.en:""),p.tag?"وصف: "+p.tag:"",p.desc?"شرح: "+p.desc:"",(p.feats||[]).length?"مزايا: "+p.feats.join("؛ "):"","السعر: "+pr,p.demo?"رابط تجربة: "+p.demo:"")});
   return L.filter(Boolean).join("\n")}
-function avShow(){const a=PC.ai||{};if(!a.key||!(a.on&&a.on.show)){if(window.AVBOT&&AVBOT.mounted())AVBOT.unmount();return}
+function avShow(){const a=PC.ai||{};const avNm=String(a.name||"علي فيجن").trim()||"علي فيجن",avSh=avNm.split(/\s+/).pop();if(!a.key||!(a.on&&a.on.show)){if(window.AVBOT&&AVBOT.mounted())AVBOT.unmount();return}
   const ps=prods();AVBOT.mount({place:"show",key:a.key,model:a.model,fb:a.fb,extra:a.extra,maxMsgs:25,ctx:avCtxShow,
     orderLabel:id=>{const p=ps.find(x=>x.id===id);return p?"اطلب "+p.name:"اطلب موقع خاص"},
     role:"انت بصفحة معرض الأنظمة وتحچي ويه زبون. احچي وياه مثل بياع عراقي شاطر وصادق، مو ملحاح. هدفك تفهم شغل الزبون، تشرحله الأنظمة والأسعار والعروض بوضوح، وتنصحه بالأنسب، وتشجعه يطلب. لما تنصح بنظام أو الزبون يريد يطلب، حط بآخر ردك رمز واحد [[ORDER:المعرّف]] بمعرّف النظام، ولموقع خاص من الصفر [[ORDER:]]. لا تذكر المعرّفات بالكلام. إذا سأل عن شي مو موجود بالبيانات اقترح يتواصل واتساب.",
-    welTitle:"هلا بيك، نورتنا 👋",welSub:"آني فيجن من AM. گلي شنو شغلك وأنصحك بالنظام اللي يناسبك",welcome:"هلا والله نورتنا! آني فيجن، محتار شنو تختار؟ گلي شنو شغلك وآني أنصحك 😉",can:["يشرحلك كل نظام ومزاياه","يگلك الأسعار والعروض","ينصحك بالأنسب لشغلك ويطلبلك"],sugg:["عندي شركة انترنت، شنو يناسبني؟","شگد الأسعار؟","اكو عروض هسه؟","أريد موقع خاص"],
+    name:avNm,welTitle:"هلا بيك، نورتنا 👋",welSub:"آني "+avSh+" من AM. گلي شنو شغلك وأنصحك بالنظام اللي يناسبك",welcome:"هلا والله نورتنا! آني "+avSh+"، محتار شنو تختار؟ گلي شنو شغلك وآني أنصحك 😉",can:["يشرحلك كل نظام ومزاياه","يگلك الأسعار والعروض","ينصحك بالأنسب لشغلك ويطلبلك"],sugg:["عندي شركة انترنت، شنو يناسبني؟","شگد الأسعار؟","اكو عروض هسه؟","أريد موقع خاص"],
     onAction:(k,v)=>{if(k==="ORDER"){orderForm(v);return true}}})}
 function orderForm(id){const ps=prods(),types=(PC.types&&PC.types.length?PC.types:DEF_TYPES),custom=!id;
   sheet(`<span>NEW ORDER</span><b>AM-TECH</b>`,"طلب جديد",`<div class="fsum" id="f_sum"></div><label for="f_name" style="margin-top:4px">اسمك</label><input id="f_name" autocomplete="name" maxlength="80"><label for="f_phone">رقم الهاتف</label><input id="f_phone" inputmode="tel" dir="ltr" placeholder="07xxxxxxxxx" autocomplete="tel" maxlength="20">
