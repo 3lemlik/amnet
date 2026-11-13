@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.13-7">
+<meta name="app-build" content="2026.11.13-8">
 <meta name="theme-color" content="#0b0c10">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -861,26 +861,47 @@ function stopScan(){stopCam();const o=$("scanOv");if(o)o.remove()}
 function loadZX(){if(window.ZXingBrowser)return Promise.resolve();if(ZXP)return ZXP;ZXP=new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/umd/zxing-browser.min.js";sc.onload=()=>res();sc.onerror=()=>{ZXP=null;rej({code:"zx"})};document.head.appendChild(sc)});return ZXP}
 async function scan(to){
   stopScan();const ov=document.createElement("div");ov.id="scanOv";ov.style.cssText="position:fixed;inset:0;z-index:130;background:rgba(0,0,0,.82);display:flex;align-items:flex-end;justify-content:center";
-  ov.innerHTML=`<div style="width:min(560px,100%);background:var(--panel);border-radius:20px 20px 0 0;padding:14px 16px calc(16px + var(--sab))"><div class="hd" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div><h2>مسح الباركود</h2><div class="sub">وجّه كاميرا الموبايل على الباركود</div></div><button class="ib" data-scanx>${ic("x")}</button></div><div style="position:relative;border-radius:14px;overflow:hidden;background:#000"><video id="scv" playsinline muted autoplay style="width:100%;display:block;max-height:55vh;object-fit:cover"></video><div style="position:absolute;inset:22% 10%;border:2px solid var(--accent);border-radius:12px;box-shadow:0 0 0 999px rgba(0,0,0,.35)"></div><i style="position:absolute;left:12%;right:12%;top:50%;height:2px;background:var(--bad);box-shadow:0 0 10px var(--bad);animation:pulse 1.2s infinite"></i></div><p class="sub" id="scMsg" style="text-align:center;margin-top:10px">دا يفتح الكاميرا…</p><button class="btn wide" data-scanx style="margin-top:10px">إلغاء</button></div>`;
-  document.body.appendChild(ov);ov.addEventListener("click",e=>{if(e.target===ov||e.target.closest("[data-scanx]")){e.stopPropagation();stopScan()}});
-  const v=$("scv"),msg=t=>{const e=$("scMsg");if(e)e.textContent=t};let done=false;
-  const hit=val=>{if(done)return;done=true;stopScan();beep("click");try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}const i=$(to);if(i){i.value=val;i.dispatchEvent(new Event("input",{bubbles:true}));i.dispatchEvent(new Event("change",{bubbles:true}))}};
-  const CONS={video:{facingMode:{ideal:"environment"},width:{ideal:1280},height:{ideal:720},focusMode:{ideal:"continuous"}}};
+  ov.innerHTML=`<div style="width:min(560px,100%);background:var(--panel);border-radius:20px 20px 0 0;padding:14px 16px calc(16px + var(--sab))"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div><h2>مسح الباركود</h2><div class="sub">وجّه كاميرا الموبايل على الباركود</div></div><button class="ib" data-scanx>${ic("x")}</button></div><div id="scBox" style="position:relative;border-radius:14px;overflow:hidden;background:#000"><video id="scv" playsinline muted autoplay style="width:100%;display:block;max-height:52vh;object-fit:cover"></video><div id="scFrame" style="position:absolute;inset:24% 8%;border:2px solid var(--accent);border-radius:12px;box-shadow:0 0 0 999px rgba(0,0,0,.35);transition:border-color .2s"></div><i style="position:absolute;left:10%;right:10%;top:50%;height:2px;background:var(--bad);box-shadow:0 0 10px var(--bad);animation:pulse 1.2s infinite"></i></div><p class="sub" id="scMsg" style="text-align:center;margin-top:10px;min-height:22px">دا يفتح الكاميرا…</p><div id="scAlt" style="display:flex;gap:8px;margin-top:8px"></div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn" data-scanre style="flex:1">${ic("undo")} إعادة تشغيل الكاميرا</button><button class="btn" data-scanx style="flex:1">إلغاء</button></div></div>`;
+  document.body.appendChild(ov);
+  const v=$("scv"),msg=(t,c)=>{const e=$("scMsg");if(e){e.textContent=t;e.style.color=c||""}},frame=c=>{const f=$("scFrame");if(f)f.style.borderColor=c||""};
+  const needProd=["posQ","stQ","buyQ"].includes(to);let done=false,last="",lastN=0,ignore={},alive=false,stream=null,lastT=-1,stuck=0,mode="";
+  const finish=val=>{if(done)return;done=true;stopScan();beep("click");try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}const i=$(to);if(i){i.value=val;i.dispatchEvent(new Event("input",{bubbles:true}));i.dispatchEvent(new Event("change",{bubbles:true}))}};
+  /* قراءة مؤكدة: نفس الرقم مرتين ورا بعض حتى ما ياخذ قراءة غلط */
+  const got=raw=>{const val=String(raw||"").trim();if(!val||done)return;if(ignore[val]&&Date.now()<ignore[val])return;
+    if(val!==last){last=val;lastN=1;return}if(++lastN<2)return;
+    if(needProd&&!prodList().some(p=>p.bar&&normD(p.bar)===normD(val))){ignore[val]=Date.now()+2500;last="";frame("var(--warn)");msg(`الباركود ${val} مو مسجّل بالمخزون — جرّب غيره`,"var(--warn)");beep("alert");
+      const alt=$("scAlt");if(alt)alt.innerHTML=`<button class="btn soft" style="flex:1" data-scanuse="${esc(val)}">استخدم ${esc(val)} بالبحث</button>`;setTimeout(()=>{if(!done){frame();msg("وجّه الباركود داخل المربع")}},2500);return}
+    frame("var(--ok)");finish(val)};
+  ov.addEventListener("click",e=>{const u=e.target.closest("[data-scanuse]");if(u){e.stopPropagation();finish(u.dataset.scanuse);return}if(e.target.closest("[data-scanre]")){e.stopPropagation();restart();return}if(e.target===ov||e.target.closest("[data-scanx]")){e.stopPropagation();stopScan()}});
+  const CONS={audio:false,video:{facingMode:{ideal:"environment"},width:{ideal:1280},height:{ideal:720}}};
+  let fmts=[],det=null,rd=null;
+  async function openCam(){stopCam();stream=await navigator.mediaDevices.getUserMedia(CONS);if(!$("scv")||done){stream.getTracks().forEach(t=>t.stop());return false}
+    v.srcObject=stream;try{await v.play()}catch(e){}alive=true;lastT=-1;stuck=0;SCANCTL=()=>{alive=false;try{stream&&stream.getTracks().forEach(t=>t.stop())}catch(e){}};
+    try{const tr=stream.getVideoTracks()[0],cap=tr.getCapabilities?tr.getCapabilities():{};if(cap.focusMode&&cap.focusMode.includes("continuous"))tr.applyConstraints({advanced:[{focusMode:"continuous"}]}).catch(()=>{})}catch(e){}
+    msg("وجّه الباركود داخل المربع");frame();return true}
+  async function restart(){if(done)return;msg("دا يعيد تشغيل الكاميرا…");last="";try{if(await openCam())loop()}catch(e){fail(e)}}
+  const c=document.createElement("canvas"),cx=c.getContext("2d",{willReadFrequently:true});let n=0;
+  /* اللوب ما يوگف أبداً: أي خطأ بقراءة إطار ينتجاهل ونكمل، ومراقب يعيد تشغيل الكاميرا إذا الصورة جمدت */
+  function loop(){const my=stream;const tick=async()=>{if(!alive||done||stream!==my)return;
+      try{if(v.paused||v.ended){v.play().catch(()=>{})}
+        if(v.readyState>=2&&v.videoWidth){if(v.currentTime===lastT){if(++stuck>25){stuck=0;restart();return}}else{stuck=0;lastT=v.currentTime}
+          if(mode==="native"){const r=await det.detect(v);if(r&&r.length)got(r[0].rawValue)}
+          else{const vw=v.videoWidth,vh=v.videoHeight,k=n++%3,tall=k===2;const cw=vw*(k===1?.96:.86),ch=vh*(tall?.75:.38),sx=(vw-cw)/2,sy=(vh-ch)/2,W=Math.min(960,cw),H=Math.max(1,Math.round(ch*W/cw));c.width=W;c.height=H;cx.drawImage(v,sx,sy,cw,ch,0,0,W,H);
+            let r=null;try{r=rd.decodeFromCanvas(c)}catch(e){}if(r)got(r.getText())}}}
+      catch(e){}
+      if(alive&&!done&&stream===my)setTimeout(tick,mode==="native"?60:55)};tick()}
+  function fail(e){console.error(e);stopCam();msg(e&&e.code==="zx"?"ما گدرت أحمّل قارئ الباركود، تأكد من الإنترنت":(e&&(e.name==="NotAllowedError"||e.name==="SecurityError"))?"اسمح للموقع يستخدم الكاميرا: الإعدادات ← Safari ← الكاميرا ← سماح":"ما گدرت أفتح الكاميرا — دوس إعادة تشغيل","var(--bad)")}
   try{
-    let fmts=[];if("BarcodeDetector" in window){try{fmts=await BarcodeDetector.getSupportedFormats()}catch(e){}}
-    if(fmts.length){const st=await navigator.mediaDevices.getUserMedia(CONS);if(!$("scv")){st.getTracks().forEach(t=>t.stop());return}v.srcObject=st;await v.play();let alive=true;SCANCTL=()=>{alive=false;st.getTracks().forEach(t=>t.stop())};msg("وجّه الباركود داخل المربع");
-      const det=new BarcodeDetector({formats:fmts.filter(f=>["ean_13","ean_8","code_128","code_39","upc_a","upc_e","itf","qr_code","data_matrix"].includes(f))});
-      const tick=async()=>{if(!alive)return;try{const r=await det.detect(v);if(r.length)return hit(r[0].rawValue)}catch(e){}setTimeout(tick,60)};tick();return}
-    msg("دا يحمّل قارئ الباركود…");await loadZX();if(!$("scv"))return;
-    const Z=window.ZXingBrowser;let hints;try{if(Z.DecodeHintType&&Z.BarcodeFormat){hints=new Map();const F=Z.BarcodeFormat;hints.set(Z.DecodeHintType.POSSIBLE_FORMATS,[F.EAN_13,F.EAN_8,F.UPC_A,F.UPC_E,F.CODE_128,F.CODE_39,F.ITF,F.QR_CODE].filter(x=>x!=null))}}catch(e){hints=undefined}
-    const rd=new Z.BrowserMultiFormatReader(hints,{delayBetweenScanAttempts:60,delayBetweenScanSuccess:60});
-    if(typeof rd.decodeFromCanvas==="function"){
-      /* أسرع: نقرا شريط بنص الصورة بس وبحجم أصغر، 10+ مرات بالثانية */
-      const st=await navigator.mediaDevices.getUserMedia(CONS);if(!$("scv")){st.getTracks().forEach(t=>t.stop());return}v.srcObject=st;await v.play().catch(()=>{});let alive=true;SCANCTL=()=>{alive=false;st.getTracks().forEach(t=>t.stop())};msg("وجّه الباركود داخل المربع");
-      const c=document.createElement("canvas"),x=c.getContext("2d",{willReadFrequently:true});let n=0;
-      const tick=()=>{if(!alive||done)return;const vw=v.videoWidth,vh=v.videoHeight;if(vw&&vh){const tall=(n++%4===3);const cw=vw*.86,ch=vh*(tall?.7:.36),sx=(vw-cw)/2,sy=(vh-ch)/2,W=Math.min(900,cw),H=Math.round(ch*W/cw);c.width=W;c.height=H;x.drawImage(v,sx,sy,cw,ch,0,0,W,H);try{const r=rd.decodeFromCanvas(c);if(r)return hit(r.getText())}catch(e){}}setTimeout(tick,70)};tick()
-    }else{const ctl=await rd.decodeFromConstraints(CONS,v,res=>{if(res)hit(res.getText())});SCANCTL=()=>{try{ctl.stop()}catch(e){}};if(done||!$("scv"))stopCam();else msg("وجّه الباركود داخل المربع")}
-  }catch(e){console.error(e);stopCam();msg(e&&e.code==="zx"?"ما گدرت أحمّل قارئ الباركود، تأكد من الإنترنت":(e&&(e.name==="NotAllowedError"||e.name==="SecurityError"))?"اسمح للموقع يستخدم الكاميرا: الإعدادات ← Safari ← الكاميرا ← سماح":"ما گدرت أفتح الكاميرا")}}
+    if("BarcodeDetector" in window){try{fmts=await BarcodeDetector.getSupportedFormats()}catch(e){}}
+    const want=["ean_13","ean_8","code_128","code_39","upc_a","upc_e","itf","qr_code","data_matrix"];
+    if(fmts.some(f=>want.includes(f))){det=new BarcodeDetector({formats:fmts.filter(f=>want.includes(f))});mode="native"}
+    else{msg("دا يحمّل قارئ الباركود…");await loadZX();if(done||!$("scv"))return;const Z=window.ZXingBrowser;let hints;
+      try{if(Z.DecodeHintType&&Z.BarcodeFormat){hints=new Map();const F=Z.BarcodeFormat;hints.set(Z.DecodeHintType.POSSIBLE_FORMATS,[F.EAN_13,F.EAN_8,F.UPC_A,F.UPC_E,F.CODE_128,F.CODE_39,F.ITF,F.QR_CODE].filter(x=>x!=null))}}catch(e){hints=undefined}
+      rd=new Z.BrowserMultiFormatReader(hints,{delayBetweenScanAttempts:60,delayBetweenScanSuccess:60});
+      if(typeof rd.decodeFromCanvas!=="function"){const ctl=await rd.decodeFromConstraints(CONS,v,res=>{if(res)got(res.getText())});SCANCTL=()=>{try{ctl.stop()}catch(e){}};if(done||!$("scv"))stopCam();else msg("وجّه الباركود داخل المربع");return}
+      mode="zx"}
+    if(await openCam())loop()
+  }catch(e){fail(e)}}
 /* ================= PWA ================= */
 if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
 async function checkBuild(){try{const r=await fetch(location.pathname+"?b="+Date.now(),{cache:"no-store"});const t=await r.text();const m=t.match(/app-build" content="([^"]+)"/);if(m&&m[1]!==BUILD)location.reload()}catch(e){}}
