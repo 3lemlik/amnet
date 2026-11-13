@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
+<script>/* حماية: إذا انفتح AM NET بمسار موقع آخر (pharmacy) بسبب كاش قديم، يرجع يحمّل الصفحة الصحيحة */(function(){try{var m=location.pathname.match(/^(.*\/)(pharmacy)\//);if(!m)return;var k="amfix"+m[2];if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,1);document.documentElement.style.display="none";var go=function(){location.replace(location.pathname+"?v="+Date.now())};if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations){navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.filter(function(r){return !/\/pharmacy\/$/.test(r.scope)}).map(function(r){return r.unregister()}))}).then(go,go)}else go()}catch(e){}})();</script>
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.13-1">
+<meta name="amnet-build" content="2026.11.13-2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
