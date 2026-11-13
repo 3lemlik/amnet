@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.13-4">
+<meta name="app-build" content="2026.11.13-5">
 <meta name="theme-color" content="#0b0c10">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -142,8 +142,10 @@ h2{font-family:var(--display);font-weight:800;font-size:18px}
 /* toast / sheet / gate */
 #toast{position:fixed;top:calc(12px + var(--sat));left:50%;transform:translateX(-50%);background:var(--ink);color:var(--void);padding:10px 18px;border-radius:999px;font-weight:600;z-index:200;box-shadow:0 10px 30px -10px rgba(0,0,0,.6);max-width:92vw;animation:drop .25s}
 @keyframes drop{from{transform:translate(-50%,-20px);opacity:0}}
-#sheetBg{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:90;animation:fadein .2s}
-#sheet{overflow-x:hidden;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,94vw);max-height:88vh;overflow:auto;background:var(--panel);border:1px solid var(--line2);border-radius:20px;padding:20px;z-index:91;animation:fadein .2s}
+#sheetBg{touch-action:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:90;animation:fadein .2s}
+body.mo{position:fixed;left:0;right:0;overflow:hidden}
+body.mo #app{pointer-events:none}
+#sheet{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;overflow-x:hidden;position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,94vw);max-height:88vh;overflow:auto;background:var(--panel);border:1px solid var(--line2);border-radius:20px;padding:20px;z-index:91;animation:fadein .2s}
 #sheet .hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 #sheet .hd h2{font-size:18px}
 #sheet .grab{display:none}
@@ -364,8 +366,11 @@ function applyAccent(hex){if(!hex)return;const r=parseInt(hex.slice(1,3),16),g=p
  const pat=encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><path d="M60 8 105 34v52L60 112 15 86V34Z" fill="none" stroke="${hex}" stroke-opacity=".06" stroke-width="2"/></svg>`);rs.setProperty("--bgpat",`url("data:image/svg+xml,${pat}")`)}
 function setTheme(t){localStorage.setItem("ph_theme",t);const v=t==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):t;document.documentElement.dataset.theme=v;qsa("#modeBtn use,#mode2 use").forEach(u=>u.setAttribute("href",v==="light"?"#i-sun":"#i-moon"))}
 /* sheet */
-function openSheet(html,after){$("sheetBg").hidden=false;const s=$("sheet");s.hidden=false;s.innerHTML=`<div class="grab"></div>${html}`;s.scrollTop=0;if(after)after(s);const f=s.querySelector("input:not([type=hidden]),select,textarea");if(f&&matchMedia("(min-width:901px)").matches)setTimeout(()=>f.focus(),50)}
-function closeSheet(){$("sheet").hidden=true;$("sheetBg").hidden=true;$("sheet").innerHTML=""}
+let SCRY=0;
+function lockBg(on){const b=document.body,a=$("app");if(on){if(b.classList.contains("mo"))return;SCRY=window.scrollY;b.style.top=(-SCRY)+"px";b.classList.add("mo");try{a.inert=true}catch(e){}a.setAttribute("aria-hidden","true")}
+  else{if(!b.classList.contains("mo"))return;b.classList.remove("mo");b.style.top="";try{a.inert=false}catch(e){}a.removeAttribute("aria-hidden");window.scrollTo(0,SCRY)}}
+function openSheet(html,after){lockBg(true);$("sheetBg").hidden=false;const s=$("sheet");s.hidden=false;s.innerHTML=`<div class="grab"></div>${html}`;s.scrollTop=0;if(after)after(s);const f=s.querySelector("input:not([type=hidden]),select,textarea");if(f&&matchMedia("(min-width:901px)").matches)setTimeout(()=>f.focus(),50)}
+function closeSheet(){stopScan();$("sheet").hidden=true;$("sheetBg").hidden=true;$("sheet").innerHTML="";lockBg(false)}
 $("sheetBg").onclick=closeSheet;
 const sheetHd=(t,sub)=>`<div class="hd"><div><h2>${t}</h2>${sub?`<div class="sub">${sub}</div>`:""}</div><button class="ib" data-x>${ic("x")}</button></div>`;
 document.addEventListener("click",e=>{if(e.target.closest("[data-x]"))closeSheet()});
@@ -671,16 +676,16 @@ const INV_SYS=`أنت قارئ فواتير ومذكرات شراء أدوية �
 {"supplier":"اسم المذخر إن وجد","invoice_no":"رقم الفاتورة إن وجد","date":"YYYY-MM-DD إن وجد","total":رقم الإجمالي المكتوب أو null,"items":[{"name":"اسم الدواء كما مكتوب بالضبط مع التركيز والشكل","generic":"الاسم العلمي إن مكتوب","qty":عدد العلب المدفوعة,"bonus":عدد العلب المجانية أو 0,"price":سعر العلبة الواحدة بالدينار,"line_total":مجموع السطر إن مكتوب أو null,"exp":"YYYY-MM إن مكتوب","batch":"رقم الوجبة إن مكتوب","unsure":true إذا أي قيمة بالسطر مو واضحة}]}
 قواعد: لا تخترع أي سطر أو رقم. إذا السعر مكتوب بالآلاف (مثل 12.5 تعني 12500) حوّله للدينار الكامل حسب سياق الفاتورة. التاريخ بأي صيغة (12/2027 أو 2027/12 أو DEC-27) حوّله لـ YYYY-MM. تجاهل أسطر المجاميع والخصومات والعناوين. حافظ على ترتيب الأسطر.`;
 function parseJ(t){t=String(t||"").replace(/```json|```/g,"");const a=t.indexOf("{"),b=t.lastIndexOf("}");if(a<0||b<a)return null;try{return JSON.parse(t.slice(a,b+1))}catch(e){return null}}
-async function aiReadInvoice(parts){const cfg=await aiCfg();const {G,ai}=await aiCore(String(cfg.key),cfg.fb);const list=[...new Set([...AIM,cfg.model].filter(Boolean))];let last;
-  for(const m of list){for(const json of [true,false]){try{const gc={temperature:0.1,maxOutputTokens:8192};if(json)gc.responseMimeType="application/json";
+async function aiReadInvoice(parts){const cfg=await aiCfg();const {G,ai}=await aiCore(String(cfg.key),cfg.fb);const list=[...new Set([localStorage.getItem("ph_aim"),...AIM,cfg.model].filter(Boolean))];let last;
+  for(const m of list){for(const [json,think] of [[true,0],[true,1],[false,1]]){try{const gc={temperature:0.1,maxOutputTokens:8192};if(json)gc.responseMimeType="application/json";if(!think)gc.thinkingConfig={thinkingBudget:0};
       const md=G.getGenerativeModel(ai,{model:m,systemInstruction:INV_SYS,generationConfig:gc},{timeout:120000});
       const r=await tlim(md.generateContent({contents:[{role:"user",parts:[...parts,{text:"اقرأ قائمة الأدوية من الصورة وأرجع JSON فقط."}]}]}),120000);
-      const j=parseJ(r&&r.response&&r.response.text?r.response.text():"");if(j&&Array.isArray(j.items))return j;last={code:"badjson"}}
+      const j=parseJ(r&&r.response&&r.response.text?r.response.text():"");if(j&&Array.isArray(j.items)){try{localStorage.setItem("ph_aim",m)}catch(x){}return j}last={code:"badjson"}}
     catch(e){last=e;console.warn("[scan]",m,e&&e.code,e&&e.message);const msg=String((e&&e.code||"")+" "+(e&&e.message||""));if(/not.?found|404|unsupported|deprecated|retired/i.test(msg))break;if(/app.?check|recaptcha|api.?key|403|401|quota|429|billing/i.test(msg))throw e}}}
   throw last||{code:"fail"}}
 function fileToPart(f){return new Promise((res,rej)=>{const r=new FileReader();r.onerror=rej;
   if(f.type==="application/pdf"){if(f.size>15e6)return rej({code:"big"});r.onload=()=>res({inlineData:{mimeType:"application/pdf",data:String(r.result).split(",")[1]}});r.readAsDataURL(f);return}
-  r.onload=()=>{const im=new Image();im.onload=()=>{const M=2200,k=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);res({inlineData:{mimeType:"image/jpeg",data:c.toDataURL("image/jpeg",.88).split(",")[1]}})};im.onerror=()=>rej({code:"img"});im.src=r.result};r.readAsDataURL(f)})}
+  r.onload=()=>{const im=new Image();im.onload=()=>{const M=1700,k=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);res({inlineData:{mimeType:"image/jpeg",data:c.toDataURL("image/jpeg",.82).split(",")[1]}})};im.onerror=()=>rej({code:"img"});im.src=r.result};r.readAsDataURL(f)})}
 const toks=s=>norm(s).replace(/[^a-z0-9؀-ۿ.]+/g," ").split(" ").filter(w=>w.length>1);
 function simScore(a,b){const A=toks(a),B=toks(b);if(!A.length||!B.length)return 0;const SB=new Set(B);let hit=0;A.forEach(w=>{if(SB.has(w))hit++});const nA=A.filter(w=>/\d/.test(w)),nB=new Set(B.filter(w=>/\d/.test(w)));let pen=0;if(nA.length&&nB.size&&!nA.some(w=>nB.has(w)))pen=.35;return Math.max(0,hit/Math.max(A.length,B.length)-pen)}
 function bestProd(name){let best=null,sc=0;prodList().forEach(p=>{const s=Math.max(simScore(name,p.n),p.bar&&normD(name).includes(p.bar)?1:0);if(s>sc){sc=s;best=p}});return sc>=.5?best:null}
@@ -688,7 +693,7 @@ function bestCat(name,gen){if(!CAT)return null;let best=null,sc=0;const q=(gen||
 function buyScan(){PB.sup=qs("#bSup")?qs("#bSup").value:PB.sup;PB.paid=qs("#bPaid")?qs("#bPaid").value:PB.paid;PB.ref=qs("#bRef")?qs("#bRef").value:PB.ref;
   const i=document.createElement("input");i.type="file";i.accept="image/*,application/pdf";i.multiple=true;
   i.onchange=async()=>{const files=[...i.files].slice(0,6);if(!files.length)return;
-    openSheet(sheetHd("دا يقرا القائمة…",files.length>1?files.length+" صفحات":"")+`<div style="text-align:center;padding:24px 0"><div class="core" style="margin:0 auto 14px"><i class="gl"></i><i class="r1"></i><i class="r2"></i><i class="r3"></i><svg><use href="#i-logo"/></svg></div><p class="sub">الذكاء الاصطناعي يقرا الأسماء والكميات والأسعار وتواريخ الانتهاء. ممكن ياخذ لحد دقيقة.</p><div class="prog"><i></i></div></div>`);
+    openSheet(sheetHd("دا يقرا القائمة…",files.length>1?files.length+" صفحات":"")+`<div style="text-align:center;padding:24px 0"><div class="core" style="margin:0 auto 14px"><i class="gl"></i><i class="r1"></i><i class="r2"></i><i class="r3"></i><svg><use href="#i-logo"/></svg></div><p class="sub">الذكاء الاصطناعي يقرا الأسماء والكميات والأسعار وتواريخ الانتهاء. عادةً 10–30 ثانية.</p><p class="num" id="scT" style="color:var(--accent);font-size:18px;margin-top:6px">0s</p><div class="prog"><i></i></div></div>`);const t0=Date.now(),tm=setInterval(()=>{const e=$("scT");if(!e)return clearInterval(tm);e.textContent=Math.round((Date.now()-t0)/1000)+"s"},500);
     try{loadCat().catch(()=>{});const parts=await Promise.all(files.map(fileToPart));const j=await aiReadInvoice(parts);if(!j.items.length)throw{code:"noitems"};scanReview(j)}
     catch(e){console.error(e);const c=String(e&&e.code||"");openSheet(sheetHd("ما گدرت أقرا القائمة")+`<p class="sub" style="font-size:15px;color:var(--ink)">${c==="nokey"?"مفتاح الذكاء الاصطناعي مو مفعّل. فعّله من إعدادات AM NET (بطاقة علي فيجن).":c==="noitems"?"ما لگيت أسطر أدوية بالصورة. صوّر القائمة كاملة، من فوق، وبإضاءة زينة.":c==="big"?"ملف الـ PDF كبير، أرسله صور.":"صار خطأ بالقراءة. تأكد من الإنترنت وجرّب مرة ثانية."+(c?` <span class="num" style="color:var(--faint)">(${esc(c)})</span>`:"")}</p><div class="sheet-actions"><button class="btn primary" data-a="buy-scan">${ic("scan")} جرّب مرة ثانية</button><button class="btn" data-a="buy-back">رجوع للفاتورة</button></div>`)}};
   i.click()}
@@ -836,8 +841,27 @@ document.addEventListener("click",async e=>{const cbc=e.target.closest("[data-cb
   }});
 document.addEventListener("click",e=>{if(e.target.id==="sSave"){saveSettings({name:$("sN").value.trim(),phone:$("sP").value.trim(),addr:$("sA").value.trim(),foot:$("sF").value.trim(),near:num($("sNear").value)||90,negStock:$("sNeg").value==="1"}).then(()=>{toast("انحفظ");log("عدّل إعدادات الصيدلية")})}});
 /* barcode scan (camera) */
-async function scan(to){if(!("BarcodeDetector" in window)){return toast("الكاميرا ما تدعم قراءة الباركود بهذا المتصفح — استخدم قارئ باركود أو اكتبه")}
-  openSheet(sheetHd("مسح الباركود","وجّه الكاميرا على الباركود")+`<video id="scv" playsinline style="width:100%;border-radius:12px;background:#000;max-height:50vh"></video><div class="sheet-actions"><button class="btn" data-x>إلغاء</button></div>`,async s=>{try{const st=await navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}});const v=s.querySelector("#scv");v.srcObject=st;await v.play();const det=new BarcodeDetector({formats:["ean_13","ean_8","code_128","upc_a","upc_e","qr_code"]});const tick=async()=>{if(!document.body.contains(v)){st.getTracks().forEach(t=>t.stop());return}try{const r=await det.detect(v);if(r.length){const val=r[0].rawValue;st.getTracks().forEach(t=>t.stop());closeSheet();const i=$(to);if(i){i.value=val;i.dispatchEvent(new Event("input",{bubbles:true}))}beep("click");return}}catch(e){}requestAnimationFrame(tick)};tick()}catch(e){toast("ما گدرت أفتح الكاميرا")}})}
+let SCANCTL=null,ZXP=null;
+function stopCam(){try{if(SCANCTL)SCANCTL()}catch(e){}SCANCTL=null}
+function stopScan(){stopCam();const o=$("scanOv");if(o)o.remove()}
+function loadZX(){if(window.ZXingBrowser)return Promise.resolve();if(ZXP)return ZXP;ZXP=new Promise((res,rej)=>{const sc=document.createElement("script");sc.src="https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/umd/zxing-browser.min.js";sc.onload=()=>res();sc.onerror=()=>{ZXP=null;rej({code:"zx"})};document.head.appendChild(sc)});return ZXP}
+async function scan(to){
+  stopScan();const ov=document.createElement("div");ov.id="scanOv";ov.style.cssText="position:fixed;inset:0;z-index:130;background:rgba(0,0,0,.82);display:flex;align-items:flex-end;justify-content:center";
+  ov.innerHTML=`<div style="width:min(560px,100%);background:var(--panel);border-radius:20px 20px 0 0;padding:14px 16px calc(16px + var(--sab))"><div class="hd" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px"><div><h2>مسح الباركود</h2><div class="sub">وجّه كاميرا الموبايل على الباركود</div></div><button class="ib" data-scanx>${ic("x")}</button></div><div style="position:relative;border-radius:14px;overflow:hidden;background:#000"><video id="scv" playsinline muted autoplay style="width:100%;display:block;max-height:55vh;object-fit:cover"></video><div style="position:absolute;inset:22% 10%;border:2px solid var(--accent);border-radius:12px;box-shadow:0 0 0 999px rgba(0,0,0,.35)"></div><i style="position:absolute;left:12%;right:12%;top:50%;height:2px;background:var(--bad);box-shadow:0 0 10px var(--bad);animation:pulse 1.2s infinite"></i></div><p class="sub" id="scMsg" style="text-align:center;margin-top:10px">دا يفتح الكاميرا…</p><button class="btn wide" data-scanx style="margin-top:10px">إلغاء</button></div>`;
+  document.body.appendChild(ov);ov.addEventListener("click",e=>{if(e.target===ov||e.target.closest("[data-scanx]")){e.stopPropagation();stopScan()}});
+  const v=$("scv"),msg=t=>{const e=$("scMsg");if(e)e.textContent=t};let done=false;
+  const hit=val=>{if(done)return;done=true;stopScan();beep("click");try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}const i=$(to);if(i){i.value=val;i.dispatchEvent(new Event("input",{bubbles:true}));i.dispatchEvent(new Event("change",{bubbles:true}))}};
+  const CONS={video:{facingMode:{ideal:"environment"},width:{ideal:1280},height:{ideal:720}}};
+  try{
+    let fmts=[];if("BarcodeDetector" in window){try{fmts=await BarcodeDetector.getSupportedFormats()}catch(e){}}
+    if(fmts.length){const st=await navigator.mediaDevices.getUserMedia(CONS);if(!$("scv")){st.getTracks().forEach(t=>t.stop());return}v.srcObject=st;await v.play();let alive=true;SCANCTL=()=>{alive=false;st.getTracks().forEach(t=>t.stop())};msg("وجّه الباركود داخل المربع");
+      const det=new BarcodeDetector({formats:fmts.filter(f=>["ean_13","ean_8","code_128","code_39","upc_a","upc_e","itf","qr_code","data_matrix"].includes(f))});
+      const tick=async()=>{if(!alive)return;try{const r=await det.detect(v);if(r.length)return hit(r[0].rawValue)}catch(e){}setTimeout(tick,120)};tick();return}
+    msg("دا يحمّل قارئ الباركود…");await loadZX();if(!$("scv"))return;
+    const rd=new ZXingBrowser.BrowserMultiFormatReader();
+    const ctl=await rd.decodeFromConstraints(CONS,v,res=>{if(res)hit(res.getText())});
+    SCANCTL=()=>{try{ctl.stop()}catch(e){}};if(done||!$("scv"))stopCam();else msg("وجّه الباركود داخل المربع")
+  }catch(e){console.error(e);stopCam();msg(e&&e.code==="zx"?"ما گدرت أحمّل قارئ الباركود، تأكد من الإنترنت":(e&&(e.name==="NotAllowedError"||e.name==="SecurityError"))?"اسمح للموقع يستخدم الكاميرا: الإعدادات ← Safari ← الكاميرا ← سماح":"ما گدرت أفتح الكاميرا")}}
 /* ================= PWA ================= */
 if("serviceWorker" in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
 async function checkBuild(){try{const r=await fetch(location.pathname+"?b="+Date.now(),{cache:"no-store"});const t=await r.text();const m=t.match(/app-build" content="([^"]+)"/);if(m&&m[1]!==BUILD)location.reload()}catch(e){}}
