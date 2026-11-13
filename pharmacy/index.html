@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.13-1">
+<meta name="app-build" content="2026.11.13-2">
 <meta name="theme-color" content="#0b0c10">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -367,7 +367,7 @@ const fld=(id,lbl,inner,hint)=>`<div class="fld"><label for="${id}">${lbl}</labe
 const inp=(id,type,val,extra="")=>`<input id="${id}" type="${type||"text"}" value="${esc(val==null?"":val)}" ${extra}>`;
 /* ================= firebase ================= */
 let auth=null,fs=null,FV=null;
-try{firebase.initializeApp(CONFIG.firebase);auth=firebase.auth();fs=firebase.firestore();FV=firebase.firestore.FieldValue;try{fs.enablePersistence({synchronizeTabs:true}).catch(()=>{})}catch(e){}}catch(e){console.error(e)}
+try{/* تطبيق باسم خاص: جلسة دخول الصيدليات منفصلة عن جلسة AM NET على نفس الدومين، فكل موقع يطلب كلمة سره */const PHAPP=firebase.initializeApp(CONFIG.firebase,"ampharma");auth=PHAPP.auth();fs=PHAPP.firestore();FV=firebase.firestore.FieldValue;try{fs.enablePersistence({synchronizeTabs:true}).catch(()=>{})}catch(e){}}catch(e){console.error(e)}
 async function pwEmail(pw){const buf=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("amnet:"+pw));return "u"+[...new Uint8Array(buf)].slice(0,16).map(b=>b.toString(16).padStart(2,"0")).join("")+"@"+CONFIG.userDomain}
 const genPw=()=>{const c="abcdefghjkmnpqrstuvwxyz23456789";let s="";const r=crypto.getRandomValues(new Uint32Array(8));for(const x of r)s+=c[x%c.length];return s};
 const isAdminUser=u=>!!u&&(u.email||"").toLowerCase()===CONFIG.adminEmail.toLowerCase();
