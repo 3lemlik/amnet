@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="app-build" content="2026.11.12-6">
+<meta name="app-build" content="2026.11.13-1">
 <title>AM · اطلب نظامك</title>
 <meta name="description" content="AM للحلول التقنية — اختار نظامك واطلبه">
 <meta name="theme-color" content="#0b0c10">
@@ -847,6 +847,7 @@ function mini(p){const k=((p.id||"")+" "+(p.en||"")+" "+(p.name||"")).toLowerCas
   if(/store|shop|متجر|مكمل/.test(k))return head+`<div class="bn">عروض اليوم 🔥</div><div class="pg">${[1,2,3,4].map(i=>`<div class="pi"><div class="im" style="opacity:${1-i*.12}"></div>${L(80)}<b>${(15+i*5)},000</b></div>`).join("")}</div>`;
   if(/sale|مبيع|جرد|pos/.test(k))return head+`<div class="tl"><div><small>مبيعات اليوم</small><b class="c">2.45M</b></div><div><small>الربح</small><b>640K</b></div></div><div class="ch">${[40,62,48,80,58,92,70].map((h,i)=>`<i style="height:${h}%;animation-delay:${i*.07}s"></i>`).join("")}</div>${row("g")}${row("g")}${row("w")}`;
   if(/vision|video|فيجن|فيديو|youtube/.test(k))return head+`<div class="vt"></div>${L(75)}${L(45)}${[1,2,3].map(()=>`<div class="vr"><span class="th"></span><span style="flex:1;display:grid;gap:3px">${L(85)}${L(50)}</span></div>`).join("")}`;
+  if(/pharm|صيدل|دواء|medic/.test(k))return head+`<div class="tl"><div><small>مبيعات اليوم</small><b class="c">1.8M</b></div><div><small>يقرب ينتهي</small><b style="color:#f2b03d">7</b></div></div><div class="ch">${[50,72,60,88,66,94,78].map((h,i)=>`<i style="height:${h}%;animation-delay:${i*.07}s"></i>`).join("")}</div>${row("g")}${row("w")}${row("r")}${row("g")}`;
   if(/net|isp|انترنت|إنترنت/.test(k))return head+`<div class="tl"><div><small>المشتركين</small><b class="c">412</b></div><div><small>فعّال</small><b>380</b></div></div><div class="ch">${[55,70,62,88,75,95].map((h,i)=>`<i style="height:${h}%;animation-delay:${i*.07}s"></i>`).join("")}</div>${row("g")}${row("w")}${row("r")}${row("g")}`;
   return head+`<div class="tl"><div><small>اليوم</small><b class="c">128</b></div><div><small>الكل</small><b>3.2K</b></div></div>${row("g")}${row("g")}${row("w")}${row("g")}`}
 function promoCard(p,i){const no=String(i+1).padStart(2,"0"),fs=p.feats||[],top=fs.slice(0,3),rest=fs.slice(3),hasMore=rest.length||p.desc;

@@ -4,7 +4,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.12-6">
+<meta name="amnet-build" content="2026.11.13-1">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1320,6 +1320,7 @@ nav.side-nav a[aria-current="page"]::before{animation:sideBar .45s cubic-bezier(
 .ptag.p-gs{background:rgba(60,207,130,.13);color:var(--ok)}
 .ptag.p-dz{background:rgba(242,176,61,.14);color:var(--warn)}
 .ptag.p-av{background:rgba(167,139,250,.14);color:#a78bfa}
+.ptag.p-ph{background:rgba(25,195,224,.13);color:#19c3e0}
 html[data-theme="light"] .ptag.p-isp{color:#0369a1}html[data-theme="light"] .ptag.p-av{color:#6d28d9}
 .nmw{display:inline-flex;flex-direction:column;gap:3px;min-width:0;vertical-align:middle}
 .nmw small{display:flex;white-space:nowrap;align-items:center;gap:6px;color:var(--dim);font-size:12px;font-weight:500}
@@ -1809,6 +1810,7 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
 <symbol id="i-link" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></g></symbol>
   <symbol id="i-wifi" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a15 15 0 0 1 20 0M5.5 12.5a10 10 0 0 1 13 0M9 16a5 5 0 0 1 6 0"/><path d="M12 19.5h.01"/></g></symbol>
   <symbol id="i-cart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H6.2"/><circle cx="9" cy="20" r="1.3"/><circle cx="17" cy="20" r="1.3"/></g></symbol>
+  <symbol id="i-pill" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="8" width="20" height="8" rx="4" transform="rotate(-45 12 12)"/><path d="m8.5 8.5 7 7"/></g></symbol>
   <symbol id="i-play" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="19" height="14" rx="3.5"/><path d="M10 9.3v5.4l4.6-2.7z"/></g></symbol>
   <symbol id="i-dl" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10.5l5 5 5-5M5 20h14"/></g></symbol>
 <symbol id="i-shop" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></g></symbol>
@@ -1968,6 +1970,7 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
       <div class="chead"><div class="t"><h2>بيانات التواصل</h2><div class="muted">يطلع للمسوقين زر واتساب يوصلهم إلك إذا خلص أو توقف حسابهم.</div></div></div>
       <div class="fgrid"><div class="field"><label for="cAdminName">اسمك</label><input type="text" id="cAdminName" placeholder="علي مالك"></div><div class="field"><label for="cAdminPhone">رقم الواتساب</label><input type="tel" id="cAdminPhone" dir="ltr"></div></div>
       <div class="field" style="margin-top:12px"><label for="cUrlDz">رابط موقع المتاجر (اللي ترفعه على GitHub)</label><input type="url" id="cUrlDz" dir="ltr" placeholder="https://3lemlik.github.io/amnet/store/"></div>
+      <div class="field" style="margin-top:12px"><label for="cUrlPh">رابط موقع الصيدليات (اتركه فارغ — يشتغل تلقائياً من مجلد pharmacy)</label><input type="url" id="cUrlPh" dir="ltr" placeholder="https://3lemlik.github.io/amnet/pharmacy/"></div>
       <div class="field" style="margin-top:12px"><label for="cTrialDays">مدة الحساب التجريبي الافتراضية (يوم)</label><input type="number" id="cTrialDays" dir="ltr" min="1" inputmode="numeric" placeholder="3"></div>
       <div class="row" style="margin-top:12px"><button class="btn" id="saveContact">حفظ</button></div>
     </div>
@@ -5145,12 +5148,12 @@ function renderAdmin(){
   const rows=ms.filter(m=>(MKF==="all"||(MKF==="trial"?!!m.trial:MKF.startsWith("p:")?prodOf(m)===MKF.slice(2):mkState(m).st===MKF))&&(!q||(m.name||"").toLowerCase().includes(q)||(m.biz||"").toLowerCase().includes(q)||(m.phone||"").includes(q))).sort((a,b)=>tsMs(a.expiresAt)-tsMs(b.expiresAt));
   const mobile=matchMedia("(max-width:700px)").matches;
   const acts=m=>`<button class="btn ghost sm chatmx" data-mx="chat" data-id="${m.id}"><svg><use href="#i-chat"/></svg>${unreadOf(m.id)?`<span class="ubdg">${unreadOf(m.id)}</span>`:""}</button><button class="btn ok sm" data-mx="extend" data-id="${m.id}">${m.trial?"تفعيل":"تمديد"}</button><button class="btn ghost sm" data-mkbox="${m.id}">إدارة</button>`;
-  const empty=`<div class="empty"><b>ماكو عملاء بعد</b>ضيف أول عميل (شركة انترنت، متجر، أو علي فيجن)، ويطلعلك الرابط وكلمة السر حتى ترسلها له.<div class="row" style="justify-content:center;margin-top:12px"><button class="btn" data-mx="add">إضافة عميل</button></div></div>`;
+  const empty=`<div class="empty"><b>ماكو عملاء بعد</b>ضيف أول عميل (شركة انترنت، متجر، علي فيجن، أو صيدلية)، ويطلعلك الرابط وكلمة السر حتى ترسلها له.<div class="row" style="justify-content:center;margin-top:12px"><button class="btn" data-mx="add">إضافة عميل</button></div></div>`;
   $("mkCards").hidden=!mobile;$("mkTblBox").hidden=mobile;
   if(mobile){
     $("mkCards").innerHTML=ms.length?rows.map(m=>{const s=mkState(m),st=m.stats||{};return `<div class="scard st-${s.cls}"><div class="sc-top" data-mkbox="${m.id}"><b class="sc-n">${esc(m.name||"—")}${isLife(m)?VBADGE:""}${m.biz?`<small class="bizn">${esc(m.biz)}</small>`:""}</b><span class="pill ${s.cls}">${s.lbl}</span></div>
       <div class="kvg"><div><small>النظام</small><b>${prodOf(m)==="isp"?"شركة انترنت":PRODS[prodOf(m)].n}</b></div><div><small>الهاتف</small><b class="num">${esc(m.phone||"—")}</b></div><div><small>ينتهي</small><b${s.life?"":` class="num"`}>${s.life?"مدى الحياة":s.exp?fdate(s.exp):"—"}</b></div><div><small>${prodOf(m)==="isp"?"المشتركين":"الرسوم الشهرية"}</small><b class="num">${prodOf(m)==="isp"?fmt(st.subs||0):m.fee?fmt(m.fee):"—"}</b></div></div>
-      ${m.features&&(m.features.match===false||m.features.mgmt===false||m.features.actmsg===false)?`<div class="sc-tags">${m.features&&m.features.match===false?'<span class="paytag a">المطابقة مطفية</span>':""}${m.features&&m.features.mgmt===false?'<span class="paytag a">المنجمنت مطفي</span>':""}${m.features&&m.features.actmsg===false?'<span class="paytag a">رسالة التفعيل مطفية</span>':""}</div>`:""}
+      ${prodOf(m)==="isp"&&m.features&&(m.features.match===false||m.features.mgmt===false||m.features.actmsg===false)?`<div class="sc-tags">${m.features&&m.features.match===false?'<span class="paytag a">المطابقة مطفية</span>':""}${m.features&&m.features.mgmt===false?'<span class="paytag a">المنجمنت مطفي</span>':""}${m.features&&m.features.actmsg===false?'<span class="paytag a">رسالة التفعيل مطفية</span>':""}</div>`:""}
       <div class="sc-acts">${acts(m)}</div></div>`}).join("")||`<div class="empty">ماكو نتائج.</div>`:empty;
   }else{
     $("mkTbl").innerHTML=ms.length?`<thead><tr><th>العميل</th><th>الهاتف</th><th>الحالة</th><th>ينتهي</th><th>المشتركين</th><th>الرسوم الشهرية</th><th></th></tr></thead><tbody>${rows.map(m=>{const s=mkState(m);const st=m.stats||{};const mo=!(m.features&&m.features.match===false);const mg=!(m.features&&m.features.mgmt===false);const am=!(m.features&&m.features.actmsg===false);const ps=!!(m.features&&m.features.phskip===true);const vb=!(m.features&&m.features.viber===false);
@@ -5159,7 +5162,7 @@ function renderAdmin(){
       :`<tbody><tr><td>${empty}</td></tr></tbody>`;
   }
   $("billList").innerHTML=BILL.slice(0,80).map(b=>`<div class="li"><span class="nm">${esc(b.name||"")}</span><span class="u">${tsMs(b.at)?fdt(tsMs(b.at)):"الآن"}</span><span class="u ph">${b.days?"+"+b.days+" يوم":""}${b.note?" · "+esc(b.note):""}</span><span class="num" style="color:var(--ok);font-weight:700">+${fmt(b.amount||0)}</span></div>`).join("")||`<div class="empty">ماكو رسوم مسجلة بعد.</div>`;
-  if(document.activeElement!==$("cAdminName")&&document.activeElement!==$("cAdminPhone")&&document.activeElement!==$("cTrialDays")&&document.activeElement!==$("cUrlDz")){$("cAdminName").value=APPMETA.adminName||"";$("cAdminPhone").value=APPMETA.phone||"";$("cTrialDays").value=APPMETA.trialDays||3;$("cUrlDz").value=APPMETA.urlDz||""}
+  if(document.activeElement!==$("cAdminName")&&document.activeElement!==$("cAdminPhone")&&document.activeElement!==$("cTrialDays")&&document.activeElement!==$("cUrlDz")&&document.activeElement!==$("cUrlPh")){$("cAdminName").value=APPMETA.adminName||"";$("cAdminPhone").value=APPMETA.phone||"";$("cTrialDays").value=APPMETA.trialDays||3;$("cUrlDz").value=APPMETA.urlDz||"";$("cUrlPh").value=APPMETA.urlPh||""}
   renderChatList();renderAdmHome();
   const bx=$("mkBoxBody");if(bx){const m=MK.find(x=>x.id===bx.dataset.id);if(m)bx.innerHTML=mkBoxHtml(m)}
 }
@@ -5181,7 +5184,7 @@ document.addEventListener("click",e=>{
   else if(a==="edit")openEditMk(m);
   else if(a==="chat")openChat(m.id,m.name);
   else if(a==="backup")admBackupOne(m);
-  else if(a==="links"){if(prodOf(m)!=="isp"&&!m.code){const code=genCode();aGuard(async()=>{const bt=fs.batch();bt.update(fs.collection("accounts").doc(m.id),{code});bt.set(fs.collection("slugs").doc(code),{acct:m.id,p:prodOf(m),biz:m.biz||m.name||""});await bt.commit()}).then(ok=>{if(ok)clientBox({...m,code})})}else clientBox(m)}
+  else if(a==="links"){if(!noSlug(prodOf(m))&&!m.code){const code=genCode();aGuard(async()=>{const bt=fs.batch();bt.update(fs.collection("accounts").doc(m.id),{code});bt.set(fs.collection("slugs").doc(code),{acct:m.id,p:prodOf(m),biz:m.biz||m.name||""});await bt.commit()}).then(ok=>{if(ok)clientBox({...m,code})})}else clientBox(m)}
 });
 async function aGuard(fn,ok){try{await fn();if(ok)toast(ok);return true}catch(e){toast("ما انحفظ: "+(e&&e.code||"خطأ"));return false}}
 function openExtend(m){
@@ -5220,8 +5223,10 @@ const PRODS={
   isp:{n:"شركة انترنت",biz:"اسم شركة الانترنت",ic:"i-wifi",url:()=>siteUrl()},
   gs:{n:"متجر عام",biz:"اسم المتجر",ic:"i-shop",url:()=>(location.origin+location.pathname.replace(/[^/]*$/,"")+"shop/")},
   dz:{n:"متجر مكملات",biz:"اسم المتجر",ic:"i-cart",url:()=>(APPMETA.urlDz||(location.origin+location.pathname.replace(/[^/]*$/,"")+"store/"))},
-  av:{n:"علي فيجن",biz:"اسم الموقع",ic:"i-play",url:()=>(APPMETA.urlAv||"https://3lemlik.github.io/alivision/")}
+  av:{n:"علي فيجن",biz:"اسم الموقع",ic:"i-play",url:()=>(APPMETA.urlAv||"https://3lemlik.github.io/alivision/")},
+  ph:{n:"صيدلية",biz:"اسم الصيدلية",ic:"i-pill",url:()=>(APPMETA.urlPh||(location.origin+location.pathname.replace(/[^/]*$/,"")+"pharmacy/"))}
 };
+const noSlug=p=>p==="isp"||p==="ph";
 const prodOf=m=>(m&&PRODS[m.product])?m.product:"isp";
 /* اسم الرابط: حروف إنكليزية وأرقام وشخطة، يتقترح تلقائي من اسم المتجر */
 const TRL={"ا":"a","أ":"a","إ":"i","آ":"a","ب":"b","ت":"t","ث":"th","ج":"j","ح":"h","خ":"kh","د":"d","ذ":"th","ر":"r","ز":"z","س":"s","ش":"sh","ص":"s","ض":"d","ط":"t","ظ":"z","ع":"a","غ":"gh","ف":"f","ق":"q","ك":"k","ل":"l","م":"m","ن":"n","ه":"h","ة":"a","و":"w","ي":"y","ى":"a","ئ":"y","ؤ":"w","ء":"","گ":"g","چ":"ch","پ":"p","ڤ":"v"};
@@ -5233,6 +5238,7 @@ function prodLinks(m,pw){
   const p=prodOf(m),u=PRODS[p].url(),biz=m.biz||m.name||"";
   if(p==="dz"||p==="gs"){const st=u+(m.code||"");return {main:st+"#admin",lines:[["رابط إدارة المتجر (النظام)",st+"#admin"],["رابط المتجر للزبائن",st]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بنظام المبيعات والمتجر.\n\nرابط إدارة المتجر:\n${st}#admin\n\nرابط متجرك للزبائن (انشره):\n${st}${pw?`\n\nكلمة سر ربط الجهاز: ${pw}`:""}`}}
   if(p==="av"){const st=u+(m.code||"");return {main:st+"#admin",lines:[["رابط التعديل (للعميل)",st+"#admin"],["رابط الموقع للمشاهدين",st]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بموقع علي فيجن.\n\nرابط التعديل (إنت بس):\n${st}#admin\n\nرابط موقعك للمشاهدين:\n${st}${pw?`\n\nكلمة السر: ${pw}`:""}`}}
+  if(p==="ph")return {main:u,lines:[["رابط نظام الصيدلية",u]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بنظام AM PHARMA لإدارة الصيدليات.\n\nالرابط:\n${u}${pw?`\nكلمة السر: ${pw}`:""}\n\nإنت مدير الصيدلية: تگدر تضيف موظفينك وتحدد صلاحياتهم من «الإعدادات ← الموظفين».`};
   return {main:u,lines:[["رابط النظام",u]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بنظام AM NET.\n\nالرابط:\n${u}${pw?`\nكلمة السر: ${pw}`:""}`};
 }
 /* شعار العميل: يتصغّر لـ 256px حتى يكون خفيف ويتخزن ويه الحساب */
@@ -5246,7 +5252,7 @@ function clientBox(m,pw,title){
     <pre class="msgbox" id="credTxt" tabindex="0">${esc(L.msg)}</pre>
     <div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn ok go" id="cpCred" style="flex:1"><svg><use href="#i-copy"/></svg>نسخ الرسالة</button>${ph.length>=10?`<a class="btn wa" style="flex:1" target="_blank" rel="noopener" href="https://wa.me/${ph}?text=${encodeURIComponent(L.msg)}"><svg><use href="#i-wa"/></svg>إرسال واتساب</a>`:""}</div>`);
   $("cpCred").onclick=()=>copyText(L.msg,$("credTxt"));
-  if(p!=="isp"&&m.id){$("mbox").insertAdjacentHTML("beforeend",`<div class="idbox"><b>اسم الرابط</b><small class="muted">يطلع بآخر الرابط. إذا غيّرته، الرابط القديم يبقى يشتغل هم.</small><div class="slugrow"><span class="num">${esc(PRODS[p].url().replace(/^https?:\/\//,""))}</span><input type="text" id="slEd" dir="ltr" autocapitalize="none" spellcheck="false" value="${esc(m.code||"")}"></div><button type="button" class="btn ghost" id="slSave">حفظ اسم الرابط</button><div class="err" id="slErr"></div></div>`);
+  if(!noSlug(p)&&m.id){$("mbox").insertAdjacentHTML("beforeend",`<div class="idbox"><b>اسم الرابط</b><small class="muted">يطلع بآخر الرابط. إذا غيّرته، الرابط القديم يبقى يشتغل هم.</small><div class="slugrow"><span class="num">${esc(PRODS[p].url().replace(/^https?:\/\//,""))}</span><input type="text" id="slEd" dir="ltr" autocapitalize="none" spellcheck="false" value="${esc(m.code||"")}"></div><button type="button" class="btn ghost" id="slSave">حفظ اسم الرابط</button><div class="err" id="slErr"></div></div>`);
     $("slEd").oninput=()=>{$("slEd").value=$("slEd").value.toLowerCase().replace(/[^a-z0-9-]/g,"")};
     $("slSave").onclick=async()=>{const c=$("slEd").value.trim(),er=$("slErr");er.textContent="";if(c===m.code)return;
       if(!slugOk(c)){er.textContent="لازم حروف إنكليزية أو أرقام (2 لـ 30 حرف)";return}
@@ -5342,7 +5348,7 @@ function openAddMk(){
   <button class="btn go" id="amGo">إنشاء الحساب</button>`);
   $("amTrial").onchange=()=>{const t=$("amTrial").checked;$("amD").value=t?(APPMETA.trialDays||3):30;document.querySelector('label[for="amD"]').textContent=t?"مدة التجربة (يوم)":"مدة الحساب (يوم)";["amF","amPaid"].forEach(id=>{$(id).disabled=t;if(t)$(id).value=id==="amF"?0:""});$("amGo").textContent=t?"إنشاء حساب تجريبي":"إنشاء الحساب"};
   let PROD="isp";
-  $("amProd").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;PROD=b.dataset.p;$("amProd").querySelectorAll("[data-p]").forEach(x=>x.setAttribute("aria-checked",x===b));$("amBizL").textContent=PRODS[PROD].biz;$("amMatchW").hidden=PROD!=="isp";$("amLogoW").hidden=PROD!=="dz"&&PROD!=="gs";$("amKindW").hidden=PROD!=="dz";$("amBotW").hidden=PROD!=="dz";$("amSlugW").hidden=PROD==="isp";$("amSlugP").textContent=PROD==="isp"?"":PRODS[PROD].url().replace(/^https?:\/\//,"")};
+  $("amProd").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;PROD=b.dataset.p;$("amProd").querySelectorAll("[data-p]").forEach(x=>x.setAttribute("aria-checked",x===b));$("amBizL").textContent=PRODS[PROD].biz;$("amMatchW").hidden=PROD!=="isp";$("amLogoW").hidden=PROD!=="dz"&&PROD!=="gs";$("amKindW").hidden=PROD!=="dz";$("amBotW").hidden=PROD!=="dz";$("amSlugW").hidden=noSlug(PROD);$("amSlugP").textContent=noSlug(PROD)?"":PRODS[PROD].url().replace(/^https?:\/\//,"")};
   let KIND="general",BOTT=false;$("amBot").oninput=()=>BOTT=true;
   $("amKind").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;KIND=b.dataset.k;$("amKind").querySelectorAll("[data-k]").forEach(x=>x.setAttribute("aria-checked",x===b));if(!BOTT)$("amBot").value=KIND==="general"?"الدعم":"الكابتن"};
   let SLUGT=false;$("amSlug").oninput=()=>{SLUGT=true;$("amSlug").value=$("amSlug").value.toLowerCase().replace(/[^a-z0-9-]/g,"")};$("amBiz").addEventListener("input",()=>{if(!SLUGT)$("amSlug").value=slugify($("amBiz").value)});
@@ -5352,10 +5358,10 @@ function openAddMk(){
     const er=$("amErr");er.textContent="";
     if(!name){er.textContent="اكتب اسم العميل";return}
     if(pw.length<6){er.textContent="كلمة السر لازم 6 أحرف أو أكثر";return}
-    const code=PROD==="isp"?genCode():($("amSlug").value.trim()||slugify(biz||name));
-    if(PROD!=="isp"&&!slugOk(code)){er.textContent="اسم الرابط لازم حروف إنكليزية أو أرقام (2 لـ 30 حرف)";return}
+    const code=noSlug(PROD)?genCode():($("amSlug").value.trim()||slugify(biz||name));
+    if(!noSlug(PROD)&&!slugOk(code)){er.textContent="اسم الرابط لازم حروف إنكليزية أو أرقام (2 لـ 30 حرف)";return}
     const b=$("amGo");b.disabled=true;b.textContent="دا ينشئ الحساب...";
-    if(PROD!=="isp"&&!(await slugFree(code))){er.textContent="اسم الرابط ("+code+") محجوز لعميل ثاني، اختار غيره";b.disabled=false;b.textContent="إنشاء الحساب";return}
+    if(!noSlug(PROD)&&!(await slugFree(code))){er.textContent="اسم الرابط ("+code+") محجوز لعميل ثاني، اختار غيره";b.disabled=false;b.textContent="إنشاء الحساب";return}
     try{
       const uid=await createLogin(pw);
       const exp=Date.now()+days*DAY,paid=+$("amPaid").value||0;
@@ -5372,7 +5378,7 @@ function openAddMk(){
   };
 }
 $("addMk").onclick=openAddMk;
-$("saveContact").onclick=()=>aGuard(()=>fs.collection("meta").doc("app").set({adminName:$("cAdminName").value.trim(),phone:$("cAdminPhone").value.trim(),trialDays:Math.max(1,+$("cTrialDays").value||3),urlDz:(()=>{let u=$("cUrlDz").value.trim();if(u&&!/\/$/.test(u)&&!/\.html?$/.test(u))u+="/";return u})()},{merge:true}),"انحفظت بيانات التواصل");
+$("saveContact").onclick=()=>aGuard(()=>fs.collection("meta").doc("app").set({adminName:$("cAdminName").value.trim(),phone:$("cAdminPhone").value.trim(),trialDays:Math.max(1,+$("cTrialDays").value||3),urlDz:(()=>{let u=$("cUrlDz").value.trim();if(u&&!/\/$/.test(u)&&!/\.html?$/.test(u))u+="/";return u})(),urlPh:(()=>{let u=$("cUrlPh").value.trim();if(u&&!/\/$/.test(u)&&!/\.html?$/.test(u))u+="/";return u})()},{merge:true}),"انحفظت بيانات التواصل");
 $("admPwGo").onclick=async()=>{
   const cur=$("admPwCur").value,nw=$("admPwNew").value,m=$("admPwMsg");
   if(nw.length<6){m.textContent="6 أحرف أو أكثر";return}
