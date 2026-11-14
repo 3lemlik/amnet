@@ -5,7 +5,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.14-1">
+<meta name="amnet-build" content="2026.11.14-2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1509,6 +1509,13 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
 .tg-bar{height:7px;border-radius:9px;background:var(--panel3);overflow:hidden}.tg-bar i{display:block;height:100%;background:linear-gradient(90deg,#29a0da,var(--accent));border-radius:9px;transition:width .6s}
 .tg-tgls{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:8px;margin-top:12px}
 .tg-log{display:grid;gap:6px;margin-top:8px}.tg-log>div{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:8px 12px;border-radius:9px;background:var(--panel2);font-size:13px;border-inline-start:3px solid var(--ok)}.tg-log>div.bad{border-color:var(--bad)}.tg-log span{color:var(--dim);font-size:12px}
+
+.gw-off{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;background:var(--panel2);border:1px solid var(--line)}.gw-off>div{display:flex;flex-direction:column;gap:2px}.gw-off span:not(.gw-led){color:var(--dim);font-size:13px}
+.gw-led{width:12px;height:12px;border-radius:50%;background:var(--bad);box-shadow:0 0 10px var(--bad);flex:none}.gw-led.w{background:var(--warn);box-shadow:0 0 10px var(--warn);animation:pulse 1s infinite}
+.gw-pair{display:grid;justify-items:center;gap:12px;text-align:start}.gw-pair .tg-steps{justify-self:stretch}
+.gw-code{font-size:34px;font-weight:800;letter-spacing:6px;padding:14px 22px;border-radius:14px;background:var(--panel2);border:1px dashed #1fa855;color:#1fa855}
+.gw-qr{width:min(260px,80vw);border-radius:12px;background:#fff;padding:8px}
+.tg-av.wa{background:#1fa855}.tg-av.wa svg,.tgi svg{width:18px;height:18px}
 </style>
 <style id="hubcss">
 .hubgrid{grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}
@@ -2359,6 +2366,10 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
     </div>
     <div class="row" style="margin-top:14px"><button class="btn" id="waSave">حفظ الرسائل</button><button class="btn ghost" id="waReset">رجّع الرسائل الأصلية</button></div>
   </div>
+  <div class="card br owneronly" id="gwCard">
+    <div class="chead"><div class="t"><div class="eyebrow"><span>AUTO · WHATSAPP</span></div><h2>الواتساب التلقائي من رقم الشركة</h2><div class="muted">تربط رقم واتساب الشركة مرة وحدة، وبعدها الرسائل تطلع منه وحدها: التفعيل والتجديد، التسديد، والتذكير قبل الانتهاء — حتى من موبايلات الموظفين وبدون ما ينفتح الواتساب.</div></div></div>
+    <div id="gwBody"></div>
+  </div>
   <div class="card br owneronly" id="tgCard">
     <div class="chead"><div class="t"><div class="eyebrow"><span>AUTO · TELEGRAM</span></div><h2>التنبيهات التلقائية بالتلگرام</h2><div class="muted">الرسائل توصل للمشترك وحدها بدون ما تدوس شي: بعد التفعيل والتجديد، بعد التسديد، وتذكير قبل الانتهاء. نفس نصوص رسائل الواتساب فوگ.</div></div></div>
     <div id="tgBody"></div>
@@ -2654,7 +2665,7 @@ function renderAll(){
   $("impIntro").innerHTML=empty?'الموقع فارغ هسه. ارفع تقرير الشركة لهذا الشهر، <b style="color:var(--ink)">وارفع وياه تقرير الشهر السابق</b> حتى تطلع مقارنة الأشهر والمشتركين المفقودين من أول يوم. يقبل PDF وExcel.':"ارفع تقرير الشركة (PDF أو Excel)، وينضاف بس اللي مو مسجّل بالموقع. التفعيلات المكررة تنترك تلقائياً.";
   $("dropSub").textContent=empty?"ملف هذا الشهر + ملف الشهر السابق":"PDF أو Excel · ينضاف الناقص فقط";
   $("plansBox").open=ROLE==="staff"||$("plansBox").open;
-  renderHome();renderHomeStaff();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();renderGrowth();renderMcUI();renderWaHome();fillWaCfg();if(WA_REDRAW&&$("waList"))WA_REDRAW();try{renderTg();if(TG_INV_REDRAW&&$("tgInvList"))TG_INV_REDRAW();const _tk=(tgCfg()||{}).token+"|"+tgReady();if(_tk!==window._tgK){window._tgK=_tk;tgStart()}}catch(e){console.warn(e)}
+  renderHome();renderHomeStaff();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();renderGrowth();renderMcUI();renderWaHome();fillWaCfg();if(WA_REDRAW&&$("waList"))WA_REDRAW();try{renderGw();renderTg();if(TG_INV_REDRAW&&$("tgInvList"))TG_INV_REDRAW();const _tk=(tgCfg()||{}).token+"|"+tgReady();if(_tk!==window._tgK){window._tgK=_tk;tgStart()}}catch(e){console.warn(e)}
   if(VIEW==="mgmt"&&MGF.uid!==Store.uid)mgEnter();
 }
 
@@ -3163,7 +3174,7 @@ function renderAPanel(){
   if(!ASEL||!SUBS.has(ASEL)){if(SHEET){closeModal();return}ASEL=null;P.innerHTML=`<div class="empty"><b>اختار مشترك</b>دوّره ودوس عليه حتى تفعّله.</div>`;return}
   const k=ASEL,s=SUBS.get(k),now=Date.now(),st=status(k,now),d=debtOf(k);
   if(AST.done){
-    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تفعّل بنجاح</h2><div class="done-n">${esc(s.n||s.u)} <span class="ap-u num">${esc(s.u)}</span></div><div class="done-chips"><span>شغّال لغاية <b class="num">${fdate(AST.done.exp)}</b></span>${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div class="done-debt">دينه الكلي هسه: <b class="num">${fmt(AST.done.debt)}</b></div>`:""}<div id="tgChip">${tgChip(AST.done.tg)}</div><pre class="msgbox amsg" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go amsg" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button>${waBtn(k,"act",{exp:AST.done.exp,pl:AST.done.pl})}${viberOn()?`<button type="button" class="btn viber go" id="vbAct"><svg><use href="#i-viber"/></svg>إرسال رسالة التفعيل بالفايبر</button>`:""}<button class="btn ghost go" id="nextAct">${SHEET?"زين، سدّها":"تفعيل مشترك ثاني"}</button>${AST.done.a&&Date.now()-AST.done.at<15000?`<button class="btn ghost go undo" id="undoAct"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>تراجع عن التفعيل · <span class="num" id="undoN">${Math.ceil((AST.done.at+15000-Date.now())/1000)}</span></button>`:""}</div>`;
+    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تفعّل بنجاح</h2><div class="done-n">${esc(s.n||s.u)} <span class="ap-u num">${esc(s.u)}</span></div><div class="done-chips"><span>شغّال لغاية <b class="num">${fdate(AST.done.exp)}</b></span>${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div class="done-debt">دينه الكلي هسه: <b class="num">${fmt(AST.done.debt)}</b></div>`:""}<div id="tgChip">${notifyChip(AST.done.tg)}</div><pre class="msgbox amsg" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go amsg" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button>${waBtn(k,"act",{exp:AST.done.exp,pl:AST.done.pl})}${viberOn()?`<button type="button" class="btn viber go" id="vbAct"><svg><use href="#i-viber"/></svg>إرسال رسالة التفعيل بالفايبر</button>`:""}<button class="btn ghost go" id="nextAct">${SHEET?"زين، سدّها":"تفعيل مشترك ثاني"}</button>${AST.done.a&&Date.now()-AST.done.at<15000?`<button class="btn ghost go undo" id="undoAct"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>تراجع عن التفعيل · <span class="num" id="undoN">${Math.ceil((AST.done.at+15000-Date.now())/1000)}</span></button>`:""}</div>`;
     $("copyMsg").onclick=()=>copyText(AST.done.msg,$("msgBox"));
     if($("vbAct"))$("vbAct").onclick=()=>{const txt=AST.done.msg||"";
       try{navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{})}catch(e){}
@@ -3252,7 +3263,7 @@ async function doActivate(){
   const prevSub=(s.pl!==AST.pl||newPhone||newName)?{...s}:null;
   const pay=AST.pay;
   const ok=await guard(async()=>{await saveActs([a]);if(s.pl!==AST.pl||newPhone||newName)await saveSubs(new Map([[k,{...s,pl:AST.pl,...(newPhone?{p:newPhone}:{}),...(newName?{n:newName}:{})}]]))});
-  if(ok){play(pay==="a"?"credit":"cash");AST.done={exp:xExp||when+SET.period*DAY,pay,pl:a.pl,debt:debtOf(k),msg:actMsg(k,a.pl,when),a,prev:prevSub,at:Date.now()};renderAPanel();tgAuto(k,"act",{exp:AST.done.exp,pl:AST.done.pl},AST.done);toast("تفعّل "+(s.n||s.u))}
+  if(ok){play(pay==="a"?"credit":"cash");AST.done={exp:xExp||when+SET.period*DAY,pay,pl:a.pl,debt:debtOf(k),msg:actMsg(k,a.pl,when),a,prev:prevSub,at:Date.now()};renderAPanel();notifyAuto(k,"act",{exp:AST.done.exp,pl:AST.done.pl},AST.done);toast("تفعّل "+(s.n||s.u))}
 }
 $("aq").addEventListener("input",()=>renderActivate());
 $("aq").addEventListener("keydown",e=>{if(e.key==="Enter"){const f=$("ares").querySelector("[data-asel]");if(f){e.preventDefault();selectForActivate(f.dataset.asel)}}});
@@ -3628,6 +3639,60 @@ var TG_INV_REDRAW=null;
 document.addEventListener("click",e=>{const b=e.target.closest("[data-tginv]");if(b){e.preventDefault();const k=b.dataset.tginv;if(!k)return;if(!tgReady()){toast("اربط بوت التلگرام من الإعدادات أول");return}
     if(waOpen(k,tgInvText(k))){Store.mergeItems("tg/inv",{[k]:{t:Date.now(),by:displayName()}}).then(()=>{if(TG_INV_REDRAW&&$("tgInvList"))TG_INV_REDRAW()}).catch(()=>{})}return}
   const c=e.target.closest("[data-tgcp]");if(c){e.preventDefault();copyText(tgInvText(c.dataset.tgcp));return}});
+
+/* ================= WHATSAPP GATEWAY (رقم الشركة) ================= */
+const gwFeat=()=>features().gw!==false;
+const gwSt=()=>((Store.docs["wa/gw"]||{}).items||{}).st||{};
+const gwCfg=()=>((Store.docs["wa/gwcfg"]||{}).items||{}).c||{};
+let GWHB=0,GWHB_U=null;
+function gwWatch(){if(GWHB_U||!fs)return;try{GWHB_U=fs.collection("meta").doc("gw").onSnapshot(d=>{GWHB=(d.exists&&d.data().hb)||0;renderGw()},()=>{})}catch(e){}}
+const gwAlive=()=>Date.now()-GWHB<4*60e3;
+const gwReady=kind=>{const c=gwCfg();return gwFeat()&&gwSt().state==="open"&&gwAlive()&&c.on!==false&&(!kind||c[kind]!==false)};
+const gwId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+async function gwSend(k,kind,extra,textOverride){const s=SUBS.get(k)||{};if(!waPhone(s.p))return{s:"nophone"};const text=textOverride||waFill(waCfg()[kind]||"",k,extra);if(!text)return{s:"off"};
+  const id=gwId();await Store.mergeItems("wa/out",{[id]:{to:s.p,text,t:Date.now(),k,kind}});
+  for(let i=0;i<120;i++){await new Promise(r=>setTimeout(r,1000));const r=(((Store.docs["wa/res"]||{}).items)||{})[id];if(r)return r.ok?{s:"ok",via:"wa"}:{s:"fail",via:"wa",msg:r.err||"ما انبعثت"}}
+  return{s:"fail",via:"wa",msg:"السيرفر ما رد — تأكد إنه شغّال"}}
+/* إرسال تلقائي: واتساب رقم الشركة أولاً، وإذا ما ينفع تلگرام */
+function notifyChip(st){if(!st||st.s==="off")return "";
+  if(st.via==="wa"){if(st.s==="wait")return `<div class="tgchip w wa"><span class="tgi"><svg><use href="#i-wa"/></svg></span>دا يرسل بالواتساب من رقم الشركة…</div>`;
+    if(st.s==="ok")return `<div class="tgchip ok"><span class="tgi"><svg><use href="#i-wa"/></svg></span>انبعثت بالواتساب تلقائياً من رقم الشركة ✓</div>`;
+    if(st.s==="nophone")return `<div class="tgchip n"><span class="tgi"><svg><use href="#i-wa"/></svg></span>المشترك ما عنده رقم واتساب صحيح</div>`;
+    return `<div class="tgchip bad"><span class="tgi"><svg><use href="#i-wa"/></svg></span>ما انبعثت بالواتساب: ${esc(st.msg||"")}</div>`}
+  return tgChip(st)}
+async function notifyAuto(k,kind,extra,holder){const H=holder||{};const paint=()=>{const e=$("tgChip");if(e)e.innerHTML=notifyChip(H.tg)};
+  if(gwReady(kind)&&waPhone((SUBS.get(k)||{}).p)){H.tg={s:"wait",via:"wa",k};paint();const r=await gwSend(k,kind,extra);
+    if(r.s==="ok"){H.tg={...r,k};paint();if(kind==="rem")waMark(k);return r}
+    if(tgReady()&&tgLinks()[k]){H.tg={s:"wait",k};paint();const t=await tgSend(k,kind,extra);H.tg={...t,k};paint();return t}
+    H.tg={...r,k};paint();return r}
+  if(tgReady()){H.tg={s:"wait",k};paint();const t=await tgSend(k,kind,extra);H.tg={...t,k};paint();return t}
+  return null}
+function renderGw(){const B=$("gwBody");if(!B)return;gwWatch();
+  if(!gwFeat()){B.innerHTML=`<div class="empty" style="padding:16px"><b>الخاصية مسدودة لحسابك</b>تواصل ويا الإدارة حتى تنفتح.</div>`;return}
+  const st=gwSt(),c=gwCfg(),alive=gwAlive();
+  if(!alive){B.innerHTML=`<div class="gw-off"><span class="gw-led"></span><div><b>خدمة الواتساب التلقائي متوقفة هسه</b><span>${ROLE==="admin"?"شغّل السيرفر (start.bat) على الحاسوب.":"تواصل ويا الإدارة. لحد ما ترجع، الرسائل تنبعث بالتلگرام أو يدوي بالواتساب."}</span></div></div>`;return}
+  const S=st.state||"off";
+  if(S==="open"){const tg=(k,l,d)=>`<label class="tgl"><span>${l}<small class="muted" style="display:block;font-weight:400">${d}</small></span><input type="checkbox" data-gwk="${k}" ${c[k]!==false?"checked":""}></label>`;
+    B.innerHTML=`<div class="tg-stat"><div class="tg-bot"><span class="tg-av wa"><svg><use href="#i-wa"/></svg></span><div><b>${esc(st.name||"واتساب الشركة")}</b><span class="num">+${esc(st.phone||"")}</span></div><span class="tg-dot on">متصل</span></div>
+      <div class="tg-join"><div class="field" style="margin:0"><label for="gwTestTo">رسالة تجربة لرقم</label><div class="row" style="gap:6px;flex-wrap:nowrap"><input type="tel" id="gwTestTo" dir="ltr" placeholder="07xxxxxxxxx" style="flex:1;min-width:0"><button class="btn ghost sm" id="gwTest">أرسل</button></div></div></div></div>
+      <div class="tg-tgls">${tg("on","الإرسال التلقائي","المفتاح الرئيسي")}${tg("act","التفعيل والتجديد","تطلع أول ما يتفعّل المشترك")}${tg("pay","التسديد","تطلع أول ما ينسجل تسديد")}${tg("rem","التذكير قبل الانتهاء","قبل "+waCfg().days+" أيام، من 9 الصبح لـ 10 بالليل — حتى لو الموقع مسكّر")}</div>
+      <div class="row" style="margin-top:12px"><button class="btn ghost danger" id="gwOut">فصل الرقم</button></div>
+      <p class="muted" style="margin-top:10px;font-size:12.5px">حتى نحمي الرقم من الحظر: فاصل بين الرسائل وحد يومي. استخدمه لرسائل المشتركين فقط، مو للإعلانات الجماعية.</p>`;
+    B.querySelectorAll("[data-gwk]").forEach(i=>i.onchange=()=>guard(()=>Store.mergeItems("wa/gwcfg",{c:{...gwCfg(),[i.dataset.gwk]:i.checked}})).then(renderGw));
+    $("gwOut").onclick=()=>{if(!confirm("تفصل رقم الواتساب؟ الرسائل التلقائية راح توگف لحد ما تربطه من جديد."))return;guard(async()=>{await Store.mergeItems("wa/cmd",{[gwId()]:{op:"logout",t:Date.now()}});logEv("settings","فصل واتساب الشركة")},"دا يفصل…")};
+    $("gwTest").onclick=async()=>{const to=$("gwTestTo").value.trim();if(!waPhone(to)){toast("اكتب رقم عراقي صحيح");return}$("gwTest").disabled=true;const id=gwId();await Store.mergeItems("wa/out",{[id]:{to,text:"رسالة تجربة من "+(SET.name||"AM NET")+" ✅\nالواتساب التلقائي شغّال.",t:Date.now()}});
+      for(let i=0;i<90;i++){await new Promise(r=>setTimeout(r,1000));const r=(((Store.docs["wa/res"]||{}).items)||{})[id];if(r){toast(r.ok?"✓ انبعثت رسالة التجربة":"ما انبعثت: "+(r.err||""));break}}if($("gwTest"))$("gwTest").disabled=false};
+    return}
+  if(S==="code"&&st.code){const cd=String(st.code).replace(/(.{4})(?=.)/,"$1-");
+    B.innerHTML=`<div class="gw-pair"><div class="gw-code num" dir="ltr">${esc(cd)}</div><ol class="tg-steps"><li>افتح <b>واتساب الشركة</b> على الموبايل.</li><li>الإعدادات ← <b>الأجهزة المرتبطة</b> ← <b>ربط جهاز</b>.</li><li>دوس <b>«الربط برقم الهاتف بدلاً من ذلك»</b> (تحت الكاميرا).</li><li>اكتب الكود اللي فوگ. الكود صالح دقائق قليلة.</li></ol><div class="row"><button class="btn ghost" id="gwCancel">إلغاء</button></div></div>`;$("gwCancel").onclick=()=>Store.mergeItems("wa/cmd",{[gwId()]:{op:"logout",t:Date.now()}});return}
+  if(S==="qr"&&st.qr){B.innerHTML=`<div class="gw-pair"><img class="gw-qr" src="${esc(st.qr)}" alt="QR"><ol class="tg-steps"><li>من موبايل ثاني افتح <b>واتساب الشركة</b>.</li><li>الإعدادات ← <b>الأجهزة المرتبطة</b> ← <b>ربط جهاز</b>.</li><li>صوّر هذا الرمز. يتجدد وحده كل شوية.</li></ol><div class="row"><button class="btn ghost" id="gwCancel">إلغاء</button></div></div>`;$("gwCancel").onclick=()=>Store.mergeItems("wa/cmd",{[gwId()]:{op:"logout",t:Date.now()}});return}
+  if(S==="wait"||S==="connecting"){B.innerHTML=`<div class="gw-off"><span class="gw-led w"></span><div><b>دا يجهّز الربط…</b><span>ثواني ويطلع الكود.</span></div></div>`;return}
+  B.innerHTML=`${st.err?`<div class="tgchip bad" style="margin-top:0">${esc(st.err)}</div>`:""}<div class="field"><label for="gwPh">رقم واتساب الشركة</label><input type="tel" id="gwPh" dir="ltr" placeholder="07xxxxxxxxx" value="${esc(normPhone(SET.phone||""))}"></div>
+    <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn ok" id="gwCode"><svg><use href="#i-wa"/></svg>ربط بكود (من نفس الموبايل)</button><button class="btn ghost" id="gwQr">ربط بـ QR</button></div>
+    <p class="muted" style="margin-top:10px;font-size:12.5px">الأفضل تستخدم رقم خاص بالشركة (واتساب أعمال)، مو رقمك الشخصي.</p>`;
+  $("gwCode").onclick=()=>{const ph=$("gwPh").value.trim();if(!waPhone(ph)){toast("اكتب رقم عراقي صحيح 07xxxxxxxxx");return}guard(async()=>{await Store.mergeItems("wa/cmd",{[gwId()]:{op:"connect",phone:ph,t:Date.now()}});logEv("settings","بدأ ربط واتساب الشركة")})};
+  $("gwQr").onclick=()=>guard(()=>Store.mergeItems("wa/cmd",{[gwId()]:{op:"connect",t:Date.now()}}));
+}
 /* ================= BALANCE ================= */
 function balInfo(){
   const st=SET.balStart||0;if(!st)return null;
@@ -4376,7 +4441,7 @@ function openPay(k,after){
   $("mbox").querySelectorAll("[data-amt]").forEach(b=>b.onclick=()=>{$("pAmt").value=b.dataset.amt;upd()});
   $("pGo").onclick=()=>{const v=+$("pAmt").value||0;if(v<=0){toast("اكتب المبلغ");return}const t=Date.now();const p={k:k+"|p"+t,u:k,d:t,amt:v,note:$("pNote").value.trim(),sid:mySid(),byn:displayName()};closeModal();guard(()=>savePays([p]),"تسدد "+fmt(v)+" د.ع").then(ok=>{if(ok){play("pay");const rest=debtOf(k);
     modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="done" style="padding:6px 0 0"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">انسجل التسديد</h2><div class="done-n">${esc(s.n||s.u)}</div><div class="done-chips"><span>المبلغ <b class="num">${fmt(v)}</b></span><span>الدين الباقي <b class="num">${fmt(rest)}</b></span></div><div id="tgChip"></div>${waBtn(k,"pay",{amt:v,debt:rest})}<button class="btn ghost go" id="pDone">${after?"رجوع":"زين، سدّها"}</button></div>`);
-    $("pDone").onclick=()=>{closeModal();if(after)after()};tgAuto(k,"pay",{amt:v,debt:rest})}})};
+    $("pDone").onclick=()=>{closeModal();if(after)after()};notifyAuto(k,"pay",{amt:v,debt:rest})}})};
 }
 function openAdd(prefill,pre){
   pre=pre||{};
@@ -5294,6 +5359,7 @@ document.addEventListener("click",e=>{
   if(!m)return;
   if(a==="extend")openExtend(m);
   else if(a==="toggle")aGuard(()=>fs.collection("accounts").doc(m.id).update({active:!m.active}),m.active?"توقف حساب "+m.name:"اشتغل حساب "+m.name);
+  else if(a==="gw"){const on=!(m.features&&m.features.gw===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),gw:!on}}),(on?"انسد":"انفتح")+" الواتساب التلقائي عند "+m.name)}
   else if(a==="tg"){const on=!(m.features&&m.features.tg===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),tg:!on}}),(on?"انسدت":"انفتحت")+" تنبيهات التلگرام عند "+m.name)}
   else if(a==="viber"){const on=!(m.features&&m.features.viber===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),viber:!on}}),(on?"انطفى":"اشتغل")+" زر فايبر عند "+m.name)}
   else if(a==="phskip"){const on=!!(m.features&&m.features.phskip===true);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),phskip:!on}}),(on?"انطفى":"اشتغل")+" تخطي الرقم عند "+m.name)}
@@ -5788,7 +5854,7 @@ function mkBoxHtml(m){
    <button class="btn ghost" data-mx="links" data-id="${m.id}"><svg><use href="#i-link"/></svg>الرابط والرسالة</button><button class="btn ghost" data-mx="edit" data-id="${m.id}">تعديل البيانات</button>
    ${isp?`<button class="btn ghost" data-mx="open" data-id="${m.id}">فتح لوحته</button>`:""}<button class="btn ghost" data-mx="backup" data-id="${m.id}"><svg><use href="#i-dl"/></svg>نسخة احتياطية</button>
    <button class="btn ${m.active?"danger":"ok"} w" data-mx="toggle" data-id="${m.id}">${m.active?"إيقاف الحساب":"تشغيل الحساب"}</button></div>
-  ${isp?`<div class="ttl-s">الخصائص</div><div class="swlist">${sw("match","المطابقة","مقارنة ملفات الشركة",f.match!==false)}${sw("mgmt","المنجمنت","صفحة المنجمنت داخل لوحته",f.mgmt!==false)}${sw("actmsg","رسالة التفعيل","تنرسل للمشترك بعد التفعيل",f.actmsg!==false)}${sw("phskip","تخطي الرقم","يفعّل بدون رقم هاتف",f.phskip===true)}${sw("viber","فايبر","زر فايبر ويه الواتساب",f.viber!==false)}${sw("tg","تنبيهات التلگرام","رسائل تلقائية للمشتركين بالتلگرام",f.tg!==false)}</div>`:""}`}
+  ${isp?`<div class="ttl-s">الخصائص</div><div class="swlist">${sw("match","المطابقة","مقارنة ملفات الشركة",f.match!==false)}${sw("mgmt","المنجمنت","صفحة المنجمنت داخل لوحته",f.mgmt!==false)}${sw("actmsg","رسالة التفعيل","تنرسل للمشترك بعد التفعيل",f.actmsg!==false)}${sw("phskip","تخطي الرقم","يفعّل بدون رقم هاتف",f.phskip===true)}${sw("viber","فايبر","زر فايبر ويه الواتساب",f.viber!==false)}${sw("gw","واتساب تلقائي","يرسل من رقم الشركة بدون فتح الواتساب",f.gw!==false)}${sw("tg","تنبيهات التلگرام","رسائل تلقائية للمشتركين بالتلگرام",f.tg!==false)}</div>`:""}`}
 function openMkBox(id){const m=MK.find(x=>x.id===id);if(!m)return;
   modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><div class="eyebrow"><span>CLIENT · MANAGE</span></div><h2>${esc(m.name||"—")}${isLife(m)?VBADGE:""}</h2>${m.biz?`<div class="muted">${esc(m.biz)}</div>`:""}</div><button class="x" data-close aria-label="سكّر">×</button></div><div id="mkBoxBody" data-id="${m.id}">${mkBoxHtml(m)}</div>`)}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-mkbox]");if(b&&ROLE==="admin"&&!e.target.closest("[data-mx]"))openMkBox(b.dataset.mkbox)});
