@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<script>/* حماية: إذا انفتح AM NET بمسار موقع آخر (pharmacy) بسبب كاش قديم، يرجع يحمّل الصفحة الصحيحة */(function(){try{var m=location.pathname.match(/^(.*\/)(pharmacy)\//);if(!m)return;var k="amfix"+m[2];if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,1);document.documentElement.style.display="none";var go=function(){location.replace(location.pathname+"?v="+Date.now())};if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations){navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.filter(function(r){return !/\/pharmacy\/$/.test(r.scope)}).map(function(r){return r.unregister()}))}).then(go,go)}else go()}catch(e){}})();</script>
+<script>/* حماية: إذا اتفتح AM NET بمسار موقع آخر (pharmacy) بسبب كاش قديم، يرجع يحمّل الصفحة الصحيحة */(function(){try{var m=location.pathname.match(/^(.*\/)(pharmacy)\//);if(!m)return;var k="amfix"+m[2];if(sessionStorage.getItem(k))return;sessionStorage.setItem(k,1);document.documentElement.style.display="none";var go=function(){location.replace(location.pathname+"?v="+Date.now())};if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations){navigator.serviceWorker.getRegistrations().then(function(rs){return Promise.all(rs.filter(function(r){return !/\/pharmacy\/$/.test(r.scope)}).map(function(r){return r.unregister()}))}).then(go,go)}else go()}catch(e){}})();</script>
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.14-4">
+<meta name="amnet-build" content="2026.11.14-5">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Orbitron:wght@600;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap">
 <style>
-/* Layout: Dazzaz-style shell — fixed right sidebar (desktop) / bottom bar with raised activate button (phone); main = command-center hero → period cards → lost subscribers → months → lists */
+/* Layout: Dazzaz-style shell، fixed right sidebar (desktop) / bottom bar with raised activate button (phone); main = command-center hero → period cards → lost subscribers → months → lists */
 :root{
   --void:#08080b; --panel:#101015; --panel2:#16161d; --panel3:#1c1c25; --line:#25191d; --line2:#3a242b;
   --ink:#f5f2f3; --dim:#9a9095; --faint:#5f565a;
@@ -1516,6 +1516,17 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
 .gw-code{font-size:34px;font-weight:800;letter-spacing:6px;padding:14px 22px;border-radius:14px;background:var(--panel2);border:1px dashed #1fa855;color:#1fa855}
 .gw-qr{width:min(260px,80vw);border-radius:12px;background:#fff;padding:8px}
 .tg-av.wa{background:#1fa855}.tg-av.wa svg,.tgi svg{width:18px;height:18px}
+
+.gwa-top{display:flex;align-items:center;gap:12px;padding:14px 16px}.gwa-top>div{flex:1;display:flex;flex-direction:column}.gwa-top span{color:var(--dim);font-size:13px}.gwa-up{font-size:12px}
+.gw-led.on{background:var(--ok);box-shadow:0 0 10px var(--ok)}
+.gwa-k{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:12px 0}.gwa-kp{padding:12px 14px}.gwa-kp small{display:block;color:var(--dim);font-size:12px}.gwa-kp b{font-size:24px;display:block;margin:2px 0}.gwa-kp span{color:var(--faint);font-size:11.5px}.gwa-kp.ok b{color:var(--ok)}.gwa-kp.bad b{color:var(--bad)}
+.gwa-g{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:12px}
+.gwa-acc{display:grid;gap:8px}.gwa-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border-radius:12px;background:var(--panel2);border-inline-start:3px solid var(--faint)}.gwa-r.open{border-color:var(--ok)}.gwa-r.connecting,.gwa-r.wait,.gwa-r.code{border-color:var(--warn)}
+.gwa-n{flex:1;min-width:160px}.gwa-n b{display:block}.gwa-n span{color:var(--dim);font-size:12px}.gwa-m{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.gwa-c{font-size:11.5px;padding:3px 9px;border-radius:999px;background:var(--panel3);color:var(--dim);white-space:nowrap}.gwa-c.ok{background:rgba(60,207,130,.13);color:var(--ok)}.gwa-c.bad{background:rgba(242,89,106,.13);color:var(--bad)}.gwa-c.warn{background:rgba(242,176,61,.13);color:var(--warn)}
+.gwa-log{display:flex;flex-direction:column;gap:5px;max-height:520px;overflow:auto}.gwa-e{display:grid;grid-template-columns:auto 18px minmax(0,1fr);gap:8px;padding:7px 10px;border-radius:9px;background:var(--panel2);font-size:12.8px}.gwa-e>.num{color:var(--faint);font-size:11.5px}.gwa-e i{font-style:normal;text-align:center}.gwa-e b{color:var(--dim);font-weight:600}
+.gwa-e.sent i{color:var(--ok)}.gwa-e.fail i,.gwa-e.drop i{color:var(--bad)}.gwa-e.conn i{color:var(--accent)}.gwa-e.rem i{color:var(--warn)}
+@media (max-width:900px){.gwa-k{grid-template-columns:repeat(2,minmax(0,1fr))}.gwa-g{grid-template-columns:minmax(0,1fr)}}
 </style>
 <style id="hubcss">
 .hubgrid{grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}
@@ -1536,7 +1547,8 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
 #v-admin[data-sec="showcase"] [data-as]:not([data-as~="showcase"]),
 #v-admin[data-sec="chat"] [data-as]:not([data-as~="chat"]),
 #v-admin[data-sec="bills"] [data-as]:not([data-as~="bills"]),
-#v-admin[data-sec="settings"] [data-as]:not([data-as~="settings"]){display:none!important}
+#v-admin[data-sec="settings"] [data-as]:not([data-as~="settings"]),
+#v-admin[data-sec="gw"] [data-as]:not([data-as~="gw"]){display:none!important}
 #app[data-mode="admin"] .bnav:not(.abnav),#app[data-mode="market"] .abnav{display:none!important}
 @media (max-width:900px){#app[data-mode="admin"] .abnav{grid-template-columns:repeat(3,minmax(0,2fr)) 70px repeat(2,minmax(0,3fr))!important}}
 @media (max-width:370px){#app[data-mode="admin"] .abnav{grid-template-columns:repeat(3,minmax(0,2fr)) 62px repeat(2,minmax(0,3fr))!important}}
@@ -1927,6 +1939,7 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
     <a href="#a-chat" data-asg="chat" class="ad"><svg><use href="#i-chat"/></svg>رسائل العملاء<span class="badge" data-ab="chat" hidden></span><span class="ix">04</span></a>
     <a href="#a-bills" data-asg="bills" class="ad"><svg><use href="#i-wallet"/></svg>سجل الرسوم<span class="ix">05</span></a>
     <a href="#a-settings" data-asg="settings" class="ad"><svg><use href="#i-cog"/></svg>الإعدادات<span class="ix">06</span></a>
+    <a href="#a-gw" data-asg="gw" class="ad"><svg><use href="#i-wa"/></svg>سيرفر الواتساب<span class="badge" data-ab="gw" hidden></span><span class="ix">07</span></a>
     <a href="#admin" class="vb" data-backadmin><svg><use href="#i-home"/></svg>رجوع للإدارة<span class="ix">←</span></a>
     <a href="#home" data-v="home" class="mk"><svg><use href="#i-home"/></svg>الرئيسية<span class="ix">01</span></a>
     <a href="#activate" data-v="activate" class="mk"><svg><use href="#i-bolt"/></svg>تفعيل سريع<span class="ix">02</span></a>
@@ -1984,6 +1997,7 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
     <div class="chead"><div class="t"><h2>رسائل العملاء</h2><div class="muted" id="chatSub">الرسائل اللي يرسلوها المسوقين من داخل النظام</div></div></div>
     <div class="list chatlist" id="chatList" style="margin-top:0"></div>
   </div>
+  <div class="aswrap" data-as="gw"><div id="gwAdm" data-as="gw"></div></div>
   <div class="aswrap" data-as="bills settings">
     <div class="card br" data-as="bills">
       <div class="chead"><div class="t"><h2>سجل الرسوم</h2></div></div>
@@ -1993,7 +2007,7 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
       <div class="chead"><div class="t"><h2>بيانات التواصل</h2><div class="muted">يطلع للمسوقين زر واتساب يوصلهم إلك إذا خلص أو توقف حسابهم.</div></div></div>
       <div class="fgrid"><div class="field"><label for="cAdminName">اسمك</label><input type="text" id="cAdminName" placeholder="علي مالك"></div><div class="field"><label for="cAdminPhone">رقم الواتساب</label><input type="tel" id="cAdminPhone" dir="ltr"></div></div>
       <div class="field" style="margin-top:12px"><label for="cUrlDz">رابط موقع المتاجر (اللي ترفعه على GitHub)</label><input type="url" id="cUrlDz" dir="ltr" placeholder="https://3lemlik.github.io/amnet/store/"></div>
-      <div class="field" style="margin-top:12px"><label for="cUrlPh">رابط موقع الصيدليات (اتركه فارغ — يشتغل تلقائياً من مجلد pharmacy)</label><input type="url" id="cUrlPh" dir="ltr" placeholder="https://3lemlik.github.io/amnet/pharmacy/"></div>
+      <div class="field" style="margin-top:12px"><label for="cUrlPh">رابط موقع الصيدليات (اتركه فارغ، يشتغل تلقائياً من مجلد pharmacy)</label><input type="url" id="cUrlPh" dir="ltr" placeholder="https://3lemlik.github.io/amnet/pharmacy/"></div>
       <div class="field" style="margin-top:12px"><label for="cTrialDays">مدة الحساب التجريبي الافتراضية (يوم)</label><input type="number" id="cTrialDays" dir="ltr" min="1" inputmode="numeric" placeholder="3"></div>
       <div class="row" style="margin-top:12px"><button class="btn" id="saveContact">حفظ</button></div>
     </div>
@@ -2012,7 +2026,7 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
   <div class="card br" data-as="settings" id="avCard">
     <div class="chead"><div class="t"><h2>المساعد الذكي</h2><div class="muted">روبوت بعقل ذكي، يشتغل بنفس مفتاح كابتن دوزي.</div></div></div>
     <div class="field"><label for="avName">اسم الروبوت</label><input type="text" id="avName" maxlength="24" placeholder="علي فيجن"></div>
-    <div class="field"><label for="avKey">مفتاح reCAPTCHA (Site key) — نفس مفتاح الدزاز جم</label><input type="text" id="avKey" dir="ltr" placeholder="6Lc…" autocomplete="off"></div>
+    <div class="field"><label for="avKey">مفتاح reCAPTCHA (Site key)، نفس مفتاح الدزاز جم</label><input type="text" id="avKey" dir="ltr" placeholder="6Lc…" autocomplete="off"></div>
     <div class="field"><label for="avModel">الموديل</label><select id="avModel"><option value="">تلقائي (ينصح بيه)</option></select></div>
     <label style="display:block;font-size:13px;color:var(--dim);margin-bottom:6px">وين يطلع الروبوت؟</label>
     <div class="avsw">
@@ -2352,7 +2366,7 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
       <div class="field"><label for="cfPeriod">مدة الاشتراك (يوم)</label><input type="number" id="cfPeriod" min="1" max="365"></div>
       <div class="field"><label for="cfNear">قرّب يخلص قبل (يوم)</label><input type="number" id="cfNear" min="0" max="30"></div>
     </div>
-    <label class="tgl" style="margin-top:12px"><span>زر «أرسل للمشترك بالواتساب» بعد التفعيل والتسديد</span><input type="checkbox" id="cfBtnWa"></label><label class="tgl" id="cfViberRow" style="margin-top:8px"><span>زر «إرسال فايبر» بعد التفعيل <small class="muted" id="cfViberNote"></small></span><input type="checkbox" id="cfViber"></label>
+    <label class="tgl" style="margin-top:12px"><span>زر «دز للمشترك بالواتساب» بعد التفعيل والتسديد</span><input type="checkbox" id="cfBtnWa"></label><label class="tgl" id="cfViberRow" style="margin-top:8px"><span>زر «إرسال فايبر» بعد التفعيل <small class="muted" id="cfViberNote"></small></span><input type="checkbox" id="cfViber"></label>
     <div class="row" style="margin-top:14px"><button class="btn" id="saveCfg">حفظ الإعدادات</button></div>
   </div>
   <div class="card br">
@@ -2367,11 +2381,11 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
     <div class="row" style="margin-top:14px"><button class="btn" id="waSave">حفظ الرسائل</button><button class="btn ghost" id="waReset">رجّع الرسائل الأصلية</button></div>
   </div>
   <div class="card br owneronly" id="gwCard">
-    <div class="chead"><div class="t"><div class="eyebrow"><span>AUTO · WHATSAPP</span></div><h2>الواتساب التلقائي من رقم الشركة</h2><div class="muted">تربط رقم واتساب الشركة مرة وحدة، وبعدها الرسائل تطلع منه وحدها: التفعيل والتجديد، التسديد، والتذكير قبل الانتهاء — حتى من موبايلات الموظفين وبدون ما ينفتح الواتساب.</div></div></div>
+    <div class="chead"><div class="t"><div class="eyebrow"><span>AUTO · WHATSAPP</span></div><h2>الواتساب التلقائي من رقم الشركة</h2><div class="muted">اربط رقم الشركة مرة وحدة، والرسائل تطلع منه وحدها.</div></div></div>
     <div id="gwBody"></div>
   </div>
   <div class="card br owneronly" id="tgCard">
-    <div class="chead"><div class="t"><div class="eyebrow"><span>AUTO · TELEGRAM</span></div><h2>التنبيهات التلقائية بالتلگرام</h2><div class="muted">الرسائل توصل للمشترك وحدها بدون ما تدوس شي: بعد التفعيل والتجديد، بعد التسديد، وتذكير قبل الانتهاء. نفس نصوص رسائل الواتساب فوگ.</div></div></div>
+    <div class="chead"><div class="t"><div class="eyebrow"><span>AUTO · TELEGRAM</span></div><h2>التنبيهات التلقائية بالتلگرام</h2><div class="muted">رسائل التفعيل والتسديد والتذكير توصل للمشترك على التلگرام وحدها.</div></div></div>
     <div id="tgBody"></div>
   </div>
   <div class="card br owneronly">
@@ -2396,7 +2410,7 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
   <div class="card br canreset">
     <div class="chead"><div class="t"><h2>البيانات</h2></div></div>
     <p class="muted" id="dataInfo" style="margin-top:0"></p>
-    <div class="bkbox"><div><b>النسخة الاحتياطية</b><small class="muted">ملف واحد بيه كل شي: المشتركين، التفعيلات، التسديدات، الديون، الرصيد، التبليغات والإعدادات. احفظه بمكان آمن، وإذا انمسحت البيانات بالغلط ترجعها منه.</small><small class="muted" id="bkLast"></small></div>
+    <div class="bkbox"><div><b>النسخة الاحتياطية</b><small class="muted">ملف واحد بيه كل شي: المشتركين، التفعيلات، التسديدات، الديون، الرصيد، التبليغات والإعدادات. احفظه بمكان آمن، وإذا اتمسحت البيانات بالغلط ترجعها منه.</small><small class="muted" id="bkLast"></small></div>
     <div class="row"><button class="btn" id="bkBtn"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>نسخة احتياطية</button><button class="btn ghost" id="rsBtn"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V9M7 14l5-5 5 5M5 3h14"/></svg>استرجاع نسخة</button><input type="file" id="rsFile" accept=".json,application/json" hidden></div></div>
     <div class="row"><button class="btn ghost" id="diagBtn">فحص البيانات</button><button class="btn ghost" id="xlsBtn2">تصدير كل البيانات Excel</button><button class="btn danger" id="wipeBtn">تصفير البيانات</button></div>
   </div>
@@ -2478,7 +2492,7 @@ const iqd=n=>fmt(n)+" د.ع";
 function toast(m){const t=$("toast");t.textContent=m;t.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>t.hidden=true,3400)}
 const sod=ms=>{const d=new Date(ms);d.setHours(0,0,0,0);return d.getTime()};
 
-/* ================= CONFIG — عدّل هنا ================= */
+/* ================= CONFIG، عدّل هنا ================= */
 const CONFIG={
   firebase:{
     apiKey:"AIzaSyDdiCuAssTLIkzSrnqlW0iYkyiBUy2GoNs",
@@ -2817,14 +2831,14 @@ async function savePeriodImage(){
     // footer
     const fy=TOP+CH*2+GAP+80;x.strokeStyle=C.line;x.lineWidth=1.5;x.beginPath();x.moveTo(PAD,fy-40);x.lineTo(W-PAD,fy-40);x.stroke();
     x.textAlign="right";x.fillStyle=C.dim;x.font="500 24px 'IBM Plex Sans Arabic', sans-serif";
-    const d=new Date();x.fillText("انحفظت "+fdate(now)+" · "+pad(d.getHours())+":"+pad(d.getMinutes()),W-PAD,fy);
+    const d=new Date();x.fillText("اتحفظت "+fdate(now)+" · "+pad(d.getHours())+":"+pad(d.getMinutes()),W-PAD,fy);
     x.textAlign="left";x.fillStyle=C.dim;x.fillText("تصميم وبرمجة علي مالك",PAD,fy);
     const blob=await new Promise(r=>cv.toBlob(r,"image/png"));
     const fname="amnet-"+PERIOD+"-"+fdate(now).replace(/\//g,"-")+".png";
     const file=new File([blob],fname,{type:"image/png"});
     if(navigator.canShare&&navigator.canShare({files:[file]})){try{await navigator.share({files:[file],title:"إحصائيات "+pname});return}catch(e){if(e&&e.name==="AbortError")return}}
     const u=URL.createObjectURL(blob);const l=document.createElement("a");l.href=u;l.download=fname;document.body.append(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);
-    toast("انحفظت الصورة");
+    toast("اتحفظت الصورة");
   }catch(e){toast("ما گدرت أسوي الصورة")}finally{btn.disabled=false}
 }
 $("pSave").onclick=savePeriodImage;
@@ -2951,7 +2965,7 @@ $("mgSave").onclick=async()=>{
     if((SET.mgUrl||"")!==url){SET={...SET,mgUrl:url};await saveSettings()}
     MGSEC={uid:Store.uid,u,p,ok:true};
     logEv("settings","غيّر حساب المنجمنت");
-  },"انحفظ حساب المنجمنت");
+  },"اتحفظ حساب المنجمنت");
   if(ok){fillMgCfg();renderMgmt();MGF.started=false}
 };
 document.addEventListener("click",e=>{const b=e.target.closest("[data-cpu]");if(!b)return;e.preventDefault();e.stopPropagation();copyPlain(b.dataset.cpu,"انتسخ اليوزر "+b.dataset.cpu)});
@@ -3039,7 +3053,7 @@ function renderMcUI(){
 let MC_PREV=null;
 $("mcSw").onclick=e=>{const b=e.target.closest("[data-mc2]");if(!b)return;$("mcSw").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));$("mcPick").value=b.dataset.mc2;applyTheme(b.dataset.mc2)};
 $("mcPick").oninput=e=>{$("mcSw").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.mc2===e.target.value));applyTheme(e.target.value)};
-$("mcSave").onclick=()=>{const c=$("mcPick").value;SET={...SET,accent:c};guard(async()=>{await saveSettings();logEv("settings","غيّر لون الموقع")},"انحفظ لون موقعك").then(()=>{try{localStorage.setItem("amnet_theme",c)}catch(e){}})};
+$("mcSave").onclick=()=>{const c=$("mcPick").value;SET={...SET,accent:c};guard(async()=>{await saveSettings();logEv("settings","غيّر لون الموقع")},"اتحفظ لون موقعك").then(()=>{try{localStorage.setItem("amnet_theme",c)}catch(e){}})};
 $("mcReset").onclick=()=>{const x={...SET};delete x.accent;SET=x;guard(async()=>{await saveSettings();logEv("settings","رجّع لون الإدارة")},"رجع لون الإدارة").then(()=>{if(ACCOUNT&&ACCOUNT.settings)delete ACCOUNT.settings.accent;refreshAccent();renderMcUI()})};
 function refreshAccent(){const c=effAccent();applyTheme(c);try{localStorage.setItem("amnet_theme",c)}catch(e){}}
 function renderThemeUI(){
@@ -3129,7 +3143,7 @@ function openRenewSheet(k,pre){
   if(!SUBS.has(k))return;
   startAct(k,pre);
   $("apanel").innerHTML="";
-  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><div class="eyebrow"><span>RENEW</span></div><h2>تجديد اشتراك</h2></div><button class="x" data-close aria-label="سكّر">×</button></div><div id="sheetPanel"></div>`);
+  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><div class="eyebrow"><span>RENEW</span></div><h2>تجديد اشتراك</h2></div><button class="x" data-close aria-label="سدّ">×</button></div><div id="sheetPanel"></div>`);
   SHEET=true;renderAPanel();
   if(NOTES.some(n=>n.t==="a"&&n.on!==false&&(!n.u||n.u===k))){play("alert");if(navigator.vibrate)try{navigator.vibrate(120)}catch(e){}}
 }
@@ -3494,7 +3508,7 @@ function waFill(tpl,k,extra){
 }
 function waUrl(k,text){const ph=waPhone((SUBS.get(k)||{}).p);return ph?"https://wa.me/"+ph+"?text="+encodeURIComponent(text):""}
 function waOpen(k,text){const u=waUrl(k,text);if(!u){toast("المشترك ما عنده رقم صحيح");return false}const w=window.open(u,"_blank");if(!w)location.href=u;return true}
-function waBtn(k,kind,extra,label){if(SET.btnWa===false)return "";const ph=waPhone((SUBS.get(k)||{}).p);return `<button type="button" class="btn wa go" data-wa="${esc(k)}" data-wak="${kind}" ${extra?`data-wax='${esc(JSON.stringify(extra))}'`:""} ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${label||"أرسل للمشترك بالواتساب"}${ph?"":" (ما عنده رقم)"}</button>`}
+function waBtn(k,kind,extra,label){if(SET.btnWa===false)return "";const ph=waPhone((SUBS.get(k)||{}).p);return `<button type="button" class="btn wa go" data-wa="${esc(k)}" data-wak="${kind}" ${extra?`data-wax='${esc(JSON.stringify(extra))}'`:""} ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${label||"دز للمشترك بالواتساب"}${ph?"":" (ما عنده رقم)"}</button>`}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-wa]");if(!b)return;e.preventDefault();
   const k=b.dataset.wa,kind=b.dataset.wak||"rem";let x=null;try{x=b.dataset.wax?JSON.parse(b.dataset.wax):null}catch(_){}
   const W=waCfg();const txt=waFill(W[kind]||W.rem,k,x);
@@ -3513,15 +3527,15 @@ function renderWaHome(){
   const b=$("waHome");if(!b)return;const due=waDue();const left=due.filter(x=>!x.sent).length;
   b.hidden=!SUBS.size||ROLE==="admin"&&!VIEWAS;
   $("waHomeCnt").textContent=left;$("waHomeCnt").classList.toggle("z",!left);
-  $("waHomeSub").textContent=due.length?(left?left+" مشترك يرادله تذكير":"كل المشتركين اللي قرّب يخلصون انبعثلهم")+" · "+due.length+" يخلصون خلال "+waCfg().days+" أيام":"ماكو أحد قرّب يخلص هسه";
+  $("waHomeSub").textContent=due.length?(left?left+" مشترك يرادله تذكير":"كل المشتركين اللي قرّب يخلصون اندزلهم")+" · "+due.length+" يخلصون خلال "+waCfg().days+" أيام":"ماكو أحد قرّب يخلص هسه";
 }
 function openWaList(){
   const draw=()=>{const due=waDue();const W=waCfg();
     $("waList").innerHTML=due.length?due.map(x=>{const s=SUBS.get(x.k)||{};const ph=waPhone(s.p);
-      return `<div class="wa-row${x.sent?" sent":""}"><div class="wa-who" data-open="${esc(x.k)}"><b>${esc(s.n||s.u||x.k)}</b><span><span class="num">${esc(s.u||x.k)}</span> · يخلص <b class="num">${fdate(x.exp)}</b> (${whenTxt(x.exp)})</span>${x.sent?`<small>انبعث ${fdt(x.sent.t)}${x.sent.by?" · "+esc(x.sent.by):""}</small>`:""}</div>
+      return `<div class="wa-row${x.sent?" sent":""}"><div class="wa-who" data-open="${esc(x.k)}"><b>${esc(s.n||s.u||x.k)}</b><span><span class="num">${esc(s.u||x.k)}</span> · يخلص <b class="num">${fdate(x.exp)}</b> (${whenTxt(x.exp)})</span>${x.sent?`<small>اندز ${fdt(x.sent.t)}${x.sent.by?" · "+esc(x.sent.by):""}</small>`:""}</div>
       ${tgLinks()[x.k]?`<span class="tgmini" title="منضم للتلگرام">${TG_SVG}</span>`:""}<button type="button" class="btn ${x.sent?"ghost":"wa"} sm" data-wa="${esc(x.k)}" data-wak="rem" ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${ph?(x.sent?"مرة ثانية":"أرسل"):"بلا رقم"}</button></div>`}).join("")
       :`<div class="empty" style="padding:22px 10px"><b>ماكو أحد قرّب يخلص</b>اللي يبقى عليه ${W.days} أيام أو أقل يطلع هنا.</div>`;
-    const left=due.filter(x=>!x.sent).length;$("waLeft").textContent=left?left+" باقي ما انبعثله":"خلصت كلهم ✓";
+    const left=due.filter(x=>!x.sent).length;$("waLeft").textContent=left?left+" باقي ما اندزله":"خلصت كلهم ✓";
   };
   modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><h2>تذكير قبل الانتهاء</h2><div class="muted">دوس "أرسل" يفتح الواتساب والرسالة جاهزة، وبعدها ارجع للموقع وكمل للي بعده. <span id="waLeft"></span></div></div><button class="x" data-close aria-label="سدّها">×</button></div>
   <div class="wa-list" id="waList"></div>`);
@@ -3537,7 +3551,7 @@ function fillWaCfg(){
 }
 let WA_LAST=null;["waAct","waPay","waRem"].forEach(id=>$(id).addEventListener("focus",()=>WA_LAST=$(id)));
 $("waVars").onclick=e=>{const b=e.target.closest("[data-wv]");if(!b)return;const t=WA_LAST||$("waAct");const p=t.selectionStart??t.value.length;t.value=t.value.slice(0,p)+b.dataset.wv+t.value.slice(t.selectionEnd??p);t.focus();t.selectionStart=t.selectionEnd=p+b.dataset.wv.length};
-$("waSave").onclick=()=>{const d=Math.max(0,Math.min(15,+$("waDays").value||0));SET={...SET,wa:{act:$("waAct").value.trim(),pay:$("waPay").value.trim(),rem:$("waRem").value.trim(),days:d}};guard(async()=>{await saveSettings();logEv("settings","غيّر رسائل الواتساب")},"انحفظت الرسائل").then(()=>{fillWaCfg();renderWaHome()})};
+$("waSave").onclick=()=>{const d=Math.max(0,Math.min(15,+$("waDays").value||0));SET={...SET,wa:{act:$("waAct").value.trim(),pay:$("waPay").value.trim(),rem:$("waRem").value.trim(),days:d}};guard(async()=>{await saveSettings();logEv("settings","غيّر رسائل الواتساب")},"اتحفظت الرسائل").then(()=>{fillWaCfg();renderWaHome()})};
 $("waReset").onclick=()=>{$("waAct").value=WA_DEF.act;$("waPay").value=WA_DEF.pay;$("waRem").value=WA_DEF.rem;$("waDays").value=WA_DEF.days;toast("رجعت الرسائل الأصلية، دوس حفظ حتى تثبت")};
 
 
@@ -3557,19 +3571,19 @@ async function tgCall(m,p,tok){tok=tok||(tgCfg()||{}).token;if(!tok)throw{code:"
   let r;try{r=await fetch(TG_API+tok+"/"+m,{method:"POST",body})}
   catch(e){if(m==="sendMessage"){try{await fetch(TG_API+tok+"/"+m,{method:"POST",body,mode:"no-cors"});return{blind:true}}catch(x){}}throw{code:"net",message:"ما گدرت أتصل بالتلگرام"}}
   let j={};try{j=await r.json()}catch(e){}if(!j.ok)throw{code:"tg",status:j.error_code||r.status,message:j.description||("HTTP "+r.status)};return j.result}
-function tgErrTxt(e){const m=String(e&&e.message||"");if(e&&e.code==="net")return "ما اكو اتصال بالتلگرام (تأكد من الإنترنت)";if(e&&e.status===401)return "التوكن غلط — انسخه من BotFather من جديد";if(/blocked/i.test(m))return "المشترك حاظر البوت";if(/chat not found/i.test(m))return "المشترك ما دخل للبوت";if(e&&e.status===429)return "رسائل هواية بوقت قصير — يعيد بعد شوية";if(e&&e.status===409)return "اكو جهاز ثاني يقرا الرسائل بنفس الوقت";return m||"خطأ غير معروف"}
+function tgErrTxt(e){const m=String(e&&e.message||"");if(e&&e.code==="net")return "ما اكو اتصال بالتلگرام (تأكد من الإنترنت)";if(e&&e.status===401)return "التوكن غلط، انسخه من BotFather من جديد";if(/blocked/i.test(m))return "المشترك حاظر البوت";if(/chat not found/i.test(m))return "المشترك ما دخل للبوت";if(e&&e.status===429)return "رسائل هواية بوقت قصير، يعيد بعد شوية";if(e&&e.status===409)return "اكو جهاز ثاني يقرا الرسائل بنفس الوقت";return m||"خطأ غير معروف"}
 function tgLog(k,kind,ok,err){const id=Date.now().toString(36)+Math.random().toString(36).slice(2,5);const L=(Store.docs["tg/log"]||{}).items||{};const keys=Object.keys(L).sort((a,b)=>(L[a].t||0)-(L[b].t||0));const del=keys.length>250?keys.slice(0,keys.length-250):[];
   Store.mergeItems("tg/log",{[id]:{k,kind,ok:!!ok,err:err||"",t:Date.now(),by:displayName()}},del).catch(()=>{})}
 const TG_KIND={act:"تفعيل / تجديد",pay:"تسديد",rem:"تذكير قبل الانتهاء",inv:"ترحيب"};
-/* يرسل رسالة لمشترك إذا منضم — يرجع {s:"ok"|"none"|"off"|"fail",msg} */
+/* يرسل رسالة لمشترك إذا منضم، يرجع {s:"ok"|"none"|"off"|"fail",msg} */
 async function tgSend(k,kind,extra){const c=tgCfg();if(!tgReady())return{s:"off"};if(c[kind]===false)return{s:"off"};const L=tgLinks()[k];if(!L)return{s:"none"};
   const txt=waFill(waCfg()[kind]||"",k,extra);if(!txt)return{s:"off"};
   try{await tgCall("sendMessage",{chat_id:L.c,text:txt});tgLog(k,kind,true);return{s:"ok"}}
   catch(e){const m=tgErrTxt(e);tgLog(k,kind,false,m);if(e&&e.status===403)Store.mergeItems("tg/links",{},[k]).catch(()=>{});return{s:"fail",msg:m}}}
-function tgChip(st){if(!st||st.s==="off")return "";if(st.s==="wait")return `<div class="tgchip w"><span class="tgi">${TG_SVG}</span>دا يرسل بالتلگرام…</div>`;
-  if(st.s==="ok")return `<div class="tgchip ok"><span class="tgi">${TG_SVG}</span>انبعثت للمشترك بالتلگرام تلقائياً ✓</div>`;
-  if(st.s==="none")return `<div class="tgchip n"><span class="tgi">${TG_SVG}</span>المشترك مو منضم للتلگرام — ابعثها بالواتساب، وادعيه للبوت <button type="button" class="lnk" data-tginv="${esc(st.k||"")}">ارسل دعوة</button></div>`;
-  return `<div class="tgchip bad"><span class="tgi">${TG_SVG}</span>ما انبعثت بالتلگرام: ${esc(st.msg||"")}</div>`}
+function tgChip(st){if(!st||st.s==="off")return "";if(st.s==="wait")return `<div class="tgchip w"><span class="tgi">${TG_SVG}</span>دا يدز بالتلگرام…</div>`;
+  if(st.s==="ok")return `<div class="tgchip ok"><span class="tgi">${TG_SVG}</span>اندزت للمشترك بالتلگرام تلقائياً ✓</div>`;
+  if(st.s==="none")return `<div class="tgchip n"><span class="tgi">${TG_SVG}</span>المشترك مو منضم للتلگرام، ابعثها بالواتساب، وادعيه للبوت <button type="button" class="lnk" data-tginv="${esc(st.k||"")}">ارسل دعوة</button></div>`;
+  return `<div class="tgchip bad"><span class="tgi">${TG_SVG}</span>ما اندزت بالتلگرام: ${esc(st.msg||"")}</div>`}
 const TG_SVG=`<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M21.9 4.3 18.8 19c-.2 1-.9 1.3-1.8.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.8 8.8-8c.4-.3-.1-.5-.6-.2L6.6 12.8 2 11.4c-1-.3-1-1 .2-1.5L20.5 3c.8-.3 1.6.2 1.4 1.3z"/></svg>`;
 async function tgAuto(k,kind,extra,holder){if(!tgReady())return null;const st={s:"wait",k};if(holder)holder.tg=st;const paint=()=>{const e=$("tgChip");if(e)e.innerHTML=tgChip(holder?holder.tg:st)};paint();
   const r=await tgSend(k,kind,extra);r.k=k;if(holder)holder.tg=r;else Object.assign(st,r);paint();return r}
@@ -3582,7 +3596,7 @@ async function tgPoll(){if(TG_BUSY||!tgReady()||document.hidden||(ROLE==="admin"
     for(const u of U||[]){mx=Math.max(mx,u.update_id+1);const m=u.message;if(!m||!m.chat||m.chat.type!=="private")continue;const txt=String(m.text||"").trim(),chat=m.chat.id,who=[m.from&&m.from.first_name,m.from&&m.from.last_name].filter(Boolean).join(" ");
       const sm=txt.match(/^\/start(?:\s+(\S+))?/);
       if(sm&&sm[1]){const k=tgByCode(sm[1]);if(k){await Store.mergeItems("tg/links",{[k]:{c:chat,t:Date.now(),n:who}});const s=SUBS.get(k)||{};
-          await tgCall("sendMessage",{chat_id:chat,text:`هلا ${twoName(s.n)||who} 👋\nانربط اشتراكك (${s.u||k}) بتنبيهات ${SET.name||"الشبكة"} ✅\nراح توصلك هنا رسائل التجديد والتسديد والتذكير قبل لا يخلص اشتراكك.\nاكتب أي شي بأي وقت حتى تعرف حالة اشتراكك.`}).catch(()=>{});logEv("settings","انضم "+(s.n||s.u||k)+" لتنبيهات التلگرام");continue}
+          await tgCall("sendMessage",{chat_id:chat,text:`هلا ${twoName(s.n)||who} 👋\nاتربط اشتراكك (${s.u||k}) بتنبيهات ${SET.name||"الشبكة"} ✅\nراح توصلك هنا رسائل التجديد والتسديد والتذكير قبل لا يخلص اشتراكك.\nاكتب أي شي بأي وقت حتى تعرف حالة اشتراكك.`}).catch(()=>{});logEv("settings","انضم "+(s.n||s.u||k)+" لتنبيهات التلگرام");continue}
         await tgCall("sendMessage",{chat_id:chat,text:"الرابط مو صحيح أو قديم 🙏\nاطلب رابط جديد من "+(SET.name||"الشبكة")+"."}).catch(()=>{});continue}
       const k=tgByChat(chat);
       if(k){await tgCall("sendMessage",{chat_id:chat,text:tgStatusTxt(k)}).catch(()=>{})}
@@ -3591,7 +3605,7 @@ async function tgPoll(){if(TG_BUSY||!tgReady()||document.hidden||(ROLE==="admin"
     if(mx>off)localStorage.setItem(key,String(mx));
   }catch(e){if(e&&e.status===401){/* توكن انلغى */}}
   finally{TG_BUSY=false}}
-/* تذكير تلقائي قبل الانتهاء — جهاز واحد بس يرسل بنفس الوقت */
+/* تذكير تلقائي قبل الانتهاء، جهاز واحد بس يرسل بنفس الوقت */
 let TG_REM_BUSY=false;
 async function tgRemTick(){if(TG_REM_BUSY||!tgReady()||(ROLE==="admin"&&!VIEWAS)||!SUBS.size)return;const c=tgCfg();if(c.rem===false)return;
   const h=new Date().getHours();if(h<9||h>=22)return;const L=tgLinks();const due=waDue().filter(x=>!x.sent&&L[x.k]);if(!due.length)return;
@@ -3606,11 +3620,11 @@ document.addEventListener("visibilitychange",()=>{if(!document.hidden&&tgReady()
 /* إعدادات */
 function renderTg(){const B=$("tgBody");if(!B)return;const c=tgCfg();
   if(!tgFeat()){B.innerHTML=`<div class="empty" style="padding:16px"><b>الخاصية مسدودة لحسابك</b>تواصل ويا الإدارة حتى تنفتح.</div>`;return}
-  if(!c||!c.token){B.innerHTML=`<ol class="tg-steps"><li>افتح <a href="https://t.me/BotFather" target="_blank" rel="noopener" dir="ltr">@BotFather</a> بالتلگرام ودوس Start.</li><li>اكتب <code dir="ltr">/newbot</code> وبعدين اكتب اسم البوت (مثلاً اسم شبكتك)، وبعدها يوزر لازم ينتهي بـ <code dir="ltr">bot</code>.</li><li>ينطيك <b>توكن</b> طويل (أرقام و: وحروف) — انسخه والصقه هنا.</li></ol>
+  if(!c||!c.token){B.innerHTML=`<ol class="tg-steps"><li>افتح <a href="https://t.me/BotFather" target="_blank" rel="noopener" dir="ltr">@BotFather</a> بالتلگرام ودوس Start.</li><li>اكتب <code dir="ltr">/newbot</code> وبعدين اكتب اسم البوت (مثلاً اسم شبكتك)، وبعدها يوزر لازم ينتهي بـ <code dir="ltr">bot</code>.</li><li>ينطيك <b>توكن</b> طويل (أرقام و: وحروف)، انسخه والصقه هنا.</li></ol>
     <div class="field"><label for="tgTok">توكن البوت</label><input type="text" id="tgTok" dir="ltr" autocomplete="off" placeholder="123456789:AA..."></div><div class="row" style="margin-top:10px"><button class="btn ok" id="tgLinkBtn"><span class="tgi">${TG_SVG}</span>ربط البوت</button></div><p class="muted" id="tgMsg" style="margin-top:8px"></p>`;
     $("tgLinkBtn").onclick=async()=>{const tok=$("tgTok").value.trim().replace(/\s/g,"");if(!/^\d+:[\w-]{20,}$/.test(tok)){$("tgMsg").textContent="التوكن مو صحيح، انسخه كامل من BotFather";return}
       $("tgLinkBtn").disabled=true;$("tgMsg").textContent="دا يتأكد…";
-      try{const me=await tgCall("getMe",{},tok);await tgCall("deleteWebhook",{},tok).catch(()=>{});await Store.mergeItems("tg/cfg",{c:{token:tok,bot:me.username,name:me.first_name,on:true,act:true,pay:true,rem:true,at:Date.now()}});logEv("settings","ربط بوت التلگرام @"+me.username);toast("انربط البوت @"+me.username);renderTg();tgStart()}
+      try{const me=await tgCall("getMe",{},tok);await tgCall("deleteWebhook",{},tok).catch(()=>{});await Store.mergeItems("tg/cfg",{c:{token:tok,bot:me.username,name:me.first_name,on:true,act:true,pay:true,rem:true,at:Date.now()}});logEv("settings","ربط بوت التلگرام @"+me.username);toast("اتربط البوت @"+me.username);renderTg();tgStart()}
       catch(e){$("tgMsg").textContent=tgErrTxt(e);$("tgLinkBtn").disabled=false}};return}
   const L=tgLinks(),n=Object.keys(L).filter(k=>SUBS.has(k)).length,tot=SUBS.size,LG=(Store.docs["tg/log"]||{}).items||{};const recent=Object.values(LG).sort((a,b)=>b.t-a.t).slice(0,6);
   const tg=(k,l,d)=>`<label class="tgl"><span>${l}<small class="muted" style="display:block;font-weight:400">${d}</small></span><input type="checkbox" data-tgk="${k}" ${c[k]!==false?"checked":""}></label>`;
@@ -3630,9 +3644,9 @@ function tgInvText(k){return waFill(TG_INV_DEF,k).replace("{الرابط}",tgLin
 function openTgInv(){if(!tgReady()){toast("اربط البوت أول");return}let Q="";
   const draw=()=>{const L=tgLinks(),inv=((Store.docs["tg/inv"]||{}).items)||{};const q=tgNorm(Q);
     const rows=[...SUBS.keys()].filter(k=>!L[k]).map(k=>({k,s:SUBS.get(k)})).filter(x=>!q||tgNorm((x.s.n||"")+" "+(x.s.u||"")+" "+(x.s.p||"")).includes(q)).sort((a,b)=>(!!inv[a.k]-!!inv[b.k])||String(a.s.n||a.s.u).localeCompare(String(b.s.n||b.s.u),"ar")).slice(0,200);
-    $("tgInvList").innerHTML=rows.length?rows.map(({k,s})=>{const ph=waPhone(s.p),iv=inv[k];return `<div class="wa-row${iv?" sent":""}"><div class="wa-who"><b>${esc(s.n||s.u||k)}</b><span class="num">${esc(s.u||k)}</span>${iv?`<small>انبعثت الدعوة ${fdt(iv.t)}</small>`:""}</div><div class="row" style="gap:6px;flex-wrap:nowrap"><button type="button" class="btn ghost sm" data-tgcp="${esc(k)}" title="نسخ الرابط"><svg><use href="#i-copy"/></svg></button><button type="button" class="btn ${iv?"ghost":"wa"} sm" data-tginv="${esc(k)}" ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${ph?(iv?"مرة ثانية":"أرسل"):"بلا رقم"}</button></div></div>`}).join(""):`<div class="empty" style="padding:22px 10px"><b>كل المشتركين منضمين 🎉</b></div>`;
+    $("tgInvList").innerHTML=rows.length?rows.map(({k,s})=>{const ph=waPhone(s.p),iv=inv[k];return `<div class="wa-row${iv?" sent":""}"><div class="wa-who"><b>${esc(s.n||s.u||k)}</b><span class="num">${esc(s.u||k)}</span>${iv?`<small>اندزت الدعوة ${fdt(iv.t)}</small>`:""}</div><div class="row" style="gap:6px;flex-wrap:nowrap"><button type="button" class="btn ghost sm" data-tgcp="${esc(k)}" title="نسخ الرابط"><svg><use href="#i-copy"/></svg></button><button type="button" class="btn ${iv?"ghost":"wa"} sm" data-tginv="${esc(k)}" ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${ph?(iv?"مرة ثانية":"أرسل"):"بلا رقم"}</button></div></div>`}).join(""):`<div class="empty" style="padding:22px 10px"><b>كل المشتركين منضمين 🎉</b></div>`;
     const left=[...SUBS.keys()].filter(k=>!L[k]).length;$("tgInvLeft").textContent=left+" مو منضم";};
-  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><h2>دعوة المشتركين للتلگرام</h2><div class="muted">كل مشترك إله رابط خاص بيه. دوس «أرسل» يفتح الواتساب والدعوة جاهزة، وأول ما يدوس Start ينربط وحده. <span id="tgInvLeft"></span></div></div><button class="x" data-close aria-label="سدّها">×</button></div>
+  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><h2>دعوة المشتركين للتلگرام</h2><div class="muted">دوس «دز» يفتح الواتساب والدعوة جاهزة. <span id="tgInvLeft"></span></div></div><button class="x" data-close aria-label="سدّها">×</button></div>
    <div class="field" style="margin-bottom:10px"><input type="search" id="tgInvQ" placeholder="دوّر بالاسم أو اليوزر أو الرقم…"></div><div class="wa-list" id="tgInvList"></div>`);
   $("tgInvQ").oninput=e=>{Q=e.target.value;draw()};draw();TG_INV_REDRAW=draw}
 var TG_INV_REDRAW=null;
@@ -3654,15 +3668,15 @@ const gwId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 async function gwSend(k,kind,extra,textOverride){const s=SUBS.get(k)||{};if(!waPhone(s.p))return{s:"nophone"};const text=textOverride||waFill(waCfg()[kind]||"",k,extra);if(!text)return{s:"off"};
   const id=gwId();await Store.mergeItems("wa/out",{[id]:{to:s.p,text,t:Date.now(),k,kind}});
   if(!gwAlive()||gwSt().state!=="open")return{s:"queued",via:"wa"};/* السيرفر أو الاتصال مطفي: تبقى محفوظة وتنبعث أول ما يرجع */
-  for(let i=0;i<60;i++){await new Promise(r=>setTimeout(r,1000));const r=(((Store.docs["wa/res"]||{}).items)||{})[id];if(r)return r.ok?{s:"ok",via:"wa"}:{s:"fail",via:"wa",msg:r.err||"ما انبعثت"}}
+  for(let i=0;i<60;i++){await new Promise(r=>setTimeout(r,1000));const r=(((Store.docs["wa/res"]||{}).items)||{})[id];if(r)return r.ok?{s:"ok",via:"wa"}:{s:"fail",via:"wa",msg:r.err||"ما اندزت"}}
   return{s:"queued",via:"wa"}}
 /* إرسال تلقائي: واتساب رقم الشركة أولاً، وإذا ما ينفع تلگرام */
 function notifyChip(st){if(!st||st.s==="off")return "";
-  if(st.via==="wa"){if(st.s==="wait")return `<div class="tgchip w wa"><span class="tgi"><svg><use href="#i-wa"/></svg></span>دا يرسل بالواتساب من رقم الشركة…</div>`;
-    if(st.s==="ok")return `<div class="tgchip ok"><span class="tgi"><svg><use href="#i-wa"/></svg></span>انبعثت بالواتساب تلقائياً من رقم الشركة ✓</div>`;
-    if(st.s==="queued")return `<div class="tgchip w"><span class="tgi"><svg><use href="#i-wa"/></svg></span>انحفظت بالطابور ⏳ — تنبعث بالواتساب وحدها أول ما يرجع السيرفر أو النت</div>`;
+  if(st.via==="wa"){if(st.s==="wait")return `<div class="tgchip w wa"><span class="tgi"><svg><use href="#i-wa"/></svg></span>دا يدز بالواتساب من رقم الشركة…</div>`;
+    if(st.s==="ok")return `<div class="tgchip ok"><span class="tgi"><svg><use href="#i-wa"/></svg></span>اندزت بالواتساب تلقائياً من رقم الشركة ✓</div>`;
+    if(st.s==="queued")return `<div class="tgchip w"><span class="tgi"><svg><use href="#i-wa"/></svg></span>اتحفظت بالطابور ⏳، تنبعث بالواتساب وحدها أول ما يرجع السيرفر أو النت</div>`;
     if(st.s==="nophone")return `<div class="tgchip n"><span class="tgi"><svg><use href="#i-wa"/></svg></span>المشترك ما عنده رقم واتساب صحيح</div>`;
-    return `<div class="tgchip bad"><span class="tgi"><svg><use href="#i-wa"/></svg></span>ما انبعثت بالواتساب: ${esc(st.msg||"")}</div>`}
+    return `<div class="tgchip bad"><span class="tgi"><svg><use href="#i-wa"/></svg></span>ما اندزت بالواتساب: ${esc(st.msg||"")}</div>`}
   return tgChip(st)}
 async function notifyAuto(k,kind,extra,holder){const H=holder||{};const paint=()=>{const e=$("tgChip");if(e)e.innerHTML=notifyChip(H.tg)};
   if(gwReady(kind)&&waPhone((SUBS.get(k)||{}).p)){H.tg={s:"wait",via:"wa",k};paint();const r=await gwSend(k,kind,extra);
@@ -3674,19 +3688,19 @@ async function notifyAuto(k,kind,extra,holder){const H=holder||{};const paint=()
 function renderGw(){const B=$("gwBody");if(!B)return;gwWatch();
   if(!gwFeat()){B.innerHTML=`<div class="empty" style="padding:16px"><b>الخاصية مسدودة لحسابك</b>تواصل ويا الإدارة حتى تنفتح.</div>`;return}
   const st=gwSt(),c=gwCfg(),alive=gwAlive();
-  const pend=gwPending();const pendTx=pend?`<div class="tgchip w" style="margin-top:10px"><span class="tgi"><svg><use href="#i-wa"/></svg></span><span class="num">${pend}</span> رسالة محفوظة بالطابور — تنبعث وحدها أول ما يرجع الاتصال</div>`:"";
+  const pend=gwPending();const pendTx=pend?`<div class="tgchip w" style="margin-top:10px"><span class="tgi"><svg><use href="#i-wa"/></svg></span><span class="num">${pend}</span> رسالة محفوظة بالطابور، تنبعث وحدها أول ما يرجع الاتصال</div>`:"";
   if(!alive){B.innerHTML=`${gwLinked()?pendTx:""}<div class="gw-off"><span class="gw-led"></span><div><b>خدمة الواتساب التلقائي متوقفة هسه</b><span>${ROLE==="admin"?"شغّل السيرفر (start.bat) على الحاسوب.":(gwLinked()?"الرسائل الجديدة تنحفظ وتنبعث وحدها أول ما يرجع.":"تواصل ويا الإدارة.")}</span></div></div>`;return}
   const S=st.state||"off";
   if(S==="open"){const tg=(k,l,d)=>`<label class="tgl"><span>${l}<small class="muted" style="display:block;font-weight:400">${d}</small></span><input type="checkbox" data-gwk="${k}" ${c[k]!==false?"checked":""}></label>`;
     B.innerHTML=`<div class="tg-stat"><div class="tg-bot"><span class="tg-av wa"><svg><use href="#i-wa"/></svg></span><div><b>${esc(st.name||"واتساب الشركة")}</b><span class="num">+${esc(st.phone||"")}</span></div><span class="tg-dot on">متصل</span></div>
       <div class="tg-join"><div class="field" style="margin:0"><label for="gwTestTo">رسالة تجربة لرقم</label><div class="row" style="gap:6px;flex-wrap:nowrap"><input type="tel" id="gwTestTo" dir="ltr" placeholder="07xxxxxxxxx" style="flex:1;min-width:0"><button class="btn ghost sm" id="gwTest">أرسل</button></div></div></div></div>
-      <div class="tg-tgls">${tg("on","الإرسال التلقائي","المفتاح الرئيسي")}${tg("act","التفعيل والتجديد","تطلع أول ما يتفعّل المشترك")}${tg("pay","التسديد","تطلع أول ما ينسجل تسديد")}${tg("rem","التذكير قبل الانتهاء","قبل "+waCfg().days+" أيام، من 9 الصبح لـ 10 بالليل — حتى لو الموقع مسكّر")}</div>
+      <div class="tg-tgls">${tg("on","الإرسال التلقائي","المفتاح الرئيسي")}${tg("act","التفعيل والتجديد","تطلع أول ما يتفعّل المشترك")}${tg("pay","التسديد","تطلع أول ما ينسجل تسديد")}${tg("rem","التذكير قبل الانتهاء","قبل "+waCfg().days+" أيام، من 9 الصبح لـ 10 بالليل، حتى لو الموقع مغلق")}</div>
       <div class="row" style="margin-top:12px"><button class="btn ghost danger" id="gwOut">فصل الرقم</button></div>
-      ${pendTx}<p class="muted" style="margin-top:10px;font-size:12.5px">حتى نحمي الرقم من الحظر: فاصل بين الرسائل وحد يومي. استخدمه لرسائل المشتركين فقط، مو للإعلانات الجماعية.</p>`;
+      ${pendTx}<p class="muted" style="margin-top:10px;font-size:12.5px">لا تستخدمه للإعلانات الجماعية حتى ما ينحظر الرقم.</p>`;
     B.querySelectorAll("[data-gwk]").forEach(i=>i.onchange=()=>guard(()=>Store.mergeItems("wa/gwcfg",{c:{...gwCfg(),[i.dataset.gwk]:i.checked}})).then(renderGw));
     $("gwOut").onclick=()=>{if(!confirm("تفصل رقم الواتساب؟ الرسائل التلقائية راح توگف لحد ما تربطه من جديد."))return;guard(async()=>{await Store.mergeItems("wa/cmd",{[gwId()]:{op:"logout",t:Date.now()}});logEv("settings","فصل واتساب الشركة")},"دا يفصل…")};
     $("gwTest").onclick=async()=>{const to=$("gwTestTo").value.trim();if(!waPhone(to)){toast("اكتب رقم عراقي صحيح");return}$("gwTest").disabled=true;const id=gwId();await Store.mergeItems("wa/out",{[id]:{to,text:"رسالة تجربة من "+(SET.name||"AM NET")+" ✅\nالواتساب التلقائي شغّال.",t:Date.now()}});
-      for(let i=0;i<90;i++){await new Promise(r=>setTimeout(r,1000));const r=(((Store.docs["wa/res"]||{}).items)||{})[id];if(r){toast(r.ok?"✓ انبعثت رسالة التجربة":"ما انبعثت: "+(r.err||""));break}}if($("gwTest"))$("gwTest").disabled=false};
+      for(let i=0;i<90;i++){await new Promise(r=>setTimeout(r,1000));const r=(((Store.docs["wa/res"]||{}).items)||{})[id];if(r){toast(r.ok?"✓ اندزت رسالة التجربة":"ما اندزت: "+(r.err||""));break}}if($("gwTest"))$("gwTest").disabled=false};
     return}
   if(S==="code"&&st.code){const cd=String(st.code).replace(/(.{4})(?=.)/,"$1-");
     B.innerHTML=`<div class="gw-pair"><div class="gw-code num" dir="ltr">${esc(cd)}</div><ol class="tg-steps"><li>افتح <b>واتساب الشركة</b> على الموبايل.</li><li>الإعدادات ← <b>الأجهزة المرتبطة</b> ← <b>ربط جهاز</b>.</li><li>دوس <b>«الربط برقم الهاتف بدلاً من ذلك»</b> (تحت الكاميرا).</li><li>اكتب الكود اللي فوگ. الكود صالح دقائق قليلة.</li></ol><div class="row"><button class="btn ghost" id="gwCancel">إلغاء</button></div></div>`;$("gwCancel").onclick=()=>Store.mergeItems("wa/cmd",{[gwId()]:{op:"logout",t:Date.now()}});return}
@@ -3694,10 +3708,32 @@ function renderGw(){const B=$("gwBody");if(!B)return;gwWatch();
   if(S==="wait"||S==="connecting"){B.innerHTML=`<div class="gw-off"><span class="gw-led w"></span><div><b>دا يجهّز الربط…</b><span>ثواني ويطلع الكود.</span></div></div>`;return}
   B.innerHTML=`${st.err?`<div class="tgchip bad" style="margin-top:0">${esc(st.err)}</div>`:""}<div class="field"><label for="gwPh">رقم واتساب الشركة</label><input type="tel" id="gwPh" dir="ltr" placeholder="07xxxxxxxxx" value="${esc(normPhone(SET.phone||""))}"></div>
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn ok" id="gwCode"><svg><use href="#i-wa"/></svg>ربط بكود (من نفس الموبايل)</button><button class="btn ghost" id="gwQr">ربط بـ QR</button></div>
-    <p class="muted" style="margin-top:10px;font-size:12.5px">الأفضل تستخدم رقم خاص بالشركة (واتساب أعمال)، مو رقمك الشخصي.</p>`;
+    <p class="muted" style="margin-top:10px;font-size:12.5px">الأفضل رقم خاص بالشركة.</p>`;
   $("gwCode").onclick=()=>{const ph=$("gwPh").value.trim();if(!waPhone(ph)){toast("اكتب رقم عراقي صحيح 07xxxxxxxxx");return}guard(async()=>{await Store.mergeItems("wa/cmd",{[gwId()]:{op:"connect",phone:ph,t:Date.now()}});logEv("settings","بدأ ربط واتساب الشركة")})};
   $("gwQr").onclick=()=>guard(()=>Store.mergeItems("wa/cmd",{[gwId()]:{op:"connect",t:Date.now()}}));
 }
+
+/* ================= ADMIN · لوحة سيرفر الواتساب ================= */
+let GWS=null,GWS_U=null,GWS_F="";
+function gwAdmWatch(){if(GWS_U||ROLE!=="admin"||!fs)return;try{GWS_U=fs.collection("accounts").doc("gwstat").collection("data").doc("stat").onSnapshot(d=>{GWS=d.exists?d.data():null;if(ASEC==="gw")renderGwAdm();gwAdmBadge()},()=>{})}catch(e){}}
+function gwAdmBadge(){const b=document.querySelectorAll('[data-ab="gw"]');const bad=!gwAlive();b.forEach(x=>{x.hidden=!bad;x.textContent="!"})}
+const GWST={open:["متصل","ok"],connecting:["يعيد الاتصال","warn"],wait:["يجهّز","warn"],code:["ينتظر الكود","warn"],qr:["ينتظر QR","warn"],off:["مو مربوط",""],err:["خطأ","bad"]};
+const GWIC={sent:"✓",fail:"✕",drop:"!",conn:"●",rem:"⏳",cmd:"›"};
+function gwUp(s){const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return d?d+"d "+h+"h":h?h+"h "+m+"m":m+"m"}
+function renderGwAdm(){const B=$("gwAdm");if(!B)return;gwAdmWatch();gwWatch();const d=GWS,alive=gwAlive();
+  if(!d){B.innerHTML=`<div class="card br"><div class="empty" style="padding:26px 10px"><b>ماكو بيانات من السيرفر لحد الآن</b>شغّل AM Gateway على الحاسوب، وتطلع هنا خلال دقيقة.</div></div>`;return}
+  const S=d.sessions||[],open=S.filter(x=>x.state==="open").length,q=S.reduce((a,x)=>a+(x.queue||0),0),age=Math.round((Date.now()-(d.now||0))/1000);
+  const ev=(d.ev||[]).filter(e=>!GWS_F||e.type===GWS_F||(GWS_F==="fail"&&e.type==="drop"));
+  const nm=a=>{const x=S.find(y=>y.acct===a);return x?x.name:a};
+  B.innerHTML=`<div class="gwa-top card br"><span class="gw-led ${alive?"on":""}"></span><div><b>${alive?"السيرفر شغّال":"السيرفر مطفي"}</b><span>${alive?"آخر تحديث قبل "+(age<60?age+" ثانية":Math.round(age/60)+" دقيقة"):"آخر مرة اشتغل "+fdt(d.now||0)}</span></div><span class="num gwa-up">${gwUp(d.up||0)} · ${d.mem||0}MB</span></div>
+  <div class="gwa-k">${[["الشركات المتصلة",open,"من "+S.length],["اندزت اليوم",(d.today||{}).ok||0,"رسالة","ok"],["فشلت اليوم",(d.today||{}).fail||0,"رسالة","bad"],["بالطابور",q,"تنتظر"]].map(([l,v,t,c])=>`<div class="card br gwa-kp ${c||""}"><small>${l}</small><b class="num">${v}</b><span>${t}</span></div>`).join("")}</div>
+  <div class="gwa-g"><div class="card br"><div class="chead"><div class="t"><h2>الشركات</h2></div></div><div class="gwa-acc">${S.length?S.map(x=>{const [l,c]=GWST[x.state]||[x.state,""];return `<div class="gwa-r ${esc(x.state)}"><div class="gwa-n"><b>${esc(x.name)}</b><span>${x.phone?`<span class="num">+${esc(x.phone)}</span> · `:""}${x.last?"آخر رسالة "+fdt(x.last):"ماكو رسائل اليوم"}${x.err&&x.state!=="open"?" · "+esc(x.err):""}</span></div><div class="gwa-m"><span class="gwa-c ${c}">${l}</span><span class="gwa-c ok num">✓ ${x.today||0}</span>${x.fail?`<span class="gwa-c bad num">✕ ${x.fail}</span>`:""}${x.queue?`<span class="gwa-c warn num">⏳ ${x.queue}</span>`:""}${x.state!=="off"?`<button class="btn sm ghost" data-gwa="reconnect" data-acct="${esc(x.acct)}">إعادة اتصال</button>`:""}</div></div>`}).join(""):`<div class="empty">ماكو شركات مربوطة</div>`}</div></div>
+   <div class="card br"><div class="chead"><div class="t"><h2>السجل</h2></div></div><div class="chips" style="margin:0 0 10px">${[["","الكل"],["sent","إرسال"],["fail","أخطاء"],["conn","اتصال"]].map(([k,l])=>`<button class="chip ${GWS_F===k?"on":""}" data-gwf="${k}">${l}</button>`).join("")}</div>
+   <div class="gwa-log">${ev.length?ev.map(e=>`<div class="gwa-e ${e.type}"><span class="num">${new Date(e.t).toTimeString().slice(0,5)}</span><i>${GWIC[e.type]||"·"}</i><span>${e.acct?`<b>${esc(nm(e.acct))}:</b> `:""}${esc(e.msg)}</span></div>`).join(""):`<div class="empty">ماكو أحداث</div>`}</div></div></div>`}
+document.addEventListener("click",e=>{const f=e.target.closest("[data-gwf]");if(f){GWS_F=f.dataset.gwf;renderGwAdm();return}
+  const b=e.target.closest("[data-gwa]");if(!b||ROLE!=="admin")return;b.disabled=true;const id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  fs.collection("accounts").doc(b.dataset.acct).collection("data").doc("wa__cmd").set({items:{[id]:{op:b.dataset.gwa,t:Date.now()}}},{merge:true}).then(()=>toast("اندز الأمر للسيرفر")).catch(()=>toast("ما گدرت أدز الأمر"))});
+setInterval(()=>{if(ROLE==="admin"&&!VIEWAS){gwAdmWatch();gwWatch();gwAdmBadge();if(ASEC==="gw")renderGwAdm()}},30000);
 /* ================= BALANCE ================= */
 function balInfo(){
   const st=SET.balStart||0;if(!st)return null;
@@ -3733,7 +3769,7 @@ function renderBalance(){
 }
 function openBalAdd(){
   const B=balInfo();
-  modal(`<div class="mhd"><div class="t"><h2>${B?"إضافة رصيد":"تشغيل الرصيد"}</h2><div class="muted">${B?"الرصيد هسه "+fmt(B.bal)+" د.ع":"اكتب رصيدك الحالي عند الشركة. من هسه وطالع كل تفعيل ينقص منه بسعر الشركة."}</div></div><button class="x" data-close aria-label="سكّر">×</button></div>
+  modal(`<div class="mhd"><div class="t"><h2>${B?"إضافة رصيد":"تشغيل الرصيد"}</h2><div class="muted">${B?"الرصيد هسه "+fmt(B.bal)+" د.ع":"اكتب رصيدك الحالي عند الشركة. من هسه وطالع كل تفعيل ينقص منه بسعر الشركة."}</div></div><button class="x" data-close aria-label="سدّ">×</button></div>
   <div class="seg" id="bkType"><button data-k="1" aria-pressed="true">شحن (+)</button><button data-k="-1" aria-pressed="false">تصحيح (−)</button></div>
   <div class="field"><label for="bAmt">المبلغ</label><input type="number" id="bAmt" dir="ltr" inputmode="numeric" style="font-size:20px!important"></div>
   <div class="chips" id="bQuick">${[100000,250000,500000,1000000].map(v=>`<button class="chip" data-v="${v}">${fmt(v)}</button>`).join("")}</div>
@@ -3751,7 +3787,7 @@ function openBalAdd(){
 }
 document.addEventListener("click",e=>{
   if(e.target.closest("[data-baladd]")){e.preventDefault();if(!can("balance")){toast("ما عندك صلاحية الرصيد");return}openBalAdd()}
-  const d=e.target.closest("[data-baldel]");if(d){const b=BALS.find(x=>x.id===d.dataset.baldel);if(b)confirmBox("حذف الحركة","متأكد تحذف حركة <span class='num'>"+fmt(b.amt)+"</span>؟","إي، احذف",()=>guard(async()=>{await Store.mergeItems("bal/all",{},[b.id]);logEv("bal","حذف حركة رصيد "+fmt(b.amt))},"انحذفت"))}
+  const d=e.target.closest("[data-baldel]");if(d){const b=BALS.find(x=>x.id===d.dataset.baldel);if(b)confirmBox("حذف الحركة","متأكد تحذف حركة <span class='num'>"+fmt(b.amt)+"</span>؟","إي، احذف",()=>guard(async()=>{await Store.mergeItems("bal/all",{},[b.id]);logEv("bal","حذف حركة رصيد "+fmt(b.amt))},"اتحذفت"))}
 });
 /* ================= MULTI ACTIVATIONS ================= */
 function renderMulti(){
@@ -3843,12 +3879,12 @@ $("ntAdd").onclick=()=>{
   const x=$("ntText").value.trim();if(!x){toast("اكتب النص");return}
   let u="";if(NT==="a"){u=ukey($("ntUser").value);if(u&&!SUBS.has(u)){toast("هذا اليوزر مو موجود");return}}
   const it=notesItems();const id="n"+Date.now().toString(36);it[id]={t:NT,x,u,on:true,at:Date.now(),by:displayName()};
-  $("ntText").value="";$("ntUser").value="";guard(async()=>{await Store.mergeItems("notes/all",{[id]:it[id]});logEv("notice",(NT==="b"?"ضاف تبليغ: ":"ضاف تنبيه"+(u?" على "+subLbl(u):"")+": ")+x)},NT==="b"?"انضاف التبليغ":"انضاف التنبيه");
+  $("ntText").value="";$("ntUser").value="";guard(async()=>{await Store.mergeItems("notes/all",{[id]:it[id]});logEv("notice",(NT==="b"?"ضاف تبليغ: ":"ضاف تنبيه"+(u?" على "+subLbl(u):"")+": ")+x)},NT==="b"?"اتضاف التبليغ":"اتضاف التنبيه");
 };
 $("noteList").addEventListener("click",e=>{
   const t=e.target.closest("[data-ntog]"),d=e.target.closest("[data-ndel]");
   if(t){const it=notesItems();const n=it[t.dataset.ntog];if(n){const v={...n,on:n.on===false};guard(async()=>{await Store.mergeItems("notes/all",{[t.dataset.ntog]:v});logEv("notice",(v.on?"شغّل ":"طفّى ")+(n.t==="b"?"تبليغ: ":"تنبيه: ")+n.x)})}}
-  if(d){confirmBox("حذف","متأكد تحذفه؟","حذف",()=>{const n=notesItems()[d.dataset.ndel]||{};return guard(async()=>{await Store.mergeItems("notes/all",{},[d.dataset.ndel]);logEv("notice","حذف "+(n.t==="b"?"تبليغ: ":"تنبيه: ")+(n.x||""))},"انحذف")})}
+  if(d){confirmBox("حذف","متأكد تحذفه؟","حذف",()=>{const n=notesItems()[d.dataset.ndel]||{};return guard(async()=>{await Store.mergeItems("notes/all",{},[d.dataset.ndel]);logEv("notice","حذف "+(n.t==="b"?"تبليغ: ":"تنبيه: ")+(n.x||""))},"اتحذف")})}
 });
 /* ================= STAFF REPORT ================= */
 let RPERIOD="today";
@@ -3942,7 +3978,7 @@ function rpvLabel(){
   const [a,b]=rpvRange();const now=Date.now();
   const from=a>0?a:(ACTS.length?ACTS[0].d:now);const to=isFinite(b)?Math.min(b-1,now):now;
   const pn=(PERIODS.find(p=>p[0]===RPV.p)||[,""])[1];
-  return {pn:RPV.p==="custom"?"فترة مخصصة":pn,from,to,txt:fdate(from)===fdate(to)?fdate(from):fdate(from)+" — "+fdate(to)};
+  return {pn:RPV.p==="custom"?"فترة مخصصة":pn,from,to,txt:fdate(from)===fdate(to)?fdate(from):fdate(from)+"، "+fdate(to)};
 }
 function rpvLogo(){
   const lg=(ACCOUNT&&ACCOUNT.logo)||(VIEWAS&&VIEWAS.logo)||"";
@@ -4254,11 +4290,11 @@ $("rpvImg").onclick=async()=>{
     const c=document.createElement("canvas");c.width=W;c.height=cs.reduce((h,x)=>h+x.height,0)+gap*(cs.length-1);const x=c.getContext("2d");x.fillStyle="#e9ebef";x.fillRect(0,0,c.width,c.height);
     let y=0;for(const k of cs){x.drawImage(k,0,y);y+=k.height+gap}
     const blob=await new Promise(r=>c.toBlob(r,"image/png"));const shared=await rpvShare(blob,rpvFname("png"),"تقرير التفعيلات");
-    if(!shared)toast(tot>max?"انحفظت أول "+max+" صفحات كصورة، للكامل استعمل PDF":"انحفظت الصورة")}
+    if(!shared)toast(tot>max?"اتحفظت أول "+max+" صفحات كصورة، للكامل استعمل PDF":"اتحفظت الصورة")}
   catch(e){console.error(e);toast("ما گدرت أسوي الصورة")}finally{rpvBusy(false)}};
 $("rpvPdf").onclick=async()=>{
   rpvBusy(true,"دا يسوي ملف PDF…");
-  try{const cs=await rpvCanvases(2);const blob=await rpvPdfBlob(cs);const shared=await rpvShare(blob,rpvFname("pdf"),"تقرير التفعيلات");if(!shared)toast("انحفظ ملف PDF")}
+  try{const cs=await rpvCanvases(2);const blob=await rpvPdfBlob(cs);const shared=await rpvShare(blob,rpvFname("pdf"),"تقرير التفعيلات");if(!shared)toast("اتحفظ ملف PDF")}
   catch(e){console.error(e);toast("ما گدرت أسوي PDF")}finally{rpvBusy(false)}};
 $("rpvPrint").onclick=()=>{try{window.print()}catch(e){toast("الطباعة ما مدعومة هنا، استعمل PDF")}};
 window.addEventListener("beforeprint",()=>{if(RPV.open)document.querySelectorAll("#rpvPages .rp-wrap").forEach(w=>{w.firstElementChild.style.transform="none"})});
@@ -4298,7 +4334,7 @@ const toLocalInput=ms=>{const d=new Date(ms);return d.getFullYear()+"-"+pad(d.ge
 const subLbl=u=>{const x=SUBS.get(u);return (x&&x.n?x.n+" ":"")+"("+((x&&x.u)||u)+")"};
 async function saveSubs(map){
   const logs=[];const ent=[...map];
-  if(ent.length>8){const nw=ent.filter(([k,v])=>v&&!SUBS.has(k)).length,dl=ent.filter(([k,v])=>!v).length;if(nw)logs.push(["sub","انضاف "+fmt(nw)+" مشترك"]);if(dl)logs.push(["subdel","انحذف "+fmt(dl)+" مشترك"])}
+  if(ent.length>8){const nw=ent.filter(([k,v])=>v&&!SUBS.has(k)).length,dl=ent.filter(([k,v])=>!v).length;if(nw)logs.push(["sub","اتضاف "+fmt(nw)+" مشترك"]);if(dl)logs.push(["subdel","اتحذف "+fmt(dl)+" مشترك"])}
   else for(const [k,v] of ent){const o=SUBS.get(k);
     if(!v)logs.push(["subdel","حذف المشترك "+subLbl(k),k]);
     else if(!o)logs.push(["sub","ضاف مشترك "+(v.n||"")+" ("+v.u+")"+(v.p?" · "+v.p:""),k]);
@@ -4316,8 +4352,8 @@ async function saveChunked(col,add,del,enc){
 const payLbl=p=>p==="a"?"آجل":"نقد";
 async function saveActs(add,del){
   add=add||[];del=del||[];const logs=[];
-  if(add.length>8)logs.push(["import","انضاف "+fmt(add.length)+" تفعيل من ملف"]);
-  else if(del.length>3&&!add.length)logs.push(["actdel","انحذفت "+fmt(del.length)+" تفعيلات لـ "+subLbl(del[0].u)]);
+  if(add.length>8)logs.push(["import","اتضاف "+fmt(add.length)+" تفعيل من ملف"]);
+  else if(del.length>3&&!add.length)logs.push(["actdel","اتحذفت "+fmt(del.length)+" تفعيلات لـ "+subLbl(del[0].u)]);
   else{
     const used=new Set();
     for(const a of add){const old=ACTS.find(x=>x.k===a.k)||del.find(x=>x.u===a.u&&!used.has(x.k));
@@ -4332,7 +4368,7 @@ async function saveActs(add,del){
 async function savePays(add,del){
   add=add||[];del=del||[];const logs=[];
   for(const p of add)logs.push(["pay","استلم تسديد "+fmt(p.amt)+" د.ع من "+subLbl(p.u)+(p.note?" · "+p.note:""),p.u]);
-  if(del.length>3)logs.push(["paydel","انحذفت "+fmt(del.length)+" تسديدات"]);else for(const p of del)logs.push(["paydel","حذف تسديد "+fmt(p.amt)+" د.ع لـ "+subLbl(p.u),p.u]);
+  if(del.length>3)logs.push(["paydel","اتحذفت "+fmt(del.length)+" تسديدات"]);else for(const p of del)logs.push(["paydel","حذف تسديد "+fmt(p.amt)+" د.ع لـ "+subLbl(p.u),p.u]);
   await saveChunked("pay",add,del,p=>[p.u,p.d,p.amt,p.note||"",p.sid||"",p.byn||""]);
   logMany(logs);
 }
@@ -4360,7 +4396,7 @@ async function saveSettings(){
 }
 async function guard(fn,okMsg){
   try{await fn();if(okMsg)toast(okMsg);loaded();return true}
-  catch(e){const c=e&&e.code;toast(c==="quota_exceeded"?"امتلأت مساحة قاعدة البيانات، صدّر البيانات واحذف القديم.":c==="permission-denied"?"ما عندك صلاحية، ممكن حسابك متوقف.":c==="no-account"?"سجّل دخول أول.":"ما انحفظ التغيير، حاول مرة ثانية.");loaded();return false}
+  catch(e){const c=e&&e.code;toast(c==="quota_exceeded"?"امتلأت مساحة قاعدة البيانات، صدّر البيانات واحذف القديم.":c==="permission-denied"?"ما عندك صلاحية، ممكن حسابك متوقف.":c==="no-account"?"سجّل دخول أول.":"ما اتحفظ التغيير، حاول مرة ثانية.");loaded();return false}
 }
 
 function openSub(k){
@@ -4371,7 +4407,7 @@ function openSub(k){
   let prof=0;hist.forEach(a=>prof+=actSell(a)-(+a.c||0));
   const SC={act:"var(--ok)",near:"var(--warn)",exp:"var(--bad)",none:"var(--faint)"}[st.st];
   const ini=(s.n||s.u||"؟").trim().split(/\s+/).slice(0,2).map(w=>w.charAt(0)).join(" ");
-  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mshead"><div class="eyebrow"><span>SUBSCRIBER · PROFILE</span></div><button class="x" data-close aria-label="سكّر">×</button></div>
+  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mshead"><div class="eyebrow"><span>SUBSCRIBER · PROFILE</span></div><button class="x" data-close aria-label="سدّ">×</button></div>
   <div class="prof-hd" style="--sc:${SC}"><div class="prof-av">${esc(ini)}</div><div style="min-width:0;flex:1"><div class="nm">${esc(s.n||"بدون اسم")}</div>
     <button type="button" class="prof-user" data-cpu="${esc(s.u)}" aria-label="نسخ اليوزر"><span>${esc(s.u)}</span><svg><use href="#i-copy"/></svg></button>
     <div class="sub">${s.pl?planTag(s.pl):""}${pill(st.st,st.days)}</div></div></div>
@@ -4400,16 +4436,16 @@ function openSub(k){
   <div class="hist tl">${hist.map(a=>`<div class="hi ${a.pay}"><span class="num">${fdt(a.d)}</span>${planTag(a.pl)}<span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span><span class="num">${fmt(actSell(a))}</span>${a.by?`<span class="muted">${esc(a.by)}</span>`:""}<span class="sp"></span><button class="btn ghost sm" data-flip="${esc(a.k)}">${a.pay==="a"?"حوّل لنقد":"حوّل لآجل"}</button><button class="btn ghost sm p-edit" data-editact="${esc(a.k)}">تعديل</button><button class="btn danger sm p-edit" data-delact="${esc(a.k)}">حذف</button></div>`).join("")||`<div class="muted">ماكو تفعيلات.</div>`}</div>
   ${pays.length?`<h3>التسديدات (${pays.length})</h3><div class="hist tl">${pays.map(p=>`<div class="hi p"><span class="num">${fdt(p.d)}</span><span class="num" style="color:var(--ok)">+${fmt(p.amt)}</span>${p.note?`<span class="muted">${esc(p.note)}</span>`:""}<span class="sp"></span><button class="btn danger sm p-edit" data-delpay="${esc(p.k)}">حذف</button></div>`).join("")}</div>`:""}`);
   $("eCopy").onclick=()=>{$("eMsg").hidden=false;copyText(actMsg(k,(LAST[k]||{}).pl,(LAST[k]||{}).d),$("eMsg"))};
-  $("eSave").onclick=()=>{const ns={...s,n:$("eN").value.trim(),p:$("eP").value.trim(),pl:$("ePl").value,note:$("eNote").value.trim()};closeModal();guard(()=>saveSubs(new Map([[k,ns]])),"انحفظت البيانات")};
-  $("eDel").onclick=()=>confirmBox("حذف المشترك",`راح ينحذف <b>${esc(s.n||s.u)}</b> وكل تفعيلاته وتسديداته. ما تكدر ترجعه.`,"إي، احذف",()=>guard(async()=>{await saveActs([],hist);await savePays([],pays);await saveSubs(new Map([[k,null]]))},"انحذف المشترك"));
+  $("eSave").onclick=()=>{const ns={...s,n:$("eN").value.trim(),p:$("eP").value.trim(),pl:$("ePl").value,note:$("eNote").value.trim()};closeModal();guard(()=>saveSubs(new Map([[k,ns]])),"اتحفظت البيانات")};
+  $("eDel").onclick=()=>confirmBox("حذف المشترك",`راح ينحذف <b>${esc(s.n||s.u)}</b> وكل تفعيلاته وتسديداته. ما تكدر ترجعه.`,"إي، احذف",()=>guard(async()=>{await saveActs([],hist);await savePays([],pays);await saveSubs(new Map([[k,null]]))},"اتحذف المشترك"));
   $("mbox").querySelectorAll("[data-flip]").forEach(b=>b.onclick=()=>{const a=hist.find(x=>x.k===b.dataset.flip);const na={...a,pay:a.pay==="a"?"c":"a",pd:0};guard(()=>saveActs([na]),na.pay==="a"?"صار آجل":"صار نقد").then(()=>openSub(k))});
   $("mbox").querySelectorAll("[data-editact]").forEach(b=>b.onclick=()=>openEditAct(hist.find(x=>x.k===b.dataset.editact),k));
-  $("mbox").querySelectorAll("[data-delact]").forEach(b=>b.onclick=()=>{const a=hist.find(x=>x.k===b.dataset.delact);confirmBox("حذف التفعيل","حذف تفعيل بتاريخ <span class='num'>"+fdt(a.d)+"</span>؟","حذف",()=>guard(()=>saveActs([],[a]),"انحذف التفعيل"))});
-  $("mbox").querySelectorAll("[data-delpay]").forEach(b=>b.onclick=()=>{const p=pays.find(x=>x.k===b.dataset.delpay);confirmBox("حذف التسديد","حذف تسديد بمبلغ <span class='num'>"+fmt(p.amt)+"</span>؟ الدين راح يرجع.","حذف",()=>guard(()=>savePays([],[p]),"انحذف التسديد"))});
+  $("mbox").querySelectorAll("[data-delact]").forEach(b=>b.onclick=()=>{const a=hist.find(x=>x.k===b.dataset.delact);confirmBox("حذف التفعيل","حذف تفعيل بتاريخ <span class='num'>"+fdt(a.d)+"</span>؟","حذف",()=>guard(()=>saveActs([],[a]),"اتحذف التفعيل"))});
+  $("mbox").querySelectorAll("[data-delpay]").forEach(b=>b.onclick=()=>{const p=pays.find(x=>x.k===b.dataset.delpay);confirmBox("حذف التسديد","حذف تسديد بمبلغ <span class='num'>"+fmt(p.amt)+"</span>؟ الدين راح يرجع.","حذف",()=>guard(()=>savePays([],[p]),"اتحذف التسديد"))});
 }
 function openEditAct(a,k){
   if(!a)return;const s=SUBS.get(k)||{};
-  modal(`<div class="mhd"><div class="t"><h2>تعديل التفعيل</h2><div class="muted">${esc(s.n||s.u||k)} · <span class="num">${fdt(a.d)}</span></div></div><button class="x" data-close aria-label="سكّر">×</button></div>
+  modal(`<div class="mhd"><div class="t"><h2>تعديل التفعيل</h2><div class="muted">${esc(s.n||s.u||k)} · <span class="num">${fdt(a.d)}</span></div></div><button class="x" data-close aria-label="سدّ">×</button></div>
   <div class="field"><label>الفئة (الباقة)</label><div class="plans" id="eaPl">${planList().map(([n,p])=>`<button class="pbtn" style="--pc:${planColor(n)}" data-epl="${esc(n)}" aria-pressed="${n===a.pl}"><b>${esc(n)}</b><span>${fmt(+p.s||0)}</span></button>`).join("")}</div></div>
   <div class="fgrid">
     <div class="field"><label for="eaD">تاريخ التفعيل</label><input type="datetime-local" id="eaD" value="${toLocalInput(a.d)}"></div>
@@ -4428,7 +4464,7 @@ function openEditAct(a,k){
     const isLatest=LAST[a.u]&&LAST[a.u].k===a.k;
     closeModal();
     await guard(async()=>{await saveActs([na],na.k!==a.k?[a]:[]);
-      if(isLatest&&s.pl!==pl)await saveSubs(new Map([[a.u,{...s,pl}]]))},"انحفظ التعديل");
+      if(isLatest&&s.pl!==pl)await saveSubs(new Map([[a.u,{...s,pl}]]))},"اتحفظ التعديل");
     openSub(k);
   };
 }
@@ -4445,7 +4481,7 @@ function openPay(k,after){
   upd();$("pAmt").oninput=upd;
   $("mbox").querySelectorAll("[data-amt]").forEach(b=>b.onclick=()=>{$("pAmt").value=b.dataset.amt;upd()});
   $("pGo").onclick=()=>{const v=+$("pAmt").value||0;if(v<=0){toast("اكتب المبلغ");return}const t=Date.now();const p={k:k+"|p"+t,u:k,d:t,amt:v,note:$("pNote").value.trim(),sid:mySid(),byn:displayName()};closeModal();guard(()=>savePays([p]),"تسدد "+fmt(v)+" د.ع").then(ok=>{if(ok){play("pay");const rest=debtOf(k);
-    modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="done" style="padding:6px 0 0"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">انسجل التسديد</h2><div class="done-n">${esc(s.n||s.u)}</div><div class="done-chips"><span>المبلغ <b class="num">${fmt(v)}</b></span><span>الدين الباقي <b class="num">${fmt(rest)}</b></span></div><div id="tgChip"></div>${waBtn(k,"pay",{amt:v,debt:rest})}<button class="btn ghost go" id="pDone">${after?"رجوع":"زين، سدّها"}</button></div>`);
+    modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="done" style="padding:6px 0 0"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">اتسجل التسديد</h2><div class="done-n">${esc(s.n||s.u)}</div><div class="done-chips"><span>المبلغ <b class="num">${fmt(v)}</b></span><span>الدين الباقي <b class="num">${fmt(rest)}</b></span></div><div id="tgChip"></div>${waBtn(k,"pay",{amt:v,debt:rest})}<button class="btn ghost go" id="pDone">${after?"رجوع":"زين، سدّها"}</button></div>`);
     $("pDone").onclick=()=>{closeModal();if(after)after()};notifyAuto(k,"pay",{amt:v,debt:rest})}})};
 }
 function openAdd(prefill,pre){
@@ -4465,7 +4501,7 @@ function openAdd(prefill,pre){
     const k=ukey(u);if(SUBS.has(k)){toast("هذا اليوزر موجود مسبقاً");return}
     const s={u,n:$("nN").value.trim(),p:$("nP").value.trim(),pl:$("nPl").value,note:"",t:Date.now()};
     const goAct=$("nAct").checked;closeModal();
-    const ok=await guard(()=>saveSubs(new Map([[k,s]])),"انضاف المشترك");
+    const ok=await guard(()=>saveSubs(new Map([[k,s]])),"اتضاف المشترك");
     if(ok&&goAct)selectForActivate(k,{pl:s.pl});
   };
 }
@@ -4490,16 +4526,16 @@ function renderConfig(){
   bkInfo();$("cfBtnWa").checked=SET.btnWa!==false;$("cfViber").checked=SET.viber!==false;$("cfViber").disabled=!viberAdm();$("cfViberNote").textContent=viberAdm()?"":"(موقوف من الإدارة)";$("cfName").value=SET.name||"";$("cfPeriod").value=SET.period;$("cfNear").value=SET.near;
   $("dataInfo").textContent=`عندك ${fmt(SUBS.size)} مشترك و ${fmt(ACTS.length)} تفعيل و ${fmt(PAYS.length)} تسديد. `+"البيانات محفوظة على Firebase وتظهر بأي جهاز تدخل منه بحسابك.";
 }
-$("plansTbl").addEventListener("change",e=>{const i=e.target;const n=i.dataset.pn,f=i.dataset.pf;if(!n||!f||!SET.plans[n])return;const p={...SET.plans[n]};p[f]=f==="home"?i.checked:(f==="c"||f==="s")?(+i.value||0):i.value.trim();SET.plans={...SET.plans,[n]:p};i.blur();guard(saveSettings,"انحفظت باقة "+n)});
-$("plansTbl").addEventListener("click",e=>{const b=e.target.closest("[data-delplan]");if(!b)return;const pl={...SET.plans};delete pl[b.dataset.delplan];SET.plans=pl;guard(saveSettings,"انحذفت الباقة")});
+$("plansTbl").addEventListener("change",e=>{const i=e.target;const n=i.dataset.pn,f=i.dataset.pf;if(!n||!f||!SET.plans[n])return;const p={...SET.plans[n]};p[f]=f==="home"?i.checked:(f==="c"||f==="s")?(+i.value||0):i.value.trim();SET.plans={...SET.plans,[n]:p};i.blur();guard(saveSettings,"اتحفظت باقة "+n)});
+$("plansTbl").addEventListener("click",e=>{const b=e.target.closest("[data-delplan]");if(!b)return;const pl={...SET.plans};delete pl[b.dataset.delplan];SET.plans=pl;guard(saveSettings,"اتحذفت الباقة")});
 $("addPlan").onclick=()=>{
   modal(`<div class="mhd"><div class="t"><h2>إضافة باقة</h2></div><button class="x" data-close aria-label="إغلاق">×</button></div>
   <div class="fgrid"><div class="field"><label for="plN">اسم الباقة</label><input type="text" id="plN" dir="ltr" placeholder="BASIC"></div><div class="field"><label for="plC">سعر الشركة</label><input type="number" id="plC" dir="ltr"></div><div class="field"><label for="plS">سعر البيع</label><input type="number" id="plS" dir="ltr"></div><div class="field"><label for="plSp">السرعة</label><input type="text" id="plSp" placeholder="مثلاً 35 ميگا"></div></div>
   <div class="field"><label for="plI">تفاصيل الباقة</label><input type="text" id="plI"></div>
   <button class="btn go" id="plGo">إضافة</button>`);
-  $("plGo").onclick=()=>{const n=$("plN").value.trim().toUpperCase();if(!n){toast("اكتب اسم الباقة");return}SET.plans={...SET.plans,[n]:{c:+$("plC").value||0,s:+$("plS").value||0,speed:$("plSp").value.trim(),info:$("plI").value.trim()}};closeModal();guard(saveSettings,"انضافت الباقة")};
+  $("plGo").onclick=()=>{const n=$("plN").value.trim().toUpperCase();if(!n){toast("اكتب اسم الباقة");return}SET.plans={...SET.plans,[n]:{c:+$("plC").value||0,s:+$("plS").value||0,speed:$("plSp").value.trim(),info:$("plI").value.trim()}};closeModal();guard(saveSettings,"اتضافت الباقة")};
 };
-$("saveCfg").onclick=()=>{SET={...SET,name:$("cfName").value.trim(),period:Math.max(1,Math.min(365,+$("cfPeriod").value||30)),near:Math.max(0,Math.min(30,+$("cfNear").value||0)),viber:$("cfViber").checked,btnWa:$("cfBtnWa").checked};$("saveCfg").blur();guard(saveSettings,"انحفظت الإعدادات")};
+$("saveCfg").onclick=()=>{SET={...SET,name:$("cfName").value.trim(),period:Math.max(1,Math.min(365,+$("cfPeriod").value||30)),near:Math.max(0,Math.min(30,+$("cfNear").value||0)),viber:$("cfViber").checked,btnWa:$("cfBtnWa").checked};$("saveCfg").blur();guard(saveSettings,"اتحفظت الإعدادات")};
 /* ---- backup / restore ---- */
 function dlBlob(blob,name){const u=URL.createObjectURL(blob);const l=document.createElement("a");l.href=u;l.download=name;document.body.append(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),6000)}
 function doBackup(tag,quiet){
@@ -4509,7 +4545,7 @@ function doBackup(tag,quiet){
   const file="amnet-"+(tag||"backup")+(nm?"-"+nm:"")+"-"+d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"_"+pad(d.getHours())+pad(d.getMinutes())+".json";
   dlBlob(new Blob([JSON.stringify({app:"amnet",v:1,acct:Store.uid,name:(ACCOUNT&&ACCOUNT.name)||(VIEWAS&&VIEWAS.name)||"",at:Date.now(),by:displayName()||"",docs})],{type:"application/json"}),file);
   try{localStorage.setItem("amnet_bk_"+Store.uid,String(Date.now()))}catch(e){}bkInfo();
-  if(!quiet){toast("انحفظت النسخة الاحتياطية");logEv("backup","سوّى نسخة احتياطية")}return true;
+  if(!quiet){toast("اتحفظت النسخة الاحتياطية");logEv("backup","سوّى نسخة احتياطية")}return true;
 }
 function bkInfo(){const el=$("bkLast");if(!el)return;let t=0;try{t=+localStorage.getItem("amnet_bk_"+Store.uid)||0}catch(e){}el.textContent=t?"آخر نسخة من هذا الجهاز: "+fdt(t):"ما سويت نسخة من هذا الجهاز لحد الآن"}
 $("bkBtn").onclick=()=>doBackup();
@@ -4520,7 +4556,7 @@ $("rsFile").onchange=async e=>{
   if(!d||d.app!=="amnet"||!d.docs||typeof d.docs!=="object"){toast("هذا الملف مو نسخة احتياطية من AM NET");return}
   let ns=0,na=0,np=0;for(const [p,b] of Object.entries(d.docs)){const n=Object.keys((b&&b.items)||{}).length;if(p.startsWith("subs/"))ns+=n;else if(p.startsWith("act/"))na+=n;else if(p.startsWith("pay/"))np+=n}
   const other=d.acct&&d.acct!==Store.uid;
-  confirmBox("استرجاع نسخة احتياطية",`نسخة بتاريخ <b class="num">${fdt(d.at||0)}</b>${d.name?" · "+esc(d.name):""}<br>بيها <b class="num">${fmt(ns)}</b> مشترك و <b class="num">${fmt(na)}</b> تفعيل و <b class="num">${fmt(np)}</b> تسديد.${other?'<br><br><b style="color:var(--warn)">انتبه: هاي النسخة من حساب ثاني.</b>':""}<br><br>بياناتك الحالية تتبدّل بيها، وأي شي انضاف بعد تاريخ النسخة ينشال. سجل العمليات يبقى مثل ما هو. وقبل الاسترجاع تنحفظ نسخة من بياناتك الحالية تلقائياً حتى تگدر ترجعها.`,"رجّعها",async()=>{
+  confirmBox("استرجاع نسخة احتياطية",`نسخة بتاريخ <b class="num">${fdt(d.at||0)}</b>${d.name?" · "+esc(d.name):""}<br>بيها <b class="num">${fmt(ns)}</b> مشترك و <b class="num">${fmt(na)}</b> تفعيل و <b class="num">${fmt(np)}</b> تسديد.${other?'<br><br><b style="color:var(--warn)">انتبه: هاي النسخة من حساب ثاني.</b>':""}<br><br>بياناتك الحالية تتبدّل بيها، وأي شي اتضاف بعد تاريخ النسخة ينشال. سجل العمليات يبقى مثل ما هو. وقبل الاسترجاع تنحفظ نسخة من بياناتك الحالية تلقائياً حتى تگدر ترجعها.`,"رجّعها",async()=>{
     doBackup("before-restore",true);
     await guard(async()=>{
       for(const p of Object.keys(Store.docs))if(!(p in d.docs)&&p!=="meta/settings"&&!p.startsWith("log/"))await Store.remove(p);
@@ -4531,7 +4567,7 @@ $("rsFile").onchange=async e=>{
 };
 $("wipeBtn").onclick=()=>{
   const n={subs:SUBS.size,acts:ACTS.length,pays:PAYS.length,logs:LOGS.length,notes:NOTES.length,bals:BALS.length};
-  modal(`<div class="mhd"><div class="t"><h2>تصفير البيانات</h2><div class="muted">اختار شنو تريد تمسح. قبل المسح تنحفظ نسخة احتياطية تلقائياً على جهازك حتى تگدر ترجعها إذا احتجت.</div></div><button class="x" data-close aria-label="سكّر">×</button></div>
+  modal(`<div class="mhd"><div class="t"><h2>تصفير البيانات</h2><div class="muted">اختار شنو تريد تمسح. قبل المسح تنحفظ نسخة احتياطية تلقائياً على جهازك حتى تگدر ترجعها إذا احتجت.</div></div><button class="x" data-close aria-label="سدّ">×</button></div>
   <div class="perms">
     <label class="tgl"><span>المشتركين والتفعيلات والتسديدات <small class="muted">(${fmt(n.subs)} مشترك · ${fmt(n.acts)} تفعيل · ${fmt(n.pays)} تسديد)</small></span><input type="checkbox" data-wp="core" checked></label>
     <label class="tgl"><span>سجل العمليات <small class="muted">(${fmt(n.logs)})</small></span><input type="checkbox" data-wp="log"></label>
@@ -4565,8 +4601,8 @@ $("diagBtn").onclick=()=>{
   const norm=k=>k.replace(/[^a-z0-9@]/g,"");const grp={};for(const k of SUBS.keys())(grp[norm(k)]=grp[norm(k)]||[]).push(k);
   const sim=Object.values(grp).filter(g=>g.length>1);
   const firstM={};for(const k of SUBS.keys()){const f=ACTS.find(a=>a.u===k);const m=f?mkey(f.d):"بدون تفعيل";firstM[m]=(firstM[m]||0)+1}
-  const imp=LOGS.filter(l=>l.ty==="import"||(l.ty==="sub"&&/^انضاف \d/.test(l.x))).slice(0,12);
-  modal(`<div class="mhd"><div class="t"><h2>فحص البيانات</h2><div class="muted">حتى تعرف منين إجت الأرقام</div></div><button class="x" data-close aria-label="سكّر">×</button></div>
+  const imp=LOGS.filter(l=>l.ty==="import"||(l.ty==="sub"&&/^اتضاف \d/.test(l.x))).slice(0,12);
+  modal(`<div class="mhd"><div class="t"><h2>فحص البيانات</h2><div class="muted">حتى تعرف منين إجت الأرقام</div></div><button class="x" data-close aria-label="سدّ">×</button></div>
   <dl class="info" style="margin:0"><div><dt>كل المشتركين</dt><dd class="num">${fmt(SUBS.size)}</dd></div><div><dt>كل التفعيلات</dt><dd class="num">${fmt(ACTS.length)}</dd></div>
   <div><dt>مشتركين بلا أي تفعيل</dt><dd class="num" style="color:${noAct.length?"var(--warn)":"inherit"}">${fmt(noAct.length)}</dd></div><div><dt>يوزرات متشابهة</dt><dd class="num" style="color:${sim.length?"var(--warn)":"inherit"}">${fmt(sim.length)}</dd></div></dl>
   <h3>التفعيلات حسب الشهر</h3><div class="hist">${Object.entries(months).sort().reverse().map(([k,v])=>`<div class="hi"><b>${mname(k)}</b><span class="sp"></span><span class="num">${fmt(v)} تفعيل</span></div>`).join("")||'<div class="muted">ماكو</div>'}</div>
@@ -4949,7 +4985,7 @@ function renderMatch(){
       return `<tr class="click" data-open="${esc(r.u)}"><td class="num">${fdt(r.d)}</td><td class="num">${esc(r.acc)}</td><td class="name">${esc(s.n||r.name||"—")}</td><td>${planTag(a.pl)}</td><td>${o.planDiff?`<span class="mdiff">${esc(r.type)}</span>`:planTag(r.type)}</td><td class="num">${fmt(o.exp)}</td><td class="num">${isFinite(r.amount)?fmt(r.amount):"؟"}</td><td class="num">${o.priceDiff?`<span class="mdiff ${o.priceDiff>0?"":"lo"}">${o.priceDiff>0?"+":"−"}${fmt(Math.abs(o.priceDiff))}</span>`:"—"}</td></tr>`}).join("")}</tbody><tfoot><tr><td colspan="8"><div class="mdsum"><span>${fmt(MR.diff.length)} تفعيل بيه اختلاف${up?` · الشركة حاسبتك زيادة <b class="num">${fmt(up)}</b> د.ع`:""}${dn?` · أقل <b class="num">${fmt(dn)}</b> د.ع`:""}</span><button type="button" class="btn ghost sm" id="mDiffCopy"><svg><use href="#i-copy"/></svg>نسخ الاختلافات للشركة</button></div></td></tr></tfoot>`
       :`<tbody><tr><td class="empty"><b>كل شي مضبوط</b>الباقة والسعر بتقرير الشركة نفس اللي مسجل عندك.</td></tr></tbody>`;
     const cb=$("mDiffCopy");if(cb)cb.onclick=()=>{const L=MR.diff.map(o=>{const {r,a}=o;const p=[fdate(r.d),r.acc];if(o.planDiff)p.push("الباقة الصحيحة "+a.pl+" بدل "+r.type);if(o.priceDiff)p.push("السعر "+fmt(r.amount)+" والصحيح "+fmt(o.exp)+" (فرق "+(o.priceDiff>0?"+":"−")+fmt(Math.abs(o.priceDiff))+")");return p.join(" · ")});
-      copyText(["اختلافات تقرير الشركة"+(SET.name?" — "+SET.name:""),...L,up?"المجموع الزايد: "+fmt(up)+" د.ع":""].filter(Boolean).join("\n"),cb)};
+      copyText(["اختلافات تقرير الشركة"+(SET.name?"، "+SET.name:""),...L,up?"المجموع الزايد: "+fmt(up)+" د.ع":""].filter(Boolean).join("\n"),cb)};
   }else if(MTAB==="ok"){
     T.innerHTML=MR.ok.length?`<thead><tr><th>التقرير</th><th>بالموقع</th><th>اليوزر</th><th>الاسم</th><th>الباقة</th><th>الدفع</th></tr></thead><tbody>${MR.ok.map(o=>{const {r,a}=o;const s=SUBS.get(r.u)||{};return `<tr class="click${o.planDiff||o.priceDiff?" mwarn":""}" data-open="${esc(r.u)}"><td class="num">${fdt(r.d)}</td><td class="num">${fdt(a.d)}</td><td class="num">${esc(r.acc)}</td><td class="name">${esc(s.n||r.name||"—")}</td><td>${planTag(a.pl)}</td><td><span class="paytag ${a.pay}">${a.pay==="a"?"آجل":"نقد"}</span></td></tr>`}).join("")}</tbody>`
       :`<tbody><tr><td class="empty">ماكو تفعيلات مطابقة.</td></tr></tbody>`;
@@ -4981,7 +5017,7 @@ $("mAdd").onclick=async()=>{
   const meN=displayName()||"مطابقة";
   const acts=sel.map(r=>({k:r.u+"|"+r.d,u:r.u,d:r.d,pl:r.type,c:isFinite(r.amount)?r.amount:planCost(r.type),s:null,by:meN,pay:MPAY,pd:0,sid:mySid()}));
   const btn=$("mAdd");btn.disabled=true;
-  const ok=await guard(async()=>{if(planCh){SET.plans=pl;await saveSettings()}if(subCh.size)await saveSubs(subCh);await saveActs(acts)},"انسجل "+fmt(acts.length)+" تفعيل"+(subCh.size?" و "+fmt(subCh.size)+" مشترك جديد":""));
+  const ok=await guard(async()=>{if(planCh){SET.plans=pl;await saveSettings()}if(subCh.size)await saveSubs(subCh);await saveActs(acts)},"اتسجل "+fmt(acts.length)+" تفعيل"+(subCh.size?" و "+fmt(subCh.size)+" مشترك جديد":""));
   btn.disabled=false;
   if(ok){runMatch();renderMatch()}
 };
@@ -5006,7 +5042,7 @@ $("commitBtn").onclick=()=>{
   for(const a of imp.acts){const ch=changes.get(a.u);if(ch&&!ch.n&&a.raw.name)ch.n=a.raw.name}
   if(btn.dataset.busy)return;btn.dataset.busy="1";
   const acts=imp.acts.map(({raw,...a})=>({...a,pay:IMP_PAY,pd:0,sid:"import"}));
-  guard(async()=>{SET.plans=pl;await saveSettings();await saveSubs(changes);await saveActs(acts)},"انضاف "+fmt(acts.length)+" تفعيل و "+fmt(imp.newSubs.size)+" مشترك جديد")
+  guard(async()=>{SET.plans=pl;await saveSettings();await saveSubs(changes);await saveActs(acts)},"اتضاف "+fmt(acts.length)+" تفعيل و "+fmt(imp.newSubs.size)+" مشترك جديد")
     .then(ok=>{delete btn.dataset.busy;if(ok){logEv("import","استيراد أولي: "+IMPF.map(f=>f.fname).join(" + ")+" · "+fmt(acts.length)+" تفعيل · "+fmt(imp.newSubs.size)+" مشترك جديد");IMP=null;IMPF=[];$("impRes").hidden=true;$("impMsg").textContent="";$("prog").style.width="0";location.hash="home"}else{btn.disabled=false;btn.textContent="إضافة إلى النظام"}});
 };
 $("cancelImp").onclick=()=>{IMP=null;IMPF=[];$("impRes").hidden=true;$("impMsg").textContent="";$("prog").style.width="0"};
@@ -5130,7 +5166,7 @@ function openChat(acct,name){
       const first=sep||!prev||prev.by!==x.by||x.at-prev.at>5*60000;prev=x;const d=new Date(x.at),mine=x.by===me,rd=mine&&otherRead>=x.at;
       const today=fdate(Date.now()),yest=fdate(Date.now()-DAY);
       return (sep?`<div class="ch-day"><span>${dk===today?"اليوم":dk===yest?"أمس":dk}</span></div>`:"")+
-        `<div class="bub ${mine?"me":"them"}${first?" first":""}"><div class="bt">${esc(x.t).replace(/\n/g,"<br>")}<span class="bm"><span class="num">${pad(d.getHours())}:${pad(d.getMinutes())}</span>${mine?`<span class="tks${rd?" rd":""}" title="${rd?"انقرت":"انرسلت"}">${TICK}</span>`:""}</span></div></div>`}).join("");
+        `<div class="bub ${mine?"me":"them"}${first?" first":""}"><div class="bt">${esc(x.t).replace(/\n/g,"<br>")}<span class="bm"><span class="num">${pad(d.getHours())}:${pad(d.getMinutes())}</span>${mine?`<span class="tks${rd?" rd":""}" title="${rd?"انقرت":"اندزت"}">${TICK}</span>`:""}</span></div></div>`}).join("");
     log.scrollTop=log.scrollHeight};
   let rdBusy=0;
   const markRead=()=>{if(rdBusy||document.hidden)return;rdBusy=1;ref.set(admin?{unA:0,readA:Date.now()}:{unM:0,readM:Date.now()},{merge:true}).catch(()=>{}).finally(()=>setTimeout(()=>{rdBusy=0;if(window.__chU&&loaded0&&needRead())markRead()},400))};
@@ -5158,7 +5194,7 @@ function openChat(acct,name){
 async function acctDocs(id){const snap=await fs.collection("accounts").doc(id).collection("data").get();const docs={};snap.forEach(d=>{docs[pathOf(d.id)]=d.data()});const m=MK.find(x=>x.id===id);docs["meta/settings"]=(m&&m.settings)||{};return docs}
 const stamp=()=>{const d=new Date();return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"_"+pad(d.getHours())+pad(d.getMinutes())};
 const safeNm=n=>String(n||"").replace(/[^\w\u0600-\u06FF-]+/g,"_").slice(0,30);
-async function admBackupOne(m){try{toast("دا يجهّز النسخة…");const docs=await acctDocs(m.id);dlBlob(new Blob([JSON.stringify({app:"amnet",v:1,acct:m.id,name:m.name||"",at:Date.now(),by:"admin",docs})],{type:"application/json"}),"amnet-backup-"+safeNm(m.name)+"-"+stamp()+".json");toast("انحفظت نسخة "+(m.name||""))}catch(e){toast("ما گدرت أسوي النسخة")}}
+async function admBackupOne(m){try{toast("دا يجهّز النسخة…");const docs=await acctDocs(m.id);dlBlob(new Blob([JSON.stringify({app:"amnet",v:1,acct:m.id,name:m.name||"",at:Date.now(),by:"admin",docs})],{type:"application/json"}),"amnet-backup-"+safeNm(m.name)+"-"+stamp()+".json");toast("اتحفظت نسخة "+(m.name||""))}catch(e){toast("ما گدرت أسوي النسخة")}}
 async function admBackupAll(tag,ids){
   const list=MK.filter(m=>!ids||ids.includes(m.id));const out=[];let i=0;
   for(const m of list){i++;toast("دا يجهّز النسخة… "+i+"/"+list.length);out.push({id:m.id,name:m.name||"",phone:m.phone||"",expiresAt:tsMs(m.expiresAt),life:!!m.life,trial:!!m.trial,docs:await acctDocs(m.id)})}
@@ -5169,7 +5205,7 @@ async function writeAcct(id,docs){
   for(const d of cur.docs){if(!keep.has(d.id)&&!pathOf(d.id).startsWith("log/"))await d.ref.delete()}
   for(const [p,b] of Object.entries(docs)){if(p.startsWith("log/"))continue;if(p==="meta/settings"){await fs.collection("accounts").doc(id).update({settings:b||{}});continue}await col.doc(docId(p)).set(b)}
 }
-$("admBk").onclick=async()=>{if(!MK.length){toast("ماكو حسابات");return}const b=$("admBk");b.disabled=true;try{const n=await admBackupAll();toast("انحفظت نسخة "+n+" حساب")}catch(e){toast("ما گدرت أسوي النسخة")}finally{b.disabled=false}};
+$("admBk").onclick=async()=>{if(!MK.length){toast("ماكو حسابات");return}const b=$("admBk");b.disabled=true;try{const n=await admBackupAll();toast("اتحفظت نسخة "+n+" حساب")}catch(e){toast("ما گدرت أسوي النسخة")}finally{b.disabled=false}};
 $("admRs").onclick=()=>$("admRsF").click();
 $("admRsF").onchange=async e=>{
   const f=e.target.files[0];e.target.value="";if(!f)return;let d;
@@ -5181,7 +5217,7 @@ $("admRsF").onchange=async e=>{
   const opts=MK.map(m=>`<option value="${m.id}">${esc(m.name||m.id)}</option>`).join("");
   modal(`<div class="mhd"><div class="t"><h2>استرجاع نسخة احتياطية</h2><div class="muted">نسخة بتاريخ <span class="num">${fdt(d.at||0)}</span> · ${items.length} حساب</div></div><button class="x" data-close aria-label="إغلاق">×</button></div>
   <div class="perms">${items.map((x,i)=>{const has=MK.some(m=>m.id===x.id);return`<div class="rsrow"><label class="tgl"><span>${esc(x.name||"حساب")} <small class="muted">(${cnt(x)})</small></span><input type="checkbox" data-ri="${i}" ${has?"checked":""}></label><select data-rt="${i}" aria-label="يرجع لحساب"><option value="">— اختار الحساب —</option>${opts}</select></div>`}).join("")}</div>
-  <p class="muted" style="margin:0">كل حساب تختاره تتبدّل بياناته بالنسخة، وأي شي انضاف بعدها ينشال. سجل العمليات يبقى. قبل الاسترجاع تنحفظ نسخة من بياناتهم الحالية تلقائياً.</p>
+  <p class="muted" style="margin:0">كل حساب تختاره تتبدّل بياناته بالنسخة، وأي شي اتضاف بعدها ينشال. سجل العمليات يبقى. قبل الاسترجاع تنحفظ نسخة من بياناتهم الحالية تلقائياً.</p>
   <div class="row"><button class="btn danger" id="rsGo">رجّع الحسابات المختارة</button><button class="btn ghost" data-close>رجوع</button></div>`);
   items.forEach((x,i)=>{const sl=document.querySelector(`[data-rt="${i}"]`);if(MK.some(m=>m.id===x.id))sl.value=x.id});
   $("rsGo").onclick=async()=>{
@@ -5199,7 +5235,7 @@ function renderLockText(){
   const st=memberState();
   const tri=!!(ACCOUNT&&ACCOUNT.trial);
   $("lkTitle").textContent=st==="expired"?(tri?"انتهت الفترة التجريبية":"انتهت مدة الاشتراك"):st==="off"?"الحساب موقوف":st==="staffoff"?"حسابك موقوف":"الحساب مو موجود";
-  $("lkText").textContent=st==="expired"&&tri?("خلصت تجربة الحساب بتاريخ "+fdate(tsMs(ACCOUNT.expiresAt))+". كل شي سويته محفوظ، وأول ما يتفعّل حسابك يرجع مثل ما هو."):st==="expired"?("انتهى اشتراك الحساب بتاريخ "+fdate(tsMs(ACCOUNT.expiresAt))+". البيانات محفوظة وترجع أول ما يتجدد."):st==="off"?"الإدارة أوقفت الحساب مؤقتاً. البيانات محفوظة وترجع أول ما يتشغل.":st==="staffoff"?"صاحب الحساب أوقف دخولك. تواصل وياه.":"كلمة السر هذي ما مربوطة بأي حساب، أو الحساب انحذف.";
+  $("lkText").textContent=st==="expired"&&tri?("خلصت تجربة الحساب بتاريخ "+fdate(tsMs(ACCOUNT.expiresAt))+". كل شي سويته محفوظ، وأول ما يتفعّل حسابك يرجع مثل ما هو."):st==="expired"?("انتهى اشتراك الحساب بتاريخ "+fdate(tsMs(ACCOUNT.expiresAt))+". البيانات محفوظة وترجع أول ما يتجدد."):st==="off"?"الإدارة أوقفت الحساب مؤقتاً. البيانات محفوظة وترجع أول ما يتشغل.":st==="staffoff"?"صاحب الحساب أوقف دخولك. تواصل وياه.":"كلمة السر هذي ما مربوطة بأي حساب، أو الحساب اتحذف.";
   const ph=APPMETA.phone||"";
   const box=$("lkContact");box.hidden=st==="staffoff";
   setTimeout(()=>{if(ROLE==="marketer"&&!box.querySelector("[data-chat]"))box.insertAdjacentHTML("beforeend",'<div class="row" style="margin-top:10px"><button type="button" class="btn ghost" data-chat><svg><use href="#i-chat"/></svg>راسل الإدارة من هنا</button></div>')},0);
@@ -5364,8 +5400,8 @@ document.addEventListener("click",e=>{
   if(!m)return;
   if(a==="extend")openExtend(m);
   else if(a==="toggle")aGuard(()=>fs.collection("accounts").doc(m.id).update({active:!m.active}),m.active?"توقف حساب "+m.name:"اشتغل حساب "+m.name);
-  else if(a==="gw"){const on=!(m.features&&m.features.gw===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),gw:!on}}),(on?"انسد":"انفتح")+" الواتساب التلقائي عند "+m.name)}
-  else if(a==="tg"){const on=!(m.features&&m.features.tg===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),tg:!on}}),(on?"انسدت":"انفتحت")+" تنبيهات التلگرام عند "+m.name)}
+  else if(a==="gw"){const on=!(m.features&&m.features.gw===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),gw:!on}}),(on?"اتسد":"اتفتح")+" الواتساب التلقائي عند "+m.name)}
+  else if(a==="tg"){const on=!(m.features&&m.features.tg===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),tg:!on}}),(on?"اتسدت":"اتفتحت")+" تنبيهات التلگرام عند "+m.name)}
   else if(a==="viber"){const on=!(m.features&&m.features.viber===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),viber:!on}}),(on?"انطفى":"اشتغل")+" زر فايبر عند "+m.name)}
   else if(a==="phskip"){const on=!!(m.features&&m.features.phskip===true);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),phskip:!on}}),(on?"انطفى":"اشتغل")+" تخطي الرقم عند "+m.name)}
   else if(a==="actmsg"){const on=!(m.features&&m.features.actmsg===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),actmsg:!on}}),(on?"انطفت":"اشتغلت")+" رسالة التفعيل عند "+m.name)}
@@ -5377,7 +5413,7 @@ document.addEventListener("click",e=>{
   else if(a==="backup")admBackupOne(m);
   else if(a==="links"){if(!noSlug(prodOf(m))&&!m.code){const code=genCode();aGuard(async()=>{const bt=fs.batch();bt.update(fs.collection("accounts").doc(m.id),{code});bt.set(fs.collection("slugs").doc(code),{acct:m.id,p:prodOf(m),biz:m.biz||m.name||""});await bt.commit()}).then(ok=>{if(ok)clientBox({...m,code})})}else clientBox(m)}
 });
-async function aGuard(fn,ok){try{await fn();if(ok)toast(ok);return true}catch(e){toast("ما انحفظ: "+(e&&e.code||"خطأ"));return false}}
+async function aGuard(fn,ok){try{await fn();if(ok)toast(ok);return true}catch(e){toast("ما اتحفظ: "+(e&&e.code||"خطأ"));return false}}
 function openExtend(m){
   const s=mkState(m);
   modal(`<div class="mhd"><div class="t"><h2>تمديد حساب ${esc(m.name)}</h2><div class="muted">${s.lbl}${s.exp&&!s.life?" · ينتهي "+fdate(s.exp):""}</div></div><button class="x" data-close aria-label="إغلاق">×</button></div>
@@ -5427,10 +5463,10 @@ async function slugFree(t,acct){try{const d=await fs.collection("slugs").doc(t).
 const genCode=()=>{const c="abcdefghjkmnpqrstuvwxyz23456789";let s="";for(const x of crypto.getRandomValues(new Uint32Array(6)))s+=c[x%c.length];return s};
 function prodLinks(m,pw){
   const p=prodOf(m),u=PRODS[p].url(),biz=m.biz||m.name||"";
-  if(p==="dz"||p==="gs"){const st=u+(m.code||"");return {main:st+"#admin",lines:[["رابط إدارة المتجر (النظام)",st+"#admin"],["رابط المتجر للزبائن",st]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بنظام المبيعات والمتجر.\n\nرابط إدارة المتجر:\n${st}#admin\n\nرابط متجرك للزبائن (انشره):\n${st}${pw?`\n\nكلمة سر ربط الجهاز: ${pw}`:""}`}}
-  if(p==="av"){const st=u+(m.code||"");return {main:st+"#admin",lines:[["رابط التعديل (للعميل)",st+"#admin"],["رابط الموقع للمشاهدين",st]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بموقع علي فيجن.\n\nرابط التعديل (إنت بس):\n${st}#admin\n\nرابط موقعك للمشاهدين:\n${st}${pw?`\n\nكلمة السر: ${pw}`:""}`}}
-  if(p==="ph")return {main:u,lines:[["رابط نظام الصيدلية",u]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بنظام AM PHARMA لإدارة الصيدليات.\n\nالرابط:\n${u}${pw?`\nكلمة السر: ${pw}`:""}\n\nإنت مدير الصيدلية: تگدر تضيف موظفينك وتحدد صلاحياتهم من «الإعدادات ← الموظفين».`};
-  return {main:u,lines:[["رابط النظام",u]],msg:`هلا ${m.name||""} 🌟\nانفتح حساب ${biz} بنظام AM NET.\n\nالرابط:\n${u}${pw?`\nكلمة السر: ${pw}`:""}`};
+  if(p==="dz"||p==="gs"){const st=u+(m.code||"");return {main:st+"#admin",lines:[["رابط إدارة المتجر (النظام)",st+"#admin"],["رابط المتجر للزبائن",st]],msg:`هلا ${m.name||""} 🌟\nاتفتح حساب ${biz} بنظام المبيعات والمتجر.\n\nرابط إدارة المتجر:\n${st}#admin\n\nرابط متجرك للزبائن (انشره):\n${st}${pw?`\n\nكلمة سر ربط الجهاز: ${pw}`:""}`}}
+  if(p==="av"){const st=u+(m.code||"");return {main:st+"#admin",lines:[["رابط التعديل (للعميل)",st+"#admin"],["رابط الموقع للمشاهدين",st]],msg:`هلا ${m.name||""} 🌟\nاتفتح حساب ${biz} بموقع علي فيجن.\n\nرابط التعديل (إنت بس):\n${st}#admin\n\nرابط موقعك للمشاهدين:\n${st}${pw?`\n\nكلمة السر: ${pw}`:""}`}}
+  if(p==="ph")return {main:u,lines:[["رابط نظام الصيدلية",u]],msg:`هلا ${m.name||""} 🌟\nاتفتح حساب ${biz} بنظام AM PHARMA لإدارة الصيدليات.\n\nالرابط:\n${u}${pw?`\nكلمة السر: ${pw}`:""}\n\nإنت مدير الصيدلية: تگدر تضيف موظفينك وتحدد صلاحياتهم من «الإعدادات ← الموظفين».`};
+  return {main:u,lines:[["رابط النظام",u]],msg:`هلا ${m.name||""} 🌟\nاتفتح حساب ${biz} بنظام AM NET.\n\nالرابط:\n${u}${pw?`\nكلمة السر: ${pw}`:""}`};
 }
 /* شعار العميل: يتصغّر لـ 256px حتى يكون خفيف ويتخزن ويه الحساب */
 function logoPick(cb){const i=document.createElement("input");i.type="file";i.accept="image/*";i.onchange=()=>{const f=i.files&&i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const M=256,k=Math.min(1,M/Math.max(im.width,im.height)),w=Math.max(1,Math.round(im.width*k)),h=Math.max(1,Math.round(im.height*k));const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,0,0,w,h);let d=c.toDataURL("image/png");if(d.length>150000){d=c.toDataURL("image/webp",.86);if(!/^data:image\/webp/.test(d)||d.length>150000)d=c.toDataURL("image/jpeg",.85)}cb(d)};im.onerror=()=>toast("الصورة ما انقرت");im.src=r.result};r.readAsDataURL(f)};i.click()}
@@ -5453,7 +5489,7 @@ function clientBox(m,pw,title){
   if(p==="gs"&&m.id){let LG=m.logo||"";
     $("mbox").insertAdjacentHTML("beforeend",`<div class="idbox"><b>هوية المتجر</b><small class="muted">الاسم والشعار اللي يشوفهم العميل وزبائنه</small><div class="idrow"><div id="idLB"></div><div class="field" style="flex:1;min-width:0"><label for="idBiz">اسم المتجر</label><input type="text" id="idBiz" value="${esc(m.biz||"")}"></div></div><button type="button" class="btn ghost" id="idSave">حفظ الهوية</button></div>`);
     const wl=()=>{$("idLB").innerHTML=logoBox("idLogo",LG,$("idBiz").value);$("idLogo").onclick=()=>logoPick(d=>{LG=d;wl()})};wl();
-    $("idSave").onclick=()=>{const biz=$("idBiz").value.trim()||m.name||"",D={biz,logo:LG};aGuard(async()=>{const bt=fs.batch();bt.update(fs.collection("accounts").doc(m.id),D);if(m.code)bt.set(fs.collection("slugs").doc(m.code),{acct:m.id,p:"gs",...D});await bt.commit()},"انحفظت هوية "+biz)}}
+    $("idSave").onclick=()=>{const biz=$("idBiz").value.trim()||m.name||"",D={biz,logo:LG};aGuard(async()=>{const bt=fs.batch();bt.update(fs.collection("accounts").doc(m.id),D);if(m.code)bt.set(fs.collection("slugs").doc(m.code),{acct:m.id,p:"gs",...D});await bt.commit()},"اتحفظت هوية "+biz)}}
   if(p==="dz"&&m.id){let LG=m.logo||"",KD=m.kind==="general"?"general":(m.kind==="sport"?"sport":"sport");
     $("mbox").insertAdjacentHTML("beforeend",`<div class="idbox"><b>هوية المتجر</b><small class="muted">الاسم والشعار اللي يشوفهم العميل وزبائنه</small><div class="idrow"><div id="idLB">${logoBox("idLogo",LG,m.biz||m.name)}</div><div class="field" style="flex:1;min-width:0"><label for="idBiz">اسم المتجر</label><input type="text" id="idBiz" value="${esc(m.biz||"")}"></div></div>
       <label class="muted" style="font-size:13px">نوع المتجر وردود المساعد</label><div class="prodseg k2" id="idKind" role="radiogroup"><button type="button" role="radio" data-k="general" aria-checked="${KD==="general"}"><b>متجر عام</b><small>ردود محترمة تناسب أي متجر</small></button><button type="button" role="radio" data-k="sport" aria-checked="${KD!=="general"}"><b>رياضي / مكملات</b><small>ينادي الزبون «كابتن» ويعطي نصايح تمرين</small></button></div>
@@ -5461,7 +5497,7 @@ function clientBox(m,pw,title){
       <button type="button" class="btn ghost" id="idSave">حفظ الهوية</button></div>`);
     $("idKind").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;KD=b.dataset.k;$("idKind").querySelectorAll("[data-k]").forEach(x=>x.setAttribute("aria-checked",x===b))};
     const wl=()=>{$("idLB").innerHTML=logoBox("idLogo",LG,$("idBiz").value);$("idLogo").onclick=()=>logoPick(d=>{LG=d;wl()})};wl();
-    $("idSave").onclick=()=>{const biz=$("idBiz").value.trim()||m.name||"",bot=$("idBot").value.trim()||(KD==="general"?"الدعم":"الكابتن"),D={biz,logo:LG,kind:KD,bot};aGuard(async()=>{const bt=fs.batch();bt.update(fs.collection("accounts").doc(m.id),D);if(m.code)bt.set(fs.collection("slugs").doc(m.code),{acct:m.id,p:"dz",...D});const mn=await fs.collection("slugs").doc("main").get();if(mn.exists&&mn.data().acct===m.id)bt.set(fs.collection("slugs").doc("main"),{acct:m.id,p:"dz",...D});await bt.commit()},"انحفظت هوية "+biz)};
+    $("idSave").onclick=()=>{const biz=$("idBiz").value.trim()||m.name||"",bot=$("idBot").value.trim()||(KD==="general"?"الدعم":"الكابتن"),D={biz,logo:LG,kind:KD,bot};aGuard(async()=>{const bt=fs.batch();bt.update(fs.collection("accounts").doc(m.id),D);if(m.code)bt.set(fs.collection("slugs").doc(m.code),{acct:m.id,p:"dz",...D});const mn=await fs.collection("slugs").doc("main").get();if(mn.exists&&mn.data().acct===m.id)bt.set(fs.collection("slugs").doc("main"),{acct:m.id,p:"dz",...D});await bt.commit()},"اتحفظت هوية "+biz)};
     $("mbox").insertAdjacentHTML("beforeend",`<label class="tgl" style="margin-top:4px"><span>المتجر الأساسي <small class="muted">(رابط الموقع بدون رمز يفتح هذا المتجر)</small></span><input type="checkbox" id="dzMain"></label>`);
     fs.collection("slugs").doc("main").get().then(d=>{const c=$("dzMain");if(c)c.checked=d.exists&&d.data().acct===m.id}).catch(()=>{});
     $("dzMain").onchange=e=>aGuard(()=>e.target.checked?fs.collection("slugs").doc("main").set({acct:m.id,p:"dz",biz:m.biz||m.name||"",logo:m.logo||"",kind:m.kind||"",bot:m.bot||""}):fs.collection("slugs").doc("main").delete(),e.target.checked?"صار "+(m.biz||m.name)+" المتجر الأساسي":"انشال المتجر الأساسي")}
@@ -5500,12 +5536,12 @@ function openEditMk(m){
   $("emCol").oninput=e=>{MC=e.target.value;markMc()};
   $("emGo").onclick=async()=>{const life=$("emLife").checked;let e=$("emE").value?new Date($("emE").value+"T23:59:59").getTime():tsMs(m.expiresAt);
     if(life)e=LIFE_TS;else if(e>=LIFE_TS-DAY)e=Date.now()+30*DAY;
-    if(await aGuard(()=>fs.collection("accounts").doc(m.id).update({name:$("emN").value.trim(),phone:$("emP").value.trim(),fee:+$("emF").value||0,note:$("emNote").value.trim(),expiresAt:TS(e),life,trial:$("emTrial").checked&&!life,accent:MC,features:{...(m.features||{}),match:$("emMatch").checked,mgmt:$("emMgmt").checked,actmsg:$("emAmsg").checked,phskip:$("emPhSk").checked,viber:$("emVb").checked}}),"انحفظ"))closeModal()};
+    if(await aGuard(()=>fs.collection("accounts").doc(m.id).update({name:$("emN").value.trim(),phone:$("emP").value.trim(),fee:+$("emF").value||0,note:$("emNote").value.trim(),expiresAt:TS(e),life,trial:$("emTrial").checked&&!life,accent:MC,features:{...(m.features||{}),match:$("emMatch").checked,mgmt:$("emMgmt").checked,actmsg:$("emAmsg").checked,phskip:$("emPhSk").checked,viber:$("emVb").checked}}),"اتحفظ"))closeModal()};
   $("emPw").onclick=()=>openNewPw(m.name,async pw=>{await replaceLogins(m.id,"owner",pw,m.name)},"كلمة السر القديمة تبطل فوراً، والموظفين يبقون بكلمات سرهم.");
   $("emDel").onclick=()=>confirmBox("حذف المسوق",`راح ينحذف <b>${esc(m.name)}</b> وكل مشتركينه وموظفينه نهائياً.`,"إي، احذف",async()=>{
     await aGuard(async()=>{const snap=await fs.collection("accounts").doc(m.id).collection("data").get();for(const d of snap.docs)await d.ref.delete();
       const lg=await fs.collection("logins").where("acct","==",m.id).get();for(const d of lg.docs)await d.ref.delete();
-      await fs.collection("accounts").doc(m.id).delete()},"انحذف المسوق")});
+      await fs.collection("accounts").doc(m.id).delete()},"اتحذف المسوق")});
 }
 function openNewPw(name,doIt,note){
   modal(`<div class="mhd"><div class="t"><h2>كلمة سر جديدة</h2><div class="muted">${esc(name||"")}</div></div><button class="x" data-close aria-label="إغلاق">×</button></div>
@@ -5564,12 +5600,12 @@ function openAddMk(){
       bt.set(fs.collection("logins").doc(uid),{acct:aref.id,role:"owner",name,active:true,createdAt:SVT()});
       if(paid&&!trial)bt.set(fs.collection("billing").doc(),{acct:aref.id,name,amount:paid,days,from:TS(Date.now()),to:TS(exp),note:"أول اشتراك",at:SVT()});
       await bt.commit();
-      clientBox({name,biz,product:PROD,code,logo,kind,bot,phone:$("amP").value.trim()},pw,"انضاف "+esc(biz||name)+(trial?" · تجريبي "+days+" يوم":""));
+      clientBox({name,biz,product:PROD,code,logo,kind,bot,phone:$("amP").value.trim()},pw,"اتضاف "+esc(biz||name)+(trial?" · تجريبي "+days+" يوم":""));
     }catch(x){er.textContent=pwErr(x);b.disabled=false;b.textContent="إنشاء الحساب"}
   };
 }
 $("addMk").onclick=openAddMk;
-$("saveContact").onclick=()=>aGuard(()=>fs.collection("meta").doc("app").set({adminName:$("cAdminName").value.trim(),phone:$("cAdminPhone").value.trim(),trialDays:Math.max(1,+$("cTrialDays").value||3),urlDz:(()=>{let u=$("cUrlDz").value.trim();if(u&&!/\/$/.test(u)&&!/\.html?$/.test(u))u+="/";return u})(),urlPh:(()=>{let u=$("cUrlPh").value.trim();if(u&&!/\/$/.test(u)&&!/\.html?$/.test(u))u+="/";return u})()},{merge:true}),"انحفظت بيانات التواصل");
+$("saveContact").onclick=()=>aGuard(()=>fs.collection("meta").doc("app").set({adminName:$("cAdminName").value.trim(),phone:$("cAdminPhone").value.trim(),trialDays:Math.max(1,+$("cTrialDays").value||3),urlDz:(()=>{let u=$("cUrlDz").value.trim();if(u&&!/\/$/.test(u)&&!/\.html?$/.test(u))u+="/";return u})(),urlPh:(()=>{let u=$("cUrlPh").value.trim();if(u&&!/\/$/.test(u)&&!/\.html?$/.test(u))u+="/";return u})()},{merge:true}),"اتحفظت بيانات التواصل");
 $("admPwGo").onclick=async()=>{
   const cur=$("admPwCur").value,nw=$("admPwNew").value,m=$("admPwMsg");
   if(nw.length<6){m.textContent="6 أحرف أو أكثر";return}
@@ -5608,17 +5644,17 @@ $("addStaff").onclick=()=>{
     const b=$("sfGo");b.disabled=true;b.textContent="دا ينشئ الحساب...";
     try{const uid=await createLogin(pw);await fs.collection("logins").doc(uid).set({acct:ACCT,role:"staff",name:n,active:true,perms:readPerms(),sid:"s"+Date.now().toString(36),createdAt:SVT()});
       logEv("staff","ضاف موظف "+n+" · الصلاحيات: "+(PERMS.filter(([p])=>readPerms()[p]).map(x=>x[1]).join("، ")||"بس التفعيل والتسديد"));
-      credBox("انضاف "+esc(n),"موظف بحساب "+esc(ACCOUNT&&ACCOUNT.name||""),`رابط النظام: ${siteUrl()}\nكلمة السر: ${pw}`)}
+      credBox("اتضاف "+esc(n),"موظف بحساب "+esc(ACCOUNT&&ACCOUNT.name||""),`رابط النظام: ${siteUrl()}\nكلمة السر: ${pw}`)}
     catch(x){er.textContent=pwErr(x);b.disabled=false;b.textContent="إنشاء"}};
 };
 $("staffList").addEventListener("click",e=>{
   const pm=e.target.closest("[data-st-perm]");
-  if(pm){const s=STAFF.find(x=>x.id===pm.dataset.stPerm);modal(`<div class="mhd"><div class="t"><h2>صلاحيات ${esc(s.name)}</h2><div class="muted">التفعيل والإضافة والتسديد متاحة دائماً</div></div><button class="x" data-close aria-label="سكّر">×</button></div>${permsHtml(s.perms||{})}<button class="btn go" id="pmGo">حفظ</button>`);
-    $("pmGo").onclick=async()=>{const p=readPerms();closeModal();if(await aGuard(()=>fs.collection("logins").doc(s.id).update({perms:p}),"انحفظت صلاحيات "+s.name))logEv("staff","غيّر صلاحيات "+s.name+": "+(PERMS.filter(([k])=>p[k]).map(x=>x[1]).join("، ")||"بس التفعيل والتسديد"))};return}
+  if(pm){const s=STAFF.find(x=>x.id===pm.dataset.stPerm);modal(`<div class="mhd"><div class="t"><h2>صلاحيات ${esc(s.name)}</h2><div class="muted">التفعيل والإضافة والتسديد متاحة دائماً</div></div><button class="x" data-close aria-label="سدّ">×</button></div>${permsHtml(s.perms||{})}<button class="btn go" id="pmGo">حفظ</button>`);
+    $("pmGo").onclick=async()=>{const p=readPerms();closeModal();if(await aGuard(()=>fs.collection("logins").doc(s.id).update({perms:p}),"اتحفظت صلاحيات "+s.name))logEv("staff","غيّر صلاحيات "+s.name+": "+(PERMS.filter(([k])=>p[k]).map(x=>x[1]).join("، ")||"بس التفعيل والتسديد"))};return}
   const t=e.target.closest("[data-st-t]"),p=e.target.closest("[data-st-p]"),d=e.target.closest("[data-st-d]");
   if(t){const s=STAFF.find(x=>x.id===t.dataset.stT);aGuard(()=>fs.collection("logins").doc(s.id).update({active:s.active===false}),s.active===false?"اشتغل "+s.name:"توقف "+s.name).then(ok=>{if(ok)logEv("staff",(s.active===false?"شغّل حساب الموظف ":"وقّف حساب الموظف ")+s.name)})}
   if(p){const s=STAFF.find(x=>x.id===p.dataset.stP);openNewPw(s.name,async pw=>{logEv("staff","غيّر كلمة سر الموظف "+s.name);const uid=await createLogin(pw);await fs.collection("logins").doc(uid).set({acct:ACCT,role:"staff",name:s.name,active:s.active!==false,perms:s.perms||{},sid:s.sid||s.id,createdAt:SVT()});await fs.collection("logins").doc(s.id).delete()},"كلمة السر القديمة تبطل فوراً.")}
-  if(d){const s=STAFF.find(x=>x.id===d.dataset.stD);confirmBox("حذف الموظف","حذف <b>"+esc(s.name)+"</b>؟ ما يكدر يدخل بعد.","حذف",()=>aGuard(()=>fs.collection("logins").doc(s.id).delete(),"انحذف الموظف").then(ok=>{if(ok)logEv("staff","حذف الموظف "+s.name)}))}
+  if(d){const s=STAFF.find(x=>x.id===d.dataset.stD);confirmBox("حذف الموظف","حذف <b>"+esc(s.name)+"</b>؟ ما يكدر يدخل بعد.","حذف",()=>aGuard(()=>fs.collection("logins").doc(s.id).delete(),"اتحذف الموظف").then(ok=>{if(ok)logEv("staff","حذف الموظف "+s.name)}))}
 });
 /* صاحب الحساب يغير كلمة سره */
 $("myPw").onclick=()=>openNewPw(ACCOUNT&&ACCOUNT.name,async pw=>{
@@ -5655,7 +5691,7 @@ function tryReload(){if(pendingUpdate&&canReloadNow())location.reload()}
 async function checkUpdate(){
   if(!BUILD||location.protocol==="file:")return;
   try{const r=await fetch(location.pathname+"?u="+Date.now(),{cache:"no-store"});const t=await r.text();const m=t.match(/name="amnet-build" content="([^"]+)"/);
-    if(m&&m[1]!==BUILD){pendingUpdate=true;toast("انضاف تحديث جديد، يتحدث الموقع تلقائياً");setTimeout(tryReload,1500)}}catch(e){}
+    if(m&&m[1]!==BUILD){pendingUpdate=true;toast("اتضاف تحديث جديد، يتحدث الموقع تلقائياً");setTimeout(tryReload,1500)}}catch(e){}
 }
 setInterval(()=>{checkUpdate();tryReload()},60000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden){checkUpdate();tryReload()}});
@@ -5688,7 +5724,7 @@ const hubDigits=s=>String(s||"").replace(/[٠-٩]/g,d=>"٠١٢٣٤٥٦٧٨٩".in
 const hubWa=p=>{let d=hubDigits(p).replace(/^\+/,"");if(d.startsWith("00"))d=d.slice(2);if(d.startsWith("0"))d="964"+d.slice(1);return d};
 function hubAgo(t){const d=Math.max(0,Date.now()-(tsMs(t)||Date.now())),m=Math.floor(d/60000);if(m<1)return"هسه";if(m<60)return"قبل "+m+" د";const h=Math.floor(m/60);if(h<24)return"قبل "+h+" س";const dd=Math.floor(h/24);return dd<30?"قبل "+dd+" يوم":fdate(tsMs(t))}
 const hubProds=()=>Object.entries((HUB.cat&&HUB.cat.products)||{}).map(([id,p])=>({id,...p})).sort((a,b)=>(a.ord||0)-(b.ord||0));
-const hubFail=e=>{console.error(e);toast(e&&e.code==="permission-denied"?"ماكو صلاحية — ضيف قواعد المعرض بـ Firebase":"ما انحفظ، تأكد من النت")};
+const hubFail=e=>{console.error(e);toast(e&&e.code==="permission-denied"?"ماكو صلاحية، ضيف قواعد المعرض بـ Firebase":"ما اتحفظ، تأكد من النت")};
 function hubStop(){HUB.un.forEach(u=>{try{u()}catch(e){}});HUB={cat:null,links:[],orders:[],tab:HUB.tab,of:"all",un:[],lo:false,ll:false,err:false}}
 function hubStart(){
   hubStop();const bad=()=>{HUB.err=true;renderHub()};
@@ -5792,14 +5828,14 @@ document.addEventListener("click",async e=>{
   else if(a==="new"){HUB.tab==="sites"?hubSiteForm():hubLinkForm()}
   else if(a==="order")hubOrderBox(id);
   else if(a==="ost"){e.stopPropagation();try{await fs.doc("hub_orders/"+id).update({status:t.dataset.k});toast("تغيّرت الحالة");if(t.dataset.re){const o=HUB.orders.find(x=>x.id===id);if(o){o.status=t.dataset.k;hubOrderBox(id)}}}catch(x){hubFail(x)}}
-  else if(a==="onote"){try{await fs.doc("hub_orders/"+id).update({adminNote:$("hoNote").value.trim()});toast("انحفظت الملاحظة");closeModal()}catch(x){hubFail(x)}}
-  else if(a==="odel")confirmBox("حذف الطلب","تحذف هذا الطلب نهائياً؟","حذف",async()=>{try{await fs.doc("hub_orders/"+id).delete();toast("انحذف الطلب")}catch(x){hubFail(x)}});
+  else if(a==="onote"){try{await fs.doc("hub_orders/"+id).update({adminNote:$("hoNote").value.trim()});toast("اتحفظت الملاحظة");closeModal()}catch(x){hubFail(x)}}
+  else if(a==="odel")confirmBox("حذف الطلب","تحذف هذا الطلب نهائياً؟","حذف",async()=>{try{await fs.doc("hub_orders/"+id).delete();toast("اتحذف الطلب")}catch(x){hubFail(x)}});
   else if(a==="lcopy")copyPlain(hubUrl(id),"انتسخ الرابط، خلّيه بالانستا");
   else if(a==="lform")hubLinkForm(id);
   else if(a==="lsave"){const d={name:$("hlName").value.trim()||"رابط",title:$("hlTitle").value.trim(),sub:$("hlSub").value.trim(),prods:[...document.querySelectorAll(".hlP:checked")].map(c=>c.value)};
-    try{if(id){await fs.doc("hub_links/"+id).update(d);toast("انحفظ الرابط")}else{const nid=hubRid(6);await fs.doc("hub_links/"+nid).set({...d,on:true,views:0,at:firebase.firestore.FieldValue.serverTimestamp()});copyPlain(hubUrl(nid),"صار الرابط جاهز وانتسخ")}closeModal()}catch(x){hubFail(x)}}
+    try{if(id){await fs.doc("hub_links/"+id).update(d);toast("اتحفظ الرابط")}else{const nid=hubRid(6);await fs.doc("hub_links/"+nid).set({...d,on:true,views:0,at:firebase.firestore.FieldValue.serverTimestamp()});copyPlain(hubUrl(nid),"صار الرابط جاهز وانتسخ")}closeModal()}catch(x){hubFail(x)}}
   else if(a==="lon"){const l=HUB.links.find(x=>x.id===id);try{await fs.doc("hub_links/"+id).update({on:l.on===false})}catch(x){hubFail(x)}}
-  else if(a==="ldel")confirmBox("حذف الرابط","اللي يفتح هذا الرابط بعدين ما راح يشتغل عنده. تحذفه؟","حذف",async()=>{try{await fs.doc("hub_links/"+id).delete();toast("انحذف الرابط")}catch(x){hubFail(x)}});
+  else if(a==="ldel")confirmBox("حذف الرابط","اللي يفتح هذا الرابط بعدين ما راح يشتغل عنده. تحذفه؟","حذف",async()=>{try{await fs.doc("hub_links/"+id).delete();toast("اتحذف الرابط")}catch(x){hubFail(x)}});
   else if(a==="sform")hubSiteForm(id);
   else if(a==="pcol"){$("hpCol").dataset.v=t.dataset.c;$("hpCol").querySelectorAll(".hubsw").forEach(b=>b.classList.toggle("on",b===t))}
   else if(a==="ssave"){const name=$("hpName").value.trim();if(!name){toast("اكتب اسم الموقع");return}let demo=$("hpDemo").value.trim();if(demo&&!/^https?:\/\//i.test(demo))demo="https://"+demo;
@@ -5807,26 +5843,26 @@ document.addEventListener("click",async e=>{
     HUB.cat.products[pid]={ord:old.ord||mx+1,on:old.on!==false,color:$("hpCol").dataset.v,name,en:$("hpEn").value.trim(),tag:$("hpTag").value.trim(),desc:$("hpDesc").value.trim(),feats:$("hpFeats").value.split("\n").map(s=>s.trim()).filter(Boolean),price:$("hpPrice").value.trim(),demo,pm:hubNum($("hpPm").value),py:hubNum($("hpPy").value),
       off:{on:$("hpOffOn").classList.contains("on"),pct:Math.min(90,hubNum($("hpOffPct").value)),lbl:$("hpOffLbl").value.trim().slice(0,40),until:$("hpOffTo").value||""}};
     if(HUB.cat.products[pid].off.on&&!HUB.cat.products[pid].off.pct){toast("اكتب نسبة الخصم");return}
-    if(await hubSave()){toast("انحفظ الموقع");closeModal()}}
+    if(await hubSave()){toast("اتحفظ الموقع");closeModal()}}
   else if(a==="offtog"){t.classList.toggle("on");$("hpOffBox").classList.toggle("on",t.classList.contains("on"));hubPriceHint()}
   else if(a==="son"){const p=HUB.cat.products[id];p.on=p.on===false;await hubSave()}
   else if(a==="smv"){const ps=hubProds(),i=ps.findIndex(p=>p.id===id),j=i+ +t.dataset.d;if(j<0||j>=ps.length)return;[ps[i],ps[j]]=[ps[j],ps[i]];ps.forEach((p,k)=>HUB.cat.products[p.id].ord=k+1);await hubSave()}
-  else if(a==="sdel")confirmBox("حذف الموقع","تحذف «"+esc(HUB.cat.products[id].name)+"» من المعرض؟","حذف",async()=>{delete HUB.cat.products[id];if(await hubSave())toast("انحذف الموقع")});
-  else if(a==="isave"){HUB.cat.company={ar:$("hcAr").value.trim(),en:$("hcEn").value.trim(),tagline:$("hcTag").value.trim(),phone:hubDigits($("hcPh").value),insta:$("hcIg").value.trim().replace(/^@/,""),about:$("hcAb").value.trim(),banner:$("hcBan").value.trim(),theme:$("hcTheme").value};HUB.cat.types=$("hcTypes").value.split("\n").map(s=>s.trim()).filter(Boolean);if(await hubSave())toast("انحفظت البيانات")}
+  else if(a==="sdel")confirmBox("حذف الموقع","تحذف «"+esc(HUB.cat.products[id].name)+"» من المعرض؟","حذف",async()=>{delete HUB.cat.products[id];if(await hubSave())toast("اتحذف الموقع")});
+  else if(a==="isave"){HUB.cat.company={ar:$("hcAr").value.trim(),en:$("hcEn").value.trim(),tagline:$("hcTag").value.trim(),phone:hubDigits($("hcPh").value),insta:$("hcIg").value.trim().replace(/^@/,""),about:$("hcAb").value.trim(),banner:$("hcBan").value.trim(),theme:$("hcTheme").value};HUB.cat.types=$("hcTypes").value.split("\n").map(s=>s.trim()).filter(Boolean);if(await hubSave())toast("اتحفظت البيانات")}
 });
 
 
 /* ===== admin sections: one page per job instead of one long page ===== */
-const ASECS={home:["00 · ADMIN CONTROL","لوحة الإدارة"],clients:["01 · CLIENTS","العملاء والحسابات"],orders:["02 · ORDERS","طلبات العملاء"],showcase:["03 · SHOWCASE","معرض المواقع"],chat:["04 · MESSAGES","رسائل العملاء"],bills:["05 · BILLING","سجل الرسوم"],settings:["06 · SETTINGS","الإعدادات"]};
+const ASECS={home:["00 · ADMIN CONTROL","لوحة الإدارة"],clients:["01 · CLIENTS","العملاء والحسابات"],orders:["02 · ORDERS","طلبات العملاء"],showcase:["03 · SHOWCASE","معرض المواقع"],chat:["04 · MESSAGES","رسائل العملاء"],bills:["05 · BILLING","سجل الرسوم"],settings:["06 · SETTINGS","الإعدادات"],gw:["07 · GATEWAY","سيرفر الواتساب"]};
 let ASEC="home",ASPEND=null;
 const asHash=()=>{const h=location.hash.slice(1);return h.startsWith("a-")?h.slice(2):"home"};
 function asSet(s,force){
   if(!ASECS[s])s="home";const ch=s!==ASEC||force;ASEC=s;
   $("v-admin").dataset.sec=s;$("asEy").textContent=ASECS[s][0];$("asH1").textContent=ASECS[s][1];
-  document.querySelectorAll("[data-asg]").forEach(a=>{const on=a.dataset.asg===s||(a.dataset.asg==="more"&&(s==="chat"||s==="bills"||s==="settings"));a.setAttribute("aria-current",on?"page":"false")});
+  document.querySelectorAll("[data-asg]").forEach(a=>{const on=a.dataset.asg===s||(a.dataset.asg==="more"&&(s==="chat"||s==="bills"||s==="settings"||s==="gw"));a.setAttribute("aria-current",on?"page":"false")});
   if(ROLE!=="admin"||VIEWAS)return;
   if(ch){const q=$("aq2");if(q)q.value="";MKF=ASPEND||"all";ASPEND=null;HUB.of="all";HUB.tab=s==="orders"?"orders":"links"}
-  renderAdmin();renderHub();
+  renderAdmin();renderHub();if(s==="gw")renderGwAdm();
   if(ch){window.scrollTo(0,0);if(SHOWN)fxEnter("admin")}
 }
 window.addEventListener("hashchange",()=>{if(ROLE==="admin"&&!VIEWAS)asSet(asHash())});
@@ -5847,7 +5883,7 @@ function renderAdmHome(){
   $("ahTiles").innerHTML=[["clients","i-users","العملاء والحسابات",fmt(MK.length)+" حساب"],["orders","i-inbox","طلبات العملاء",HUB.orders.length?fmt(HUB.orders.length)+" طلب"+(nNew?" · "+nNew+" جديد":""):"ماكو طلبات"],["showcase","i-grid","معرض المواقع",np+" موقع · "+HUB.links.length+" رابط"],["chat","i-chat","رسائل العملاء",un?un+" ما مقروءة":"ماكو جديد"],["bills","i-wallet","سجل الرسوم",fmt(feeM)+" د.ع هذا الشهر"],["settings","i-cog","الإعدادات","التواصل · الألوان · كلمة السر"]].map(t=>`<a class="atile" href="#a-${t[0]}"><span class="ic"><svg><use href="#${t[1]}"/></svg></span><b>${t[2]}</b><small>${t[3]}</small></a>`).join("");
 }
 $("aMore").onclick=()=>{const un=CHATS.reduce((a,x)=>a+(x.lastBy==="m"?(+x.unA||0):0),0);modal(`<div class="mhd"><div class="t"><h2>المزيد</h2></div><button class="x" data-close aria-label="إغلاق">×</button></div>
-  <div class="sheetmenu"><a href="#a-chat" data-close><svg><use href="#i-chat"/></svg>رسائل العملاء${un?` <span class="badge">${un}</span>`:""}</a><a href="#a-bills" data-close><svg><use href="#i-wallet"/></svg>سجل الرسوم</a><a href="#a-settings" data-close><svg><use href="#i-cog"/></svg>الإعدادات</a></div>
+  <div class="sheetmenu"><a href="#a-chat" data-close><svg><use href="#i-chat"/></svg>رسائل العملاء${un?` <span class="badge">${un}</span>`:""}</a><a href="#a-bills" data-close><svg><use href="#i-wallet"/></svg>سجل الرسوم</a><a href="#a-settings" data-close><svg><use href="#i-cog"/></svg>الإعدادات</a><a href="#a-gw" data-close><svg><use href="#i-wa"/></svg>سيرفر الواتساب</a></div>
   <div class="sheetmenu"><a href="#" data-modepick><svg><use href="#${curMode()==="light"?"i-sun":"i-moon"}"/></svg>المظهر: ${MODE_LBL[MODE]}</a><a href="#" data-snd><svg><use href="#${SND.on?"i-snd":"i-mute"}"/></svg>${SND.on?"الأصوات شغّالة · دوس حتى تطفيها":"الأصوات مطفية · دوس حتى تشغلها"}</a><a href="#" data-logout><svg><use href="#i-more"/></svg>تسجيل خروج</a></div>`)};
 function mkBoxHtml(m){
   const s=mkState(m),st=m.stats||{},isp=prodOf(m)==="isp",f=m.features||{};
@@ -5861,7 +5897,7 @@ function mkBoxHtml(m){
    <button class="btn ${m.active?"danger":"ok"} w" data-mx="toggle" data-id="${m.id}">${m.active?"إيقاف الحساب":"تشغيل الحساب"}</button></div>
   ${isp?`<div class="ttl-s">الخصائص</div><div class="swlist">${sw("match","المطابقة","مقارنة ملفات الشركة",f.match!==false)}${sw("mgmt","المنجمنت","صفحة المنجمنت داخل لوحته",f.mgmt!==false)}${sw("actmsg","رسالة التفعيل","تنرسل للمشترك بعد التفعيل",f.actmsg!==false)}${sw("phskip","تخطي الرقم","يفعّل بدون رقم هاتف",f.phskip===true)}${sw("viber","فايبر","زر فايبر ويه الواتساب",f.viber!==false)}${sw("gw","واتساب تلقائي","يرسل من رقم الشركة بدون فتح الواتساب",f.gw!==false)}${sw("tg","تنبيهات التلگرام","رسائل تلقائية للمشتركين بالتلگرام",f.tg!==false)}</div>`:""}`}
 function openMkBox(id){const m=MK.find(x=>x.id===id);if(!m)return;
-  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><div class="eyebrow"><span>CLIENT · MANAGE</span></div><h2>${esc(m.name||"—")}${isLife(m)?VBADGE:""}</h2>${m.biz?`<div class="muted">${esc(m.biz)}</div>`:""}</div><button class="x" data-close aria-label="سكّر">×</button></div><div id="mkBoxBody" data-id="${m.id}">${mkBoxHtml(m)}</div>`)}
+  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><div class="eyebrow"><span>CLIENT · MANAGE</span></div><h2>${esc(m.name||"—")}${isLife(m)?VBADGE:""}</h2>${m.biz?`<div class="muted">${esc(m.biz)}</div>`:""}</div><button class="x" data-close aria-label="سدّ">×</button></div><div id="mkBoxBody" data-id="${m.id}">${mkBoxHtml(m)}</div>`)}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-mkbox]");if(b&&ROLE==="admin"&&!e.target.closest("[data-mx]"))openMkBox(b.dataset.mkbox)});
 
 /* ===== علي فيجن داخل AM NET ===== */
@@ -6002,7 +6038,7 @@ function avRead(){const fb=avParseFb($("avFb").value);if(fb===false){toast("إع
 document.addEventListener("input",e=>{if(e.target&&e.target.closest&&e.target.closest("#avCard"))AVDIRTY=true});
 document.addEventListener("click",async e=>{const b=e.target.closest("[data-avon]");if(b){AVDIRTY=true;const k=b.dataset.avon;AVON[k]=!AVON[k];b.setAttribute("aria-pressed",AVON[k]);b.querySelector(".sw").classList.toggle("on",AVON[k]);return}
   if(e.target.closest("#avSave")){const a=avRead();if(!a)return;if((a.on.admin||a.on.clients||a.on.show)&&!a.key){toast("الصق المفتاح أول");return}
-    HUB.cat.ai=a;if(await hubSave()){AVDIRTY=false;toast("انحفظ إعداد المساعد الذكي");avTick()}}
+    HUB.cat.ai=a;if(await hubSave()){AVDIRTY=false;toast("اتحفظ إعداد المساعد الذكي");avTick()}}
   if(e.target.closest("#avTest")){const a=avRead();if(!a)return;if(!a.key){toast("الصق المفتاح أول");return}const st=$("avSt");st.className="avst";st.textContent="جاري الاتصال بالعقل الذكي…";
     try{const r=await AVBOT.test(a);st.className="avst ok";st.textContent="✅ تمام، العقل الذكي يشتغل (الموديل: "+r.m+")"}catch(x){st.className="avst bad";st.textContent="❌ ما اشتغل: "+String(x&&(x.code||x.message)||x).slice(0,160)}}});
 const AVGO_A={home:"الرئيسية",clients:"العملاء والحسابات",orders:"طلبات العملاء",showcase:"معرض المواقع",chat:"رسائل العملاء",bills:"سجل الرسوم",settings:"الإعدادات"};
@@ -6072,7 +6108,7 @@ async function avDo(k,v,el){const r=AVREG[v];
     if(AST.done){r.used=1;avCardDone(el,"ok","✅ تم "+(r.pay==="a"?"التفعيل بالآجل":"التفعيل")+" · ينتهي "+fdate(AST.done.exp))}else avCardDone(el,"wr","⚠️ كمّل البيانات الناقصة بالنافذة (الاسم أو الرقم) ودوس تفعيل");return false}
   if(r.t==="pay"){if(k==="EDIT"){openPay(r.k);setTimeout(()=>{const i=$("pAmt");if(i)i.value=r.amt},30);return true}
     el.disabled=true;const t=Date.now(),p={k:r.k+"|p"+t,u:r.k,d:t,amt:r.amt,note:"عن طريق المساعد الذكي",sid:mySid(),byn:displayName()};
-    const ok=await guard(()=>savePays([p]));if(ok){r.used=1;play("cash");avCardDone(el,"ok","✅ انسجل التسديد · يبقى عليه "+fmt(debtOf(r.k)))}else el.disabled=false;return false}
+    const ok=await guard(()=>savePays([p]));if(ok){r.used=1;play("cash");avCardDone(el,"ok","✅ اتسجل التسديد · يبقى عليه "+fmt(debtOf(r.k)))}else el.disabled=false;return false}
   return false}
 function avPlansTxt(){return Object.entries(SET.plans||{}).map(([n,p])=>n+" ("+fmt(+p.s||0)+" د.ع)").join("، ")||"ماكو باقات محددة"}
 function avToolsTxt(){return `
