@@ -5,7 +5,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.14-3">
+<meta name="amnet-build" content="2026.11.14-4">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -3647,22 +3647,26 @@ const gwCfg=()=>((Store.docs["wa/gwcfg"]||{}).items||{}).c||{};
 let GWHB=0,GWHB_U=null;
 function gwWatch(){if(GWHB_U||!fs)return;try{GWHB_U=fs.collection("meta").doc("gw").onSnapshot(d=>{GWHB=(d.exists&&d.data().hb)||0;renderGw()},()=>{})}catch(e){}}
 const gwAlive=()=>Date.now()-GWHB<4*60e3;
-const gwReady=kind=>{const c=gwCfg();return gwFeat()&&gwSt().state==="open"&&gwAlive()&&c.on!==false&&(!kind||c[kind]!==false)};
+const gwLinked=()=>["open","connecting"].includes(gwSt().state);
+const gwReady=kind=>{const c=gwCfg();return gwFeat()&&gwLinked()&&c.on!==false&&(!kind||c[kind]!==false)};
+const gwPending=()=>Object.keys(((Store.docs["wa/out"]||{}).items)||{}).length;
 const gwId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
 async function gwSend(k,kind,extra,textOverride){const s=SUBS.get(k)||{};if(!waPhone(s.p))return{s:"nophone"};const text=textOverride||waFill(waCfg()[kind]||"",k,extra);if(!text)return{s:"off"};
   const id=gwId();await Store.mergeItems("wa/out",{[id]:{to:s.p,text,t:Date.now(),k,kind}});
-  for(let i=0;i<120;i++){await new Promise(r=>setTimeout(r,1000));const r=(((Store.docs["wa/res"]||{}).items)||{})[id];if(r)return r.ok?{s:"ok",via:"wa"}:{s:"fail",via:"wa",msg:r.err||"ما انبعثت"}}
-  return{s:"fail",via:"wa",msg:"السيرفر ما رد — تأكد إنه شغّال"}}
+  if(!gwAlive()||gwSt().state!=="open")return{s:"queued",via:"wa"};/* السيرفر أو الاتصال مطفي: تبقى محفوظة وتنبعث أول ما يرجع */
+  for(let i=0;i<60;i++){await new Promise(r=>setTimeout(r,1000));const r=(((Store.docs["wa/res"]||{}).items)||{})[id];if(r)return r.ok?{s:"ok",via:"wa"}:{s:"fail",via:"wa",msg:r.err||"ما انبعثت"}}
+  return{s:"queued",via:"wa"}}
 /* إرسال تلقائي: واتساب رقم الشركة أولاً، وإذا ما ينفع تلگرام */
 function notifyChip(st){if(!st||st.s==="off")return "";
   if(st.via==="wa"){if(st.s==="wait")return `<div class="tgchip w wa"><span class="tgi"><svg><use href="#i-wa"/></svg></span>دا يرسل بالواتساب من رقم الشركة…</div>`;
     if(st.s==="ok")return `<div class="tgchip ok"><span class="tgi"><svg><use href="#i-wa"/></svg></span>انبعثت بالواتساب تلقائياً من رقم الشركة ✓</div>`;
+    if(st.s==="queued")return `<div class="tgchip w"><span class="tgi"><svg><use href="#i-wa"/></svg></span>انحفظت بالطابور ⏳ — تنبعث بالواتساب وحدها أول ما يرجع السيرفر أو النت</div>`;
     if(st.s==="nophone")return `<div class="tgchip n"><span class="tgi"><svg><use href="#i-wa"/></svg></span>المشترك ما عنده رقم واتساب صحيح</div>`;
     return `<div class="tgchip bad"><span class="tgi"><svg><use href="#i-wa"/></svg></span>ما انبعثت بالواتساب: ${esc(st.msg||"")}</div>`}
   return tgChip(st)}
 async function notifyAuto(k,kind,extra,holder){const H=holder||{};const paint=()=>{const e=$("tgChip");if(e)e.innerHTML=notifyChip(H.tg)};
   if(gwReady(kind)&&waPhone((SUBS.get(k)||{}).p)){H.tg={s:"wait",via:"wa",k};paint();const r=await gwSend(k,kind,extra);
-    if(r.s==="ok"){H.tg={...r,k};paint();if(kind==="rem")waMark(k);return r}
+    if(r.s==="ok"||r.s==="queued"){H.tg={...r,k};paint();if(kind==="rem"&&r.s==="ok")waMark(k);return r}
     if(tgReady()&&tgLinks()[k]){H.tg={s:"wait",k};paint();const t=await tgSend(k,kind,extra);H.tg={...t,k};paint();return t}
     H.tg={...r,k};paint();return r}
   if(tgReady()){H.tg={s:"wait",k};paint();const t=await tgSend(k,kind,extra);H.tg={...t,k};paint();return t}
@@ -3670,14 +3674,15 @@ async function notifyAuto(k,kind,extra,holder){const H=holder||{};const paint=()
 function renderGw(){const B=$("gwBody");if(!B)return;gwWatch();
   if(!gwFeat()){B.innerHTML=`<div class="empty" style="padding:16px"><b>الخاصية مسدودة لحسابك</b>تواصل ويا الإدارة حتى تنفتح.</div>`;return}
   const st=gwSt(),c=gwCfg(),alive=gwAlive();
-  if(!alive){B.innerHTML=`<div class="gw-off"><span class="gw-led"></span><div><b>خدمة الواتساب التلقائي متوقفة هسه</b><span>${ROLE==="admin"?"شغّل السيرفر (start.bat) على الحاسوب.":"تواصل ويا الإدارة. لحد ما ترجع، الرسائل تنبعث بالتلگرام أو يدوي بالواتساب."}</span></div></div>`;return}
+  const pend=gwPending();const pendTx=pend?`<div class="tgchip w" style="margin-top:10px"><span class="tgi"><svg><use href="#i-wa"/></svg></span><span class="num">${pend}</span> رسالة محفوظة بالطابور — تنبعث وحدها أول ما يرجع الاتصال</div>`:"";
+  if(!alive){B.innerHTML=`${gwLinked()?pendTx:""}<div class="gw-off"><span class="gw-led"></span><div><b>خدمة الواتساب التلقائي متوقفة هسه</b><span>${ROLE==="admin"?"شغّل السيرفر (start.bat) على الحاسوب.":(gwLinked()?"الرسائل الجديدة تنحفظ وتنبعث وحدها أول ما يرجع.":"تواصل ويا الإدارة.")}</span></div></div>`;return}
   const S=st.state||"off";
   if(S==="open"){const tg=(k,l,d)=>`<label class="tgl"><span>${l}<small class="muted" style="display:block;font-weight:400">${d}</small></span><input type="checkbox" data-gwk="${k}" ${c[k]!==false?"checked":""}></label>`;
     B.innerHTML=`<div class="tg-stat"><div class="tg-bot"><span class="tg-av wa"><svg><use href="#i-wa"/></svg></span><div><b>${esc(st.name||"واتساب الشركة")}</b><span class="num">+${esc(st.phone||"")}</span></div><span class="tg-dot on">متصل</span></div>
       <div class="tg-join"><div class="field" style="margin:0"><label for="gwTestTo">رسالة تجربة لرقم</label><div class="row" style="gap:6px;flex-wrap:nowrap"><input type="tel" id="gwTestTo" dir="ltr" placeholder="07xxxxxxxxx" style="flex:1;min-width:0"><button class="btn ghost sm" id="gwTest">أرسل</button></div></div></div></div>
       <div class="tg-tgls">${tg("on","الإرسال التلقائي","المفتاح الرئيسي")}${tg("act","التفعيل والتجديد","تطلع أول ما يتفعّل المشترك")}${tg("pay","التسديد","تطلع أول ما ينسجل تسديد")}${tg("rem","التذكير قبل الانتهاء","قبل "+waCfg().days+" أيام، من 9 الصبح لـ 10 بالليل — حتى لو الموقع مسكّر")}</div>
       <div class="row" style="margin-top:12px"><button class="btn ghost danger" id="gwOut">فصل الرقم</button></div>
-      <p class="muted" style="margin-top:10px;font-size:12.5px">حتى نحمي الرقم من الحظر: فاصل بين الرسائل وحد يومي. استخدمه لرسائل المشتركين فقط، مو للإعلانات الجماعية.</p>`;
+      ${pendTx}<p class="muted" style="margin-top:10px;font-size:12.5px">حتى نحمي الرقم من الحظر: فاصل بين الرسائل وحد يومي. استخدمه لرسائل المشتركين فقط، مو للإعلانات الجماعية.</p>`;
     B.querySelectorAll("[data-gwk]").forEach(i=>i.onchange=()=>guard(()=>Store.mergeItems("wa/gwcfg",{c:{...gwCfg(),[i.dataset.gwk]:i.checked}})).then(renderGw));
     $("gwOut").onclick=()=>{if(!confirm("تفصل رقم الواتساب؟ الرسائل التلقائية راح توگف لحد ما تربطه من جديد."))return;guard(async()=>{await Store.mergeItems("wa/cmd",{[gwId()]:{op:"logout",t:Date.now()}});logEv("settings","فصل واتساب الشركة")},"دا يفصل…")};
     $("gwTest").onclick=async()=>{const to=$("gwTestTo").value.trim();if(!waPhone(to)){toast("اكتب رقم عراقي صحيح");return}$("gwTest").disabled=true;const id=gwId();await Store.mergeItems("wa/out",{[id]:{to,text:"رسالة تجربة من "+(SET.name||"AM NET")+" ✅\nالواتساب التلقائي شغّال.",t:Date.now()}});
