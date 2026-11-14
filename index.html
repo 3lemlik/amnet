@@ -5,7 +5,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.13-2">
+<meta name="amnet-build" content="2026.11.14-1">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1494,6 +1494,21 @@ html[data-theme="light"] #rpv .rp-wrap{box-shadow:0 14px 40px rgba(16,22,34,.16)
 #mTbl tr.mwarn td:first-child{box-shadow:inset -3px 0 0 var(--bad)}
 .mdsum{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:6px 2px;color:var(--dim)}
 .mdsum b{color:var(--bad)}
+
+.tgchip{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;border-radius:10px;font-size:13.5px;font-weight:600;margin:10px 0;text-align:start;background:rgba(41,160,218,.1);color:#29a0da;border:1px solid rgba(41,160,218,.25)}
+.tgchip.ok{background:rgba(60,207,130,.1);color:var(--ok);border-color:rgba(60,207,130,.3)}.tgchip.bad{background:rgba(242,89,106,.1);color:var(--bad);border-color:rgba(242,89,106,.3)}.tgchip.n{color:var(--dim);background:var(--panel2);border-color:var(--line2)}
+.tgchip.w .tgi{animation:pulse 1s infinite}.tgchip .lnk{color:#29a0da;font-weight:700;text-decoration:underline;background:none;border:0;padding:0;font:inherit;cursor:pointer}
+.tgi{display:inline-grid;place-items:center}.tgi svg{width:16px;height:16px}
+.tgmini{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(41,160,218,.14);color:#29a0da;flex:none}.tgmini svg{width:14px;height:14px}
+.tg-steps{margin:0 0 12px;padding-inline-start:20px;display:grid;gap:8px;font-size:14px;line-height:1.7}.tg-steps a{color:#29a0da;font-weight:700}.tg-steps code{direction:ltr;unicode-bidi:isolate;background:var(--panel3);padding:1px 6px;border-radius:5px;font-family:"JetBrains Mono",monospace;font-size:12.5px}
+.tg-stat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}@media (max-width:620px){.tg-stat{grid-template-columns:minmax(0,1fr)}}
+.tg-bot,.tg-join{display:flex;flex-direction:column;justify-content:center;gap:8px;padding:12px 14px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);min-width:0}
+.tg-bot{flex-direction:row;align-items:center}.tg-bot>div{flex:1;min-width:0;display:flex;flex-direction:column}.tg-bot>div span{font-size:12.5px;color:var(--dim)}
+.tg-av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:#29a0da;color:#fff;flex:none}.tg-av svg{width:22px;height:22px}
+.tg-dot{font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--panel3);color:var(--dim)}.tg-dot.on{background:rgba(60,207,130,.14);color:var(--ok)}
+.tg-bar{height:7px;border-radius:9px;background:var(--panel3);overflow:hidden}.tg-bar i{display:block;height:100%;background:linear-gradient(90deg,#29a0da,var(--accent));border-radius:9px;transition:width .6s}
+.tg-tgls{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:8px;margin-top:12px}
+.tg-log{display:grid;gap:6px;margin-top:8px}.tg-log>div{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:8px 12px;border-radius:9px;background:var(--panel2);font-size:13px;border-inline-start:3px solid var(--ok)}.tg-log>div.bad{border-color:var(--bad)}.tg-log span{color:var(--dim);font-size:12px}
 </style>
 <style id="hubcss">
 .hubgrid{grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr))}
@@ -2344,6 +2359,10 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
     </div>
     <div class="row" style="margin-top:14px"><button class="btn" id="waSave">حفظ الرسائل</button><button class="btn ghost" id="waReset">رجّع الرسائل الأصلية</button></div>
   </div>
+  <div class="card br owneronly" id="tgCard">
+    <div class="chead"><div class="t"><div class="eyebrow"><span>AUTO · TELEGRAM</span></div><h2>التنبيهات التلقائية بالتلگرام</h2><div class="muted">الرسائل توصل للمشترك وحدها بدون ما تدوس شي: بعد التفعيل والتجديد، بعد التسديد، وتذكير قبل الانتهاء. نفس نصوص رسائل الواتساب فوگ.</div></div></div>
+    <div id="tgBody"></div>
+  </div>
   <div class="card br owneronly">
     <div class="chead"><div class="t"><h2>ألوان موقعك</h2><div class="muted">اختار لون موقعك، ويطلع عندك وعند كل موظفينك.</div></div></div>
     <div class="swatches" id="mcSw"></div>
@@ -2635,7 +2654,7 @@ function renderAll(){
   $("impIntro").innerHTML=empty?'الموقع فارغ هسه. ارفع تقرير الشركة لهذا الشهر، <b style="color:var(--ink)">وارفع وياه تقرير الشهر السابق</b> حتى تطلع مقارنة الأشهر والمشتركين المفقودين من أول يوم. يقبل PDF وExcel.':"ارفع تقرير الشركة (PDF أو Excel)، وينضاف بس اللي مو مسجّل بالموقع. التفعيلات المكررة تنترك تلقائياً.";
   $("dropSub").textContent=empty?"ملف هذا الشهر + ملف الشهر السابق":"PDF أو Excel · ينضاف الناقص فقط";
   $("plansBox").open=ROLE==="staff"||$("plansBox").open;
-  renderHome();renderHomeStaff();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();renderGrowth();renderMcUI();renderWaHome();fillWaCfg();if(WA_REDRAW&&$("waList"))WA_REDRAW();
+  renderHome();renderHomeStaff();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();renderGrowth();renderMcUI();renderWaHome();fillWaCfg();if(WA_REDRAW&&$("waList"))WA_REDRAW();try{renderTg();if(TG_INV_REDRAW&&$("tgInvList"))TG_INV_REDRAW();const _tk=(tgCfg()||{}).token+"|"+tgReady();if(_tk!==window._tgK){window._tgK=_tk;tgStart()}}catch(e){console.warn(e)}
   if(VIEW==="mgmt"&&MGF.uid!==Store.uid)mgEnter();
 }
 
@@ -3144,7 +3163,7 @@ function renderAPanel(){
   if(!ASEL||!SUBS.has(ASEL)){if(SHEET){closeModal();return}ASEL=null;P.innerHTML=`<div class="empty"><b>اختار مشترك</b>دوّره ودوس عليه حتى تفعّله.</div>`;return}
   const k=ASEL,s=SUBS.get(k),now=Date.now(),st=status(k,now),d=debtOf(k);
   if(AST.done){
-    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تفعّل بنجاح</h2><div class="done-n">${esc(s.n||s.u)} <span class="ap-u num">${esc(s.u)}</span></div><div class="done-chips"><span>شغّال لغاية <b class="num">${fdate(AST.done.exp)}</b></span>${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div class="done-debt">دينه الكلي هسه: <b class="num">${fmt(AST.done.debt)}</b></div>`:""}<pre class="msgbox amsg" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go amsg" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button>${waBtn(k,"act",{exp:AST.done.exp,pl:AST.done.pl})}${viberOn()?`<button type="button" class="btn viber go" id="vbAct"><svg><use href="#i-viber"/></svg>إرسال رسالة التفعيل بالفايبر</button>`:""}<button class="btn ghost go" id="nextAct">${SHEET?"زين، سدّها":"تفعيل مشترك ثاني"}</button>${AST.done.a&&Date.now()-AST.done.at<15000?`<button class="btn ghost go undo" id="undoAct"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>تراجع عن التفعيل · <span class="num" id="undoN">${Math.ceil((AST.done.at+15000-Date.now())/1000)}</span></button>`:""}</div>`;
+    P.innerHTML=`<div class="done"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">تفعّل بنجاح</h2><div class="done-n">${esc(s.n||s.u)} <span class="ap-u num">${esc(s.u)}</span></div><div class="done-chips"><span>شغّال لغاية <b class="num">${fdate(AST.done.exp)}</b></span>${AST.done.pay==="a"?'<span class="paytag a">آجل</span>':'<span class="paytag c">نقد</span>'}</div>${AST.done.debt?`<div class="done-debt">دينه الكلي هسه: <b class="num">${fmt(AST.done.debt)}</b></div>`:""}<div id="tgChip">${tgChip(AST.done.tg)}</div><pre class="msgbox amsg" id="msgBox" tabindex="0">${esc(AST.done.msg)}</pre><button class="btn ok go amsg" id="copyMsg"><svg><use href="#i-copy"/></svg>نسخ رسالة التفعيل</button>${waBtn(k,"act",{exp:AST.done.exp,pl:AST.done.pl})}${viberOn()?`<button type="button" class="btn viber go" id="vbAct"><svg><use href="#i-viber"/></svg>إرسال رسالة التفعيل بالفايبر</button>`:""}<button class="btn ghost go" id="nextAct">${SHEET?"زين، سدّها":"تفعيل مشترك ثاني"}</button>${AST.done.a&&Date.now()-AST.done.at<15000?`<button class="btn ghost go undo" id="undoAct"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>تراجع عن التفعيل · <span class="num" id="undoN">${Math.ceil((AST.done.at+15000-Date.now())/1000)}</span></button>`:""}</div>`;
     $("copyMsg").onclick=()=>copyText(AST.done.msg,$("msgBox"));
     if($("vbAct"))$("vbAct").onclick=()=>{const txt=AST.done.msg||"";
       try{navigator.clipboard&&navigator.clipboard.writeText(txt).catch(()=>{})}catch(e){}
@@ -3233,7 +3252,7 @@ async function doActivate(){
   const prevSub=(s.pl!==AST.pl||newPhone||newName)?{...s}:null;
   const pay=AST.pay;
   const ok=await guard(async()=>{await saveActs([a]);if(s.pl!==AST.pl||newPhone||newName)await saveSubs(new Map([[k,{...s,pl:AST.pl,...(newPhone?{p:newPhone}:{}),...(newName?{n:newName}:{})}]]))});
-  if(ok){play(pay==="a"?"credit":"cash");AST.done={exp:xExp||when+SET.period*DAY,pay,pl:a.pl,debt:debtOf(k),msg:actMsg(k,a.pl,when),a,prev:prevSub,at:Date.now()};renderAPanel();toast("تفعّل "+(s.n||s.u))}
+  if(ok){play(pay==="a"?"credit":"cash");AST.done={exp:xExp||when+SET.period*DAY,pay,pl:a.pl,debt:debtOf(k),msg:actMsg(k,a.pl,when),a,prev:prevSub,at:Date.now()};renderAPanel();tgAuto(k,"act",{exp:AST.done.exp,pl:AST.done.pl},AST.done);toast("تفعّل "+(s.n||s.u))}
 }
 $("aq").addEventListener("input",()=>renderActivate());
 $("aq").addEventListener("keydown",e=>{if(e.key==="Enter"){const f=$("ares").querySelector("[data-asel]");if(f){e.preventDefault();selectForActivate(f.dataset.asel)}}});
@@ -3489,7 +3508,7 @@ function openWaList(){
   const draw=()=>{const due=waDue();const W=waCfg();
     $("waList").innerHTML=due.length?due.map(x=>{const s=SUBS.get(x.k)||{};const ph=waPhone(s.p);
       return `<div class="wa-row${x.sent?" sent":""}"><div class="wa-who" data-open="${esc(x.k)}"><b>${esc(s.n||s.u||x.k)}</b><span><span class="num">${esc(s.u||x.k)}</span> · يخلص <b class="num">${fdate(x.exp)}</b> (${whenTxt(x.exp)})</span>${x.sent?`<small>انبعث ${fdt(x.sent.t)}${x.sent.by?" · "+esc(x.sent.by):""}</small>`:""}</div>
-      <button type="button" class="btn ${x.sent?"ghost":"wa"} sm" data-wa="${esc(x.k)}" data-wak="rem" ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${ph?(x.sent?"مرة ثانية":"أرسل"):"بلا رقم"}</button></div>`}).join("")
+      ${tgLinks()[x.k]?`<span class="tgmini" title="منضم للتلگرام">${TG_SVG}</span>`:""}<button type="button" class="btn ${x.sent?"ghost":"wa"} sm" data-wa="${esc(x.k)}" data-wak="rem" ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${ph?(x.sent?"مرة ثانية":"أرسل"):"بلا رقم"}</button></div>`}).join("")
       :`<div class="empty" style="padding:22px 10px"><b>ماكو أحد قرّب يخلص</b>اللي يبقى عليه ${W.days} أيام أو أقل يطلع هنا.</div>`;
     const left=due.filter(x=>!x.sent).length;$("waLeft").textContent=left?left+" باقي ما انبعثله":"خلصت كلهم ✓";
   };
@@ -3510,6 +3529,105 @@ $("waVars").onclick=e=>{const b=e.target.closest("[data-wv]");if(!b)return;const
 $("waSave").onclick=()=>{const d=Math.max(0,Math.min(15,+$("waDays").value||0));SET={...SET,wa:{act:$("waAct").value.trim(),pay:$("waPay").value.trim(),rem:$("waRem").value.trim(),days:d}};guard(async()=>{await saveSettings();logEv("settings","غيّر رسائل الواتساب")},"انحفظت الرسائل").then(()=>{fillWaCfg();renderWaHome()})};
 $("waReset").onclick=()=>{$("waAct").value=WA_DEF.act;$("waPay").value=WA_DEF.pay;$("waRem").value=WA_DEF.rem;$("waDays").value=WA_DEF.days;toast("رجعت الرسائل الأصلية، دوس حفظ حتى تثبت")};
 
+
+/* ================= TELEGRAM AUTO (بدون سيرفر) ================= */
+const TG_API="https://api.telegram.org/bot";
+const tgNorm=t=>String(t||"").toLowerCase().replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي").trim();
+const tgFeat=()=>features().tg!==false;
+const tgCfg=()=>((Store.docs["tg/cfg"]||{}).items||{}).c||null;
+const tgLinks=()=>((Store.docs["tg/links"]||{}).items)||{};
+const tgReady=()=>{const c=tgCfg();return !!(tgFeat()&&c&&c.token&&c.on!==false)};
+const DEVID=(()=>{try{let d=localStorage.getItem("am_dev");if(!d){d=Math.random().toString(36).slice(2,10);localStorage.setItem("am_dev",d)}return d}catch(e){return "x"+Math.random().toString(36).slice(2,8)}})();
+function tgCode(k){let h=2166136261;const t=(Store.uid||"")+"|"+k;for(let i=0;i<t.length;i++){h^=t.charCodeAt(i);h=Math.imul(h,16777619)>>>0}let h2=5381;for(let i=0;i<t.length;i++)h2=(Math.imul(h2,33)+t.charCodeAt(i))>>>0;return (h.toString(36)+h2.toString(36)).slice(0,12)}
+function tgByCode(c){for(const k of SUBS.keys())if(tgCode(k)===c)return k;return null}
+function tgByChat(id){const L=tgLinks();for(const k in L)if(String(L[k].c)===String(id))return k;return null}
+const tgLink=k=>{const c=tgCfg();return c&&c.bot?`https://t.me/${c.bot}?start=${tgCode(k)}`:""};
+async function tgCall(m,p,tok){tok=tok||(tgCfg()||{}).token;if(!tok)throw{code:"notoken"};const body=new URLSearchParams();for(const k in p||{})body.append(k,typeof p[k]==="object"?JSON.stringify(p[k]):String(p[k]));
+  let r;try{r=await fetch(TG_API+tok+"/"+m,{method:"POST",body})}
+  catch(e){if(m==="sendMessage"){try{await fetch(TG_API+tok+"/"+m,{method:"POST",body,mode:"no-cors"});return{blind:true}}catch(x){}}throw{code:"net",message:"ما گدرت أتصل بالتلگرام"}}
+  let j={};try{j=await r.json()}catch(e){}if(!j.ok)throw{code:"tg",status:j.error_code||r.status,message:j.description||("HTTP "+r.status)};return j.result}
+function tgErrTxt(e){const m=String(e&&e.message||"");if(e&&e.code==="net")return "ما اكو اتصال بالتلگرام (تأكد من الإنترنت)";if(e&&e.status===401)return "التوكن غلط — انسخه من BotFather من جديد";if(/blocked/i.test(m))return "المشترك حاظر البوت";if(/chat not found/i.test(m))return "المشترك ما دخل للبوت";if(e&&e.status===429)return "رسائل هواية بوقت قصير — يعيد بعد شوية";if(e&&e.status===409)return "اكو جهاز ثاني يقرا الرسائل بنفس الوقت";return m||"خطأ غير معروف"}
+function tgLog(k,kind,ok,err){const id=Date.now().toString(36)+Math.random().toString(36).slice(2,5);const L=(Store.docs["tg/log"]||{}).items||{};const keys=Object.keys(L).sort((a,b)=>(L[a].t||0)-(L[b].t||0));const del=keys.length>250?keys.slice(0,keys.length-250):[];
+  Store.mergeItems("tg/log",{[id]:{k,kind,ok:!!ok,err:err||"",t:Date.now(),by:displayName()}},del).catch(()=>{})}
+const TG_KIND={act:"تفعيل / تجديد",pay:"تسديد",rem:"تذكير قبل الانتهاء",inv:"ترحيب"};
+/* يرسل رسالة لمشترك إذا منضم — يرجع {s:"ok"|"none"|"off"|"fail",msg} */
+async function tgSend(k,kind,extra){const c=tgCfg();if(!tgReady())return{s:"off"};if(c[kind]===false)return{s:"off"};const L=tgLinks()[k];if(!L)return{s:"none"};
+  const txt=waFill(waCfg()[kind]||"",k,extra);if(!txt)return{s:"off"};
+  try{await tgCall("sendMessage",{chat_id:L.c,text:txt});tgLog(k,kind,true);return{s:"ok"}}
+  catch(e){const m=tgErrTxt(e);tgLog(k,kind,false,m);if(e&&e.status===403)Store.mergeItems("tg/links",{},[k]).catch(()=>{});return{s:"fail",msg:m}}}
+function tgChip(st){if(!st||st.s==="off")return "";if(st.s==="wait")return `<div class="tgchip w"><span class="tgi">${TG_SVG}</span>دا يرسل بالتلگرام…</div>`;
+  if(st.s==="ok")return `<div class="tgchip ok"><span class="tgi">${TG_SVG}</span>انبعثت للمشترك بالتلگرام تلقائياً ✓</div>`;
+  if(st.s==="none")return `<div class="tgchip n"><span class="tgi">${TG_SVG}</span>المشترك مو منضم للتلگرام — ابعثها بالواتساب، وادعيه للبوت <button type="button" class="lnk" data-tginv="${esc(st.k||"")}">ارسل دعوة</button></div>`;
+  return `<div class="tgchip bad"><span class="tgi">${TG_SVG}</span>ما انبعثت بالتلگرام: ${esc(st.msg||"")}</div>`}
+const TG_SVG=`<svg viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M21.9 4.3 18.8 19c-.2 1-.9 1.3-1.8.8l-4.7-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.8 8.8-8c.4-.3-.1-.5-.6-.2L6.6 12.8 2 11.4c-1-.3-1-1 .2-1.5L20.5 3c.8-.3 1.6.2 1.4 1.3z"/></svg>`;
+async function tgAuto(k,kind,extra,holder){if(!tgReady())return null;const st={s:"wait",k};if(holder)holder.tg=st;const paint=()=>{const e=$("tgChip");if(e)e.innerHTML=tgChip(holder?holder.tg:st)};paint();
+  const r=await tgSend(k,kind,extra);r.k=k;if(holder)holder.tg=r;else Object.assign(st,r);paint();return r}
+/* استقبال: ربط المشتركين + الرد على استفساراتهم */
+let TG_POLL=null,TG_BUSY=false;
+function tgStatusTxt(k){const s=SUBS.get(k)||{u:k},st=status(k,Date.now()),d=debtOf(k);const left=st.exp?Math.ceil((st.exp-Date.now())/DAY):null;
+  return `هلا ${twoName(s.n)||s.u} 👋\nاليوزر: ${s.u||k}${s.pl?"\nالباقة: "+s.pl:""}\n${st.exp?(left>=0?`اشتراكك شغّال لغاية ${fdate(st.exp)} (${whenTxt(st.exp)})`:`اشتراكك خلص بتاريخ ${fdate(st.exp)}`):"ماكو اشتراك مسجّل"}${d>0?`\nالدين عليك: ${fmt(d)} د.ع`:""}\n${SET.name||""}`.trim()}
+async function tgPoll(){if(TG_BUSY||!tgReady()||document.hidden||(ROLE==="admin"&&!VIEWAS))return;TG_BUSY=true;const key="tgoff_"+Store.uid;
+  try{const off=+localStorage.getItem(key)||0;const U=await tgCall("getUpdates",{offset:off||"",timeout:0,allowed_updates:["message"]});let mx=off;
+    for(const u of U||[]){mx=Math.max(mx,u.update_id+1);const m=u.message;if(!m||!m.chat||m.chat.type!=="private")continue;const txt=String(m.text||"").trim(),chat=m.chat.id,who=[m.from&&m.from.first_name,m.from&&m.from.last_name].filter(Boolean).join(" ");
+      const sm=txt.match(/^\/start(?:\s+(\S+))?/);
+      if(sm&&sm[1]){const k=tgByCode(sm[1]);if(k){await Store.mergeItems("tg/links",{[k]:{c:chat,t:Date.now(),n:who}});const s=SUBS.get(k)||{};
+          await tgCall("sendMessage",{chat_id:chat,text:`هلا ${twoName(s.n)||who} 👋\nانربط اشتراكك (${s.u||k}) بتنبيهات ${SET.name||"الشبكة"} ✅\nراح توصلك هنا رسائل التجديد والتسديد والتذكير قبل لا يخلص اشتراكك.\nاكتب أي شي بأي وقت حتى تعرف حالة اشتراكك.`}).catch(()=>{});logEv("settings","انضم "+(s.n||s.u||k)+" لتنبيهات التلگرام");continue}
+        await tgCall("sendMessage",{chat_id:chat,text:"الرابط مو صحيح أو قديم 🙏\nاطلب رابط جديد من "+(SET.name||"الشبكة")+"."}).catch(()=>{});continue}
+      const k=tgByChat(chat);
+      if(k){await tgCall("sendMessage",{chat_id:chat,text:tgStatusTxt(k)}).catch(()=>{})}
+      else await tgCall("sendMessage",{chat_id:chat,text:"هلا 👋 حتى توصلك تنبيهات اشتراكك، استخدم الرابط الخاص بيك اللي توصلك من "+(SET.name||"الشبكة")+"."}).catch(()=>{});
+    }
+    if(mx>off)localStorage.setItem(key,String(mx));
+  }catch(e){if(e&&e.status===401){/* توكن انلغى */}}
+  finally{TG_BUSY=false}}
+/* تذكير تلقائي قبل الانتهاء — جهاز واحد بس يرسل بنفس الوقت */
+let TG_REM_BUSY=false;
+async function tgRemTick(){if(TG_REM_BUSY||!tgReady()||(ROLE==="admin"&&!VIEWAS)||!SUBS.size)return;const c=tgCfg();if(c.rem===false)return;
+  const h=new Date().getHours();if(h<9||h>=22)return;const L=tgLinks();const due=waDue().filter(x=>!x.sent&&L[x.k]);if(!due.length)return;
+  const lease=((Store.docs["tg/lease"]||{}).items||{}).l;if(lease&&lease.d!==DEVID&&Date.now()-lease.t<5*60e3)return;
+  TG_REM_BUSY=true;try{await Store.mergeItems("tg/lease",{l:{d:DEVID,t:Date.now()}});await new Promise(r=>setTimeout(r,2500));const l2=((Store.docs["tg/lease"]||{}).items||{}).l;if(l2&&l2.d!==DEVID)return;
+    for(const x of due.slice(0,40)){const r=await tgSend(x.k,"rem",{exp:x.exp});if(r.s==="ok"){await Store.mergeItems("wa/sent",{[x.k]:{e:x.exp,t:Date.now(),by:"تلگرام تلقائي",tg:1}}).catch(()=>{})}
+      await new Promise(r=>setTimeout(r,900))}
+    renderWaHome();if(WA_REDRAW&&$("waList"))WA_REDRAW();
+  }finally{TG_REM_BUSY=false}}
+function tgStart(){clearInterval(TG_POLL);if(!tgReady())return;tgPoll();TG_POLL=setInterval(tgPoll,20000);setTimeout(tgRemTick,6000);clearInterval(tgStart.r);tgStart.r=setInterval(tgRemTick,15*60e3)}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&tgReady()){tgPoll();tgRemTick()}});
+/* إعدادات */
+function renderTg(){const B=$("tgBody");if(!B)return;const c=tgCfg();
+  if(!tgFeat()){B.innerHTML=`<div class="empty" style="padding:16px"><b>الخاصية مسدودة لحسابك</b>تواصل ويا الإدارة حتى تنفتح.</div>`;return}
+  if(!c||!c.token){B.innerHTML=`<ol class="tg-steps"><li>افتح <a href="https://t.me/BotFather" target="_blank" rel="noopener" dir="ltr">@BotFather</a> بالتلگرام ودوس Start.</li><li>اكتب <code dir="ltr">/newbot</code> وبعدين اكتب اسم البوت (مثلاً اسم شبكتك)، وبعدها يوزر لازم ينتهي بـ <code dir="ltr">bot</code>.</li><li>ينطيك <b>توكن</b> طويل (أرقام و: وحروف) — انسخه والصقه هنا.</li></ol>
+    <div class="field"><label for="tgTok">توكن البوت</label><input type="text" id="tgTok" dir="ltr" autocomplete="off" placeholder="123456789:AA..."></div><div class="row" style="margin-top:10px"><button class="btn ok" id="tgLinkBtn"><span class="tgi">${TG_SVG}</span>ربط البوت</button></div><p class="muted" id="tgMsg" style="margin-top:8px"></p>`;
+    $("tgLinkBtn").onclick=async()=>{const tok=$("tgTok").value.trim().replace(/\s/g,"");if(!/^\d+:[\w-]{20,}$/.test(tok)){$("tgMsg").textContent="التوكن مو صحيح، انسخه كامل من BotFather";return}
+      $("tgLinkBtn").disabled=true;$("tgMsg").textContent="دا يتأكد…";
+      try{const me=await tgCall("getMe",{},tok);await tgCall("deleteWebhook",{},tok).catch(()=>{});await Store.mergeItems("tg/cfg",{c:{token:tok,bot:me.username,name:me.first_name,on:true,act:true,pay:true,rem:true,at:Date.now()}});logEv("settings","ربط بوت التلگرام @"+me.username);toast("انربط البوت @"+me.username);renderTg();tgStart()}
+      catch(e){$("tgMsg").textContent=tgErrTxt(e);$("tgLinkBtn").disabled=false}};return}
+  const L=tgLinks(),n=Object.keys(L).filter(k=>SUBS.has(k)).length,tot=SUBS.size,LG=(Store.docs["tg/log"]||{}).items||{};const recent=Object.values(LG).sort((a,b)=>b.t-a.t).slice(0,6);
+  const tg=(k,l,d)=>`<label class="tgl"><span>${l}<small class="muted" style="display:block;font-weight:400">${d}</small></span><input type="checkbox" data-tgk="${k}" ${c[k]!==false?"checked":""}></label>`;
+  B.innerHTML=`<div class="tg-stat"><div class="tg-bot"><span class="tg-av">${TG_SVG}</span><div><b>${esc(c.name||"البوت")}</b><span class="num">@${esc(c.bot||"")}</span></div><span class="tg-dot ${c.on!==false?"on":""}">${c.on!==false?"شغّال":"متوقف"}</span></div>
+    <div class="tg-join"><div class="row" style="justify-content:space-between"><span>منضمين للتلگرام</span><b class="num">${n} / ${tot}</b></div><div class="tg-bar"><i style="width:${tot?Math.round(n/tot*100):0}%"></i></div></div></div>
+    <div class="tg-tgls">${tg("on","التنبيهات التلقائية","المفتاح الرئيسي")}${tg("act","التفعيل والتجديد","تنرسل أول ما يتفعّل المشترك")}${tg("pay","التسديد","تنرسل أول ما ينسجل تسديد")}${tg("rem","التذكير قبل الانتهاء","قبل "+waCfg().days+" أيام، وحده من 9 الصبح لـ 10 بالليل")}</div>
+    <div class="row" style="margin-top:12px;gap:8px;flex-wrap:wrap"><button class="btn ok" id="tgInvBtn"><svg><use href="#i-wa"/></svg>دعوة المشتركين للبوت</button><button class="btn ghost" id="tgTest">فحص الاتصال</button><button class="btn ghost danger" id="tgOff">فصل البوت</button></div>
+    <p class="muted" style="margin-top:10px;font-size:12.5px">التنبيهات تطلع من أي جهاز فاتح الموقع (حتى الموظفين). إذا محد فتح الموقع، التذكير يطلع أول ما ينفتح. المشترك يگدر يكتب للبوت بأي وقت ويعرف حالة اشتراكه.</p>
+    ${recent.length?`<div class="ttl-s" style="margin-top:12px">آخر الرسائل</div><div class="tg-log">${recent.map(x=>{const s=SUBS.get(x.k)||{};return `<div class="${x.ok?"ok":"bad"}"><b>${esc(s.n||s.u||x.k)}</b><span>${TG_KIND[x.kind]||x.kind} · ${fdt(x.t)}${x.ok?"":" · "+esc(x.err)}</span></div>`}).join("")}</div>`:""}`;
+  B.querySelectorAll("[data-tgk]").forEach(i=>i.onchange=()=>{guard(()=>Store.mergeItems("tg/cfg",{c:{...tgCfg(),[i.dataset.tgk]:i.checked}})).then(()=>{renderTg();tgStart()})});
+  $("tgInvBtn").onclick=openTgInv;
+  $("tgTest").onclick=async()=>{try{const me=await tgCall("getMe",{});toast("✓ البوت @"+me.username+" شغّال")}catch(e){toast(tgErrTxt(e))}};
+  $("tgOff").onclick=()=>{if(!confirm("تفصل البوت؟ التنبيهات التلقائية راح توگف (المشتركين المنضمين يبقون محفوظين)."))return;guard(async()=>{await Store.mergeItems("tg/cfg",{c:{...tgCfg(),token:"",on:false}});logEv("settings","فصل بوت التلگرام")},"انفصل البوت").then(()=>{clearInterval(TG_POLL);renderTg()})};
+}
+const TG_INV_DEF="هلا {الاسم} 👋\nحتى توصلك تنبيهات اشتراكك من {الشبكة} تلقائياً (التجديد، التسديد، وقبل لا يخلص)، دوس الرابط وبعدها دوس Start بالتلگرام:\n{الرابط}";
+function tgInvText(k){return waFill(TG_INV_DEF,k).replace("{الرابط}",tgLink(k))}
+function openTgInv(){if(!tgReady()){toast("اربط البوت أول");return}let Q="";
+  const draw=()=>{const L=tgLinks(),inv=((Store.docs["tg/inv"]||{}).items)||{};const q=tgNorm(Q);
+    const rows=[...SUBS.keys()].filter(k=>!L[k]).map(k=>({k,s:SUBS.get(k)})).filter(x=>!q||tgNorm((x.s.n||"")+" "+(x.s.u||"")+" "+(x.s.p||"")).includes(q)).sort((a,b)=>(!!inv[a.k]-!!inv[b.k])||String(a.s.n||a.s.u).localeCompare(String(b.s.n||b.s.u),"ar")).slice(0,200);
+    $("tgInvList").innerHTML=rows.length?rows.map(({k,s})=>{const ph=waPhone(s.p),iv=inv[k];return `<div class="wa-row${iv?" sent":""}"><div class="wa-who"><b>${esc(s.n||s.u||k)}</b><span class="num">${esc(s.u||k)}</span>${iv?`<small>انبعثت الدعوة ${fdt(iv.t)}</small>`:""}</div><div class="row" style="gap:6px;flex-wrap:nowrap"><button type="button" class="btn ghost sm" data-tgcp="${esc(k)}" title="نسخ الرابط"><svg><use href="#i-copy"/></svg></button><button type="button" class="btn ${iv?"ghost":"wa"} sm" data-tginv="${esc(k)}" ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${ph?(iv?"مرة ثانية":"أرسل"):"بلا رقم"}</button></div></div>`}).join(""):`<div class="empty" style="padding:22px 10px"><b>كل المشتركين منضمين 🎉</b></div>`;
+    const left=[...SUBS.keys()].filter(k=>!L[k]).length;$("tgInvLeft").textContent=left+" مو منضم";};
+  modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><h2>دعوة المشتركين للتلگرام</h2><div class="muted">كل مشترك إله رابط خاص بيه. دوس «أرسل» يفتح الواتساب والدعوة جاهزة، وأول ما يدوس Start ينربط وحده. <span id="tgInvLeft"></span></div></div><button class="x" data-close aria-label="سدّها">×</button></div>
+   <div class="field" style="margin-bottom:10px"><input type="search" id="tgInvQ" placeholder="دوّر بالاسم أو اليوزر أو الرقم…"></div><div class="wa-list" id="tgInvList"></div>`);
+  $("tgInvQ").oninput=e=>{Q=e.target.value;draw()};draw();TG_INV_REDRAW=draw}
+var TG_INV_REDRAW=null;
+document.addEventListener("click",e=>{const b=e.target.closest("[data-tginv]");if(b){e.preventDefault();const k=b.dataset.tginv;if(!k)return;if(!tgReady()){toast("اربط بوت التلگرام من الإعدادات أول");return}
+    if(waOpen(k,tgInvText(k))){Store.mergeItems("tg/inv",{[k]:{t:Date.now(),by:displayName()}}).then(()=>{if(TG_INV_REDRAW&&$("tgInvList"))TG_INV_REDRAW()}).catch(()=>{})}return}
+  const c=e.target.closest("[data-tgcp]");if(c){e.preventDefault();copyText(tgInvText(c.dataset.tgcp));return}});
 /* ================= BALANCE ================= */
 function balInfo(){
   const st=SET.balStart||0;if(!st)return null;
@@ -4257,8 +4375,8 @@ function openPay(k,after){
   upd();$("pAmt").oninput=upd;
   $("mbox").querySelectorAll("[data-amt]").forEach(b=>b.onclick=()=>{$("pAmt").value=b.dataset.amt;upd()});
   $("pGo").onclick=()=>{const v=+$("pAmt").value||0;if(v<=0){toast("اكتب المبلغ");return}const t=Date.now();const p={k:k+"|p"+t,u:k,d:t,amt:v,note:$("pNote").value.trim(),sid:mySid(),byn:displayName()};closeModal();guard(()=>savePays([p]),"تسدد "+fmt(v)+" د.ع").then(ok=>{if(ok){play("pay");const rest=debtOf(k);
-    modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="done" style="padding:6px 0 0"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">انسجل التسديد</h2><div class="done-n">${esc(s.n||s.u)}</div><div class="done-chips"><span>المبلغ <b class="num">${fmt(v)}</b></span><span>الدين الباقي <b class="num">${fmt(rest)}</b></span></div>${waBtn(k,"pay",{amt:v,debt:rest})}<button class="btn ghost go" id="pDone">${after?"رجوع":"زين، سدّها"}</button></div>`);
-    $("pDone").onclick=()=>{closeModal();if(after)after()}}})};
+    modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="done" style="padding:6px 0 0"><div class="ck"><svg><use href="#i-check"/></svg></div><h2 style="justify-content:center">انسجل التسديد</h2><div class="done-n">${esc(s.n||s.u)}</div><div class="done-chips"><span>المبلغ <b class="num">${fmt(v)}</b></span><span>الدين الباقي <b class="num">${fmt(rest)}</b></span></div><div id="tgChip"></div>${waBtn(k,"pay",{amt:v,debt:rest})}<button class="btn ghost go" id="pDone">${after?"رجوع":"زين، سدّها"}</button></div>`);
+    $("pDone").onclick=()=>{closeModal();if(after)after()};tgAuto(k,"pay",{amt:v,debt:rest})}})};
 }
 function openAdd(prefill,pre){
   pre=pre||{};
@@ -5176,6 +5294,7 @@ document.addEventListener("click",e=>{
   if(!m)return;
   if(a==="extend")openExtend(m);
   else if(a==="toggle")aGuard(()=>fs.collection("accounts").doc(m.id).update({active:!m.active}),m.active?"توقف حساب "+m.name:"اشتغل حساب "+m.name);
+  else if(a==="tg"){const on=!(m.features&&m.features.tg===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),tg:!on}}),(on?"انسدت":"انفتحت")+" تنبيهات التلگرام عند "+m.name)}
   else if(a==="viber"){const on=!(m.features&&m.features.viber===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),viber:!on}}),(on?"انطفى":"اشتغل")+" زر فايبر عند "+m.name)}
   else if(a==="phskip"){const on=!!(m.features&&m.features.phskip===true);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),phskip:!on}}),(on?"انطفى":"اشتغل")+" تخطي الرقم عند "+m.name)}
   else if(a==="actmsg"){const on=!(m.features&&m.features.actmsg===false);aGuard(()=>fs.collection("accounts").doc(m.id).update({features:{...(m.features||{}),actmsg:!on}}),(on?"انطفت":"اشتغلت")+" رسالة التفعيل عند "+m.name)}
@@ -5669,7 +5788,7 @@ function mkBoxHtml(m){
    <button class="btn ghost" data-mx="links" data-id="${m.id}"><svg><use href="#i-link"/></svg>الرابط والرسالة</button><button class="btn ghost" data-mx="edit" data-id="${m.id}">تعديل البيانات</button>
    ${isp?`<button class="btn ghost" data-mx="open" data-id="${m.id}">فتح لوحته</button>`:""}<button class="btn ghost" data-mx="backup" data-id="${m.id}"><svg><use href="#i-dl"/></svg>نسخة احتياطية</button>
    <button class="btn ${m.active?"danger":"ok"} w" data-mx="toggle" data-id="${m.id}">${m.active?"إيقاف الحساب":"تشغيل الحساب"}</button></div>
-  ${isp?`<div class="ttl-s">الخصائص</div><div class="swlist">${sw("match","المطابقة","مقارنة ملفات الشركة",f.match!==false)}${sw("mgmt","المنجمنت","صفحة المنجمنت داخل لوحته",f.mgmt!==false)}${sw("actmsg","رسالة التفعيل","تنرسل للمشترك بعد التفعيل",f.actmsg!==false)}${sw("phskip","تخطي الرقم","يفعّل بدون رقم هاتف",f.phskip===true)}${sw("viber","فايبر","زر فايبر ويه الواتساب",f.viber!==false)}</div>`:""}`}
+  ${isp?`<div class="ttl-s">الخصائص</div><div class="swlist">${sw("match","المطابقة","مقارنة ملفات الشركة",f.match!==false)}${sw("mgmt","المنجمنت","صفحة المنجمنت داخل لوحته",f.mgmt!==false)}${sw("actmsg","رسالة التفعيل","تنرسل للمشترك بعد التفعيل",f.actmsg!==false)}${sw("phskip","تخطي الرقم","يفعّل بدون رقم هاتف",f.phskip===true)}${sw("viber","فايبر","زر فايبر ويه الواتساب",f.viber!==false)}${sw("tg","تنبيهات التلگرام","رسائل تلقائية للمشتركين بالتلگرام",f.tg!==false)}</div>`:""}`}
 function openMkBox(id){const m=MK.find(x=>x.id===id);if(!m)return;
   modal(`<div class="sheetgrab" aria-hidden="true"></div><div class="mhd"><div class="t"><div class="eyebrow"><span>CLIENT · MANAGE</span></div><h2>${esc(m.name||"—")}${isLife(m)?VBADGE:""}</h2>${m.biz?`<div class="muted">${esc(m.biz)}</div>`:""}</div><button class="x" data-close aria-label="سكّر">×</button></div><div id="mkBoxBody" data-id="${m.id}">${mkBoxHtml(m)}</div>`)}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-mkbox]");if(b&&ROLE==="admin"&&!e.target.closest("[data-mx]"))openMkBox(b.dataset.mkbox)});
