@@ -5,7 +5,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.14-2">
+<meta name="amnet-build" content="2026.11.14-3">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -2352,7 +2352,7 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
       <div class="field"><label for="cfPeriod">مدة الاشتراك (يوم)</label><input type="number" id="cfPeriod" min="1" max="365"></div>
       <div class="field"><label for="cfNear">قرّب يخلص قبل (يوم)</label><input type="number" id="cfNear" min="0" max="30"></div>
     </div>
-    <label class="tgl" id="cfViberRow" style="margin-top:12px"><span>زر «إرسال فايبر» بعد التفعيل <small class="muted" id="cfViberNote"></small></span><input type="checkbox" id="cfViber"></label>
+    <label class="tgl" style="margin-top:12px"><span>زر «أرسل للمشترك بالواتساب» بعد التفعيل والتسديد</span><input type="checkbox" id="cfBtnWa"></label><label class="tgl" id="cfViberRow" style="margin-top:8px"><span>زر «إرسال فايبر» بعد التفعيل <small class="muted" id="cfViberNote"></small></span><input type="checkbox" id="cfViber"></label>
     <div class="row" style="margin-top:14px"><button class="btn" id="saveCfg">حفظ الإعدادات</button></div>
   </div>
   <div class="card br">
@@ -3494,7 +3494,7 @@ function waFill(tpl,k,extra){
 }
 function waUrl(k,text){const ph=waPhone((SUBS.get(k)||{}).p);return ph?"https://wa.me/"+ph+"?text="+encodeURIComponent(text):""}
 function waOpen(k,text){const u=waUrl(k,text);if(!u){toast("المشترك ما عنده رقم صحيح");return false}const w=window.open(u,"_blank");if(!w)location.href=u;return true}
-function waBtn(k,kind,extra,label){const ph=waPhone((SUBS.get(k)||{}).p);return `<button type="button" class="btn wa go" data-wa="${esc(k)}" data-wak="${kind}" ${extra?`data-wax='${esc(JSON.stringify(extra))}'`:""} ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${label||"أرسل للمشترك بالواتساب"}${ph?"":" (ما عنده رقم)"}</button>`}
+function waBtn(k,kind,extra,label){if(SET.btnWa===false)return "";const ph=waPhone((SUBS.get(k)||{}).p);return `<button type="button" class="btn wa go" data-wa="${esc(k)}" data-wak="${kind}" ${extra?`data-wax='${esc(JSON.stringify(extra))}'`:""} ${ph?"":"disabled"}><svg><use href="#i-wa"/></svg>${label||"أرسل للمشترك بالواتساب"}${ph?"":" (ما عنده رقم)"}</button>`}
 document.addEventListener("click",e=>{const b=e.target.closest("[data-wa]");if(!b)return;e.preventDefault();
   const k=b.dataset.wa,kind=b.dataset.wak||"rem";let x=null;try{x=b.dataset.wax?JSON.parse(b.dataset.wax):null}catch(_){}
   const W=waCfg();const txt=waFill(W[kind]||W.rem,k,x);
@@ -4482,7 +4482,7 @@ function renderConfig(){
     <label class="tgl"><span>تطلع بإعلان الباقات بالرئيسية</span><input type="checkbox" data-pf="home" data-pn="${esc(n)}" ${p.home!==false?"checked":""}></label>
     ${used[n]?"":`<button class="btn danger sm" data-delplan="${esc(n)}" style="justify-self:start">حذف الباقة</button>`}</div>`).join("")
     :`<div class="empty"><b>ماكو باقات بعد</b>تنضاف تلقائياً من ملف الاستيراد، أو ضيفها يدوياً.</div>`;
-  bkInfo();$("cfViber").checked=SET.viber!==false;$("cfViber").disabled=!viberAdm();$("cfViberNote").textContent=viberAdm()?"":"(موقوف من الإدارة)";$("cfName").value=SET.name||"";$("cfPeriod").value=SET.period;$("cfNear").value=SET.near;
+  bkInfo();$("cfBtnWa").checked=SET.btnWa!==false;$("cfViber").checked=SET.viber!==false;$("cfViber").disabled=!viberAdm();$("cfViberNote").textContent=viberAdm()?"":"(موقوف من الإدارة)";$("cfName").value=SET.name||"";$("cfPeriod").value=SET.period;$("cfNear").value=SET.near;
   $("dataInfo").textContent=`عندك ${fmt(SUBS.size)} مشترك و ${fmt(ACTS.length)} تفعيل و ${fmt(PAYS.length)} تسديد. `+"البيانات محفوظة على Firebase وتظهر بأي جهاز تدخل منه بحسابك.";
 }
 $("plansTbl").addEventListener("change",e=>{const i=e.target;const n=i.dataset.pn,f=i.dataset.pf;if(!n||!f||!SET.plans[n])return;const p={...SET.plans[n]};p[f]=f==="home"?i.checked:(f==="c"||f==="s")?(+i.value||0):i.value.trim();SET.plans={...SET.plans,[n]:p};i.blur();guard(saveSettings,"انحفظت باقة "+n)});
@@ -4494,7 +4494,7 @@ $("addPlan").onclick=()=>{
   <button class="btn go" id="plGo">إضافة</button>`);
   $("plGo").onclick=()=>{const n=$("plN").value.trim().toUpperCase();if(!n){toast("اكتب اسم الباقة");return}SET.plans={...SET.plans,[n]:{c:+$("plC").value||0,s:+$("plS").value||0,speed:$("plSp").value.trim(),info:$("plI").value.trim()}};closeModal();guard(saveSettings,"انضافت الباقة")};
 };
-$("saveCfg").onclick=()=>{SET={...SET,name:$("cfName").value.trim(),period:Math.max(1,Math.min(365,+$("cfPeriod").value||30)),near:Math.max(0,Math.min(30,+$("cfNear").value||0)),viber:$("cfViber").checked};$("saveCfg").blur();guard(saveSettings,"انحفظت الإعدادات")};
+$("saveCfg").onclick=()=>{SET={...SET,name:$("cfName").value.trim(),period:Math.max(1,Math.min(365,+$("cfPeriod").value||30)),near:Math.max(0,Math.min(30,+$("cfNear").value||0)),viber:$("cfViber").checked,btnWa:$("cfBtnWa").checked};$("saveCfg").blur();guard(saveSettings,"انحفظت الإعدادات")};
 /* ---- backup / restore ---- */
 function dlBlob(blob,name){const u=URL.createObjectURL(blob);const l=document.createElement("a");l.href=u;l.download=name;document.body.append(l);l.click();l.remove();setTimeout(()=>URL.revokeObjectURL(u),6000)}
 function doBackup(tag,quiet){
@@ -5554,7 +5554,7 @@ function openAddMk(){
       const aref=fs.collection("accounts").doc();
       const bt=fs.batch();
       const logo=PROD==="dz"||PROD==="gs"?LOGO:"",kind=PROD==="dz"?KIND:"",bot=PROD==="dz"?($("amBot").value.trim()||(KIND==="general"?"الدعم":"الكابتن")):"";
-      bt.set(aref,{name,biz,product:PROD,code,logo,kind,bot,phone:$("amP").value.trim(),active:true,expiresAt:TS(exp),trial,fee:trial?0:+$("amF").value||0,note:trial?"حساب تجريبي":"",features:{match:PROD==="isp"&&$("amMatch").checked},createdAt:SVT(),settings:{plans:{},period:30,near:3,name:PROD==="isp"?biz:""},stats:{}});
+      bt.set(aref,{name,biz,product:PROD,code,logo,kind,bot,phone:$("amP").value.trim(),active:true,expiresAt:TS(exp),trial,fee:trial?0:+$("amF").value||0,note:trial?"حساب تجريبي":"",features:{match:PROD==="isp"&&$("amMatch").checked},createdAt:SVT(),settings:{plans:{},period:30,near:3,name:PROD==="isp"?biz:"",btnWa:false,viber:false},stats:{}});
       bt.set(fs.collection("slugs").doc(code),{acct:aref.id,p:PROD,biz:biz||name,logo,kind,bot});
       bt.set(fs.collection("logins").doc(uid),{acct:aref.id,role:"owner",name,active:true,createdAt:SVT()});
       if(paid&&!trial)bt.set(fs.collection("billing").doc(),{acct:aref.id,name,amount:paid,days,from:TS(Date.now()),to:TS(exp),note:"أول اشتراك",at:SVT()});
