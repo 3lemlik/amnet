@@ -5,7 +5,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.16-1">
+<meta name="amnet-build" content="2026.11.16-2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -3687,12 +3687,13 @@ async function notifyAuto(k,kind,extra,holder){const H=holder||{};const paint=()
     H.tg={...r,k};paint();return r}
   if(tgReady()){H.tg={s:"wait",k};paint();const t=await tgSend(k,kind,extra);H.tg={...t,k};paint();return t}
   return null}
+let GWREQ=null;
 function renderGw(){const B=$("gwBody");if(!B)return;gwWatch();
   if(!gwFeat()){B.innerHTML=`<div class="empty" style="padding:16px"><b>الخاصية مسدودة لحسابك</b>تواصل ويا الإدارة حتى تنفتح.</div>`;return}
   const st=gwSt(),c=gwCfg(),alive=gwAlive();
   const pend=gwPending();const pendTx=pend?`<div class="tgchip w" style="margin-top:10px"><span class="tgi"><svg><use href="#i-wa"/></svg></span><span class="num">${pend}</span> رسالة محفوظة بالطابور، تنبعث وحدها أول ما يرجع الاتصال</div>`:"";
   if(!alive){B.innerHTML=`${gwLinked()?pendTx:""}<div class="gw-off"><span class="gw-led"></span><div><b>خدمة الواتساب التلقائي متوقفة هسه</b><span>${ROLE==="admin"?"شغّل السيرفر (start.bat) على الحاسوب.":(gwLinked()?"الرسائل الجديدة تنحفظ وتنبعث وحدها أول ما يرجع.":"تواصل ويا الإدارة.")}</span></div></div>`;return}
-  const S=st.state||"off";
+  const S=st.state||"off";if(GWREQ&&(["wait","connecting","code","qr","open"].includes(S)||S==="err"&&GWREQ.p!=="err"))GWREQ=null;
   if(S==="open"){const tg=(k,l,d)=>`<label class="tgl"><span>${l}<small class="muted" style="display:block;font-weight:400">${d}</small></span><input type="checkbox" data-gwk="${k}" ${c[k]!==false?"checked":""}></label>`;
     B.innerHTML=`<div class="tg-stat"><div class="tg-bot"><span class="tg-av wa"><svg><use href="#i-wa"/></svg></span><div><b>${esc(st.name||"واتساب الشركة")}</b><span class="num">+${esc(st.phone||"")}</span></div><span class="tg-dot on">متصل</span></div>
       <div class="tg-join"><div class="field" style="margin:0"><label for="gwTestTo">رسالة تجربة لرقم</label><div class="row" style="gap:6px;flex-wrap:nowrap"><input type="tel" id="gwTestTo" dir="ltr" placeholder="07xxxxxxxxx" style="flex:1;min-width:0"><button class="btn ghost sm" id="gwTest">أرسل</button></div></div></div></div>
@@ -3708,11 +3709,13 @@ function renderGw(){const B=$("gwBody");if(!B)return;gwWatch();
     B.innerHTML=`<div class="gw-pair"><div class="gw-code num" dir="ltr">${esc(cd)}</div><ol class="tg-steps"><li>افتح <b>واتساب الشركة</b> على الموبايل.</li><li>الإعدادات ← <b>الأجهزة المرتبطة</b> ← <b>ربط جهاز</b>.</li><li>دوس <b>«الربط برقم الهاتف بدلاً من ذلك»</b> (تحت الكاميرا).</li><li>اكتب الكود اللي فوگ. الكود صالح دقائق قليلة.</li></ol><div class="row"><button class="btn ghost" id="gwCancel">إلغاء</button></div></div>`;$("gwCancel").onclick=()=>Store.mergeItems("wa/cmd",{[gwId()]:{op:"logout",t:Date.now()}});return}
   if(S==="qr"&&st.qr){B.innerHTML=`<div class="gw-pair"><img class="gw-qr" src="${esc(st.qr)}" alt="QR"><ol class="tg-steps"><li>من موبايل ثاني افتح <b>واتساب الشركة</b>.</li><li>الإعدادات ← <b>الأجهزة المرتبطة</b> ← <b>ربط جهاز</b>.</li><li>صوّر هذا الرمز. يتجدد وحده كل شوية.</li></ol><div class="row"><button class="btn ghost" id="gwCancel">إلغاء</button></div></div>`;$("gwCancel").onclick=()=>Store.mergeItems("wa/cmd",{[gwId()]:{op:"logout",t:Date.now()}});return}
   if(S==="wait"||S==="connecting"){B.innerHTML=`<div class="gw-off"><span class="gw-led w"></span><div><b>دا يجهّز الربط…</b><span>ثواني ويطلع الكود.</span></div></div>`;return}
-  B.innerHTML=`${st.err?`<div class="tgchip bad" style="margin-top:0">${esc(st.err)}</div>`:""}<div class="field"><label for="gwPh">رقم واتساب الشركة</label><input type="tel" id="gwPh" dir="ltr" placeholder="07xxxxxxxxx" value="${esc(normPhone(SET.phone||""))}"></div>
+  if(GWREQ&&Date.now()-GWREQ.t<40e3){B.innerHTML=`<div class="gw-off"><span class="gw-led w"></span><div><b>دا يجهّز الربط…</b><span>ثواني ويطلع الكود.</span></div></div>`;return}
+  const noAns=GWREQ&&!!(((Store.docs["wa/cmd"]||{}).items||{})[GWREQ.id]);
+  B.innerHTML=`${noAns?`<div class="tgchip bad" style="margin-top:0">السيرفر ما استلم طلب الربط. ${ROLE==="admin"?"تأكد السيرفر شغّال على الحاسوب ومحدّث لآخر نسخة، وجرّب مرة ثانية.":"جرّب بعد شوية، وإذا تكرر تواصل ويا الإدارة."}</div>`:st.err?`<div class="tgchip bad" style="margin-top:0">${esc(st.err)}</div>`:""}<div class="field"><label for="gwPh">رقم واتساب الشركة</label><input type="tel" id="gwPh" dir="ltr" placeholder="07xxxxxxxxx" value="${esc(normPhone(SET.phone||""))}"></div>
     <div class="row" style="gap:8px;flex-wrap:wrap;margin-top:10px"><button class="btn ok" id="gwCode"><svg><use href="#i-wa"/></svg>ربط بكود (من نفس الموبايل)</button><button class="btn ghost" id="gwQr">ربط بـ QR</button></div>
     <p class="muted" style="margin-top:10px;font-size:12.5px">الأفضل رقم خاص بالشركة.</p>`;
-  $("gwCode").onclick=()=>{const ph=$("gwPh").value.trim();if(!waPhone(ph)){toast("اكتب رقم عراقي صحيح 07xxxxxxxxx");return}guard(async()=>{await Store.mergeItems("wa/cmd",{[gwId()]:{op:"connect",phone:ph,t:Date.now()}});logEv("settings","بدأ ربط واتساب الشركة")})};
-  $("gwQr").onclick=()=>guard(()=>Store.mergeItems("wa/cmd",{[gwId()]:{op:"connect",t:Date.now()}}));
+  $("gwCode").onclick=()=>{const ph=$("gwPh").value.trim();if(!waPhone(ph)){toast("اكتب رقم عراقي صحيح 07xxxxxxxxx");return}const id=gwId();guard(async()=>{await Store.mergeItems("wa/cmd",{[id]:{op:"connect",phone:ph,t:Date.now()}});GWREQ={id,t:Date.now(),p:gwSt().state||"off"};renderGw();setTimeout(renderGw,41e3);logEv("settings","بدأ ربط واتساب الشركة")})};
+  $("gwQr").onclick=()=>{const id=gwId();guard(async()=>{await Store.mergeItems("wa/cmd",{[id]:{op:"connect",t:Date.now()}});GWREQ={id,t:Date.now(),p:gwSt().state||"off"};renderGw();setTimeout(renderGw,41e3)})};
 }
 
 /* ================= ADMIN · لوحة سيرفر الواتساب ================= */
