@@ -5,7 +5,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.16-2">
+<meta name="amnet-build" content="2026.11.24-1">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -642,6 +642,27 @@ html,body{overflow-x:hidden;max-width:100%}
 .qp-tag{font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
 .qp-tag.ok{color:var(--ok)}.qp-tag.new{color:var(--warn)}.qp-tag.bad{color:var(--bad)}
 textarea#qmT{width:100%;background:var(--panel2);color:var(--ink);border:1px solid var(--line2);border-radius:8px;padding:12px;font:inherit;font-size:15px;resize:vertical}
+.mgtabs{align-self:flex-start;width:max-content!important;max-width:100%}.mgtabs button{display:inline-flex;align-items:center;gap:6px}.mgtabs svg{width:16px;height:16px}
+.mgs{display:grid;gap:12px;padding:14px}.mgs-kind{justify-self:start;width:max-content!important}.mgs-kind button{display:inline-flex;align-items:center;gap:6px}.mgs-kind svg{width:16px;height:16px}
+.mgs-find{display:flex;gap:8px;align-items:stretch}.mgs-find .btn{flex:none!important;width:auto!important;min-width:0;padding:0 22px}.mgs-find .mgs-in{flex:1 1 auto!important;width:auto}.mgs-in{flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:0 12px;border-radius:12px;background:var(--panel2);border:1px solid var(--line2)}.mgs-in svg{width:18px;height:18px;color:var(--faint);flex:none}
+.mgs-in input{flex:1;min-width:0;height:48px;border:0;background:none;outline:none;font:600 17px var(--mono,monospace);color:var(--ink)}.mgs-in:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.mgs-by{font-size:12.5px;color:var(--faint);min-height:18px}.mgs-by b{color:var(--dim)}
+.mgs-rec{display:flex;gap:6px;flex-wrap:wrap}.mgs-rec button{font:600 12.5px var(--mono,monospace);padding:5px 10px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);color:var(--dim);direction:ltr}.mgs-rec button:hover{color:var(--accent);border-color:var(--accent)}
+.mgr{padding:16px;display:grid;gap:14px;animation:mgIn .4s cubic-bezier(.2,.8,.2,1)}@keyframes mgIn{from{opacity:0;transform:translateY(12px);filter:blur(4px)}}
+.mgr-h{display:flex;align-items:center;gap:14px}.mgr-av{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font:800 20px var(--disp,inherit);background:var(--accent-soft);color:var(--accent);border:2px solid currentColor;flex:none;position:relative}
+.mgr-av.on{color:var(--ok);background:rgba(60,207,130,.12)}.mgr-av.off{color:var(--bad);background:rgba(242,89,106,.1)}.mgr-av i{position:absolute;bottom:2px;left:2px;width:13px;height:13px;border-radius:50%;background:currentColor;box-shadow:0 0 0 3px var(--panel)}
+.mgr-av.on i{animation:mgPulse 1.8s infinite}@keyframes mgPulse{50%{box-shadow:0 0 0 3px var(--panel),0 0 0 8px rgba(60,207,130,.25)}}
+.mgr-n{min-width:0;flex:1}.mgr-n b{display:block;font-size:19px;line-height:1.4}.mgr-n .num{color:var(--dim);font-size:13px}
+.mgr-pills{display:flex;gap:6px;flex-wrap:wrap}.mgp{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;padding:5px 11px;border-radius:999px;background:var(--panel2);border:1px solid var(--line2);color:var(--dim)}
+.mgp.ok{color:var(--ok);border-color:rgba(60,207,130,.4);background:rgba(60,207,130,.1)}.mgp.warn{color:var(--warn);border-color:rgba(242,176,61,.4);background:rgba(242,176,61,.1)}.mgp.bad{color:var(--bad);border-color:rgba(242,89,106,.4);background:rgba(242,89,106,.1)}
+.mgr-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:8px}
+.mgf{padding:11px 13px;border-radius:12px;background:var(--panel2);border:1px solid var(--line);display:grid;gap:3px;min-width:0}.mgf small{color:var(--faint);font-size:12px;font-weight:600}.mgf b{font-size:15.5px;overflow-wrap:anywhere}.mgf b.num{direction:ltr;text-align:right;unicode-bidi:isolate}.mgf em{font-style:normal;font-size:12px;color:var(--dim)}
+.mgf.sig .bars{direction:ltr;justify-content:flex-end;display:flex;gap:3px;align-items:flex-end;height:16px;margin-top:2px}.mgf.sig .bars i{width:6px;border-radius:2px;background:var(--line2)}.mgf.sig .bars i.on{background:currentColor}
+.mgr-loc{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1px dashed var(--line2);font-size:13.5px}.mgr-loc .sp{flex:1}
+.mgr-act{display:flex;gap:8px;flex-wrap:wrap}
+.mgw{padding:26px 16px;display:grid;place-items:center;gap:12px;text-align:center;color:var(--dim)}.mgw .rd{width:54px;height:54px;border-radius:50%;border:2px solid var(--line2);border-top-color:var(--accent);animation:mgSp 1s linear infinite}@keyframes mgSp{to{transform:rotate(360deg)}}
+.mgw.err{color:var(--bad)}.mgw.err svg{width:34px;height:34px}
+@media (max-width:900px){.mgs-find .btn span{display:none}.mgr-n b{font-size:17px}}
 .mg-bar{display:grid;gap:12px;padding:14px}
 .mg-h{margin:0;font-size:22px}
 .mg-tools{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:8px}
@@ -2288,6 +2309,18 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
 
 <!-- ================= COMPANY MANAGEMENT ================= -->
 <section class="view" id="v-mgmt" hidden>
+  <div class="seg mgtabs" id="mgTabs"><button data-mt="sim" aria-pressed="true"><svg><use href="#i-search"/></svg>المحاكي</button><button data-mt="site" aria-pressed="false"><svg><use href="#i-globe"/></svg>موقع الشركة</button></div>
+  <div id="mgSimWrap">
+   <div class="card br mgs">
+    <div class="mg-top"><span class="mg-ic"><svg><use href="#i-search"/></svg></span><div style="min-width:0;flex:1"><h1 class="pg mg-h">محاكي المنجمنت</h1><div class="muted">دوّر على المشترك وتطلع معلوماته من موقع الشركة هنا، مرتبة</div></div></div>
+    <div class="seg mgs-kind" id="mgsKind"><button data-k="ftth" aria-pressed="true"><svg><use href="#i-globe"/></svg>FTTH</button><button data-k="wl" aria-pressed="false"><svg><use href="#i-wifi"/></svg>الأبراج</button></div>
+    <div class="mgs-find"><div class="mgs-in"><svg><use href="#i-search"/></svg><input type="text" id="mgsQ" dir="ltr" list="ntUsers" autocomplete="off" placeholder="اليوزر أو رقم الموبايل" aria-label="اليوزر أو رقم الموبايل"></div><button class="btn go" id="mgsGo"><svg><use href="#i-search"/></svg><span>دوّر</span></button></div>
+    <div class="mgs-by" id="mgsBy"></div>
+    <div class="mgs-rec" id="mgsRec"></div>
+   </div>
+   <div id="mgsOut"></div>
+  </div>
+  <div id="mgSiteWrap" hidden>
   <div class="card br mg-bar">
     <div class="mg-top"><span class="mg-ic"><svg><use href="#i-globe"/></svg></span><div style="min-width:0;flex:1"><h1 class="pg mg-h">المنجمنت</h1><div class="muted num mg-host" id="mgHost"></div></div><span class="mg-st" id="mgSt" hidden></span></div>
     <div class="mg-tools">
@@ -2302,6 +2335,7 @@ details.avadv{margin:2px 0 12px}details.avadv summary{cursor:pointer;color:var(-
     <div class="mg-ph" id="mgPh"><svg><use href="#i-globe"/></svg><b>دا يفتح موقع الشركة…</b></div>
   </div>
   <p class="muted mg-note" id="mgNote"></p>
+  </div>
 </section>
 
 <!-- ================= ACTIVITY LOG ================= -->
@@ -2644,7 +2678,7 @@ function show(v){
   document.querySelectorAll("[data-v]").forEach(a=>{const on=a.dataset.v===v||(a.dataset.v==="more"&&(v==="import"||v==="config"||v==="match"||v==="log"||v==="balance"||v==="reports"||v==="notices"));a.setAttribute("aria-current",on?"page":"false")});
   window.scrollTo(0,0);
   if(v==="config"&&typeof loadMgSec==="function"&&ROLE==="marketer")loadMgSec();
-  if(v==="mgmt"&&typeof mgEnter==="function"&&ROLE)mgEnter();
+  if(v==="mgmt"&&ROLE){if(typeof mgTab==="function")mgTab(MGS.tab);else if(typeof mgEnter==="function")mgEnter();try{mgsRecent()}catch(e){}}
   if(v==="activate"&&typeof renderActivate==="function"&&ROLE)renderActivate();
   if(v==="activate")setTimeout(setActTop,0);
   if(v==="activate")setTimeout(()=>{if(!ASEL&&matchMedia("(min-width:901px)").matches)$("aq").focus()},50);
@@ -2682,7 +2716,7 @@ function renderAll(){
   $("dropSub").textContent=empty?"ملف هذا الشهر + ملف الشهر السابق":"PDF أو Excel · ينضاف الناقص فقط";
   $("plansBox").open=ROLE==="staff"||$("plansBox").open;
   renderHome();renderHomeStaff();renderSubs();renderDebts();renderConfig();renderActivate(true);renderPlansHome();renderBcasts();renderMyStats();renderNotices();renderReports();renderBalance();renderMulti();renderLog();renderMgmt();fillMgCfg();renderGrowth();renderMcUI();renderWaHome();fillWaCfg();if(WA_REDRAW&&$("waList"))WA_REDRAW();try{renderGw();renderTg();if(TG_INV_REDRAW&&$("tgInvList"))TG_INV_REDRAW();const _tk=(tgCfg()||{}).token+"|"+tgReady();if(_tk!==window._tgK){window._tgK=_tk;tgStart()}}catch(e){console.warn(e)}
-  if(VIEW==="mgmt"&&MGF.uid!==Store.uid)mgEnter();
+  if(VIEW==="mgmt"&&MGF.uid!==Store.uid&&(typeof MGS==="undefined"||MGS.tab==="site"))mgEnter();
 }
 
 /* ================= HOME ================= */
@@ -2948,6 +2982,73 @@ function mgGo(user){
   if(u)copyPlain(u,"انتسخ اليوزر "+u+"، الصقه ببحث المنجمنت");
   if(VIEW!=="mgmt")location.hash="mgmt";
 }
+/* ================= محاكي المنجمنت: البحث يصير بموقع الشركة عن طريق السيرفر وتطلع النتيجة هنا مرتبة ================= */
+var MGS={kind:localStorage.getItem("am_mgkind")||"ftth",tab:localStorage.getItem("am_mgtab")||"sim",busy:null,res:null,un:null};
+const MG_AR={"name":["الاسم",""],"status":["الحالة",""],"online time":["مدة الاتصال",""],"expiration date":["ينتهي",""],"account type":["الباقة",""],"ip address":["IP",""],"zone":["الزون",""],"ont power":["قوة الإشارة",""],"ont status":["حالة الجهاز",""],"mobile":["الموبايل",""],"user":["اليوزر",""],"username":["اليوزر",""],"balance":["الرصيد",""],"signal":["الإشارة",""],"mac":["MAC",""],"tower":["البرج",""],"sector":["السكتور",""]};
+const mgKey=l=>String(l||"").toLowerCase().replace(/[:：]/g,"").trim();
+const $$m=q=>[...document.querySelectorAll(q)];
+function mgTab(t,quiet){MGS.tab=t;localStorage.setItem("am_mgtab",t);$$m("#mgTabs [data-mt]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.mt===t)));$("mgSimWrap").hidden=t!=="sim";$("mgSiteWrap").hidden=t!=="site";if(t==="site"){if(!quiet&&typeof mgEnter==="function")mgEnter()}else setTimeout(()=>{const q=$("mgsQ");if(q&&matchMedia("(pointer:fine)").matches)q.focus()},60)}
+function mgsBy(q){q=String(q||"").trim();return /^(\+?964|0)?7\d{9}$/.test(q.replace(/[\s-]/g,""))?"mobile":"id"}
+function mgsHint(){const q=$("mgsQ").value.trim();$("mgsBy").innerHTML=q?`يدوّر بـ <b>${mgsBy(q)==="mobile"?"رقم الموبايل":"اليوزر (ID)"}</b> ب${MGS.kind==="ftth"?"مشتركين FTTH":"مشتركين الأبراج"}`:""}
+function mgsRecent(){const r=JSON.parse(localStorage.getItem("am_mgrec_"+(Store.uid||""))||"[]");$("mgsRec").innerHTML=r.slice(0,8).map(x=>`<button data-mgq="${esc(x.q)}" data-mgk="${x.k}">${esc(x.q)}</button>`).join("")}
+function mgsPushRecent(q,k){const key="am_mgrec_"+(Store.uid||"");let r=JSON.parse(localStorage.getItem(key)||"[]").filter(x=>x.q!==q);r.unshift({q,k});localStorage.setItem(key,JSON.stringify(r.slice(0,12)));mgsRecent()}
+function mgDur(v){const n=parseInt(String(v).replace(/\D/g,""),10);if(!n&&n!==0)return v;const d=Math.floor(n/86400),h=Math.floor(n%86400/3600),m=Math.floor(n%3600/60);return (d?d+" يوم ":"")+(h?h+" ساعة ":"")+(!d?m+" دقيقة":"")}
+function mgDate(v){const m=String(v||"").match(/(\d{4})-(\d{2})-(\d{2})\s*(\d{1,2}):(\d{2})(?::(\d{2}))?/)||String(v||"").match(/(\d{4})-(\d{2})-(\d{2})/);if(!m)return null;return new Date(+m[1],+m[2]-1,+m[3],+(m[4]||0),+(m[5]||0),+(m[6]||0))}
+function mgSig(v){const n=parseFloat(String(v).replace(/[^\d.-]/g,""));if(isNaN(n))return null;const lv=n>=-24?4:n>=-26?3:n>=-28?2:1;return {n,lv,t:["","ضعيفة جداً","ضعيفة","زينة","ممتازة"][lv],c:lv>=4?"ok":lv===3?"ok":lv===2?"warn":"bad"}}
+async function mgsSearch(q,kind){
+  q=String(q||"").trim();if(!q){$("mgsQ").focus();return}
+  if(!Store.uid){toast("سجّل دخول أول");return}
+  kind=kind||MGS.kind;const by=mgsBy(q),id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  MGS.busy={id,q,kind,by,t:Date.now()};mgsRender();
+  try{if(MGS.un)MGS.un();}catch(e){}
+  const ref=fs.collection("accounts").doc(Store.uid).collection("data");
+  let base=mgUrl();try{base=new URL(base).origin+"/"}catch(e){}
+  MGS.un=ref.doc("lk__res").onSnapshot(d=>{const it=(d.exists&&d.data().items)||{},r=it[id];if(!r||!MGS.busy||MGS.busy.id!==id)return;MGS.res={...r,q,kind,by};MGS.busy=null;try{MGS.un()}catch(e){}MGS.un=null;mgsRender();if(r.ok&&r.found)mgsPushRecent(q,kind)},()=>{});
+  try{await ref.doc("lk__req").set({items:{[id]:{q,kind,by,base,t:Date.now(),who:typeof displayName==="function"?displayName():""}}},{merge:true})}
+  catch(e){MGS.busy=null;MGS.res={ok:false,err:"ما گدرنا ندز الطلب، تأكد من الانترنت",q,kind};mgsRender();return}
+  setTimeout(()=>{if(MGS.busy&&MGS.busy.id===id){MGS.busy=null;try{MGS.un&&MGS.un()}catch(e){}MGS.res={ok:false,err:"السيرفر ما رد. تأكد إن سيرفر AM (البوابة) شغال على الحاسبة وعنده نت.",q,kind};mgsRender()}},45000);
+}
+function mgsRender(){
+  const o=$("mgsOut");if(!o)return;
+  if(MGS.busy){const b=MGS.busy;o.innerHTML=`<div class="card br mgw"><div class="rd"></div><b>دا يدوّر على <span class="num">${esc(b.q)}</span></b><span class="muted">بموقع الشركة · ${b.kind==="ftth"?"FTTH":"الأبراج"} · أول بحث ياخذ شوية لأن السيرفر يسجل دخول</span></div>`;return}
+  const r=MGS.res;if(!r){o.innerHTML="";return}
+  if(!r.ok){o.innerHTML=`<div class="card br mgw err"><svg><use href="#i-alert"/></svg><b>${esc(r.err||"صار خلل")}</b><button class="btn ghost sm" data-mgretry>جرّب مرة ثانية</button></div>`;return}
+  if(!r.found){o.innerHTML=`<div class="card br mgw"><svg style="width:34px;height:34px"><use href="#i-search"/></svg><b>ما لگينا مشترك بهذا ${r.by==="mobile"?"الرقم":"اليوزر"}</b><span class="muted">${esc(r.msg||"")} ${r.kind==="ftth"?"جرّب تدوّر بالأبراج":"جرّب تدوّر بـ FTTH"}</span><button class="btn ghost sm" data-mgswap>دوّر ب${r.kind==="ftth"?"الأبراج":"FTTH"}</button></div>`;return}
+  const F={};(r.fields||[]).forEach(f=>{F[mgKey(f[0])]=f});const val=k=>F[k]?F[k][1]:"";
+  const name=val("name")||"بدون اسم",st=val("status"),on=/online|up|active|متصل|شغال/i.test(st),stOff=st&&!on;
+  const exp=mgDate(val("expiration date")),left=exp?Math.ceil((exp-Date.now())/864e5):null;
+  const sig=mgSig(val("ont power")||val("signal"));
+  const pills=[st?`<span class="mgp ${on?"ok":"bad"}">${on?"متصل هسه":"مو متصل"}</span>`:"",left!=null?`<span class="mgp ${left<0?"bad":left<=3?"warn":"ok"}">${left<0?"خالص من "+(-left)+" يوم":left===0?"يخلص اليوم":"باقي "+left+" يوم"}</span>`:"",val("account type")?`<span class="mgp">${esc(val("account type"))}</span>`:""].join("");
+  const used=new Set(["name"]);const card=(k,lab,v,extra,cls)=>{used.add(k);return v?`<div class="mgf ${cls||""}"><small>${lab}</small><b class="${/[a-z0-9]/i.test(v)&&!/[؀-ۿ]/.test(v)?"num":""}">${esc(v)}</b>${extra||""}</div>`:""};
+  let g=card("status","الحالة",st?(on?"متصل":"مو متصل")+" ("+st+")":"")+card("online time","مدة الاتصال",val("online time")?mgDur(val("online time")):"")
+   +card("expiration date","ينتهي",exp?`${String(exp.getDate()).padStart(2,"0")}/${String(exp.getMonth()+1).padStart(2,"0")}/${exp.getFullYear()} · ${String(exp.getHours()).padStart(2,"0")}:${String(exp.getMinutes()).padStart(2,"0")}`:val("expiration date"))
+   +card("account type","الباقة",val("account type"))+card("ip address","IP",val("ip address"))+card("zone","الزون",val("zone"));
+  if(sig){const k=F["ont power"]?"ont power":"signal";used.add(k);g+=`<div class="mgf sig" style="color:var(--${sig.c})"><small style="color:var(--faint)">قوة الإشارة</small><b class="num" style="color:inherit">${esc(val(k))} dBm</b><div class="bars">${[1,2,3,4].map(i=>`<i class="${i<=sig.lv?"on":""}" style="height:${i*4}px"></i>`).join("")}<em style="margin-inline-start:8px;color:inherit">${sig.t}</em></div></div>`}
+  g+=card("ont status","حالة الجهاز",val("ont status")?(/up/i.test(val("ont status"))?"شغال (Up)":val("ont status")):"");
+  (r.fields||[]).forEach(f=>{const k=mgKey(f[0]);if(!used.has(k)&&f[1]){used.add(k);g+=card(k,(MG_AR[k]||[f[0]])[0],f[1])}});
+  const q=r.q,loc=SUBS.get(q)||[...SUBS.entries()].find(([k,s])=>s&&(s.u===q||(s.p&&String(s.p).replace(/\D/g,"").slice(-10)===q.replace(/\D/g,"").slice(-10))))?.[1],lk=loc?(SUBS.get(q)?q:[...SUBS.entries()].find(([k,s])=>s===loc)[0]):null;
+  o.innerHTML=`<div class="card br mgr"><div class="mgr-h"><div class="mgr-av ${on?"on":stOff?"off":""}">${esc((name.trim().split(/\s+/).slice(0,2).map(w=>w[0]).join(" "))||"؟")}<i></i></div><div class="mgr-n"><b>${esc(name)}</b><span class="num">${esc(q)}</span></div></div>
+   <div class="mgr-pills">${pills}</div><div class="mgr-g">${g}</div>
+   <div class="mgr-loc">${loc?`<svg style="width:18px;height:18px;color:var(--ok)"><use href="#i-check"/></svg><span>موجود بمشتركينك باسم <b>${esc(loc.n||loc.u||lk)}</b></span><span class="sp"></span><button class="btn sm" data-open="${esc(lk)}">افتحه</button>`:`<svg style="width:18px;height:18px;color:var(--faint)"><use href="#i-users"/></svg><span class="muted">مو مضاف بمشتركينك</span><span class="sp"></span><button class="btn sm go" data-mgadd>فعّله هسه</button>`}</div>
+   <div class="mgr-act"><button class="btn ghost sm" data-mgcopy><svg><use href="#i-copy"/></svg>انسخ المعلومات</button><button class="btn ghost sm" data-mgagain><svg><use href="#i-reload"/></svg>حدّث</button><span class="muted" style="font-size:12px;align-self:center">${r.ms?"خلال "+(r.ms/1000).toFixed(1)+" ثانية":""}</span></div></div>`;
+  MGS.txt=[name,q,...(r.fields||[]).filter(f=>f[1]&&mgKey(f[0])!=="name").map(f=>((MG_AR[mgKey(f[0])]||[f[0]])[0])+": "+f[1])].join("\n");
+}
+(function mgsInit(){
+  if(!$("mgSimWrap"))return;
+  $$m("#mgsKind [data-k]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.k===MGS.kind)));
+  $("mgTabs").onclick=e=>{const b=e.target.closest("[data-mt]");if(b)mgTab(b.dataset.mt)};
+  $("mgsKind").onclick=e=>{const b=e.target.closest("[data-k]");if(!b)return;MGS.kind=b.dataset.k;localStorage.setItem("am_mgkind",MGS.kind);$$m("#mgsKind [data-k]").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));mgsHint()};
+  $("mgsQ").oninput=mgsHint;$("mgsQ").onkeydown=e=>{if(e.key==="Enter")$("mgsGo").click()};
+  $("mgsGo").onclick=()=>mgsSearch($("mgsQ").value);
+  $("mgSimWrap").addEventListener("click",e=>{
+    const rc=e.target.closest("[data-mgq]");if(rc){$("mgsQ").value=rc.dataset.mgq;MGS.kind=rc.dataset.mgk||MGS.kind;$$m("#mgsKind [data-k]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.k===MGS.kind)));mgsSearch(rc.dataset.mgq);return}
+    if(e.target.closest("[data-mgretry],[data-mgagain]")&&MGS.res){mgsSearch(MGS.res.q,MGS.res.kind);return}
+    if(e.target.closest("[data-mgswap]")&&MGS.res){const k=MGS.res.kind==="ftth"?"wl":"ftth";MGS.kind=k;localStorage.setItem("am_mgkind",k);$$m("#mgsKind [data-k]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.k===k)));mgsSearch(MGS.res.q,k);return}
+    if(e.target.closest("[data-mgcopy]")){copyPlain(MGS.txt||"","انتسخت المعلومات");return}
+    if(e.target.closest("[data-mgadd]")&&MGS.res){copyPlain(MGS.res.q,"انتسخ اليوزر "+MGS.res.q);location.hash="activate";return}
+  });
+  mgTab(MGS.tab,true);
+})();
 $("mgLogin").onclick=()=>mgLogin();
 $("mgReload").onclick=()=>{MGF.started=false;MGF.uid=null;mgEnter()};
 $("mgOut").onclick=()=>{
