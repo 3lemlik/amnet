@@ -5,7 +5,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.24-1">
+<meta name="amnet-build" content="2026.11.24-2">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -3003,14 +3003,17 @@ async function mgsSearch(q,kind){
   try{if(MGS.un)MGS.un();}catch(e){}
   const ref=fs.collection("accounts").doc(Store.uid).collection("data");
   let base=mgUrl();try{base=new URL(base).origin+"/"}catch(e){}
-  MGS.un=ref.doc("lk__res").onSnapshot(d=>{const it=(d.exists&&d.data().items)||{},r=it[id];if(!r||!MGS.busy||MGS.busy.id!==id)return;MGS.res={...r,q,kind,by};MGS.busy=null;try{MGS.un()}catch(e){}MGS.un=null;mgsRender();if(r.ok&&r.found)mgsPushRecent(q,kind)},()=>{});
+  MGS.un=ref.doc("lk__res").onSnapshot(d=>{const it=(d.exists&&d.data().items)||{},r=it[id];if(!r||!MGS.busy||MGS.busy.id!==id)return;if(r.wip){MGS.busy.ack=1;MGS.busy.st=r.wip;mgsRender();return}MGS.res={...r,q,kind,by};MGS.busy=null;try{MGS.un()}catch(e){}MGS.un=null;mgsRender();if(r.ok&&r.found)mgsPushRecent(q,kind)},()=>{});
   try{await ref.doc("lk__req").set({items:{[id]:{q,kind,by,base,t:Date.now(),who:typeof displayName==="function"?displayName():""}}},{merge:true})}
   catch(e){MGS.busy=null;MGS.res={ok:false,err:"ما گدرنا ندز الطلب، تأكد من الانترنت",q,kind};mgsRender();return}
-  setTimeout(()=>{if(MGS.busy&&MGS.busy.id===id){MGS.busy=null;try{MGS.un&&MGS.un()}catch(e){}MGS.res={ok:false,err:"السيرفر ما رد. تأكد إن سيرفر AM (البوابة) شغال على الحاسبة وعنده نت.",q,kind};mgsRender()}},45000);
+  const fail=err=>{if(MGS.busy&&MGS.busy.id===id){MGS.busy=null;try{MGS.un&&MGS.un()}catch(e){}MGS.un=null;MGS.res={ok:false,err,q,kind};mgsRender()}};
+  // إذا البوابة ما استلمت الطلب خلال 15 ثانية: يا مطفية يا شغالة بنسخة قديمة ما بيها المحاكي
+  setTimeout(()=>{if(MGS.busy&&MGS.busy.id===id&&!MGS.busy.ack)fail("البوابة ما استلمت الطلب. إذا هي شغالة، فهي بالنسخة القديمة: سدها (من إدارة المهام ← Node.js ← إنهاء)، حط ملفات المحاكي الجديدة بمجلدها، وشغّلها من جديد.")},15000);
+  setTimeout(()=>fail("موقع الشركة ما رد خلال دقيقتين. ممكن طافي أو النت بطيء، جرّب بعد شوية."),130000);
 }
 function mgsRender(){
   const o=$("mgsOut");if(!o)return;
-  if(MGS.busy){const b=MGS.busy;o.innerHTML=`<div class="card br mgw"><div class="rd"></div><b>دا يدوّر على <span class="num">${esc(b.q)}</span></b><span class="muted">بموقع الشركة · ${b.kind==="ftth"?"FTTH":"الأبراج"} · أول بحث ياخذ شوية لأن السيرفر يسجل دخول</span></div>`;return}
+  if(MGS.busy){const b=MGS.busy;o.innerHTML=`<div class="card br mgw"><div class="rd"></div><b>دا يدوّر على <span class="num">${esc(b.q)}</span></b><span class="muted">بموقع الشركة · ${b.kind==="ftth"?"FTTH":"الأبراج"} · ${({got:"البوابة استلمت الطلب",browser:"دا يفتح المتصفح بالحاسبة",open:"دا يفتح موقع الشركة",login:"دا يسجل دخول بموقع الشركة",search:"دا يدوّر"})[b.st]||"دا يدز الطلب للبوابة"}${b.ack?"":"…"}</span></div>`;return}
   const r=MGS.res;if(!r){o.innerHTML="";return}
   if(!r.ok){o.innerHTML=`<div class="card br mgw err"><svg><use href="#i-alert"/></svg><b>${esc(r.err||"صار خلل")}</b><button class="btn ghost sm" data-mgretry>جرّب مرة ثانية</button></div>`;return}
   if(!r.found){o.innerHTML=`<div class="card br mgw"><svg style="width:34px;height:34px"><use href="#i-search"/></svg><b>ما لگينا مشترك بهذا ${r.by==="mobile"?"الرقم":"اليوزر"}</b><span class="muted">${esc(r.msg||"")} ${r.kind==="ftth"?"جرّب تدوّر بالأبراج":"جرّب تدوّر بـ FTTH"}</span><button class="btn ghost sm" data-mgswap>دوّر ب${r.kind==="ftth"?"الأبراج":"FTTH"}</button></div>`;return}
