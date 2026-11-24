@@ -5,7 +5,7 @@
 <title>AM NET</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="amnet-build" content="2026.11.24-2">
+<meta name="amnet-build" content="2026.11.24-4">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -2998,7 +2998,7 @@ function mgSig(v){const n=parseFloat(String(v).replace(/[^\d.-]/g,""));if(isNaN(
 async function mgsSearch(q,kind){
   q=String(q||"").trim();if(!q){$("mgsQ").focus();return}
   if(!Store.uid){toast("سجّل دخول أول");return}
-  kind=kind||MGS.kind;const by=mgsBy(q),id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  try{gwWatch()}catch(e){}kind=kind||MGS.kind;const by=mgsBy(q),id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);
   MGS.busy={id,q,kind,by,t:Date.now()};mgsRender();
   try{if(MGS.un)MGS.un();}catch(e){}
   const ref=fs.collection("accounts").doc(Store.uid).collection("data");
@@ -3008,7 +3008,7 @@ async function mgsSearch(q,kind){
   catch(e){MGS.busy=null;MGS.res={ok:false,err:"ما گدرنا ندز الطلب، تأكد من الانترنت",q,kind};mgsRender();return}
   const fail=err=>{if(MGS.busy&&MGS.busy.id===id){MGS.busy=null;try{MGS.un&&MGS.un()}catch(e){}MGS.un=null;MGS.res={ok:false,err,q,kind};mgsRender()}};
   // إذا البوابة ما استلمت الطلب خلال 15 ثانية: يا مطفية يا شغالة بنسخة قديمة ما بيها المحاكي
-  setTimeout(()=>{if(MGS.busy&&MGS.busy.id===id&&!MGS.busy.ack)fail("البوابة ما استلمت الطلب. إذا هي شغالة، فهي بالنسخة القديمة: سدها (من إدارة المهام ← Node.js ← إنهاء)، حط ملفات المحاكي الجديدة بمجلدها، وشغّلها من جديد.")},15000);
+  setTimeout(()=>{if(MGS.busy&&MGS.busy.id===id&&!MGS.busy.ack)fail(!GWHB?"البوابة ما استلمت الطلب. افتح لوحة البوابة: إذا ما مكتوب بيها «المحاكي: جاهز» يمّ الذاكرة، فالملفات الجديدة مو بالمجلد اللي تشتغل منه.":Date.now()-GWHB>150e3?"البوابة مطفية أو مقطوع عنها النت. شغّلها من أيقونة AM Gateway وجرّب.":window.GWLK===2?"البوابة جديدة بس ما وصلها طلب هذا الحساب. سوي restart.bat وجرّب، وإذا بقت دزلي صورة من لوحة البوابة.":"البوابة اللي شغالة هسه مو النسخة الجديدة. يمكن حدّثت ملفات بمجلد غير المجلد اللي تشتغل منه. افتح لوحة البوابة: إذا ما مكتوب بيها «المحاكي: جاهز» يمّ الذاكرة، فالملفات الجديدة مو بمكانها.")},15000);
   setTimeout(()=>fail("موقع الشركة ما رد خلال دقيقتين. ممكن طافي أو النت بطيء، جرّب بعد شوية."),130000);
 }
 function mgsRender(){
@@ -3016,7 +3016,7 @@ function mgsRender(){
   if(MGS.busy){const b=MGS.busy;o.innerHTML=`<div class="card br mgw"><div class="rd"></div><b>دا يدوّر على <span class="num">${esc(b.q)}</span></b><span class="muted">بموقع الشركة · ${b.kind==="ftth"?"FTTH":"الأبراج"} · ${({got:"البوابة استلمت الطلب",browser:"دا يفتح المتصفح بالحاسبة",open:"دا يفتح موقع الشركة",login:"دا يسجل دخول بموقع الشركة",search:"دا يدوّر"})[b.st]||"دا يدز الطلب للبوابة"}${b.ack?"":"…"}</span></div>`;return}
   const r=MGS.res;if(!r){o.innerHTML="";return}
   if(!r.ok){o.innerHTML=`<div class="card br mgw err"><svg><use href="#i-alert"/></svg><b>${esc(r.err||"صار خلل")}</b><button class="btn ghost sm" data-mgretry>جرّب مرة ثانية</button></div>`;return}
-  if(!r.found){o.innerHTML=`<div class="card br mgw"><svg style="width:34px;height:34px"><use href="#i-search"/></svg><b>ما لگينا مشترك بهذا ${r.by==="mobile"?"الرقم":"اليوزر"}</b><span class="muted">${esc(r.msg||"")} ${r.kind==="ftth"?"جرّب تدوّر بالأبراج":"جرّب تدوّر بـ FTTH"}</span><button class="btn ghost sm" data-mgswap>دوّر ب${r.kind==="ftth"?"الأبراج":"FTTH"}</button></div>`;return}
+  if(!r.found){o.innerHTML=`<div class="card br mgw"><svg style="width:34px;height:34px"><use href="#i-search"/></svg><b>ما لگينا مشترك بهذا ${r.by==="mobile"?"الرقم":"اليوزر"}</b><span class="muted">${esc(r.msg||"")} ${r.kind==="ftth"?"جرّب تدوّر بالأبراج":"جرّب تدوّر بـ FTTH"}</span><button class="btn ghost sm" data-mgswap>دوّر ب${r.kind==="ftth"?"الأبراج":"FTTH"}</button>${r.dbg?`<details style="width:100%;margin-top:6px;text-align:start"><summary class="muted" style="cursor:pointer;font-size:12.5px">تفاصيل للفحص (صورها ودزها لعلي)</summary><pre dir="ltr" style="white-space:pre-wrap;word-break:break-word;font-size:11.5px;max-height:320px;overflow:auto;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:6px">${esc(["url: "+r.dbg.url,"title: "+r.dbg.title,"clicked: "+r.dbg.clicked+"  fields: "+r.dbg.n,"inputs: "+(r.dbg.ins||[]).join("  ·  "),"buttons: "+(r.dbg.btns||[]).join("  ·  "),"read: "+(r.dbg.labels||[]).join("  ·  "),"text: "+r.dbg.text].join("\n"))}</pre></details>`:""}</div>`;return}
   const F={};(r.fields||[]).forEach(f=>{F[mgKey(f[0])]=f});const val=k=>F[k]?F[k][1]:"";
   const name=val("name")||"بدون اسم",st=val("status"),on=/online|up|active|متصل|شغال/i.test(st),stOff=st&&!on;
   const exp=mgDate(val("expiration date")),left=exp?Math.ceil((exp-Date.now())/864e5):null;
@@ -3046,7 +3046,7 @@ function mgsRender(){
   $("mgSimWrap").addEventListener("click",e=>{
     const rc=e.target.closest("[data-mgq]");if(rc){$("mgsQ").value=rc.dataset.mgq;MGS.kind=rc.dataset.mgk||MGS.kind;$$m("#mgsKind [data-k]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.k===MGS.kind)));mgsSearch(rc.dataset.mgq);return}
     if(e.target.closest("[data-mgretry],[data-mgagain]")&&MGS.res){mgsSearch(MGS.res.q,MGS.res.kind);return}
-    if(e.target.closest("[data-mgswap]")&&MGS.res){const k=MGS.res.kind==="ftth"?"wl":"ftth";MGS.kind=k;localStorage.setItem("am_mgkind",k);$$m("#mgsKind [data-k]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.k===k)));mgsSearch(MGS.res.q,k);return}
+    if(e.target.closest("[data-mgswap]")&&MGS.res){const k=MGS.res.kind==="ftth"?"wl":"ftth";MGS.kind=k;localStorage.setItem("am_mgkind",k);$$m("#mgsKind [data-k]").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.k===k)));mgsHint();mgsSearch(MGS.res.q,k);return}
     if(e.target.closest("[data-mgcopy]")){copyPlain(MGS.txt||"","انتسخت المعلومات");return}
     if(e.target.closest("[data-mgadd]")&&MGS.res){copyPlain(MGS.res.q,"انتسخ اليوزر "+MGS.res.q);location.hash="activate";return}
   });
@@ -3765,7 +3765,7 @@ const gwFeat=()=>features().gw!==false;
 const gwSt=()=>((Store.docs["wa/gw"]||{}).items||{}).st||{};
 const gwCfg=()=>((Store.docs["wa/gwcfg"]||{}).items||{}).c||{};
 let GWHB=0,GWHB_U=null;
-function gwWatch(){if(GWHB_U||!fs)return;try{GWHB_U=fs.collection("meta").doc("gw").onSnapshot(d=>{GWHB=(d.exists&&d.data().hb)||0;renderGw()},()=>{})}catch(e){}}
+function gwWatch(){if(GWHB_U||!fs)return;try{GWHB_U=fs.collection("meta").doc("gw").onSnapshot(d=>{GWHB=(d.exists&&d.data().hb)||0;window.GWLK=(d.exists&&d.data().lk)||0;renderGw()},()=>{})}catch(e){}}
 const gwAlive=()=>Date.now()-GWHB<4*60e3;
 const gwLinked=()=>["open","connecting"].includes(gwSt().state);
 const gwReady=kind=>{const c=gwCfg();return gwFeat()&&gwLinked()&&c.on!==false&&(!kind||c[kind]!==false)};
